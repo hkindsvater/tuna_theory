@@ -372,6 +372,6 @@ idist[, -Tmax]<-ifelse(idist[, -Tmax]>0,  idist[, -Tmax], NA)
    
    write.csv(idist, file=paste0("model_output/03State",  "Temp", Temp,  "Kappa", Kappa,  ".csv"))
 
-write.csv(sizedist, file=paste0("modeloutput/01Length",  "Temp", Temp,   "Kappa", Kappa,  ".csv"))
-write.csv(reproduction, file=paste0("modeloutput/02Repro",  "Temp", Temp,   "Kappa", Kappa,   ".csv")) 
+write.csv(sizedist, file=paste0("model_output/01Length",  "Temp", Temp,   "Kappa", Kappa,  ".csv"))
+write.csv(reproduction, file=paste0("model_output/02Repro",  "Temp", Temp,   "Kappa", Kappa,   ".csv")) 
  

@@ -1,0 +1,20 @@
+Fatal error: cannot open file 'daemon12Apr.R': No such file or directory
+Fatal error: cannot open file 'daemon12Apr.r': No such file or directory
+Fatal error: cannot open file 'daemon12Apr.R': No such file or directory
+[1] 1
+Error in file(file, ifelse(append, "a", "w")) : 
+  cannot open the connection
+Calls: write.csv -> eval.parent -> eval -> eval -> write.table -> file
+In addition: Warning message:
+In file(file, ifelse(append, "a", "w")) :
+  cannot open file 'modeloutput/01LengthTemp293Kappa1.csv': No such file or directory
+Execution halted
+[1] 2
+Error in file(file, ifelse(append, "a", "w")) : 
+  cannot open the connection
+Calls: write.csv -> eval.parent -> eval -> eval -> write.table -> file
+In addition: Warning message:
+In file(file, ifelse(append, "a", "w")) :
+  cannot open file 'modeloutput/01LengthTemp297Kappa1.csv': No such file or directory
+Execution halted
+[1] 3
