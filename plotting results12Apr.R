@@ -9,7 +9,7 @@
 ##March 11: same as feb 21 except variance in food is zero and max lifespan is shorter (16 years)
 
 
-setwd("~/Dropbox/results3Apr/")
+setwd("~/Documents/tuna_theory/model_output/")
 data_files <- list.files(pattern = "\\.csv$")
 
 repro_filenames <- data_files[((length(data_files)/3)+1):(2*(length(data_files)/3))]   
@@ -26,14 +26,14 @@ state_data <- lapply(state_filenames, read.csv)
 
  
  quartz()
-  par(mfrow=c(3, 4))
+  par(mfrow=c(2, 3))
  
 plot_length <- function(data, filenames) {
 	  #data[is.na(data)] <- 0
 	  
 	  
-     matplot(t(data[,-1]), type="l", main=c(substr(filenames, 9, 15), substr(filenames, 19, 24)), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")
-     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))
+     matplot(t(data[,-1]), type="l", main=c(substr(filenames, 9, 15), substr(filenames, 16, 21)), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")
+     axis(1, at = seq(0, 64, by=4), labels = (seq(1, 17, by=1)))
  
      }
      
@@ -63,11 +63,11 @@ plot_length <- function(data, filenames) {
 
 ##make a plot of reproductive output as a function of length
 quartz()
- par(mfrow=c(3,4))
+  par(mfrow=c(2, 3))
  
  age.length <- function(length_data, repro_data, filenames) {
  	
- 	matplot(t(length_data[,-1]), t(repro_data[,-1]), type="l", col="darkgray", lwd=1.75, lty=1, main=c(substr(filenames, 9, 15), substr(filenames, 19, 24)),  xlab="Length (cm)", xlim=c(0, 350), ylim=c(0, 1.5e+09), ylab="Reproduction (J)")
+ 	matplot(t(length_data[,-1]), t(repro_data[,-1]), type="l", col="darkgray", lwd=1.75, lty=1, main=c(substr(filenames, 9, 15), substr(filenames, 16, 21)),  xlab="Length (cm)", xlim=c(0, 350), ylim=c(0, 1.5e+09), ylab="Reproduction (J)")
  	
  	} 
  	
@@ -80,7 +80,7 @@ mapply(age.length, length_data, repro_data, length_filenames)
  mort.est <- function(idata, filename) {
      alive_at_age<- 10000.001 - colSums(apply(idata[,-1],2, is.na ))
       age=1:64
-      plot(alive_at_age, type="l", lwd=2, ylab="Population size", main=c(substr(filename, 8, 14), substr(filename, 18, 23)), xlab= "Age (years)", xaxt="n", ylim=c(0, 10005), xlim=c(1, 56))
+      plot(alive_at_age, type="l", lwd=2, ylab="Population size", main=c(substr(filename, 8, 14), substr(filename, 15, 20)), xlab= "Age (years)", xaxt="n", ylim=c(0, 10005), xlim=c(1, 56))
      axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))
 
       mu_a <-  log(alive_at_age[age[-64]+1]/  alive_at_age[age[-64]])
@@ -93,7 +93,7 @@ mapply(age.length, length_data, repro_data, length_filenames)
  	 c(filename, exp(mu), exp(mu_a))
  	 }
 quartz()
-par(mfrow=c(2,4))
+ par(mfrow=c(2, 3))
 mapply(mort.est, state_data, state_filenames)
 
 
