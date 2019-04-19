@@ -1,0 +1,56 @@
+#!/usr/bin/env Rscript
+
+# Defaults
+paras = c(c1=0, Kappa = 0.5, Temp=293)
+
+# Name the set of results
+name = "model_output"
+newDir = paste("mkdir /Users/hollykindsvater/Documents/tuna_theory/", name, sep="") 
+system(newDir)
+
+
+# Pick two variables to vary factorially
+ 
+
+v1 = "Temp"
+v2 = "Kappa"
+L1 =  c(293, 297)
+L2 = c(1, 3, 6)
+n1 = length(L1)
+n2 = length(L2)
+reps = 1
+p1 = rep(rep(L1, n2), reps)
+p2 = rep(sort(rep(L2, n1)), reps)
+limit = 1
+total = n1 * n2 * reps
+index = 1
+
+while(index <= total)
+{
+	if(length(suppressWarnings(system2("pgrep", "-f tuna_model12Apr.R", stdout=TRUE))) < limit)
+	{
+		argList = ""
+		argList = paste(argList, index, " ", sep="")
+		for(i in 1:length(paras))
+		{
+			x = paras[i]
+			if(names(paras)[i] == v1) x = p1[index]
+			if(names(paras)[i] == v2) x = p2[index]
+			argList = paste(argList, x, " ", sep="")
+		}
+
+		system(paste("Rscript ~/Documents/tuna_theory/tuna_model12Apr.R", argList) ,wait=FALSE)
+		print(index)
+		index = index + 1
+	} else {
+		Sys.sleep(60)
+	}
+}
+
+
+
+
+
+
+
+
