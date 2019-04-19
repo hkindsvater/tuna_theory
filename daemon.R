@@ -27,7 +27,7 @@ index = 1
 
 while(index <= total)
 {
-	if(length(suppressWarnings(system2("pgrep", "-f tuna_model12Apr.R", stdout=TRUE))) < limit)
+	if(length(suppressWarnings(system2("pgrep", "-f tuna_model.R", stdout=TRUE))) < limit)
 	{
 		argList = ""
 		argList = paste(argList, index, " ", sep="")
@@ -39,7 +39,7 @@ while(index <= total)
 			argList = paste(argList, x, " ", sep="")
 		}
 
-		system(paste("Rscript ~/Documents/tuna_theory/tuna_model12Apr.R", argList) ,wait=FALSE)
+		system(paste("Rscript ~/Documents/tuna_theory/tuna_model.R", argList) ,wait=FALSE)
 		print(index)
 		index = index + 1
 	} else {
