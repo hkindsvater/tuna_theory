@@ -1,7 +1,7 @@
 #!/usr/bin/env Rscript
 
 # Defaults
-paras = c(c1=0, Kappa = 0.5, Temp=293)
+paras = c(c1=0, Kappa = 1, Temp=293)
 
 # Name the set of results
 name = "model_output"
@@ -10,12 +10,11 @@ system(newDir)
 
 
 # Pick two variables to vary factorially
- 
-
+  
 v1 = "Temp"
 v2 = "Kappa"
-L1 =  c(293, 297)
-L2 = c(1, 3, 6)
+L1 =  293
+L2 = c(0.5,  1.25,   2, 2.75, 2.65, 3.5, 4.25, 5, 5.75)
 n1 = length(L1)
 n2 = length(L2)
 reps = 1

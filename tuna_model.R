@@ -347,9 +347,9 @@ for (i in 1:(Tmax-1)) {
 	survival <- randraw[index,i] <= exp(-mu[size[index]])   
 	  critstores <- a*nextsize^3*storemin*scale
  #####future state calculation:
-	  survival2<- ifelse(((1-repro[index, i]-g_allo[index,i])*state[index] + Income[size[index]]*scale*normdraw[index,i] - MTcosts[floor(Wtotal)])  > critstores, 1, 0) #check that future state will be greater than current EcritL 
+	  survival2<- ifelse(((1-repro[index, i]-g_allo[index,i])*state[index] + Income[size[index]]*scale - MTcosts[floor(Wtotal)])  > critstores, 1, 0) #check that future state will be greater than current EcritL 
         
-     idist[index,i+1] <- ifelse(survival+survival2==2, ((1-repro[index, i]-g_allo[index,i])*state[index] + Income[size[index]]*scale*normdraw[index,i] - MTcosts[floor(Wtotal)]),  NA)
+     idist[index,i+1] <- ifelse(survival+survival2==2, ((1-repro[index, i]-g_allo[index,i])*state[index] + Income[size[index]]*scale - MTcosts[floor(Wtotal)]),  NA)
   
   sizedist[index, i+1] <- ifelse(survival+survival2==2,  nextsize, NA)   
    
