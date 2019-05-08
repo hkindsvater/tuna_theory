@@ -1,5 +1,5 @@
  
-setwd("~/Dropbox/results11Mar/")
+setwd("/Users/hollykindsvater/Dropbox/results11Mar")
 data_files <- list.files(pattern = "\\.csv$")
 
 repro_filenames <- data_files[((length(data_files)/3)+1):(2*(length(data_files)/3))]   
@@ -15,11 +15,10 @@ repro_data <- lapply(repro_filenames, read.csv)
 state_data <- lapply(state_filenames, read.csv)
 
 
-test_length <- read.csv("~/Dropbox/results2Apr/01LengthTemp293c10Kappa1.7.csv")
-test_repro <- read.csv("~/Dropbox/results2Apr/02ReproTemp293c10Kappa1.7.csv")
-test_state <- read.csv("~/Dropbox/results2Apr/03StateTemp293c10Kappa1.7.csv")
+test_length <- read.csv("test_mu/01LengthTemp293Kappa2.65.csv")
+test_repro <- read.csv("test_mu/02ReproTemp293Kappa2.65.csv")
+test_state <- read.csv("test_mu/03StateTemp293Kappa2.65.csv")
 
- 
      	 
  mort.est <- function(idata, filename) {
      alive_at_age<- 10000.001 - colSums(apply(idata[,-1],2, is.na ))
@@ -65,7 +64,7 @@ J <- sum(obs_length>0, na.rm=TRUE)
 mean_obs <- mean(obs_length, na.rm=TRUE)
 sd_obs <- sd(obs_length, na.rm=TRUE)
 
-kappa <- seq(0.5, 4, by=0.38)
+kappa <- c(0.5, 1.25, 2, 2.75, 3.5, 4.25, 5,  5.75)
 N_0 <- 10000
 #pooled SD for every Kappa
 SD_pooled <- rep(0, length(kappa))
@@ -94,8 +93,8 @@ SDM <- rep(0, length(kappa))
  		
   ############
   ###posterior plot
-  plot(abs(mu_K), f1_K, type="p", pch=19, xlim=c(0.3, 0.316), xlab="Mu", ylab="Posterior")
-  abline(v =  0.3060629, lty=3)
+  plot(mu_K, f1_K, type="p", pch=19,  xlim=c(-0.316, -0.30))
+  abline(v = -0.3071667, lty=3)
  
  
  
