@@ -35,7 +35,7 @@ Lmin = 1
 Estoresmax=350 #maximum stores in loop  
   
 storelimit= 1 #proportion of structural mass that inidivduals can devote to energy storage
- storemin = 0.4
+ storemin = 0.1
 reprolimit = 2
  
 ###################################################################################################################################################################################################
