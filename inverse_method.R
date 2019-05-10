@@ -1,5 +1,5 @@
  
-setwd("/Users/hollykindsvater/Documents/tuna_theory/model_output")
+setwd("/Users/hollykindsvater/Dropbox/results11Mar")
 data_files <- list.files(pattern = "\\.csv$")
 
 repro_filenames <- data_files[((length(data_files)/3)+1):(2*(length(data_files)/3))]   
