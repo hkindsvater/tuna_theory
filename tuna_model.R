@@ -20,7 +20,8 @@ Tmax = 16*timebin  #seasonal time steps, maximum lifespan is 16 years
 k=1.3e-23
 E = 1.04e-19
 theta=0.66
-coef  = 5e+17 ##normalization constant puts tuna SMR in the same ballpark as the costs Kitchell et al. (1978) Bioenergetic spectra of skipjack and yellowfin tunas, pp 359 IN Sharp G.D. and Dizon A.E. eds. The Physiological Ecology of Tunas, Academic press.  
+coef  = 1e+18 ##normalization constant puts tuna SMR in the same ballpark as the costs Kitchell et al. (1978) Bioenergetic spectra of skipjack and yellowfin tunas, 
+# pp 359 IN Sharp G.D. and Dizon A.E. eds. The Physiological Ecology of Tunas, Academic press, and 5 degrees of warming doubles costs at 1000kg.  
 
 #physiological parameters
 a <- 1e-5 #from ICCAT 2015 BFT length-weight relationship
@@ -64,20 +65,20 @@ Income = Kappa*phi_a*K_c*Mass^(0.1) #this describes the scaling with size and ec
   MTcosts <- coef*(1:Smax)^theta*exp(-E/(k*Temp))  #costs in J
   
   
-  
-  ##MTcosts<- matrix(nrow=length(tempK), ncol=Smax)
-# tempK<-293:297
-  # for (S in (1:Smax)) {
-	# for(p in 1:length(tempK)) {
-		        # S_g <- S 
-		        # MTcosts[p, S] <-  coef*S_g^theta*exp(-E/(k*tempK[p]))/scale   
-    # }
-  # }
-  
-# ###plot metabolic cost functions for each temp to check they are sensible
-    # matplot( ((1:Smax)), t( (MTcosts)), type = "l", lty=1, lwd=2,   xlab=" (Mass (kg))", ylab="Metabolic rate in J/season", col=c(4, 3, "orange", 2, "dark red"))    
- #################################################################################################################################################################################################
-
+#   tempK<-293:297  
+# MTcosts<- matrix(nrow=length(tempK), ncol=Smax)
+# 
+# for (S in (1:Smax)) {
+# for(p in 1:length(tempK)) {
+# S_g <- S
+# MTcosts[p, S] <-   coef*S_g^theta*exp(-E/(k*tempK[p]))
+# }
+# }
+# 
+# # ###plot metabolic cost functions for each temp to check they are sensible
+#      matplot( ((1:Smax)), t( (MTcosts)), type = "l", lty=1, lwd=2,   xlab=" (Mass (kg))", ylab="Metabolic rate in J/season", col=c(4, 3, "orange", 2, "dark red"))    
+#  #################################################################################################################################################################################################
+# 
 
 #DYNAMIC MODEL: life history in a single environment
 
@@ -349,7 +350,7 @@ for (i in 1:(Tmax-1)) {
  #####future state calculation:
 	  survival2<- ifelse(((1-repro[index, i]-g_allo[index,i])*state[index] + Income[size[index]]*scale - MTcosts[floor(Wtotal)])  > critstores, 1, 0) #check that future state will be greater than current EcritL 
         
-     idist[index,i+1] <- ifelse(survival+survival2==2, ((1-repro[index, i]-g_allo[index,i])*state[index] + Income[size[index]]*scale - MTcosts[floor(Wtotal)]),  NA)
+     idist[index,i+1] <- ifelse(survival+survival2==2, ((1-repro[index, i]-g_allo[index,i])*state[index] + Income[size[index]]*scale*normdraw[index, i] - MTcosts[floor(Wtotal)]),  NA)
   
   sizedist[index, i+1] <- ifelse(survival+survival2==2,  nextsize, NA)   
    
