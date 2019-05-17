@@ -47,7 +47,7 @@ plot_length <- function(data, filenames) {
   par(mfrow=c(2, 3))
   plot_repro <- function(repro_data, repro_filenames) {
 	 
-     matplot(t(repro_data[,-1]), type="l", main=c(substr(repro_filenames, 8, 14), substr(repro_filenames, 18, 23)), col="darkgray", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 6e+08), xlim=c(1, 56))
+     matplot(t(repro_data[,-1]), type="l", main=c(substr(repro_filenames, 8, 14), substr(repro_filenames, 18, 23)), col="darkgray", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 2e+09), xlim=c(1, 56))
      axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))
  
      }
@@ -60,7 +60,7 @@ quartz()
  
  age.length <- function(length_data, repro_data, filenames) {
  	
- 	matplot(t(length_data[,-1]), t(repro_data[,-1]), type="l", col="darkgray", lwd=1.75, lty=1, main=c(substr(filenames, 9, 15), substr(filenames, 16, 21)),  xlab="Length (cm)", xlim=c(0, 350), ylim=c(0, 1.5e+09), ylab="Reproduction (J)")
+ 	matplot(t(length_data[,-1]), t(repro_data[,-1]), type="p", col="darkgray", pch=20,   main=c(substr(filenames, 9, 15), substr(filenames, 16, 21)),  xlab="Length (cm)", xlim=c(0, 350), ylim=c(0, 1.5e+09), ylab="Reproduction (J)")
  	
  	} 
  	
