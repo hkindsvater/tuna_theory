@@ -14,8 +14,8 @@ system(newDir)
   
 v1 = "Temp"
 v2 = "Kappa"
-L1 =  c(293, 297)
-L2 = c(1, 3, 6)
+L1 =  c(293)
+L2 = c(1,3)
 n1 = length(L1)
 n2 = length(L2)
 reps = 1
