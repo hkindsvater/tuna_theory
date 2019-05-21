@@ -5,17 +5,15 @@
 
 set.seed(1001)
 timebin <- 4
-  # args <-  commandArgs(trailingOnly = TRUE)
-  # counter <- as.numeric(args[1]) 
-  #  c1 = as.numeric(args[2])
-  #  Kappa = as.numeric(args[3])
-  #  Temp = as.numeric(args[4])
+  args <-  commandArgs(trailingOnly = TRUE)
+  counter <- as.numeric(args[1]) 
+   c1 = as.numeric(args[2])
+   Kappa = as.numeric(args[3])
+   Temp = as.numeric(args[4])
   
-      Kappa = 1
-       Temp = 293 
-       c1=0
-       counter=1
-       
+     # Kappa = 1
+     # Temp = 293:297 
+
 Tmax = 16*timebin  #seasonal time steps, maximum lifespan is 16 years
 
 #describe temperature dependent costs
@@ -54,7 +52,7 @@ phi_a <- 3 #from table 2.2 in Andersen book
  Mass <- 1:Smax
 Income =  scale*Kappa*phi_a*K_c*Mass^(2-lam) #this describes the scaling with size and ecostystem richness
  # plot(Income)
-SDfood=0
+SDfood=2*scale
 
  
 minI = Income - SDfood * 2
