@@ -1,15 +1,9 @@
 mkdir: /Users/hollykindsvater/Documents/tuna_theory/model_output: File exists
 [1] 1
-Error in matplot(((1:Smax)), t((MTcosts)), type = "l", lty = 1, lwd = 2,  : 
-  'x' and 'y' must have same number of rows
+Error in if (MaxF[Y, L, p, i] - Vmat[Y, L, p, i, g, h] == 0) { : 
+  missing value where TRUE/FALSE needed
 Execution halted
-[1] 2
-Error in matplot(((1:Smax)), t((MTcosts)), type = "l", lty = 1, lwd = 2,  : 
-  'x' and 'y' must have same number of rows
+Fatal error: cannot open file 'tuna_theory.r': No such file or directory
+Error in if (MaxF[Y, L, p, i] - Vmat[Y, L, p, i, g, h] == 0) { : 
+  missing value where TRUE/FALSE needed
 Execution halted
-mkdir: /Users/hollykindsvater/Documents/tuna_theory/model_output: File exists
-[1] 1
-[1] 2
-mkdir: /Users/hollykindsvater/Documents/tuna_theory/model_output: File exists
-[1] 1
-[1] 2
