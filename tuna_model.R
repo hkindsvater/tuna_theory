@@ -35,7 +35,7 @@ Lmax=375  #maximum size of 4 meters
 Lmin = 1 
 Estoresmax=350 #maximum stores in loop  
   
-storelimit= 2 #proportion of structural mass that inidivduals can devote to energy storage
+storelimit= 1 #proportion of structural mass that inidivduals can devote to energy storage
  storemin = 0.1
 reprolimit = 2
  
@@ -52,12 +52,12 @@ phi_a <- 3 #from table 2.2 in Andersen book
  Mass <- 1:Smax
 Income =  scale*Kappa*phi_a*K_c*Mass^(2-lam) #this describes the scaling with size and ecostystem richness
  # plot(Income)
-SDfood=0.01*Income
+SDfood=2*scale
 
  
 minI = Income - SDfood * 2
 maxI = Income + SDfood * 2
-bins = 10
+bins = 20
 foodmatrix=matrix(ncol=bins, nrow=length(Mass))
 weightmatrix=matrix(ncol=bins, nrow=length(Mass))
 for(p in 1:length(Mass)) { 

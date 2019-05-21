@@ -11,6 +11,7 @@ Income = Kappa*phi_a*K_c*Mass^(0.05) #this describes the scaling with size and e
 plot(Income, type="l")
 
 
+
 foodmat <- matrix(nrow = 1500, ncol=200)
 
 for (i in 1:1500) {
