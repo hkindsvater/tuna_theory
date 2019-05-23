@@ -5,15 +5,17 @@
 
 set.seed(1001)
 timebin <- 4
-  args <-  commandArgs(trailingOnly = TRUE)
-  counter <- as.numeric(args[1]) 
-   c1 = as.numeric(args[2])
-   Kappa = as.numeric(args[3])
-   Temp = as.numeric(args[4])
+  # args <-  commandArgs(trailingOnly = TRUE)
+  # counter <- as.numeric(args[1]) 
+  #  c1 = as.numeric(args[2])
+  #  Kappa = as.numeric(args[3])
+  #  Temp = as.numeric(args[4])
   
-     # Kappa = 1
-     # Temp = 293:297 
-
+      Kappa = 1
+       Temp = 293 
+       c1=0
+       counter=1
+       
 Tmax = 16*timebin  #seasonal time steps, maximum lifespan is 16 years
 
 #describe temperature dependent costs
@@ -33,7 +35,7 @@ d = 2.4
 phi=1 # only 1 environment
 Lmax=375  #maximum size of 4 meters
 Lmin = 1 
-Estoresmax=350 #maximum stores in loop  
+Estoresmax=200 #maximum stores in loop  
   
 storelimit= 1 #proportion of structural mass that inidivduals can devote to energy storage
  storemin = 0.1
@@ -52,7 +54,7 @@ phi_a <- 3 #from table 2.2 in Andersen book
  Mass <- 1:Smax
 Income =  scale*Kappa*phi_a*K_c*Mass^(2-lam) #this describes the scaling with size and ecostystem richness
  # plot(Income)
-SDfood=2*scale
+SDfood=0
 
  
 minI = Income - SDfood * 2
@@ -69,8 +71,8 @@ for(p in 1:length(Mass)) {
   foodmatrix[p, ] <- binMids
   
   }
-
-binWeights = binWeights / sum(binWeights)
+binWeights <- binWeights / sum(binWeights)
+binWeights = ifelse(is.na(binWeights) == TRUE, 1/bins, binWeights)
 
 sto.food <- function (i) {
   sample(foodmatrix[i, ], size=1, prob=binWeights)
@@ -183,7 +185,7 @@ for (Y in 1:(Estoresmax)) { #for all   values of Energy Stores in loop (unscaled
 	   	 
 	   	  #state dynamics
        
-    #for all 5 potential food encounters:   
+    #for all potential food encounter bins:   
 	  EstoresP <- Estores*(1-reprod-growth) +foodmatrix[ceiling(Wtotal), ] - MTcosts[ceiling(Wtotal)] #combines mass-dependent food intake and mass-dependent metabolic costs
 	    
 	  EstructureP <- Estructure + growth*Estores
@@ -276,6 +278,8 @@ for (Y in 1:(Estoresmax)) { #for all   values of Energy Stores in loop (unscaled
    } #end L loop
    
   } #end Y loop
+  write.csv(optU[ ,   ,1,1], file="optU.csv")
+  write.csv(optR[ ,   ,1,1], file="optR.csv")
   
     # close(pb) #close progress bar
    # require(fields)
@@ -311,6 +315,7 @@ idist=matrix(data=NA, nrow=nindiv, ncol=Tmax) #keeps track of energetic state ov
 sizedist=matrix(data=NA, nrow=nindiv, ncol=Tmax)
 g_allo= array(dim=c(nindiv, Tmax), data = 0 )
 repro= array(dim=c(nindiv, Tmax), data = 0 ) 
+income=array(dim=c(nindiv, Tmax), data = 0 )
 #these will give storage fraction and reproduction for each individual, given its two states at each time
 
  z=rnorm(nindiv, mean=scale*a*initialsize^3*(storelimit - 0.05), sd=.0005*scale) ## Generate a population (z) of indivdiuals, condition based on weight  (95% of max for size, with some variation)
@@ -336,6 +341,8 @@ for (i in 1:(Tmax-1)) {
    size <- round(sizedist[,i])  
      
      EstoresmaxL <-scale*a*size^3*storelimit #adjusts stores to the max allowed for the mass at that length
+     state<- min(state, EstoresmaxL)
+     
      EcritL <-  scale*a*size^3*storemin   
          
         index <- which(state >= EcritL) #which individuals are still alive (didn't starve)
@@ -383,15 +390,18 @@ for (i in 1:(Tmax-1)) {
 	  
 	  #NEED TO FIGURE OUT HOW TO SAMPLE MIDFOOD POINTS WITH PROBABILITY OF BIN WEIGHTS
 	 Food<-sapply(ceiling(Wtotal), sto.food) #calculates stochastic food quantity for every index individual
+	 
  #####future state calculation:
 	  survival2<- ifelse(((1-repro[index, i]-g_allo[index,i])*state[index] + Food - MTcosts[ceiling(Wtotal)])  > critstores, 1, 0) #check that future state will be greater than current EcritL 
         
      idist[index,i+1] <- ifelse(survival+survival2==2, ((1-repro[index, i]-g_allo[index,i])*state[index] + Food - MTcosts[ceiling(Wtotal)]),  NA)
+     
+     
   
   sizedist[index, i+1] <- ifelse(survival+survival2==2,  nextsize, NA)   
    
   alive[group, i+1]=sum(idist[,i+1] > 0, na.rm=TRUE) #number of survivors
-  
+  income[, i] = Food
  
   }#end if
    }     #end time (i) loop
@@ -411,4 +421,4 @@ idist[, -Tmax]<-ifelse(idist[, -Tmax]>0,  idist[, -Tmax], NA)
 
 write.csv(sizedist, file=paste0("model_output/01Length",  "Temp", Temp,   "Kappa", Kappa,  ".csv"))
 write.csv(reproduction, file=paste0("model_output/02Repro",  "Temp", Temp,   "Kappa", Kappa,   ".csv")) 
- 
+ write.csv(income, file=paste0("model_output/04food",  "Temp", Temp,   "Kappa", Kappa,   ".csv")) )
