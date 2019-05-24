@@ -22,7 +22,7 @@ Tmax = 16*timebin  #seasonal time steps, maximum lifespan is 16 years
 k=1.3e-23
 E = 1.04e-19
 theta=0.66
-coef1  = 5e+16 ##normalization constant puts tuna SMR in the same ballpark as the costs Kitchell et al. (1978) Bioenergetic spectra of skipjack and yellowfin tunas, 
+coef1  = 5e+17 ##normalization constant puts tuna SMR in the same ballpark as the costs Kitchell et al. (1978) Bioenergetic spectra of skipjack and yellowfin tunas, 
 # pp 359 IN Sharp G.D. and Dizon A.E. eds. The Physiological Ecology of Tunas, Academic press, and 5 degrees of warming doubles costs at 1000kg.  
 
 #physiological parameters
@@ -38,7 +38,7 @@ Lmin = 1
 Estoresmax=200 #maximum stores in loop  
   
 storelimit= 1 #proportion of structural mass that inidivduals can devote to energy storage
- storemin = 0.1
+ storemin = 0.05
 reprolimit = 2
  
 ###################################################################################################################################################################################################
@@ -51,7 +51,7 @@ phi_a <- 3 #from table 2.2 in Andersen book
  K_c <- 10 #from table 2.2, this is averaged over "all" - so PP in stomach of all preds and preys have a MR of 1224 independently of body size - but htis is something that changes with ecosystem according to KAPPA, eg less in deep sea, more in upwelling
  lam <- 1.95 
   #Kappa=3
- Mass <- 1:Smax
+ Mass <- a*(Lmin:Lmax)^3
 Income =  scale*Kappa*phi_a*K_c*Mass^(2-lam) #this describes the scaling with size and ecostystem richness
  # plot(Income)
 SDfood=0
@@ -91,7 +91,7 @@ sto.food <- function (i) {
 
       
       ###COST FUNCTION  - assume metabolic requirements scale with body size and temperature
-  MTcosts <- coef1*(1:Smax)^theta*exp(-E/(k*Temp))  #costs in J
+  MTcosts <- coef1*Mass^theta*exp(-E/(k*Temp))  #costs in J
   
   
 #   tempK<-293:297  
@@ -99,7 +99,7 @@ sto.food <- function (i) {
 # 
 # for (S in (1:Smax)) {
 # for(p in 1:length(tempK)) {
-# S_g <- S
+# S_g <- S1
 # MTcosts[p, S] <-   coef*S_g^theta*exp(-E/(k*tempK[p]))
 # }
 # }
@@ -186,7 +186,7 @@ for (Y in 1:(Estoresmax)) { #for all   values of Energy Stores in loop (unscaled
 	   	  #state dynamics
        
     #for all potential food encounter bins:   
-	  EstoresP <- Estores*(1-reprod-growth) +foodmatrix[ceiling(Wtotal), ] - MTcosts[ceiling(Wtotal)] #combines mass-dependent food intake and mass-dependent metabolic costs
+	  EstoresP <- Estores*(1-reprod-growth) +foodmatrix[L, ] - MTcosts[L] #combines mass-dependent food intake and mass-dependent metabolic costs
 	    
 	  EstructureP <- Estructure + growth*Estores
 	  
@@ -389,12 +389,12 @@ for (i in 1:(Tmax-1)) {
 	  critstores <- a*nextsize^3*storemin*scale
 	  
 	  #NEED TO FIGURE OUT HOW TO SAMPLE MIDFOOD POINTS WITH PROBABILITY OF BIN WEIGHTS
-	 Food<-sapply(ceiling(Wtotal), sto.food) #calculates stochastic food quantity for every index individual
+	 Food<-sapply(L, sto.food) #calculates stochastic food quantity for every index individual
 	 
  #####future state calculation:
-	  survival2<- ifelse(((1-repro[index, i]-g_allo[index,i])*state[index] + Food - MTcosts[ceiling(Wtotal)])  > critstores, 1, 0) #check that future state will be greater than current EcritL 
+	  survival2<- ifelse(((1-repro[index, i]-g_allo[index,i])*state[index] + Food - MTcosts[L])  > critstores, 1, 0) #check that future state will be greater than current EcritL 
         
-     idist[index,i+1] <- ifelse(survival+survival2==2, ((1-repro[index, i]-g_allo[index,i])*state[index] + Food - MTcosts[ceiling(Wtotal)]),  NA)
+     idist[index,i+1] <- ifelse(survival+survival2==2, ((1-repro[index, i]-g_allo[index,i])*state[index] + Food - MTcosts[L]),  NA)
      
      
   
