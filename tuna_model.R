@@ -11,7 +11,7 @@ timebin <- 4
   #  Kappa = as.numeric(args[3])
   #  Temp = as.numeric(args[4])
   
-      Kappa = 1
+      Kappa = 3
        Temp = 293 
        c1=0
        counter=1
@@ -22,7 +22,7 @@ Tmax = 16*timebin  #seasonal time steps, maximum lifespan is 16 years
 k=1.3e-23
 E = 1.04e-19
 theta=0.66
-coef1  = 5e+17 ##normalization constant puts tuna SMR in the same ballpark as the costs Kitchell et al. (1978) Bioenergetic spectra of skipjack and yellowfin tunas, 
+coef1  = 9e+17 ##normalization constant puts tuna SMR in the same ballpark * 10? as the costs Kitchell et al. (1978) Bioenergetic spectra of skipjack and yellowfin tunas, 
 # pp 359 IN Sharp G.D. and Dizon A.E. eds. The Physiological Ecology of Tunas, Academic press, and 5 degrees of warming doubles costs at 1000kg.  
 
 #physiological parameters
@@ -304,7 +304,7 @@ for (Y in 1:(Estoresmax)) { #for all   values of Energy Stores in loop (unscaled
 	   	     
 # # 	  # # image(optR[,  300  , 1 , ], col=pal  ) 
 set.seed(2001)
-    nindiv=20000   
+    nindiv=1000   
    Ngroups=1
    group=1
     
@@ -341,7 +341,7 @@ for (i in 1:(Tmax-1)) {
    size <- round(sizedist[,i])  
      
      EstoresmaxL <-scale*a*size^3*storelimit #adjusts stores to the max allowed for the mass at that length
-     state<- min(state, EstoresmaxL)
+     state<- ifelse(state > EstoresmaxL, EstoresmaxL, state)
      
      EcritL <-  scale*a*size^3*storemin   
          
@@ -389,12 +389,12 @@ for (i in 1:(Tmax-1)) {
 	  critstores <- a*nextsize^3*storemin*scale
 	  
 	  #NEED TO FIGURE OUT HOW TO SAMPLE MIDFOOD POINTS WITH PROBABILITY OF BIN WEIGHTS
-	 Food<-sapply(L, sto.food) #calculates stochastic food quantity for every index individual
+	 Food<-sapply(size[index], sto.food) #calculates stochastic food quantity for every index individual
 	 
  #####future state calculation:
-	  survival2<- ifelse(((1-repro[index, i]-g_allo[index,i])*state[index] + Food - MTcosts[L])  > critstores, 1, 0) #check that future state will be greater than current EcritL 
+	  survival2<- ifelse(((1-repro[index, i]-g_allo[index,i])*state[index] + Food - MTcosts[size[index]])  > critstores, 1, 0) #check that future state will be greater than current EcritL 
         
-     idist[index,i+1] <- ifelse(survival+survival2==2, ((1-repro[index, i]-g_allo[index,i])*state[index] + Food - MTcosts[L]),  NA)
+     idist[index,i+1] <- ifelse(survival+survival2==2, ((1-repro[index, i]-g_allo[index,i])*state[index] + Food - MTcosts[size[index]]),  NA)
      
      
   
