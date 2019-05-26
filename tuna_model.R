@@ -51,9 +51,9 @@ phi_a <- 3 #from table 2.2 in Andersen book
  K_c <- 10 #from table 2.2, this is averaged over "all" - so PP in stomach of all preds and preys have a MR of 1224 independently of body size - but htis is something that changes with ecosystem according to KAPPA, eg less in deep sea, more in upwelling
  lam <- 1.95 
   #Kappa=3
- Mass <- a*(Lmin:Lmax)^3
+ Mass <- 1:1500
 Income =  scale*Kappa*phi_a*K_c*Mass^(2-lam) #this describes the scaling with size and ecostystem richness
- # plot(Income)
+  plot(Income)
 SDfood=0
 
  
@@ -186,7 +186,7 @@ for (Y in 1:(Estoresmax)) { #for all   values of Energy Stores in loop (unscaled
 	   	  #state dynamics
        
     #for all potential food encounter bins:   
-	  EstoresP <- Estores*(1-reprod-growth) +foodmatrix[L, ] - MTcosts[L] #combines mass-dependent food intake and mass-dependent metabolic costs
+	  EstoresP <- Estores*(1-reprod-growth) +foodmatrix[ceiling(Wtotal), ] - MTcosts[ceiling(Wtotal)] #combines mass-dependent food intake and mass-dependent metabolic costs
 	    
 	  EstructureP <- Estructure + growth*Estores
 	  
@@ -234,7 +234,7 @@ for (Y in 1:(Estoresmax)) { #for all   values of Energy Stores in loop (unscaled
 	   currentR <- 0
 	      
 	   
-	  Vmat[Y,L, p, i, g, h]	<-  currentR + exp(-mu[L])*FutureFitness 
+	  Vmat[Y,L, p, i, g, h]	<-  currentR + exp(-mu[ceiling(Wstructure)])*FutureFitness 
 	   	   
 	     } #end if growth + reprod < 1	   
 	   	   
@@ -389,19 +389,19 @@ for (i in 1:(Tmax-1)) {
 	  critstores <- a*nextsize^3*storemin*scale
 	  
 	  #NEED TO FIGURE OUT HOW TO SAMPLE MIDFOOD POINTS WITH PROBABILITY OF BIN WEIGHTS
-	 Food<-sapply(size[index], sto.food) #calculates stochastic food quantity for every index individual
+	 Food<-sapply(ceiling(Wtotal), sto.food) #calculates stochastic food quantity for every index individual
 	 
  #####future state calculation:
-	  survival2<- ifelse(((1-repro[index, i]-g_allo[index,i])*state[index] + Food - MTcosts[size[index]])  > critstores, 1, 0) #check that future state will be greater than current EcritL 
+	  survival2<- ifelse(((1-repro[index, i]-g_allo[index,i])*state[index] + Food - MTcosts[ceiling(Wtotal)])  > critstores, 1, 0) #check that future state will be greater than current EcritL 
         
-     idist[index,i+1] <- ifelse(survival+survival2==2, ((1-repro[index, i]-g_allo[index,i])*state[index] + Food - MTcosts[size[index]]),  NA)
+     idist[index,i+1] <- ifelse(survival+survival2==2, ((1-repro[index, i]-g_allo[index,i])*state[index] + Food - MTcosts[ceiling(Wtotal)]),  NA)
      
      
   
   sizedist[index, i+1] <- ifelse(survival+survival2==2,  nextsize, NA)   
    
   alive[group, i+1]=sum(idist[,i+1] > 0, na.rm=TRUE) #number of survivors
-  income[, i] = Food
+  income[index, i] = Food
  
   }#end if
    }     #end time (i) loop
