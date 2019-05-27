@@ -11,7 +11,7 @@ timebin <- 4
   #  Kappa = as.numeric(args[3])
   #  Temp = as.numeric(args[4])
   
-      Kappa = 3
+      Kappa = 1
        Temp = 293 
        c1=0
        counter=1
@@ -304,7 +304,7 @@ for (Y in 1:(Estoresmax)) { #for all   values of Energy Stores in loop (unscaled
 	   	     
 # # 	  # # image(optR[,  300  , 1 , ], col=pal  ) 
 set.seed(2001)
-    nindiv=1000   
+    nindiv=10000   
    Ngroups=1
    group=1
     
@@ -396,8 +396,7 @@ for (i in 1:(Tmax-1)) {
         
      idist[index,i+1] <- ifelse(survival+survival2==2, ((1-repro[index, i]-g_allo[index,i])*state[index] + Food - MTcosts[ceiling(Wtotal)]),  NA)
      
-     
-  
+      
   sizedist[index, i+1] <- ifelse(survival+survival2==2,  nextsize, NA)   
    
   alive[group, i+1]=sum(idist[,i+1] > 0, na.rm=TRUE) #number of survivors
