@@ -21,7 +21,7 @@ Tmax = 16*timebin  #seasonal time steps, maximum lifespan is 16 years
 k=1.3e-23
 E = 1.04e-19
 theta=0.66
-coef  = 5e+17 ##normalization constant puts tuna SMR in the same ballpark as the costs Kitchell et al. (1978) Bioenergetic spectra of skipjack and yellowfin tunas, pp 359 IN Sharp G.D. and Dizon A.E. eds. The Physiological Ecology of Tunas, Academic press.  
+coef1  = 5e+17 ##normalization constant puts tuna SMR in the same ballpark as the costs Kitchell et al. (1978) Bioenergetic spectra of skipjack and yellowfin tunas, pp 359 IN Sharp G.D. and Dizon A.E. eds. The Physiological Ecology of Tunas, Academic press.  
 
 #physiological parameters
 a <- 1e-5 #from ICCAT 2015 BFT length-weight relationship
@@ -50,9 +50,31 @@ K_c <- 10 #from table 2.2, this is averaged over "all" - so PP in stomach of all
 lam <- 1.95 
 #Kappa=1
 Mass <- 1:Smax
-Income = Kappa*phi_a*K_c*Mass^(0.1) #this describes the scaling with size and ecostystem richness
+Income = Kappa*phi_a*K_c*Mass^(2-lam) #this describes the scaling with size and ecostystem richness
 # plot(Income)
+SDfood=0
+minI = Income - SDfood * 2
+maxI = Income + SDfood * 2
+bins = 20
+foodmatrix=matrix(ncol=bins, nrow=length(Mass))
+weightmatrix=matrix(ncol=bins, nrow=length(Mass))
+for(p in 1:length(Mass)) { 
+  
+  binEdges = seq(minI[p], maxI[p], length.out=bins+1)
+  binMids = (binEdges[-1] + binEdges[-(bins+1)])/2
+  binWeights = pnorm(binEdges[-1], Income[p], SDfood[p]) - pnorm(binEdges[-(bins+1)], Income[p], SDfood[p])
+  
+  foodmatrix[p, ] <- binMids
+  
+}
+binWeights <- binWeights / sum(binWeights)
+binWeights = ifelse(is.na(binWeights) == TRUE, 1/bins, binWeights)
 
+sto.food <- function (i) {
+  sample(foodmatrix[i, ], size=1, prob=binWeights)
+}
+
+# matplot(foodmatrix, type="l", lty=1, lwd=2, col=c(gray.colors(bins,start=0.3, end=0.9)), ylab="Income (J)", xlab="Mass (kg)")
 ##mass dependent mortality
 phi_p <- 0.07 #from table 2.2 in Andersen book
 f_0 <- 0.6 #somewhere between 0 and 1, but predators rarely caught with totally full stomach
@@ -62,7 +84,7 @@ mu<- phi_p*f_0*hprime*Mass^met_mort #note we are excluding "background" mortalit
 
 
 ###COST FUNCTION  - assume metabolic requirements scale with body size and temperature
-MTcosts <- coef*(1:Smax)^theta*exp(-E/(k*Temp))  #costs in J
+MTcosts <- coef1*(Mass)^theta*exp(-E/(k*Temp))  #costs in J
 
 
 
@@ -157,7 +179,8 @@ for (Y in 1:(Estoresmax)) { #for all   values of Energy Stores in loop (unscaled
               #state dynamics
               
               EstoresP <- Estores*(1-reprod-growth) +Income[L]*scale - MTcosts[floor(Wtotal)] #combines mass-dependent food intake and mass-dependent metabolic costs
-              
+              ##EstoresP <- Estores*(1-reprod-growth) +foodmatrix[ceiling(Wtotal), ] - MTcosts[ceiling(Wtotal)] #combines mass-dependent food intake and mass-dependent metabolic costs
+
               EstructureP <- Estructure + growth*Estores
               
               WstructureP <- EstructureP/scale 
@@ -180,9 +203,10 @@ for (Y in 1:(Estoresmax)) { #for all   values of Energy Stores in loop (unscaled
               #make sure the state index does not exceed MAX possible state (AT HIGH END OF STATE RANGE)
               if(Yindex >= Estoresmax ) {
                 Yindex = Estoresmax - 1 
-                dx = 1 
+                dx = 0 
               } #end if
-              
+               #Yindex <- ifelse(Yindex >= Estoresmax,  Estoresmax - 1, Yindex)
+
               if (ceiling(LengthP) > Lmax) Lindex <- Lmax else
                 Lindex <- round(LengthP)
               
@@ -194,6 +218,18 @@ for (Y in 1:(Estoresmax)) { #for all   values of Energy Stores in loop (unscaled
                 if (Yindex > 0 )  FutureFitness <- dx*MaxF[Yindex,Lindex,p,i+1] + (1-dx)*MaxF[Yindex+1, Lindex, p, i+1] else FutureFitness <- (1-dx)*MaxF[Yindex+1, Lindex, p, i+1]
               } else  FutureFitness <- 0
               
+              # foodfit = rep(0, length(EstoresP))
+              
+              # for (f in 1:length(EstoresP)) {  
+            #   if(Estores >= EcritL &   EstoresP[f] >= EcritLP) {
+            #     if (Yindex[f] > 0 )  foodfit[f] <- dx[f]*MaxF[Yindex[f],Lindex,p,i+1] + (1-dx[f])*MaxF[Yindex[f]+1, Lindex, p, i+1] else foodfit[f] <- (1-dx[f])*MaxF[Yindex[f]+1, Lindex, p, i+1]
+            #   } else  foodfit[f] <- 0
+            #       }#end f loop
+            # Wtfood<-foodfit*binWeights
+            # FutureFitness = mean(Wtfood)
+              
+              
+              
               #####if current state is greater than EcritL you get current fitness    	 
               
               if(Estores >= EcritL)  currentR <- min(reprod*Estores, Rlimit) else
@@ -201,6 +237,7 @@ for (Y in 1:(Estoresmax)) { #for all   values of Energy Stores in loop (unscaled
               
               
               Vmat[Y,L, p, i, g, h]	<-  currentR + exp(-mu[L])*FutureFitness 
+              #Vmat[Y,L, p, i, g, h]	<-  currentR + exp(-mu[ceiling(Wtotal)])*FutureFitness 
               
             } #end if growth + reprod < 1	   
             
@@ -279,6 +316,7 @@ idist=matrix(data=NA, nrow=nindiv, ncol=Tmax) #keeps track of energetic state ov
 sizedist=matrix(data=NA, nrow=nindiv, ncol=Tmax)
 g_allo= array(dim=c(nindiv, Tmax), data = 0 )
 repro= array(dim=c(nindiv, Tmax), data = 0 ) 
+income=array(dim=c(nindiv, Tmax), data = 0 )
 #these will give storage fraction and reproduction for each individual, given its two states at each time
 
 z=rnorm(nindiv, mean=scale*a*initialsize^3*(storelimit - 0.05), sd=.0005*scale) ## Generate a population (z) of indivdiuals, condition based on weight  (95% of max for size, with some variation)
@@ -303,6 +341,8 @@ for (i in 1:(Tmax-1)) {
   size <- round(sizedist[,i])  
   
   EstoresmaxL <-scale*a*size^3*storelimit #adjusts stores to the max allowed for the mass at that length
+  #state<- ifelse(state > EstoresmaxL, EstoresmaxL, state)
+  
   EcritL <-  scale*a*size^3*storemin   
   
   index <- which(state >= EcritL) #which individuals are still alive (didn't starve)
@@ -331,9 +371,17 @@ for (i in 1:(Tmax-1)) {
     #now calculate Wtotal, Costs, and Net energy intake
     
     Wstructure<- a*size[index]^3 
+     
     
     Estructure <- Wstructure*scale
     Replim <- Estructure*reprolimit       
+    EstoresmaxL <-Wstructure*storelimit*scale #modified from Chapman et al.  
+    #Energy stores are capped to be a fraction if TOTAL body mass
+    
+    EcritL <- Wstructure*storemin*scale
+    
+    if (Y*scale < EstoresmaxL)  Estores<- Y*scale  else 
+      Estores=EstoresmaxL	#stored energy capped at a certain body size
     
     Wstores<-state[index]/(scale)
     
@@ -345,13 +393,22 @@ for (i in 1:(Tmax-1)) {
     reproduction[index, i]<- ifelse(repro[index, i]*state[index] < Replim, repro[index, i]*state[index], Replim)    
     
     nextsize <-   ((Wstructure +  g_allo[index,i]*Wstores)/a)^(1/3)
-    survival <- randraw[index,i] <= exp(-mu[size[index]])   
+    
+    survival <- randraw[index,i] <= exp(-mu[size[index]])  
+    ##survival<- randraw[index,i] <= exp(-mu[ceiling(Wtotal)]) 
+    
     critstores <- a*nextsize^3*storemin*scale
+    
+    Food<-sapply(ceiling(Wtotal), sto.food) #calculates stochastic food quantity for every index individual
+    
     #####future state calculation:
     survival2<- ifelse(((1-repro[index, i]-g_allo[index,i])*state[index] + Income[size[index]]*scale - MTcosts[floor(Wtotal)])  > critstores, 1, 0) #check that future state will be greater than current EcritL 
     
     idist[index,i+1] <- ifelse(survival+survival2==2, ((1-repro[index, i]-g_allo[index,i])*state[index] + Income[size[index]]*scale - MTcosts[floor(Wtotal)]),  NA)
     
+    # survival2<- ifelse(((1-repro[index, i]-g_allo[index,i])*state[index] + Food - MTcosts[ceiling(Wtotal)])  > critstores, 1, 0) #check that future state will be greater than current EcritL
+    # idist[index,i+1] <- ifelse(survival+survival2==2, ((1-repro[index, i]-g_allo[index,i])*state[index] + Food - MTcosts[ceiling(Wtotal)]),  NA)
+
     sizedist[index, i+1] <- ifelse(survival+survival2==2,  nextsize, NA)   
     
     alive[group, i+1]=sum(idist[,i+1] > 0, na.rm=TRUE) #number of survivors
@@ -375,5 +432,5 @@ write.csv(idist, file=paste0("model_output/03State",  "Temp", Temp,  "Kappa", Ka
 
 write.csv(sizedist, file=paste0("model_output/01Length",  "Temp", Temp,   "Kappa", Kappa,  ".csv"))
 write.csv(reproduction, file=paste0("model_output/02Repro",  "Temp", Temp,   "Kappa", Kappa,   ".csv")) 
-
+write.csv(income, file=paste0("model_output/04food",  "Temp", Temp,   "Kappa", Kappa,   ".csv")) )
  

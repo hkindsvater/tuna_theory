@@ -1,0 +1,20 @@
+mkdir: /Users/hollykindsvater/Documents/tuna_theory/model_output: File exists
+[1] 1
+Error: object 'coef1' not found
+Execution halted
+mkdir: /Users/hollykindsvater/Documents/tuna_theory/model_output: File exists
+[1] 1
+Error in g_allo[index[condind == TRUE], i] <- round((1 - dx[condind ==  : 
+  replacement has length zero
+In addition: There were 31 warnings (use warnings() to see them)
+Execution halted
+[1] 2
+Error in g_allo[index[condind == TRUE], i] <- round((1 - dx[condind ==  : 
+  replacement has length zero
+In addition: There were 31 warnings (use warnings() to see them)
+Execution halted
+[1] 2
+Error in g_allo[index[condind == TRUE], i] <- round((1 - dx[condind ==  : 
+  replacement has length zero
+In addition: There were 31 warnings (use warnings() to see them)
+Execution halted
