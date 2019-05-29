@@ -178,7 +178,7 @@ for (Y in 1:(Estoresmax)) { #for all   values of Energy Stores in loop (unscaled
               
               #state dynamics
               
-              EstoresP <- Estores*(1-reprod-growth) +Income[L]*scale - MTcosts[floor(Wtotal)] #combines mass-dependent food intake and mass-dependent metabolic costs
+              EstoresP <- Estores*(1-reprod-growth) +Income[ceiling(Wtotal)]*scale - MTcosts[ceiling(Wtotal)] #combines mass-dependent food intake and mass-dependent metabolic costs
               ##EstoresP <- Estores*(1-reprod-growth) +foodmatrix[ceiling(Wtotal), ] - MTcosts[ceiling(Wtotal)] #combines mass-dependent food intake and mass-dependent metabolic costs
 
               EstructureP <- Estructure + growth*Estores
@@ -236,8 +236,8 @@ for (Y in 1:(Estoresmax)) { #for all   values of Energy Stores in loop (unscaled
                 currentR <- 0
               
               
-              Vmat[Y,L, p, i, g, h]	<-  currentR + exp(-mu[L])*FutureFitness 
-              #Vmat[Y,L, p, i, g, h]	<-  currentR + exp(-mu[ceiling(Wtotal)])*FutureFitness 
+              #Vmat[Y,L, p, i, g, h]	<-  currentR + exp(-mu[L])*FutureFitness 
+            Vmat[Y,L, p, i, g, h]	<-  currentR + exp(-mu[ceiling(Wtotal)])*FutureFitness 
               
             } #end if growth + reprod < 1	   
             
@@ -281,7 +281,7 @@ for (Y in 1:(Estoresmax)) { #for all   values of Energy Stores in loop (unscaled
   } #end L loop
   
 } #end Y loop
-
+write.csv(optR, "optR.csv")
 # close(pb) #close progress bar
 # require(fields)
 # pal=terrain.colors(n=100)# ##set the palette
@@ -394,17 +394,17 @@ for (i in 1:(Tmax-1)) {
     
     nextsize <-   ((Wstructure +  g_allo[index,i]*Wstores)/a)^(1/3)
     
-    survival <- randraw[index,i] <= exp(-mu[size[index]])  
-    ##survival<- randraw[index,i] <= exp(-mu[ceiling(Wtotal)]) 
+    #survival <- randraw[index,i] <= exp(-mu[size[index]])  
+    survival<- randraw[index,i] <= exp(-mu[ceiling(Wtotal)]) 
     
     critstores <- a*nextsize^3*storemin*scale
     
     Food<-sapply(ceiling(Wtotal), sto.food) #calculates stochastic food quantity for every index individual
     
     #####future state calculation:
-    survival2<- ifelse(((1-repro[index, i]-g_allo[index,i])*state[index] + Income[size[index]]*scale - MTcosts[floor(Wtotal)])  > critstores, 1, 0) #check that future state will be greater than current EcritL 
+    survival2<- ifelse(((1-repro[index, i]-g_allo[index,i])*state[index] + Income[ceiling(Wtotal)]*scale - MTcosts[ceiling(Wtotal)])  > critstores, 1, 0) #check that future state will be greater than current EcritL 
     
-    idist[index,i+1] <- ifelse(survival+survival2==2, ((1-repro[index, i]-g_allo[index,i])*state[index] + Income[size[index]]*scale - MTcosts[floor(Wtotal)]),  NA)
+    idist[index,i+1] <- ifelse(survival+survival2==2, ((1-repro[index, i]-g_allo[index,i])*state[index] + Income[ceiling(Wtotal)]*scale - MTcosts[ceiling(Wtotal)]),  NA)
     
     # survival2<- ifelse(((1-repro[index, i]-g_allo[index,i])*state[index] + Food - MTcosts[ceiling(Wtotal)])  > critstores, 1, 0) #check that future state will be greater than current EcritL
     # idist[index,i+1] <- ifelse(survival+survival2==2, ((1-repro[index, i]-g_allo[index,i])*state[index] + Food - MTcosts[ceiling(Wtotal)]),  NA)
