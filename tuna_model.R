@@ -336,12 +336,12 @@ normdraw=matrix(rnorm(nindiv*(Tmax), mean=1, sd=0.005), nrow=nindiv, ncol=Tmax) 
 
 for (i in 1:(Tmax-1)) { 
   
-  state <- idist[,i] 
+  state1 <- idist[,i] 
   
   size <- round(sizedist[,i])  
   
   EstoresmaxL <-scale*a*size^3*storelimit #adjusts stores to the max allowed for the mass at that length
-  #state<- ifelse(state > EstoresmaxL, EstoresmaxL, state)
+  state<- ifelse(state1 > EstoresmaxL, EstoresmaxL, state1)
   
   EcritL <-  scale*a*size^3*storemin   
   
@@ -432,5 +432,5 @@ write.csv(idist, file=paste0("model_output/03State",  "Temp", Temp,  "Kappa", Ka
 
 write.csv(sizedist, file=paste0("model_output/01Length",  "Temp", Temp,   "Kappa", Kappa,  ".csv"))
 write.csv(reproduction, file=paste0("model_output/02Repro",  "Temp", Temp,   "Kappa", Kappa,   ".csv")) 
-write.csv(income, file=paste0("model_output/04food",  "Temp", Temp,   "Kappa", Kappa,   ".csv")) )
+write.csv(income, file=paste0("model_output/04food",  "Temp", Temp,   "Kappa", Kappa,   ".csv")) 
  
