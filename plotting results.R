@@ -59,8 +59,8 @@ quartz()
   par(mfrow=c(2, 3))
  
  age.length <- function(length_data, repro_data, filenames) {
- 	
- 	matplot(t(length_data[,-1]), t(repro_data[,-1]), type="p", col="darkgray", pch=20,   main=c(substr(filenames, 9, 15), substr(filenames, 16, 21)),  xlab="Length (cm)", xlim=c(0, 350), ylim=c(0, 1.5e+09), ylab="Reproduction (J)")
+ 	#need to make a log log plot
+ 	matplot(t(log(length_data[,-1], na.rm=TRUE)), t(log(repro_data[,-1], na.rm=TRUE)), type="p", col="darkgray", pch=20,   main=c(substr(filenames, 9, 15), substr(filenames, 16, 21)),  xlab="Length (cm)", xlim=c(0, 250), ylim=c(0, 1.5e+09), ylab="Reproduction (J)")
  	
  	} 
  	

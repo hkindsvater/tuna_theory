@@ -10,10 +10,9 @@ args <-  commandArgs(trailingOnly = TRUE)
 counter <- as.numeric(args[1]) 
 c1 = as.numeric(args[2])
 Kappa = as.numeric(args[3])
-Temp = as.numeric(args[4])
+f_h = as.numeric(args[4])
 
-# Kappa = 1
-# Temp = 293:297 
+ 
 
 Tmax = 16*timebin  #seasonal time steps, maximum lifespan is 16 years
 
@@ -43,13 +42,13 @@ reprolimit = 2
 ###Lookup Tables - look up costs and food functions so they are not calculated every time
 
 ###Sizespectra allow us to descripbe prey preference, encounter, consumption to predict prey availability and mass-specific mortality:
-Smax <- 1500   #total mass maximum in kg
+  #total mass maximum in kg
 ##Prey availability   
 phi_a <- 3 #from table 2.2 in Andersen book
 K_c <- 10 #from table 2.2, this is averaged over "all" - so PP in stomach of all preds and preys have a MR of 1224 independently of body size - but htis is something that changes with ecosystem according to KAPPA, eg less in deep sea, more in upwelling
 lam <- 1.95 
 #Kappa=1
-Mass <- 1:Smax
+Mass <- a*(Lmin:Lmax)^3
 Income = Kappa*phi_a*K_c*Mass^(2-lam) #this describes the scaling with size and ecostystem richness
 # plot(Income)
 SDfood=0
@@ -78,9 +77,11 @@ sto.food <- function (i) {
 ##mass dependent mortality
 phi_p <- 0.07 #from table 2.2 in Andersen book
 f_0 <- 0.6 #somewhere between 0 and 1, but predators rarely caught with totally full stomach
-hprime <- 17.2 #coefficient on the consumption rate from table 2.2
+hprime <- 17.2
+#f_h<-f_0*hprime
+#coefficient on the consumption rate from table 2.2
 met_mort <- -0.25 #the argument in Andersen book is that mass-specific rates such as mortality scales with the metabolic esp of 3/4 (Brown et al. 2004). 
-mu<- phi_p*f_0*hprime*Mass^met_mort #note we are excluding "background" mortality that is independent of size.... 
+mu<- phi_p*f_h*Mass^met_mort #note we are excluding "background" mortality that is independent of size.... 
 
 
 ###COST FUNCTION  - assume metabolic requirements scale with body size and temperature
@@ -178,7 +179,7 @@ for (Y in 1:(Estoresmax)) { #for all   values of Energy Stores in loop (unscaled
               
               #state dynamics
               
-              EstoresP <- Estores*(1-reprod-growth) +Income[ceiling(Wtotal)]*scale - MTcosts[ceiling(Wtotal)] #combines mass-dependent food intake and mass-dependent metabolic costs
+              EstoresP <- Estores*(1-reprod-growth) +Income[L]*scale - MTcosts[L] #combines mass-dependent food intake and mass-dependent metabolic costs
               ##EstoresP <- Estores*(1-reprod-growth) +foodmatrix[ceiling(Wtotal), ] - MTcosts[ceiling(Wtotal)] #combines mass-dependent food intake and mass-dependent metabolic costs
 
               EstructureP <- Estructure + growth*Estores
@@ -236,8 +237,8 @@ for (Y in 1:(Estoresmax)) { #for all   values of Energy Stores in loop (unscaled
                 currentR <- 0
               
               
-              #Vmat[Y,L, p, i, g, h]	<-  currentR + exp(-mu[L])*FutureFitness 
-            Vmat[Y,L, p, i, g, h]	<-  currentR + exp(-mu[ceiling(Wtotal)])*FutureFitness 
+               Vmat[Y,L, p, i, g, h]	<-  currentR + exp(-mu[L])*FutureFitness 
+              
               
             } #end if growth + reprod < 1	   
             
@@ -281,7 +282,7 @@ for (Y in 1:(Estoresmax)) { #for all   values of Energy Stores in loop (unscaled
   } #end L loop
   
 } #end Y loop
-write.csv(optR, "optR.csv")
+ 
 # close(pb) #close progress bar
 # require(fields)
 # pal=terrain.colors(n=100)# ##set the palette
@@ -336,12 +337,10 @@ normdraw=matrix(rnorm(nindiv*(Tmax), mean=1, sd=0.005), nrow=nindiv, ncol=Tmax) 
 
 for (i in 1:(Tmax-1)) { 
   
-  state1 <- idist[,i] 
+  state  <- idist[,i] 
   
   size <- round(sizedist[,i])  
-  
-  EstoresmaxL <-scale*a*size^3*storelimit #adjusts stores to the max allowed for the mass at that length
-  state<- ifelse(state1 > EstoresmaxL, EstoresmaxL, state1)
+   
   
   EcritL <-  scale*a*size^3*storemin   
   
@@ -394,20 +393,20 @@ for (i in 1:(Tmax-1)) {
     
     nextsize <-   ((Wstructure +  g_allo[index,i]*Wstores)/a)^(1/3)
     
-    #survival <- randraw[index,i] <= exp(-mu[size[index]])  
-    survival<- randraw[index,i] <= exp(-mu[ceiling(Wtotal)]) 
+    survival <- randraw[index,i] <= exp(-mu[size[index]])  
+  
     
     critstores <- a*nextsize^3*storemin*scale
     
-    Food<-sapply(ceiling(Wtotal), sto.food) #calculates stochastic food quantity for every index individual
+    Food<-sapply(size[index], sto.food) #calculates stochastic food quantity for every index individual
     
     #####future state calculation:
-    survival2<- ifelse(((1-repro[index, i]-g_allo[index,i])*state[index] + Income[ceiling(Wtotal)]*scale - MTcosts[ceiling(Wtotal)])  > critstores, 1, 0) #check that future state will be greater than current EcritL 
+    survival2<- ifelse(((1-repro[index, i]-g_allo[index,i])*state[index] + Income[size[index]]*scale - MTcosts[size[index]])  > critstores, 1, 0) #check that future state will be greater than current EcritL 
     
-    idist[index,i+1] <- ifelse(survival+survival2==2, ((1-repro[index, i]-g_allo[index,i])*state[index] + Income[ceiling(Wtotal)]*scale - MTcosts[ceiling(Wtotal)]),  NA)
+    idist[index,i+1] <- ifelse(survival+survival2==2, ((1-repro[index, i]-g_allo[index,i])*state[index] + Income[size[index]]*scale - MTcosts[size[index]]),  NA)
     
-    # survival2<- ifelse(((1-repro[index, i]-g_allo[index,i])*state[index] + Food - MTcosts[ceiling(Wtotal)])  > critstores, 1, 0) #check that future state will be greater than current EcritL
-    # idist[index,i+1] <- ifelse(survival+survival2==2, ((1-repro[index, i]-g_allo[index,i])*state[index] + Food - MTcosts[ceiling(Wtotal)]),  NA)
+    # survival2<- ifelse(((1-repro[index, i]-g_allo[index,i])*state[index] + Food - MTcosts[size[index]])  > critstores, 1, 0) #check that future state will be greater than current EcritL
+    # idist[index,i+1] <- ifelse(survival+survival2==2, ((1-repro[index, i]-g_allo[index,i])*state[index] + Food - MTcosts[size[index]]),  NA)
 
     sizedist[index, i+1] <- ifelse(survival+survival2==2,  nextsize, NA)   
     
@@ -428,9 +427,8 @@ reproduction[, -Tmax]<-ifelse(reproduction[, -Tmax]>0,  reproduction[, -Tmax], N
 
 idist[, -Tmax]<-ifelse(idist[, -Tmax]>0,  idist[, -Tmax], NA)
 
-write.csv(idist, file=paste0("model_output/03State",  "Temp", Temp,  "Kappa", Kappa,  ".csv"))
+write.csv(idist, file=paste0("model_output/03State",  "f_h", f_h,  "Kappa", Kappa,  ".csv"))
 
-write.csv(sizedist, file=paste0("model_output/01Length",  "Temp", Temp,   "Kappa", Kappa,  ".csv"))
-write.csv(reproduction, file=paste0("model_output/02Repro",  "Temp", Temp,   "Kappa", Kappa,   ".csv")) 
-write.csv(income, file=paste0("model_output/04food",  "Temp", Temp,   "Kappa", Kappa,   ".csv")) 
- 
+write.csv(sizedist, file=paste0("model_output/01Length",  "f_h", f_h,   "Kappa", Kappa,  ".csv"))
+write.csv(reproduction, file=paste0("model_output/02Repro",  "f_h", f_h,   "Kappa", Kappa,   ".csv")) 
+  

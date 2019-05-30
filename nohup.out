@@ -9,3 +9,54 @@ Error in g_allo[index[condind == TRUE], i] <- round((1 - dx[condind ==  :
   replacement has length zero
 In addition: There were 31 warnings (use warnings() to see them)
 Execution halted
+mkdir: /Users/hollykindsvater/Documents/tuna_theory/model_output: File exists
+[1] 1
+Error in g_allo[index[condind == TRUE], i] <- round((1 - dx[condind ==  : 
+  replacement has length zero
+In addition: Warning messages:
+1: In if (Y * scale < EstoresmaxL) Estores <- Y * scale else Estores = EstoresmaxL :
+  the condition has length > 1 and only the first element will be used
+2: In if (Y * scale < EstoresmaxL) Estores <- Y * scale else Estores = EstoresmaxL :
+  the condition has length > 1 and only the first element will be used
+3: In if (Y * scale < EstoresmaxL) Estores <- Y * scale else Estores = EstoresmaxL :
+  the condition has length > 1 and only the first element will be used
+4: In if (Y * scale < EstoresmaxL) Estores <- Y * scale else Estores = EstoresmaxL :
+  the condition has length > 1 and only the first element will be used
+5: In if (Y * scale < EstoresmaxL) Estores <- Y * scale else Estores = EstoresmaxL :
+  the condition has length > 1 and only the first element will be used
+6: In if (Y * scale < EstoresmaxL) Estores <- Y * scale else Estores = EstoresmaxL :
+  the condition has length > 1 and only the first element will be used
+7: In if (Y * scale < EstoresmaxL) Estores <- Y * scale else Estores = EstoresmaxL :
+  the condition has length > 1 and only the first element will be used
+8: In if (Y * scale < EstoresmaxL) Estores <- Y * scale else Estores = EstoresmaxL :
+  the condition has length > 1 and only the first element will be used
+9: In if (Y * scale < EstoresmaxL) Estores <- Y * scale else Estores = EstoresmaxL :
+  the condition has length > 1 and only the first element will be used
+10: In if (Y * scale < EstoresmaxL) Estores <- Y * scale else Estores = EstoresmaxL :
+  the condition has length > 1 and only the first element will be used
+Execution halted
+[1] 2
+Error in g_allo[index[condind == TRUE], i] <- round((1 - dx[condind ==  : 
+  replacement has length zero
+In addition: Warning messages:
+1: In if (Y * scale < EstoresmaxL) Estores <- Y * scale else Estores = EstoresmaxL :
+  the condition has length > 1 and only the first element will be used
+2: In if (Y * scale < EstoresmaxL) Estores <- Y * scale else Estores = EstoresmaxL :
+  the condition has length > 1 and only the first element will be used
+3: In if (Y * scale < EstoresmaxL) Estores <- Y * scale else Estores = EstoresmaxL :
+  the condition has length > 1 and only the first element will be used
+4: In if (Y * scale < EstoresmaxL) Estores <- Y * scale else Estores = EstoresmaxL :
+  the condition has length > 1 and only the first element will be used
+5: In if (Y * scale < EstoresmaxL) Estores <- Y * scale else Estores = EstoresmaxL :
+  the condition has length > 1 and only the first element will be used
+6: In if (Y * scale < EstoresmaxL) Estores <- Y * scale else Estores = EstoresmaxL :
+  the condition has length > 1 and only the first element will be used
+7: In if (Y * scale < EstoresmaxL) Estores <- Y * scale else Estores = EstoresmaxL :
+  the condition has length > 1 and only the first element will be used
+8: In if (Y * scale < EstoresmaxL) Estores <- Y * scale else Estores = EstoresmaxL :
+  the condition has length > 1 and only the first element will be used
+9: In if (Y * scale < EstoresmaxL) Estores <- Y * scale else Estores = EstoresmaxL :
+  the condition has length > 1 and only the first element will be used
+10: In if (Y * scale < EstoresmaxL) Estores <- Y * scale else Estores = EstoresmaxL :
+  the condition has length > 1 and only the first element will be used
+Execution halted
