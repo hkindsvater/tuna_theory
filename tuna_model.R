@@ -12,7 +12,7 @@ c1 = as.numeric(args[2])
 Kappa = as.numeric(args[3])
 f_h = as.numeric(args[4])
 
- 
+ Temp <- 293
 
 Tmax = 16*timebin  #seasonal time steps, maximum lifespan is 16 years
 
