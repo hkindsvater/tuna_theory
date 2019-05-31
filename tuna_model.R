@@ -14,7 +14,7 @@ f_h = as.numeric(args[4])
 
  Temp <- 293
 
-Tmax = 16*timebin  #seasonal time steps, maximum lifespan is 16 years
+Tmax = 4*timebin  #seasonal time steps, maximum lifespan is 16 years
 
 #describe temperature dependent costs
 k=1.3e-23
@@ -306,7 +306,7 @@ for (Y in 1:(Estoresmax)) { #for all   values of Energy Stores in loop (unscaled
 
 # # 	  # # image(optR[,  300  , 1 , ], col=pal  ) 
 set.seed(2001)
-nindiv=10000   
+nindiv=10   
 Ngroups=1
 group=1
 
@@ -320,7 +320,7 @@ repro= array(dim=c(nindiv, Tmax), data = 0 )
 income=array(dim=c(nindiv, Tmax), data = 0 )
 #these will give storage fraction and reproduction for each individual, given its two states at each time
 
-z=rnorm(nindiv, mean=scale*a*initialsize^3*(storelimit - 0.05), sd=.0005*scale) ## Generate a population (z) of indivdiuals, condition based on weight  (95% of max for size, with some variation)
+z=rnorm(nindiv, mean=scale*a*initialsize^3*(storelimit - 0.05), sd=0) ## Generate a population (z) of indivdiuals, condition based on weight  (95% of max for size, with some variation)
 
 
 idist[,1]=ceiling(z) #this rounds every z up to the nearest integer for the first time step  
@@ -334,6 +334,9 @@ reproduction=matrix(0, nindiv, Tmax) #stores how much they reproduce at each tim
 randraw=matrix(runif(nindiv*(Tmax), max=1, min=0), nrow=nindiv, ncol=Tmax)
 randraw2=matrix(runif(nindiv*(Tmax), max=1, min=0), nrow=nindiv, ncol=Tmax)
 normdraw=matrix(rnorm(nindiv*(Tmax), mean=1, sd=0.005), nrow=nindiv, ncol=Tmax) #add stochasticity in food intake
+
+survival=rep(0, Tmax)
+survival[1]<-1
 
 for (i in 1:(Tmax-1)) { 
   
@@ -393,24 +396,25 @@ for (i in 1:(Tmax-1)) {
     
     nextsize <-   ((Wstructure +  g_allo[index,i]*Wstores)/a)^(1/3)
     
-    survival <- randraw[index,i] <= exp(-mu[size[index]])  
-  
+    #survival <- randraw[index,i] <= exp(-mu[size[index]])  
+    survival[i+1] <- survival[i]*exp(-mu[size[index]])
     
     critstores <- a*nextsize^3*storemin*scale
     
     Food<-sapply(size[index], sto.food) #calculates stochastic food quantity for every index individual
     
     #####future state calculation:
-    survival2<- ifelse(((1-repro[index, i]-g_allo[index,i])*state[index] + Income[size[index]]*scale - MTcosts[size[index]])  > critstores, 1, 0) #check that future state will be greater than current EcritL 
+   #survival2<- ifelse(((1-repro[index, i]-g_allo[index,i])*state[index] + Income[size[index]]*scale - MTcosts[size[index]])  > critstores, 1, 0) #check that future state will be greater than current EcritL 
     
-    idist[index,i+1] <- ifelse(survival+survival2==2, ((1-repro[index, i]-g_allo[index,i])*state[index] + Income[size[index]]*scale - MTcosts[size[index]]),  NA)
-    
+    #idist[index,i+1] <- ifelse(survival+survival2==2, ((1-repro[index, i]-g_allo[index,i])*state[index] + Income[size[index]]*scale - MTcosts[size[index]]),  NA)
+    idist[index,i+1] <- (1-repro[index, i]-g_allo[index,i])*state[index] + Income[size[index]]*scale - MTcosts[size[index]] 
     # survival2<- ifelse(((1-repro[index, i]-g_allo[index,i])*state[index] + Food - MTcosts[size[index]])  > critstores, 1, 0) #check that future state will be greater than current EcritL
     # idist[index,i+1] <- ifelse(survival+survival2==2, ((1-repro[index, i]-g_allo[index,i])*state[index] + Food - MTcosts[size[index]]),  NA)
 
-    sizedist[index, i+1] <- ifelse(survival+survival2==2,  nextsize, NA)   
+    #sizedist[index, i+1] <- ifelse(survival+survival2==2,  nextsize, NA)   
+   sizedist[index, i+1] <- nextsize
     
-    alive[group, i+1]=sum(idist[,i+1] > 0, na.rm=TRUE) #number of survivors
+    #alive[group, i+1]=sum(idist[,i+1] > 0, na.rm=TRUE) #number of survivors
     
     
   }#end if
@@ -431,4 +435,5 @@ write.csv(idist, file=paste0("model_output/03State",  "f_h", f_h,  "Kappa", Kapp
 
 write.csv(sizedist, file=paste0("model_output/01Length",  "f_h", f_h,   "Kappa", Kappa,  ".csv"))
 write.csv(reproduction, file=paste0("model_output/02Repro",  "f_h", f_h,   "Kappa", Kappa,   ".csv")) 
+write.csv(survival, file=paste0("model_output/04Surv",  "f_h", f_h,   "Kappa", Kappa,   ".csv")) 
   
