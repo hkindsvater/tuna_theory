@@ -14,7 +14,7 @@ f_h = as.numeric(args[4])
 
  Temp <- 293
 
-Tmax = 4*timebin  #seasonal time steps, maximum lifespan is 16 years
+Tmax = 16*timebin  #seasonal time steps, maximum lifespan is 16 years
 
 #describe temperature dependent costs
 k=1.3e-23
@@ -306,11 +306,11 @@ for (Y in 1:(Estoresmax)) { #for all   values of Energy Stores in loop (unscaled
 
 # # 	  # # image(optR[,  300  , 1 , ], col=pal  ) 
 set.seed(2001)
-nindiv=10   
+nindiv=2  
 Ngroups=1
 group=1
 
-initialsize <- as.integer(rnorm(nindiv, mean=50, sd=2.5))
+initialsize <- rep(50, 2) #as.integer(rnorm(nindiv, mean=50, sd=2.5))
 alive=matrix(ncol = Tmax, nrow= Ngroups, data=0)
 
 idist=matrix(data=NA, nrow=nindiv, ncol=Tmax) #keeps track of energetic state over time
@@ -320,8 +320,8 @@ repro= array(dim=c(nindiv, Tmax), data = 0 )
 income=array(dim=c(nindiv, Tmax), data = 0 )
 #these will give storage fraction and reproduction for each individual, given its two states at each time
 
-z=rnorm(nindiv, mean=scale*a*initialsize^3*(storelimit - 0.05), sd=0) ## Generate a population (z) of indivdiuals, condition based on weight  (95% of max for size, with some variation)
-
+#z=rnorm(nindiv, mean=scale*a*initialsize^3*(storelimit - 0.05), sd=0) ## Generate a population (z) of indivdiuals, condition based on weight  (95% of max for size, with some variation)
+z<- scale*a*initialsize^3*(storelimit - 0.05)
 
 idist[,1]=ceiling(z) #this rounds every z up to the nearest integer for the first time step  
 #idist[,1] is the initial state -- better to use ceiling() than floor()
