@@ -1,0 +1,10 @@
+mkdir: /Users/hollykindsvater/Documents/tuna_theory/model_output: File exists
+[1] 1
+[1] 2
+Error: unexpected ',' in:
+"urvival+survival2==2, ((1-repro[index, i]-g_allo[index,i])*state[index] + Income[size[index]]*scale - MTcosts[size[index]]),  NA)
+    idist[index,i+1] <- ((1-repro[index, i]-g_allo[index,i])*state[index] + Income[size[index]]*scale - MTcosts[size[index]]),"
+Execution halted
+mkdir: /Users/hollykindsvater/Documents/tuna_theory/model_output: File exists
+[1] 1
+[1] 2
