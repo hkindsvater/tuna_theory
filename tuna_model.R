@@ -14,7 +14,7 @@ f_h = as.numeric(args[4])
 
  Temp <- 293
 
-Tmax = 4*timebin  #seasonal time steps, maximum lifespan is 16 years
+Tmax = 16*timebin  #seasonal time steps, maximum lifespan is 16 years
 
 #describe temperature dependent costs
 k=1.3e-23
@@ -306,7 +306,7 @@ for (Y in 1:(Estoresmax)) { #for all   values of Energy Stores in loop (unscaled
 
 # # 	  # # image(optR[,  300  , 1 , ], col=pal  ) 
 set.seed(2001)
-nindiv=10   
+nindiv=1  
 Ngroups=1
 group=1
 
@@ -320,8 +320,8 @@ repro= array(dim=c(nindiv, Tmax), data = 0 )
 income=array(dim=c(nindiv, Tmax), data = 0 )
 #these will give storage fraction and reproduction for each individual, given its two states at each time
 
-z=rnorm(nindiv, mean=scale*a*initialsize^3*(storelimit - 0.05), sd=0) ## Generate a population (z) of indivdiuals, condition based on weight  (95% of max for size, with some variation)
-
+#z=rnorm(nindiv, mean=scale*a*initialsize^3*(storelimit - 0.05), sd=0) ## Generate a population (z) of indivdiuals, condition based on weight  (95% of max for size, with some variation)
+z<- scale*a*initialsize^3*(storelimit - 0.05)
 
 idist[,1]=ceiling(z) #this rounds every z up to the nearest integer for the first time step  
 #idist[,1] is the initial state -- better to use ceiling() than floor()

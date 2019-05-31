@@ -8,3 +8,6 @@ Execution halted
 mkdir: /Users/hollykindsvater/Documents/tuna_theory/model_output: File exists
 [1] 1
 [1] 2
+There were 30 warnings (use warnings() to see them)
+mkdir: /Users/hollykindsvater/Documents/tuna_theory/model_output: File exists
+[1] 1
