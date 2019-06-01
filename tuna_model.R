@@ -306,11 +306,9 @@ for (Y in 1:(Estoresmax)) { #for all   values of Energy Stores in loop (unscaled
 
 # # 	  # # image(optR[,  300  , 1 , ], col=pal  ) 
 set.seed(2001)
-<<<<<<< HEAD
+ 
 nindiv=2  
-=======
-nindiv=1  
->>>>>>> 27f40ded844a1377cde6369db031485824278dac
+ 
 Ngroups=1
 group=1
 
