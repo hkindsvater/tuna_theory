@@ -2,7 +2,7 @@
 
 
 # Defaults
-paras = c(c1=0, Kappa = 1, f_h=293)
+paras = c(c1=0, Kappa = 1, f_h=5)
 
 # Name the set of results
 name = "model_output"
@@ -14,8 +14,8 @@ system(newDir)
   
 v1 = "f_h"
 v2 = "Kappa"
-L1 =  c(5, 10, 15)
-L2 = c(1, 3, 6)
+L1 =  c(5, 10)
+L2 = c(1)
 n1 = length(L1)
 n2 = length(L2)
 reps = 1
