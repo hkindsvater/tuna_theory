@@ -2,7 +2,7 @@
  
 
 
-setwd("~/Documents/tuna_theory/model_output/31 May run low mort")
+setwd("~/Documents/tuna_theory/model_output/")
 data_files <- list.files(pattern = "\\.csv$")
 
 repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   
@@ -44,10 +44,7 @@ plot_length <- function(data, filenames) {
   # plot_hist <- function(data, filenames) {
     # hist(data[, 12], breaks=50, xlim=c(50, 350), main=substr(filenames, 13, 49))
   # }
-  
-
- 
-
+   
   # mapply(plot_hist, length_data, length_filenames)
   
   
@@ -55,45 +52,62 @@ plot_length <- function(data, filenames) {
   # par(mfrow=c(3, 3))
   plot_repro <- function(repro_data, repro_filenames) {
 	 
-     matplot(t(repro_data[,-1]), type="l", main= substr(repro_filenames, 8, 17), col="darkgray", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 2e+09), xlim=c(0.5, 48))
+     matplot(t(repro_data[,-1]), type="l", main= substr(repro_filenames, 8, 17), col="darkgray", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 1e+09), xlim=c(0.5, 48))
      axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))
  
      }
 
-#mapply(plot_repro, repro_data, repro_filenames)
+mapply(plot_repro, repro_data, repro_filenames)
 
 ##make a plot of reproductive output as a function of length
-# quartz()
-  # par(mfrow=c(2, 2))
+  # quartz()
+   # par(mfrow=c(3, 3))
  
- age.length <- function(length_data, repro_data, filenames) {
+ age.length <- function(ldata1, rdata2, filenames) {
+ 	data1 <- as.numeric(ldata1[1,])
+ 	data2 <- as.numeric(rdata2[1, ])
  	#need to make a log log plot
- 	matplot(t(log(length_data[,c(-1,-65)])), t(log(repro_data[,c(-1,-65)])), type="p", col="darkgray", pch=20,   main= substr(repro_filenames, 8, 17),  xlab="Length (cm)", xlim=c(0, 350), ylim=c(0, 1.5e+09), ylab="Reproduction (J)")
+ 	matplot(t(log(data1[c(-1,-65)])), t(log(data2[c(-1,-65)])), type="p", col="darkgray", pch=20,   main= substr(filenames, 9, 19),  xlab="ln(Length) ", ylim=c(0, 25), xlim=c(0, 6), ylab="ln(Reproduction) ")
  	
- 	m1<-lm(log(repro_data[,c(-1,-65)])~log(length_data[,c(-1,-65)]))
- 	
- 	print(paste0("Env is ", substr(surv_filenames, 8, 18))),", Slope is ", round(as.numeric(coef(m1)[2]), 3)))
-   legend("topright",   legend=round(as.numeric(coef(m1)[2]), 3), lty=1)
- 	
- 	} 
+ 	m1<-lm(log(data2[c(-1,-65)])~log(data1[c(-1,-65)]))
+ 	if(is.na(coef(m1)[2])==FALSE)  	abline(m1)
+ 	#val<-paste0("Env is ", substr(filenames, 9, 23),", Slope is ", round(as.numeric(coef(m1)[2]), 3))
+   legend("topleft",   legend=paste0("slope is ",round(as.numeric(coef(m1)[2]), 3)), bty="n")
+ 	   	} 
  	
 mapply(age.length, length_data, repro_data, length_filenames)
 
 
-quartz()
- par(mfrow=c(2, 2))
+# quartz()
+ # par(mfrow=c(3, 3))
 
- surv <- function(surv_data, filenames) {
+ surv <- function(data, filenames) {
  	
- 	matplot(log(surv_data[, -1]), type="l", main= substr(surv_filenames, 8, 18), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1), xlim=c(0.5, 48))
+ 	  	
+ 	matplot(data[,-1], type="l", main= substr(filenames, 6, 17), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1), xlim=c(0.5, 48))
      axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))
  
-   m2<-lm(surv_data~time)
-   print(paste0("Env is ", substr(surv_filenames, 8, 18))),", Slope is ", round(as.numeric(coef(m2)[2]), 3)))
-   legend("topright",   legend=round(as.numeric(coef(m1)[2]), 3), lty=1)
+   
  }
  
  	mapply(surv, surv_data, surv_filenames)
+ 
+  lnsurv <- function(data, filenames) {
+ 	
+ 	data1<-as.numeric(data[,2])
+ 	
+ 	matplot(log(data1[-1]), type="l", main= substr(filenames, 8, 18), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n",  ylim=c(-20, 0), xlim=c(0.5, 48))
+     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))
+ 
+   m2<-lm(log(data1[-1])~time[-64])
+   abline(m2)
+   #print(paste0("Env is ", substr(surv_filenames, 8, 18))),", Slope is ", round(as.numeric(coef(m2)[2]), 3)))
+   legend("bottomleft",   legend=paste0("slope is ",round(as.numeric(coef(m2)[2]), 3)), bty="n")
+ }
+ 
+ 	mapply(lnsurv, surv_data, surv_filenames)
+ 
+ 
  	
  	#####now calculate the number alive as a function of age
      	 
