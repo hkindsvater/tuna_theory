@@ -2,7 +2,7 @@
  
 
 
-setwd("~/Documents/tuna_theory/model_output/31 May run low mort")
+setwd("~/Documents/tuna_theory/model_output/")
 data_files <- list.files(pattern = "\\.csv$")
 
 repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   
