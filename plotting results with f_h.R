@@ -22,8 +22,8 @@ surv_data <- lapply(surv_filenames, read.csv)
  
  time=1:64
  
- quartz()
-  par(mfrow=c(3,3))
+ # quartz()
+  # par(mfrow=c(3,3))
  
 plot_length <- function(data, filenames) {
 	   
@@ -96,7 +96,7 @@ mapply(age.length, length_data, repro_data, length_filenames)
  	
  	data1<-as.numeric(data[,2])
  	
- 	matplot(log(data1[-1]), type="l", main= substr(filenames, 8, 18), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n",  ylim=c(-20, 0), xlim=c(0.5, 48))
+ 	matplot(log(data1[-1]), type="l", main= substr(filenames, 7, 17), col="darkgray", xlab="Age (years)", ylab="ln(Survival)", xaxt="n",  ylim=c(-20, 0), xlim=c(0.5, 48))
      axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))
  
    m2<-lm(log(data1[-1])~time[-64])
