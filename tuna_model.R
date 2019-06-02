@@ -46,10 +46,33 @@ reprolimit = 2
 ##Prey availability   
 phi_a <- 3 #from table 2.2 in Andersen book
 K_c <- 10 #from table 2.2, this is averaged over "all" - so PP in stomach of all preds and preys have a MR of 1224 independently of body size - but htis is something that changes with ecosystem according to KAPPA, eg less in deep sea, more in upwelling
-lam <- 1.95 
+lam <- 1.95
+
+##mass dependent mortality
+phi_p <- 0.07 #from table 2.2 in Andersen book
+f_0 <- 0.6 #somewhere between 0 and 1, but predators rarely caught with totally full stomach
+hprime <- 17.2
+#f_h<-f_0*hprime
+#coefficient on the consumption rate from table 2.2
+met_mort <- -0.25 #the argument in Andersen book is that mass-specific rates such as mortality scales with the metabolic esp of 3/4 (Brown et al. 2004). 
+mu<- phi_p*f_h*Mass^met_mort #note we are excluding "background" mortality that is independent of size.... 
+
+ 
 #Kappa=1
+kmult <- c(3, 3,1, 1)
+raiseT <- c(0, 0, 5, 5)
 Mass <- a*(Lmin:Lmax)^3
-Income = Kappa*phi_a*K_c*Mass^(2-lam) #this describes the scaling with size and ecostystem richness
+
+Income = matrix(nrow = 4, ncol = length(Mass))
+MTcosts = matrix(nrow = 4, ncol = length(Mass))
+for (kap in 1:4) {
+  
+  Income[kap, ] <- kmult[kap]*Kappa*phi_a*K_c*Mass^(2-lam) #this describes the scaling with size and ecostystem richness
+  MTcosts[kap, ] <-coef1*(Mass)^theta*(exp(-E/(k*(Temp+raiseT[kap])))) 
+  
+}
+
+#Income = Kappa*phi_a*K_c*Mass^(2-lam) #this describes the scaling with size and ecostystem richness
 # plot(Income)
 SDfood=0
 minI = Income - SDfood * 2
@@ -74,18 +97,9 @@ sto.food <- function (i) {
 }
 
 # matplot(foodmatrix, type="l", lty=1, lwd=2, col=c(gray.colors(bins,start=0.3, end=0.9)), ylab="Income (J)", xlab="Mass (kg)")
-##mass dependent mortality
-phi_p <- 0.07 #from table 2.2 in Andersen book
-f_0 <- 0.6 #somewhere between 0 and 1, but predators rarely caught with totally full stomach
-hprime <- 17.2
-#f_h<-f_0*hprime
-#coefficient on the consumption rate from table 2.2
-met_mort <- -0.25 #the argument in Andersen book is that mass-specific rates such as mortality scales with the metabolic esp of 3/4 (Brown et al. 2004). 
-mu<- phi_p*f_h*Mass^met_mort #note we are excluding "background" mortality that is independent of size.... 
-
 
 ###COST FUNCTION  - assume metabolic requirements scale with body size and temperature
-MTcosts <- coef1*(Mass)^theta*exp(-E/(k*Temp))  #costs in J
+# MTcosts <- coef1*(Mass)^theta*exp(-E/(k*Temp))  #costs in J
 
 
 
@@ -143,6 +157,12 @@ for (Y in 1:(Estoresmax)) { #for all   values of Energy Stores in loop (unscaled
     for (p in 1:phi) { #for every temp environment
       i <- Tmax-1	
       for (i in (Tmax-1):1) { #where i is time (age) in months
+        
+        
+        if( i %in% c((1:16)*4-3) ==TRUE) season=1
+        if( i %in% c((1:16)*4-2) ==TRUE) season=2
+        if( i %in% c((1:16)*4-1) ==TRUE) season=3
+        if( i %in% c((1:16)*4) ==TRUE) season=4
         g <- 1
         for (g in 1:length(u)) { #fractional placeholder (placeholder variable so we can loop over non-integers)
           
@@ -157,7 +177,9 @@ for (Y in 1:(Estoresmax)) { #for all   values of Energy Stores in loop (unscaled
             if (growth + reprod > 1)  Vmat[Y,L, p, i, g, h]	<- 0 else 
               
             {
-              
+             
+             
+               
               #calculate all states
               Wstructure<-a*L^3 #  structural mass in kg
               
@@ -179,7 +201,7 @@ for (Y in 1:(Estoresmax)) { #for all   values of Energy Stores in loop (unscaled
               
               #state dynamics
               
-              EstoresP <- Estores*(1-reprod-growth) +Income[L]*scale - MTcosts[L] #combines mass-dependent food intake and mass-dependent metabolic costs
+              EstoresP <- Estores*(1-reprod-growth) +Income[season, L]*scale - MTcosts[season, L] #combines mass-dependent food intake and mass-dependent metabolic costs
               ##EstoresP <- Estores*(1-reprod-growth) +foodmatrix[ceiling(Wtotal), ] - MTcosts[ceiling(Wtotal)] #combines mass-dependent food intake and mass-dependent metabolic costs
 
               EstructureP <- Estructure + growth*Estores
@@ -341,6 +363,10 @@ survival=rep(0, Tmax)
 survival[1]<-1
 
 for (i in 1:(Tmax-1)) { 
+  if( i %in% c((1:16)*4-3) ==TRUE) season=1
+  if( i %in% c((1:16)*4-2) ==TRUE) season=2
+  if( i %in% c((1:16)*4-1) ==TRUE) season=3
+  if( i %in% c((1:16)*4) ==TRUE) season=4
   
   state  <- idist[,i] 
   
@@ -406,10 +432,10 @@ for (i in 1:(Tmax-1)) {
     Food<-sapply(size[index], sto.food) #calculates stochastic food quantity for every index individual
     
     #####future state calculation:
-   #survival2<- ifelse(((1-repro[index, i]-g_allo[index,i])*state[index] + Income[size[index]]*scale - MTcosts[size[index]])  > critstores, 1, 0) #check that future state will be greater than current EcritL 
+   #survival2<- ifelse(((1-repro[index, i]-g_allo[index,i])*state[index] + Income[season, size[index]]*scale - MTcosts[season, size[index]])  > critstores, 1, 0) #check that future state will be greater than current EcritL 
     
-    #idist[index,i+1] <- ifelse(survival+survival2==2, ((1-repro[index, i]-g_allo[index,i])*state[index] + Income[size[index]]*scale - MTcosts[size[index]]),  NA)
-    idist[index,i+1] <- (1-repro[index, i]-g_allo[index,i])*state[index] + Income[size[index]]*scale - MTcosts[size[index]] 
+    #idist[index,i+1] <- ifelse(survival+survival2==2, ((1-repro[index, i]-g_allo[index,i])*state[index] + Income[season, size[index]]*scale - MTcosts[season, size[index]]),  NA)
+    idist[index,i+1] <- (1-repro[index, i]-g_allo[index,i])*state[index] + Income[season, size[index]]*scale - MTcosts[season, size[index]] 
     # survival2<- ifelse(((1-repro[index, i]-g_allo[index,i])*state[index] + Food - MTcosts[size[index]])  > critstores, 1, 0) #check that future state will be greater than current EcritL
     # idist[index,i+1] <- ifelse(survival+survival2==2, ((1-repro[index, i]-g_allo[index,i])*state[index] + Food - MTcosts[size[index]]),  NA)
 
