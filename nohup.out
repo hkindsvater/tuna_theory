@@ -1,5 +1,6 @@
 mkdir: /Users/hollykindsvater/Documents/tuna_theory/model_output: File exists
 [1] 1
+<<<<<<< HEAD
 There were 50 or more warnings (use warnings() to see the first 50)
 [1] 2
 There were 50 or more warnings (use warnings() to see the first 50)
@@ -17,3 +18,5 @@ There were 50 or more warnings (use warnings() to see the first 50)
 There were 50 or more warnings (use warnings() to see the first 50)
 [1] 9
 There were 50 or more warnings (use warnings() to see the first 50)
+=======
+>>>>>>> a36eb4459e7fac180993d25a446bec61ff9df56c

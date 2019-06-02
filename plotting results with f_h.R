@@ -54,7 +54,7 @@ plot_length <- function(data, filenames) {
  
      }
 
-mapply(plot_repro, repro_data, repro_filenames)
+#mapply(plot_repro, repro_data, repro_filenames)
 
 ##make a plot of reproductive output as a function of length
 # quartz()
@@ -68,10 +68,13 @@ mapply(plot_repro, repro_data, repro_filenames)
  	
 mapply(age.length, length_data, repro_data, length_filenames)
 
- 
+
+quartz()
+ par(mfrow=c(2, 2))
+
  surv <- function(surv_data, filenames) {
  	
- 	matplot((surv_data[, -1]), type="l", main= substr(repro_filenames, 8, 17), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1), xlim=c(0.5, 48))
+ 	matplot(surv_data[, -1], type="l", main= substr(surv_filenames, 8, 18), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1), xlim=c(0.5, 48))
      axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))
  
  
