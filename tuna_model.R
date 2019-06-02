@@ -55,13 +55,14 @@ hprime <- 17.2
 #f_h<-f_0*hprime
 #coefficient on the consumption rate from table 2.2
 met_mort <- -0.25 #the argument in Andersen book is that mass-specific rates such as mortality scales with the metabolic esp of 3/4 (Brown et al. 2004). 
-mu<- phi_p*f_h*Mass^met_mort #note we are excluding "background" mortality that is independent of size.... 
 
  
 #Kappa=1
 kmult <- c(3, 3,1, 1)
 raiseT <- c(0, 0, 5, 5)
 Mass <- a*(Lmin:Lmax)^3
+
+mu<- phi_p*f_h*Mass^met_mort #note we are excluding "background" mortality that is independent of size.... 
 
 Income = matrix(nrow = 4, ncol = length(Mass))
 MTcosts = matrix(nrow = 4, ncol = length(Mass))
