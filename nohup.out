@@ -1,25 +1,5 @@
 mkdir: /Users/hollykindsvater/Documents/tuna_theory/model_output: File exists
 [1] 1
-Error in idist[, 1] = ceiling(z) : 
-  number of items to replace is not a multiple of replacement length
-Execution halted
-[1] 2
-Error in idist[, 1] = ceiling(z) : 
-  number of items to replace is not a multiple of replacement length
-Execution halted
-mkdir: /Users/hollykindsvater/Documents/tuna_theory/model_output: File exists
-[1] 1
-Error in idist[, 1] = ceiling(z) : 
-  number of items to replace is not a multiple of replacement length
-Execution halted
-[1] 2
-Error: unexpected symbol in:
-"
-idist"
-Execution halted
-mkdir: /Users/hollykindsvater/Documents/tuna_theory/model_output: File exists
-[1] 1
 There were 50 or more warnings (use warnings() to see the first 50)
 [1] 2
-Error: unexpected input in "<<"
-Execution halted
+There were 50 or more warnings (use warnings() to see the first 50)
