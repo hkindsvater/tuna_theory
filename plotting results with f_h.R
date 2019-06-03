@@ -22,8 +22,8 @@ surv_data <- lapply(surv_filenames, read.csv)
  
  time=1:64
  
- # quartz()
-  # par(mfrow=c(3,3))
+  quartz()
+   par(mfrow=c(2,2))
  
 plot_length <- function(data, filenames) {
 	   
@@ -48,8 +48,8 @@ plot_length <- function(data, filenames) {
   # mapply(plot_hist, length_data, length_filenames)
   
   
- # quartz()
-  # par(mfrow=c(3, 3))
+ quartz()
+  par(mfrow=c(2, 2))
   plot_repro <- function(repro_data, repro_filenames) {
 	 
      matplot(t(repro_data[,-1]), type="l", main= substr(repro_filenames, 8, 17), col="darkgray", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 1e+09), xlim=c(0.5, 48))
