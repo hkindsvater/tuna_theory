@@ -28,7 +28,7 @@ surv_data <- lapply(surv_filenames, read.csv)
 plot_length <- function(data, filenames) {
 	   
 	   
-     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 18), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 21), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")
      axis(1, at = seq(0, 64, by=4), labels = (seq(1, 17, by=1)))
      
      maxsize <- (min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))) + 1 
@@ -67,7 +67,7 @@ mapply(plot_repro, repro_data, repro_filenames)
  	data1 <- as.numeric(ldata1[1,])
  	data2 <- as.numeric(rdata2[1, ])
  	#need to make a log log plot
- 	matplot(t(log(data1[c(-1,-65)])), t(log(data2[c(-1,-65)])), type="p", col="darkgray", pch=20,   main= substr(filenames, 9, 19),  xlab="ln(Length) ", ylim=c(0, 25), xlim=c(0, 6), ylab="ln(Reproduction) ")
+ 	matplot(t(log(data1[c(-1,-65)])), t(log(data2[c(-1,-65)])), type="p", col="darkgray", pch=20,   main= substr(filenames, 9, 21),  xlab="ln(Length) ", ylim=c(0, 25), xlim=c(0, 6), ylab="ln(Reproduction) ")
  	
  	m1<-lm(log(data2[c(-1,-65)])~log(data1[c(-1,-65)]))
  	if(is.na(coef(m1)[2])==FALSE)  	abline(m1)
@@ -78,8 +78,8 @@ mapply(plot_repro, repro_data, repro_filenames)
 mapply(age.length, length_data, repro_data, length_filenames)
 
 
-# quartz()
- # par(mfrow=c(3, 3))
+quartz()
+ par(mfrow=c(2,2))
 
  surv <- function(data, filenames) {
  	
@@ -96,7 +96,7 @@ mapply(age.length, length_data, repro_data, length_filenames)
  	
  	data1<-as.numeric(data[,2])
  	
- 	matplot(log(data1[-1]), type="l", main= substr(filenames, 7, 17), col="darkgray", xlab="Age (years)", ylab="ln(Survival)", xaxt="n",  ylim=c(-20, 0), xlim=c(0.5, 48))
+ 	matplot(log(data1[-1]), type="l", main= substr(filenames, 7, 19), col="darkgray", xlab="Age (years)", ylab="ln(Survival)", xaxt="n",  ylim=c(-20, 0), xlim=c(0.5, 48))
      axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))
  
    m2<-lm(log(data1[-1])~time[-64])
