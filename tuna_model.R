@@ -58,8 +58,8 @@ met_mort <- -0.25 #the argument in Andersen book is that mass-specific rates suc
 
  
 #Kappa=1
-kmult <- c(6, 6,1, 1)
-raiseT <- c(0, 0, 5, 5)
+kmult <- c(12, 1,1, 1)
+raiseT <- c(0, 5, 5, 5)
 Mass <- a*(Lmin:Lmax)^3
 
 mu<- phi_p*f_h*Mass^met_mort #note we are excluding "background" mortality that is independent of size.... 
@@ -460,9 +460,9 @@ reproduction[, -Tmax]<-ifelse(reproduction[, -Tmax]>0,  reproduction[, -Tmax], N
 
 idist[, -Tmax]<-ifelse(idist[, -Tmax]>0,  idist[, -Tmax], NA)
 
-write.csv(idist, file=paste0("model_output/03State",  "f_h", f_h,  "Kappa", Kappa,  "-6.csv"))
+write.csv(idist, file=paste0("model_output/03State",  "f_h", f_h,  "Kappa", Kappa,  "-12.csv"))
 
-write.csv(sizedist, file=paste0("model_output/01Length",  "f_h", f_h,   "Kappa", Kappa,  "-6.csv"))
-write.csv(reproduction, file=paste0("model_output/02Repro",  "f_h", f_h,   "Kappa", Kappa,   "-6.csv")) 
-write.csv(survival, file=paste0("model_output/04Surv",  "f_h", f_h,   "Kappa", Kappa,   "-6.csv")) 
+write.csv(sizedist, file=paste0("model_output/01Length",  "f_h", f_h,   "Kappa", Kappa,  "-12.csv"))
+write.csv(reproduction, file=paste0("model_output/02Repro",  "f_h", f_h,   "Kappa", Kappa,   "-12.csv")) 
+write.csv(survival, file=paste0("model_output/04Surv",  "f_h", f_h,   "Kappa", Kappa,   "-12.csv")) 
   
