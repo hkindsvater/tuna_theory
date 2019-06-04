@@ -2,7 +2,7 @@
  
 
 
-setwd("~/Documents/tuna_theory/model_output/")
+setwd("~/Documents/tuna_theory/model_output/skew season")
 data_files <- list.files(pattern = "\\.csv$")
 
 repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   
@@ -52,7 +52,7 @@ plot_length <- function(data, filenames) {
   par(mfrow=c(2, 2))
   plot_repro <- function(repro_data, repro_filenames) {
 	 
-     matplot(t(repro_data[,-1]), type="l", main= substr(repro_filenames, 8, 17), col="darkgray", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 1e+09), xlim=c(0.5, 48))
+     matplot(t(repro_data[,-1]), type="l", main= substr(repro_filenames, 8, 17), col="darkgray", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 1.5e+09), xlim=c(0.5, 48))
      axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))
  
      }
@@ -78,8 +78,8 @@ mapply(plot_repro, repro_data, repro_filenames)
 mapply(age.length, length_data, repro_data, length_filenames)
 
 
-quartz()
- par(mfrow=c(2,2))
+# quartz()
+ # par(mfrow=c(2,2))
 
  surv <- function(data, filenames) {
  	

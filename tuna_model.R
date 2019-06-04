@@ -36,7 +36,7 @@ Estoresmax=350 #maximum stores in loop
 
 storelimit= 1 #proportion of structural mass that inidivduals can devote to energy storage
 storemin = 0.1
-reprolimit = 2
+reprolimit = .5
 
 ###################################################################################################################################################################################################
 ###Lookup Tables - look up costs and food functions so they are not calculated every time
@@ -58,8 +58,8 @@ met_mort <- -0.25 #the argument in Andersen book is that mass-specific rates suc
 
  
 #Kappa=1
-kmult <- c(12, 1,1, 1)
-raiseT <- c(0, 5, 5, 5)
+kmult <- c(1, 1,1, 1)
+raiseT <- c(0, 0, 0, 0)
 Mass <- a*(Lmin:Lmax)^3
 
 mu<- phi_p*f_h*Mass^met_mort #note we are excluding "background" mortality that is independent of size.... 
@@ -460,9 +460,9 @@ reproduction[, -Tmax]<-ifelse(reproduction[, -Tmax]>0,  reproduction[, -Tmax], N
 
 idist[, -Tmax]<-ifelse(idist[, -Tmax]>0,  idist[, -Tmax], NA)
 
-write.csv(idist, file=paste0("model_output/03State",  "f_h", f_h,  "Kappa", Kappa,  "-12.csv"))
+write.csv(idist, file=paste0("model_output/03StateRlim0.5",  "f_h", f_h,  "Kappa", Kappa,  ".csv"))
 
-write.csv(sizedist, file=paste0("model_output/01Length",  "f_h", f_h,   "Kappa", Kappa,  "-12.csv"))
-write.csv(reproduction, file=paste0("model_output/02Repro",  "f_h", f_h,   "Kappa", Kappa,   "-12.csv")) 
-write.csv(survival, file=paste0("model_output/04Surv",  "f_h", f_h,   "Kappa", Kappa,   "-12.csv")) 
+write.csv(sizedist, file=paste0("model_output/01LengthRlim0.5",  "f_h", f_h,   "Kappa", Kappa,  ".csv"))
+write.csv(reproduction, file=paste0("model_output/02ReproRlim0.5",  "f_h", f_h,   "Kappa", Kappa,   ".csv")) 
+write.csv(survival, file=paste0("model_output/04SurvRlim0.5",  "f_h", f_h,   "Kappa", Kappa,   ".csv")) 
   
