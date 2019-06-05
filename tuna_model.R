@@ -5,12 +5,12 @@
 setwd("/Users/hollykindsvater/Documents/tuna_theory/")
 
 set.seed(1001)
-timebin <- 4
+timebin <- 12
 args <-  commandArgs(trailingOnly = TRUE)
 counter <- as.numeric(args[1]) 
 c1 = as.numeric(args[2])
-Kappa = as.numeric(args[3])
-f_h = as.numeric(args[4])
+Kappa = as.numeric(args[3])/3
+f_h = as.numeric(args[4])/3
 
  Temp <- 293
 
@@ -69,7 +69,7 @@ MTcosts = matrix(nrow = 4, ncol = length(Mass))
 for (kap in 1:4) {
   
   Income[kap, ] <- kmult[kap]*Kappa*phi_a*K_c*Mass^(2-lam) #this describes the scaling with size and ecostystem richness
-  MTcosts[kap, ] <-coef1*(Mass)^theta*(exp(-E/(k*(Temp+raiseT[kap])))) 
+  MTcosts[kap, ] <-coef1*(Mass)^theta*(exp(-E/(k*(Temp+raiseT[kap]))))/3 
   
 }
 
@@ -460,9 +460,9 @@ reproduction[, -Tmax]<-ifelse(reproduction[, -Tmax]>0,  reproduction[, -Tmax], N
 
 idist[, -Tmax]<-ifelse(idist[, -Tmax]>0,  idist[, -Tmax], NA)
 
-write.csv(idist, file=paste0("model_output/03StateRlim0.5",  "f_h", f_h,  "Kappa", Kappa,  ".csv"))
+write.csv(idist, file=paste0("monthly_model_output/03StateRlim0.5",  "f_h", f_h,  "Kappa", Kappa,  ".csv"))
 
-write.csv(sizedist, file=paste0("model_output/01LengthRlim0.5",  "f_h", f_h,   "Kappa", Kappa,  ".csv"))
-write.csv(reproduction, file=paste0("model_output/02ReproRlim0.5",  "f_h", f_h,   "Kappa", Kappa,   ".csv")) 
-write.csv(survival, file=paste0("model_output/04SurvRlim0.5",  "f_h", f_h,   "Kappa", Kappa,   ".csv")) 
+write.csv(sizedist, file=paste0("monthly_model_output/01LengthRlim0.5",  "f_h", f_h,   "Kappa", Kappa,  ".csv"))
+write.csv(reproduction, file=paste0("monthly_model_output/02ReproRlim0.5",  "f_h", f_h,   "Kappa", Kappa,   ".csv")) 
+write.csv(survival, file=paste0("monthly_model_output/04SurvRlim0.5",  "f_h", f_h,   "Kappa", Kappa,   ".csv")) 
   

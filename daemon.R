@@ -5,7 +5,7 @@
 paras = c(c1=0, Kappa = 1, f_h=5)
 
 # Name the set of results
-name = "model_output"
+name = "monthly_model_output"
 newDir = paste("mkdir /Users/hollykindsvater/Documents/tuna_theory/", name, sep="") 
 system(newDir)
 

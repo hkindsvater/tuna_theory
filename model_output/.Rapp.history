@@ -1,969 +1,3 @@
-Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1)))/1 #(dw*exp(-alpha*W)) ) )#
-#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")
-Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1)))/1) #(dw*exp(-alpha*W)) ) )#
-#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")
-##predation#
-#
-m1 <- 0.5  #encounter rate #
-#
-alpha <- 0.05 #rate of decay#
-#
-W <- 1:100#
-#
-p1 <- 0.4#
-p2 <- 0.6#
-#
-dw <- 1#
-Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1)))/1) #(dw*exp(-alpha*W)) ) )#
-#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")
-p1 <- 0#
-p2 <- 1#
-#
-dw <- 1#
-Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1)))/1) #(dw*exp(-alpha*W)) ) )#
-#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")
-Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1)))/(dw*exp(-alpha*W)) ) )#
-#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")
-Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1) ) )/(dw*exp(-alpha*W)) ) #
-#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")
-p1 <- 0.0000001#
-p2 <- 1#
-#
-dw <- 1#
-Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1) ) )/(dw*exp(-alpha*W)) ) #
-#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")
-W <- 5:100#
-#
-p1 <- 0.00001#
-p2 <- 1#
-#
-dw <- 1#
-Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1) ) )/(dw*exp(-alpha*W)) ) #
-#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")
-W <- 1:10#
-#
-p1 <- 0.00001#
-p2 <- 1#
-#
-dw <- 1#
-Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1) ) )/(dw*exp(-alpha*W)) ) #
-#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")
-dw <- 0.0001#
-Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1) ) )/(dw*exp(-alpha*W)) ) #
-#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")
-exp(-(m1/alpha)
-)
-W <- 1:100#
-#
-p1 <- 0.2#
-p2 <- 0.3#
-#
-dw <- 0.0001#
-Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1) ) )/(dw*exp(-alpha*W)) ) #
-#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")
-alpha <- 0.5 #rate of decay#
-#
-W <- 1:100#
-#
-p1 <- 0.2#
-p2 <- 0.3#
-#
-dw <- 0.0001#
-Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1) ) )/(dw*exp(-alpha*W)) ) #
-#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")
-p1 <- 0.4#
-p2 <- 0.6#
-#
-dw <- 0.0001#
-Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1) ) )/(dw*exp(-alpha*W)) ) #
-#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")
-m1 <- 0.5  #encounter rate #
-#
-alpha <- 0.5 #rate of decay#
-#
-W <- 1:100#
-#
-p1 <- 0.4#
-p2 <- 0.6#
-#
-dw <- 1 #0.0001#
-Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1) ) )/(dw*exp(-alpha*W)) ) #
-#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")
-m1 <- 0.5  #encounter rate #
-#
-alpha <- 0.5 #rate of decay#
-#
-W <- 1:100#
-#
-p1 <- 0.4#
-p2 <- 0.6#
-#
-dw <- 0.0001#
-Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1) ) )/(dw*exp(-alpha*W)) ) #
-#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")
-dw <- 0.001#
-Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1) ) )/(dw*exp(-alpha*W)) ) #
-#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")
-dw <- 0.1#
-Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1) ) )/(dw*exp(-alpha*W)) ) #
-#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")
-dw <- 0.01#
-Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1) ) )/(dw*exp(-alpha*W)) ) #
-#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")
-Survival
-##predation#
-#
-m1 <- 0.5  #encounter rate #
-#
-alpha <- 1.1 #rate of decay#
-#
-W <- 1:100#
-#
-p1 <- 0.4#
-p2 <- 0.6#
-#
-dw <- 0.01#
-Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1) ) )/(dw*exp(-alpha*W)) ) #
-#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")
-##predation#
-#
-m1 <- 0.5  #encounter rate #
-#
-alpha <- 0.5 #rate of decay#
-#
-W <- 1:100#
-#
-p1 <- 0.4#
-p2 <- 0.6#
-#
-dw <- 0.01#
-Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1) ) )/(dw*exp(-alpha*W)) ) #
-#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")
-##predation#
-#
-m1 <- 0.5  #encounter rate #
-#
-alpha <- 0.5 #rate of decay#
-#
-W <- 1:100#
-#
-p1 <- 0.8#
-p2 <- 0.9#
-#
-dw <- 0.01#
-Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1) ) )/(dw*exp(-alpha*W)) ) #
-#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")
-##predation#
-#
-m1 <- 0.5  #encounter rate #
-#
-alpha <- 0.5 #rate of decay#
-#
-W <- 1:1000#
-#
-p1 <- 0.8#
-p2 <- 0.9#
-#
-dw <- 0.01#
-Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1) ) )/(dw*exp(-alpha*W)) ) #
-#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")
-##predation#
-#
-m1 <- 0.5  #encounter rate #
-#
-alpha <- 0.01 #rate of decay#
-#
-W <- 1:1000#
-#
-p1 <- 0.8#
-p2 <- 0.9#
-#
-dw <- 0.01#
-Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1) ) )/(dw*exp(-alpha*W)) ) #
-#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")
-##predation#
-#
-m1 <- 0.5  #encounter rate #
-#
-alpha <- 0.02 #rate of decay#
-#
-W <- 1:1000#
-#
-p1 <- 0.8#
-p2 <- 0.9#
-#
-dw <- 0.01#
-Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1) ) )/(dw*exp(-alpha*W)) ) #
-#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")
-##predation#
-#
-m1 <- 0.5  #encounter rate #
-#
-alpha <- 0.1 #rate of decay#
-#
-W <- 1:1000#
-#
-p1 <- 0.8#
-p2 <- 0.9#
-#
-dw <- 0.01#
-Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1) ) )/(dw*exp(-alpha*W)) ) #
-#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")
-##predation#
-#
-m1 <- 0.5  #encounter rate #
-#
-alpha <- 1.1 #rate of decay#
-#
-W <- 1:1000#
-#
-p1 <- 0.8#
-p2 <- 0.9#
-#
-dw <- 0.01#
-Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1) ) )/(dw*exp(-alpha*W)) ) #
-#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")
-##predation#
-#
-m1 <- 10 #encounter rate #
-#
-alpha <- 0.5 #rate of decay#
-#
-W <- 1:1000#
-#
-p1 <- 0.8#
-p2 <- 0.9#
-#
-dw <- 0.01#
-Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1) ) )/(dw*exp(-alpha*W)) ) #
-#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")
-##predation#
-#
-m1 <- 0.1 #encounter rate #
-#
-alpha <- 0.5 #rate of decay#
-#
-W <- 1:1000#
-#
-p1 <- 0.8#
-p2 <- 0.9#
-#
-dw <- 0.01#
-Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1) ) )/(dw*exp(-alpha*W)) ) #
-#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")
-##predation#
-#
-m1 <- 0.5 #encounter rate #
-#
-alpha <- 0.5 #rate of decay#
-#
-W <- 1:1000#
-#
-p1 <- 0.8#
-p2 <- 0.9#
-#
-dw <- 0.01#
-Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1) ) )/(dw*exp(-alpha*W)) ) #
-#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")
-##predation#
-#
-m1 <- 0.005 #encounter rate #
-#
-alpha <- 0.5 #rate of decay#
-#
-W <- 1:1000#
-#
-p1 <- 0.8#
-p2 <- 0.9#
-#
-dw <- 0.01#
-Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1) ) )/(dw*exp(-alpha*W)) ) #
-#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")
-##predation#
-#
-m1 <- 0.005 #encounter rate #
-#
-alpha <- 0.5 #rate of decay#
-#
-W <- 1:1000#
-#
-p1 <- 0.8#
-p2 <- 0.9#
-#
-dw <- 0.000001#
-Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1) ) )/(dw*exp(-alpha*W)) ) #
-#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")
-##predation#
-#
-m1 <- 0.005 #encounter rate #
-#
-alpha <- 0.5 #rate of decay#
-#
-W <- 1:1000#
-#
-p1 <- 0.8#
-p2 <- 0.9#
-#
-dw <- 0.0001#
-Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1) ) )/(dw*exp(-alpha*W)) ) #
-#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")
-##predation#
-#
-m1 <- 0.005 #encounter rate #
-#
-alpha <- 0.5 #rate of decay#
-#
-W <- 1:1000#
-#
-p1 <- 0.8#
-p2 <- 0.9#
-#
-dw <- 0.0001#
-Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1) ) )/(exp(-alpha*W)) ) #
-#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")
-Survival
-##predation#
-#
-m1 <- 0.005 #encounter rate #
-#
-alpha <- 0.5 #rate of decay#
-#
-W <- 1:1000#
-#
-p1 <- 0.2#
-p2 <- 0.9#
-#
-dw <- 0.0001#
-Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1) ) )/(exp(-alpha*W)) ) #
-#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")
-##predation#
-#
-m1 <- 0.05 #encounter rate #
-#
-alpha <- 0.5 #rate of decay#
-#
-W <- 1:1000#
-#
-p1 <- 0.2#
-p2 <- 0.9#
-#
-dw <- 0.0001#
-Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1) ) )/(exp(-alpha*W)) ) #
-#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")
-##predation#
-#
-m1 <- 0.05 #encounter rate #
-#
-alpha <- 0.5 #rate of decay#
-#
-W <- 1:10#
-#
-p1 <- 0.2#
-p2 <- 0.9#
-#
-dw <- 0.0001#
-Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1) ) )/(exp(-alpha*W)) ) #
-#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")
-##predation#
-#
-m1 <- 0.05 #encounter rate #
-#
-alpha <- 0.5 #rate of decay#
-#
-W <- seq(1, 10, by=0.01)#
-#
-p1 <- 0.2#
-p2 <- 0.9#
-#
-dw <- 0.0001#
-Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1) ) )/(exp(-alpha*W)) ) #
-#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")
-##predation#
-#
-m1 <- 0.1 #encounter rate #
-#
-alpha <- 0.5 #rate of decay#
-#
-W <- seq(1, 10, by=0.01)#
-#
-p1 <- 0.2#
-p2 <- 0.9#
-#
-dw <- 0.0001#
-Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1) ) )/(exp(-alpha*W)) ) #
-#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")
-##predation#
-#
-m1 <- 0.1 #encounter rate #
-#
-alpha <- 0.5 #rate of decay#
-#
-W <- seq(1, 10, by=0.01)#
-#
-p1 <- 0#
-p2 <- 0.9#
-#
-dw <- 0.0001#
-Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1) ) )/(exp(-alpha*W)) ) #
-#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")
-##predation#
-#
-m1 <- 0.1 #encounter rate #
-#
-alpha <- 0.5 #rate of decay#
-#
-W <- seq(1, 10, by=0.01)#
-#
-p1 <- 0#
-p2 <- 0.75#
-#
-dw <- 0.0001#
-Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1) ) )/(exp(-alpha*W)) ) #
-#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")
-##predation#
-#
-m1 <- 0.1 #encounter rate #
-#
-alpha <- 0.5 #rate of decay#
-#
-W <- seq(1, 1000, by=0.5)#
-#
-p1 <- 0#
-p2 <- 0.75#
-#
-dw <- 0.0001#
-Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1) ) )/(exp(-alpha*W)) ) #
-#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")
-##predation#
-#
-m1 <- 0.2 #encounter rate #
-#
-alpha <- 0.5 #rate of decay#
-#
-W <- seq(1, 1000, by=0.5)#
-#
-p1 <- 0#
-p2 <- 0.75#
-#
-dw <- 0.0001#
-Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1) ) )/(exp(-alpha*W)) ) #
-#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")
-##predation#
-#
-m1 <- 0.2 #encounter rate #
-#
-alpha <- 0.5 #rate of decay#
-#
-W <- seq(1, 1000, by=0.5)#
-#
-p1 <- 0.1#
-p2 <- 1#
-dw <- 0.0001#
-Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1) ) )/(exp(-alpha*W)) ) #
-#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")#
-#
-#special cases of the model: ALL prey are available, mortality is constant. if 0-p2 is available, we see asymptotic mortality. if p1 and p1 >0, there is a refuge bottleneck if preferences don't go down to zero that comes because very tiny fish are less available than small fish.
-##predation#
-#
-m1 <- 0.02 #encounter rate #
-#
-alpha <- 0.5 #rate of decay#
-#
-W <- seq(1, 1000, by=0.5)#
-#
-p1 <- 0.1#
-p2 <- 1#
-dw <- 0.0001#
-Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1) ) )/(exp(-alpha*W)) ) #
-#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")#
-#
-#special cases of the model: ALL prey are available, mortality is constant. if 0-p2 is available, we see asymptotic mortality. if p1 and p1 >0, there is a refuge bottleneck if preferences don't go down to zero that comes because very tiny fish are less available than small fish.
-##predation#
-#
-m1 <- 0.02 #encounter rate #
-#
-alpha <- 0.5 #rate of decay#
-#
-W <- seq(1, 1000, by=0.5)#
-#
-p1 <- 0.5#
-p2 <- 1#
-dw <- 0.0001#
-Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1) ) )/(exp(-alpha*W)) ) #
-#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")#
-#
-#special cases of the model: ALL prey are available, mortality is constant. if 0-p2 is available, we see asymptotic mortality. if p1 and p1 >0, there is a refuge bottleneck if preferences don't go down to zero that comes because very tiny fish are less available than small fish.
-##predation#
-#
-m1 <- 0.02 #encounter rate #
-#
-alpha <- 0.5 #rate of decay#
-#
-W <- seq(1, 1000, by=0.5)#
-#
-p1 <- 0.5#
-p2 <- 1.1#
-dw <- 0.0001#
-Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1) ) )/(exp(-alpha*W)) ) #
-#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")#
-#
-#special cases of the model: ALL prey are available, mortality is constant. if 0-p2 is available, we see asymptotic mortality. if p1 and p1 >0, there is a refuge bottleneck if preferences don't go down to zero that comes because very tiny fish are less available than small fish.
-Prey <- (m1/alpha^2)*((exp(-alpha*p1*W)*(1+alpha*p1*W) - exp(alpha*p2*W)*(1+alpha*p2*W) ) / (exp(-alpha*W) )) #
-#
-k=1.3e-23#
-E = 1.04e-19#
-theta=0.66#
-Temp = 293:297  #
-#
- Wmax <- 1000#
-     C_w <- matrix(nrow=length(Temp), ncol=Wmax, data=0 )#
-	 Inet<- matrix(nrow=length(Temp), ncol=Wmax, data=0 )#
-#
-  for (w in 1:Wmax) {#
-	for(tau in 1:length(Temp)) {#
-		        C_w[temp, w] <-  exp(c0 + theta*log(w) -E/(k*Temp[tau]))   #
-    				Inet[temp, w] <-  Prey[w] - C_w[temp, w] #
-    }#
-  }#
-   plot(Prey, type="l", xlab <- "Mass", ylab <- "Income from Prey")  #
-  matplot(t(Inet), type = "l", lty=1, lwd=2, ylim=c(0, 5), xlab="Mass (kg)", ylab="Net income", col=c(4, 3, "orange", 2))
-k=1.3e-23#
-E = 1.04e-19#
-theta=0.66#
-Temp = 293:297  #
-c0 <- 1e+5#
- Wmax <- 1000#
-     C_w <- matrix(nrow=length(Temp), ncol=Wmax, data=0 )#
-	 Inet<- matrix(nrow=length(Temp), ncol=Wmax, data=0 )#
-#
-  for (w in 1:Wmax) {#
-	for(tau in 1:length(Temp)) {#
-		        C_w[temp, w] <-  exp(c0 + theta*log(w) -E/(k*Temp[tau]))   #
-    				Inet[temp, w] <-  Prey[w] - C_w[temp, w] #
-    }#
-  }#
-   plot(Prey, type="l", xlab <- "Mass", ylab <- "Income from Prey")  #
-  matplot(t(Inet), type = "l", lty=1, lwd=2, ylim=c(0, 5), xlab="Mass (kg)", ylab="Net income", col=c(4, 3, "orange", 2))
-Prey <- (m1/alpha^2)*((exp(-alpha*p1*W)*(1+alpha*p1*W) - exp(alpha*p2*W)*(1+alpha*p2*W) ) / (exp(-alpha*W) )) #
-#
-k=1.3e-23#
-E = 1.04e-19#
-theta=0.66#
-Temp = 293:297  #
-c0 <- 1e+5#
- Wmax <- 1000#
-     C_w <- matrix(nrow=length(Temp), ncol=Wmax, data=0 )#
-	 Inet<- matrix(nrow=length(Temp), ncol=Wmax, data=0 )#
-#
-  for (w in 1:Wmax) {#
-	for(tau in 1:length(Temp)) {#
-		        C_w[temp, w] <-  exp(c0 + theta*log(w) -E/(k*Temp[tau]))   #
-    				Inet[temp, w] <-  Prey[w] - C_w[temp, w] #
-    }#
-  }#
-   plot(Prey, type="l", xlab <- "Mass", ylab <- "Income from Prey")  #
-  matplot(t(Inet), type = "l", lty=1, lwd=2, ylim=c(0, 5), xlab="Mass (kg)", ylab="Net income", col=c(4, 3, "orange", 2))
-Prey
-dim(prey)
-dim(Prey)
-W<- 1:1000#
-Prey <- (m1/alpha^2)*((exp(-alpha*p1*W)*(1+alpha*p1*W) - exp(alpha*p2*W)*(1+alpha*p2*W) ) / (exp(-alpha*W) )) #
-#
-k=1.3e-23#
-E = 1.04e-19#
-theta=0.66#
-Temp = 293:297  #
-c0 <- 1e+5#
- Wmax <- 1000#
-     C_w <- matrix(nrow=length(Temp), ncol=Wmax, data=0 )#
-	 Inet<- matrix(nrow=length(Temp), ncol=Wmax, data=0 )#
-#
-  for (w in 1:Wmax) {#
-	for(tau in 1:length(Temp)) {#
-		        C_w[temp, w] <-  exp(c0 + theta*log(w) -E/(k*Temp[tau]))   #
-    				Inet[temp, w] <-  Prey[w] - C_w[temp, w] #
-    }#
-  }#
-   plot(Prey, type="l", xlab <- "Mass", ylab <- "Income from Prey")  #
-  matplot(t(Inet), type = "l", lty=1, lwd=2, ylim=c(0, 5), xlab="Mass (kg)", ylab="Net income", col=c(4, 3, "ora
-)
-W<- 1:1000#
-Prey <- (m1/alpha^2)*((exp(-alpha*p1*W)*(1+alpha*p1*W) - exp(alpha*p2*W)*(1+alpha*p2*W) ) / (exp(-alpha*W) )) #
-#
-k=1.3e-23#
-E = 1.04e-19#
-theta=0.66#
-Temp = 293:297  #
-c0 <- 1e+5#
- Wmax <- 1000#
-     C_w <- matrix(nrow=length(Temp), ncol=Wmax, data=0 )#
-	 Inet<- matrix(nrow=length(Temp), ncol=Wmax, data=0 )
-Prey
-##predation#
-#
-m1 <- 0.02 #encounter rate , includes unit conversion from length to mass that comes from accounting for density dependence in the denominator#
-#
-alpha <- 0.5 #rate of decay#
-#
-W <- seq(1, 1000, by=0.5)#
-#
-p1 <- 0.5#
-p2 <- 1.1#
- Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1) ) )/(exp(-alpha*W)) ) #
-#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")#
-#
-#special cases of the model: ALL prey are available (p1=0, p2=1), mortality is constant. if 0--p2 <1 is available, we see asymptotic mortality. Amazingly, there is a refuge bottleneck if preference window doesn't go down to zero (0 < p1 <p2 <1) that comes because very tiny fish are less available than small fish. #
-#
-W<- 1:1000#
-Prey <- (m1/alpha^2)*((exp(-alpha*p1*W)*(1+alpha*p1*W) - exp(alpha*p2*W)*(1+alpha*p2*W) ) / (exp(-alpha*W) ))
-Prey
-##predation#
-#
-m1 <- 0.02 #encounter rate , includes unit conversion from length to mass that comes from accounting for density dependence in the denominator#
-#
-alpha <- 0.5 #rate of decay#
-#
-W <- seq(1, 1000, by=0.5)#
-#
-p1 <- 0.5#
-p2 <- 0.7#
- Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1) ) )/(exp(-alpha*W)) ) #
-#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")#
-#
-#special cases of the model: ALL prey are available (p1=0, p2=1), mortality is constant. if 0--p2 <1 is available, we see asymptotic mortality. Amazingly, there is a refuge bottleneck if preference window doesn't go down to zero (0 < p1 <p2 <1) that comes because very tiny fish are less available than small fish. #
-#
-W<- 1:1000#
-Prey <- (m1/alpha^2)*((exp(-alpha*p1*W)*(1+alpha*p1*W) - exp(alpha*p2*W)*(1+alpha*p2*W) ) / (exp(-alpha*W) ))
-Prey
-W<- 1:100#
-Prey <- (m1/alpha^2)*((exp(-alpha*p1*W)*(1+alpha*p1*W) - exp(alpha*p2*W)*(1+alpha*p2*W) ) / (exp(-alpha*W) ))
-Plot(Prey)
-plot(Prey)
-plot(Prey, type="l")
-m1 <- 0.02 #encounter rate , includes unit conversion from length to mass that comes from accounting for density dependence in the denominator#
-#
-alpha <- 0.5 #rate of decay#
-#
-W <- seq(1, 1000, by=0.5)#
-#
-p1 <- 0.5#
-p2 <- 0.7#
- Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1) ) )/(exp(-alpha*W)) ) #
-#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")#
-#
-#special cases of the model: ALL prey are available (p1=0, p2=1), mortality is constant. if 0--p2 <1 is available, we see asymptotic mortality. Amazingly, there is a refuge bottlen
-##predation#
-#
-m1 <- 0.002 #encounter rate , includes unit conversion from length to mass that comes from accounting for density dependence in the denominator#
-#
-alpha <- 0.6 #rate of decay#
-#
-W <- seq(1, 1000, by=0.5)#
-#
-p1 <- 0.5#
-p2 <- 0.7#
- Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1) ) )/(exp(-alpha*W)) ) #
-#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")
-W<- 1:100#
-Prey <- (m1/alpha^2)*((exp(-alpha*p1*W)*(1+alpha*p1*W) - exp(alpha*p2*W)*(1+alpha*p2*W) ) / (exp(-alpha*W) ))
-plot(Prey)
-W<- 1:100#
-Prey <- (m1/alpha^2)*((exp(-alpha*p1*W)*(1+alpha*p1*W) - exp(-alpha*p2*W)*(1+alpha*p2*W) ) / (exp(-alpha*W) ))
-plot(Prey)
-W<- 1:1000#
-Prey <- (m1/alpha^2)*((exp(-alpha*p1*W)*(1+alpha*p1*W) - exp(-alpha*p2*W)*(1+alpha*p2*W) ) / (exp(-alpha*W) ))
-plot(Prey)
-W<- 1:1000#
-Prey <- (m1/alpha^2)*((exp(-alpha*p1*W)*(1+alpha*p1*W) - exp(-alpha*p2*W)*(1+alpha*p2*W) ) / (1+exp(-alpha*W) )) #
-plot(Prey)
-m1 <- 0.02 #encounter rate , includes unit conversion from length to mass that comes from accounting for density dependence in the denominator#
-#
-alpha <- 0.6 #rate of decay#
-#
-W <- seq(1, 1000, by=0.5)#
-#
-p1 <- 0.5#
-p2 <- 0.7#
- Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1) ) )/(exp(-alpha*W)) ) #
-#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")#
-#
-#special cases of the model: ALL prey are available (p1=0, p2=1), mortality is constant. if 0--p2 <1 is available, we see asymptotic mortality. Amazingly, there is a refuge bottleneck if preference window doesn't go down to zero (0 < p1 <p2 <1) that comes because very tiny fish are less available than small fish. #
-#
-W<- 1:1000#
-Prey <- (m1/alpha^2)*((exp(-alpha*p1*W)*(1+alpha*p1*W) - exp(-alpha*p2*W)*(1+alpha*p2*W) ) / (1+exp(-alpha*W) )) #
-plot(Prey)
-W<- 1:100#
-Prey <- (m1/alpha^2)*((exp(-alpha*p1*W)*(1+alpha*p1*W) - exp(-alpha*p2*W)*(1+alpha*p2*W) ) / (1+exp(-alpha*W) )) #
-plot(Prey)
-p1 <- 0#
-p2 <- 0.7#
- Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1) ) )/(exp(-alpha*W)) ) #
-quartz()#
-par(mfrow=c(2,2))#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")#
-#
-#special cases of the model: ALL prey are available (p1=0, p2=1), mortality is constant. if 0--p2 <1 is available, we see asymptotic mortality. Amazingly, there is a refuge bottleneck if preference window doesn't go down to zero (0 < p1 <p2 <1) that comes because very tiny fish are less available than small fish. #
-#
-W<- 1:100#
-Prey <- (m1/alpha^2)*((exp(-alpha*p1*W)*(1+alpha*p1*W) - exp(-alpha*p2*W)*(1+alpha*p2*W) ) / (1+exp(-alpha*W) )) #
-plot(Prey)
-p1 <- 0#
-p2 <- 0.7#
- Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1) ) )/(exp(-alpha*W)) ) #
-quartz()#
-par(mfrow=c(2,2))#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")#
-#
-#special cases of the model: ALL prey are available (p1=0, p2=1), mortality is constant. if 0--p2 <1 is available, we see asymptotic mortality. Amazingly, there is a refuge bottleneck if preference window doesn't go down to zero (0 < p1 <p2 <1) that comes because very tiny fish are less available than small fish. #
-#
-W<- 1:100#
-Prey <- (m1/alpha^2)*((exp(-alpha*p1*W)*(1+alpha*p1*W) - exp(-alpha*p2*W)*(1+alpha*p2*W) ) / (1+exp(-alpha*W) )) #
-plot(Prey, xlab="Mass")
-plot(Prey, xlab="Mass", type="")
-plot(Prey, xlab="Mass", type="l")
-p1 <- 0#
-p2 <- 0.7#
- Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1) ) )/(exp(-alpha*W)) ) #
-quartz()#
-par(mfrow=c(2,2))#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")#
-#
-#special cases of the model: ALL prey are available (p1=0, p2=1), mortality is constant. if 0--p2 <1 is available, we see asymptotic mortality. Amazingly, there is a refuge bottleneck if preference window doesn't go down to zero (0 < p1 <p2 <1) that comes because very tiny fish are less available than small fish. #
-#
-W<- 1:100#
-Prey <- (m1/alpha^2)*((exp(-alpha*p1*W)*(1+alpha*p1*W) - exp(-alpha*p2*W)*(1+alpha*p2*W) ) / (1+exp(-alpha*W) )) #
-plot(Prey, xlab="Mass", type="l")
-m1 <- 0.2 #encounter rate , includes unit conversion from length to mass that comes from accounting for density dependence in the denominator#
-#
-alpha <- 0.6 #rate of decay#
-#
-W <- seq(1, 1000, by=0.5)#
-#
-p1 <- 0#
-p2 <- 0.7#
- Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1) ) )/(exp(-alpha*W)) ) #
-quartz()#
-par(mfrow=c(2,2))#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")#
-#
-#special cases of the model: ALL prey are available (p1=0, p2=1), mortality is constant. if 0--p2 <1 is available, we see asymptotic mortality. Amazingly, there is a refuge bottleneck if preference window doesn't go down to zero (0 < p1 <p2 <1) that comes because very tiny fish are less available than small fish. #
-#
-W<- 1:100#
-Prey <- (m1/alpha^2)*((exp(-alpha*p1*W)*(1+alpha*p1*W) - exp(-alpha*p2*W)*(1+alpha*p2*W) ) / (1+exp(-alpha*W) )) #
-plot(Prey, xlab="Mass", type="l")
-m1 <- 0.5 #encounter rate , includes unit conversion from length to mass that comes from accounting for density dependence in the denominator#
-#
-alpha <- 0.6 #rate of decay#
-#
-W <- seq(1, 1000, by=0.5)#
-#
-p1 <- 0#
-p2 <- 0.7#
- Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1) ) )/(exp(-alpha*W)) ) #
-quartz()#
-par(mfrow=c(2,2))#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")#
-#
-#special cases of the model: ALL prey are available (p1=0, p2=1), mortality is constant. if 0--p2 <1 is available, we see asymptotic mortality. Amazingly, there is a refuge bottleneck if preference window doesn't go down to zero (0 < p1 <p2 <1) that comes because very tiny fish are less available than small fish. #
-#
-W<- 1:100#
-Prey <- (m1/alpha^2)*((exp(-alpha*p1*W)*(1+alpha*p1*W) - exp(-alpha*p2*W)*(1+alpha*p2*W) ) / (1+exp(-alpha*W) )) #
-plot(Prey, xlab="Mass", type="l")
-alpha <- 0.7 #rate of decay#
-#
-W <- seq(1, 1000, by=0.5)#
-#
-p1 <- 0#
-p2 <- 0.7#
- Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1) ) )/(exp(-alpha*W)) ) #
-quartz()#
-par(mfrow=c(2,2))#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")#
-#
-#special cases of the model: ALL prey are available (p1=0, p2=1), mortality is constant. if 0--p2 <1 is available, we see asymptotic mortality. Amazingly, there is a refuge bottleneck if preference window doesn't go down to zero (0 < p1 <p2 <1) that comes because very tiny fish are less available than small fish. #
-#
-W<- 1:100#
-Prey <- (m1/alpha^2)*((exp(-alpha*p1*W)*(1+alpha*p1*W) - exp(-alpha*p2*W)*(1+alpha*p2*W) ) / (1+exp(-alpha*W) )) #
-plot(Prey, xlab="Mass", type="l")
-m1 <- 0.75 #encounter rate , includes unit conversion from length to mass that comes from accounting for density dependence in the denominator#
-#
-alpha <- 0.7 #rate of decay#
-#
-W <- seq(1, 1000, by=0.5)#
-#
-p1 <- 0#
-p2 <- 0.7#
- Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1) ) )/(exp(-alpha*W)) ) #
-quartz()#
-par(mfrow=c(2,2))#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")#
-#
-#special cases of the model: ALL prey are available (p1=0, p2=1), mortality is constant. if 0--p2 <1 is available, we see asymptotic mortality. Amazingly, there is a refuge bottleneck if preference window doesn't go down to zero (0 < p1 <p2 <1) that comes because very tiny fish are less available than small fish. #
-Prey <- (m1/alpha^2)*((exp(-alpha*p1*W)*(1+alpha*p1*W) - exp(-alpha*p2*W)*(1+alpha*p2*W) ) / (1+exp(-alpha*W) )) #
-plot(Prey, xlab="Mass", type="l")
-m1 <- 0.2 #encounter rate , includes unit conversion from length to mass that comes from accounting for density dependence in the denominator#
-#
-alpha <- 0.7 #rate of decay#
-#
-W <- seq(1, 1000, by=0.5)#
-#
-p1 <- 0#
-p2 <- 0.7#
- Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1) ) )/(exp(-alpha*W)) ) #
-quartz()#
-par(mfrow=c(2,2))#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")#
-#
-#special cases of the model: ALL prey are available (p1=0, p2=1), mortality is constant. if 0--p2 <1 is available, we see asymptotic mortality. Amazingly, there is a refuge bottleneck if preference window doesn't go down to zero (0 < p1 <p2 <1) that comes because very tiny fish are less available than small fish. #
-Prey <- (m1/alpha^2)*((exp(-alpha*p1*W)*(1+alpha*p1*W) - exp(-alpha*p2*W)*(1+alpha*p2*W) ) / (1+exp(-alpha*W) )) #
-plot(Prey, xlab="Mass", type="l")
-m1 <- 0.1 #encounter rate , includes unit conversion from length to mass that comes from accounting for density dependence in the denominator#
-#
-alpha <- 0.7 #rate of decay#
-#
-W <- seq(1, 1000, by=0.5)#
-#
-p1 <- 0#
-p2 <- 0.7#
- Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1) ) )/(exp(-alpha*W)) ) #
-quartz()#
-par(mfrow=c(2,2))#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")
-m1 <- 0.1 #encounter rate , includes unit conversion from length to mass that comes from accounting for density dependence in the denominator#
-#
-alpha <- 0.5#rate of decay#
-#
-W <- seq(1, 1000, by=0.5)#
-#
-p1 <- 0.01#
-p2 <- 0.7#
- Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1) ) )/(exp(-alpha*W)) ) #
-quartz()#
-par(mfrow=c(2,2))#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")#
-#
-#special cases of the model: ALL prey are available (p1=0, p2=1), mortality is constant. if 0--p2 <1 is available, we see asymptotic mortality. Amazingly, there is a refuge bottleneck if preference window doesn't go down to zero (0 < p1 <p2 <1) that comes because very tiny fish are less available than small fish. #
-Prey <- (m1/alpha^2)*((exp(-alpha*p1*W)*(1+alpha*p1*W) - exp(-alpha*p2*W)*(1+alpha*p2*W) ) / (1+exp(-alpha*W) )) #
-plot(Prey, xlab="Mass", type="l")
-p1 <- 0.0#
-p2 <- 0.7#
- Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1) ) )/(exp(-alpha*W)) ) #
-quartz()#
-par(mfrow=c(2,2))#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")#
-#
-#special cases of the model: ALL prey are available (p1=0, p2=1), mortality is constant. if 0--p2 <1 is available, we see asymptotic mortality. Amazingly, there is a refuge bottleneck if preference window doesn't go down to zero (0 < p1 <p2 <1) that comes because very tiny fish are less available than small fish. #
-Prey <- (m1/alpha^2)*((exp(-alpha*p1*W)*(1+alpha*p1*W) - exp(-alpha*p2*W)*(1+alpha*p2*W) ) / (1+exp(-alpha*W) )) #
-plot(Prey, xlab="Mass", type="l")
-p1 <- 0.001#
-p2 <- 0.7#
- Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1) ) )/(exp(-alpha*W)) ) #
-quartz()#
-par(mfrow=c(2,2))#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")#
-#
-#special cases of the model: ALL prey are available (p1=0, p2=1), mortality is constant. if 0--p2 <1 is available, we see asymptotic mortality. Amazingly, there is a refuge bottleneck if preference window doesn't go down to zero (0 < p1 <p2 <1) that comes because very tiny fish are less available than small fish. #
-Prey <- (m1/alpha^2)*((exp(-alpha*p1*W)*(1+alpha*p1*W) - exp(-alpha*p2*W)*(1+alpha*p2*W) ) / (1+exp(-alpha*W) )) #
-plot(Prey, xlab="Mass", type="l")
-m1 <- 0.1 #encounter rate , includes unit conversion from length to mass that comes from accounting for density dependence in the denominator#
-#
-alpha <- 0.5#rate of decay#
-#
-W <- seq(1, 1000, by=0.5)#
-#
-p1 <- 0.001#
-p2 <- 0.7#
- Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1) ) )/(exp(-alpha*W)) ) #
-quartz()#
-par(mfrow=c(2,2))#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")#
-#
-#special cases of the model: ALL prey are available (p1=0, p2=1), mortality is constant. if 0--p2 <1 is available, we see asymptotic mortality. Amazingly, there is a refuge bottleneck if preference window doesn't go down to zero (0 < p1 <p2 <1) that comes because very tiny fish are less available than small fish. #
-Prey <- (m1/alpha^2)*((exp(-alpha*p1*W)*(1+alpha*p1*W) - exp(-alpha*p2*W)*(1+alpha*p2*W) ) / (1+exp(-alpha*W) )) #
-plot(Prey, xlab="Mass", type="l")
-m1 <- 0.01 #encounter rate , includes unit conversion from length to mass that comes from accounting for density dependence in the denominator#
-#
-alpha <- 0.5#rate of decay#
-#
-W <- seq(1, 1000, by=0.5)#
-#
-p1 <- 0.001#
-p2 <- 0.7#
- Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1) ) )/(exp(-alpha*W)) ) #
-quartz()#
-par(mfrow=c(2,2))#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")#
-#
-#special cases of the model: ALL prey are available (p1=0, p2=1), mortality is constant. if 0--p2 <1 is available, we see asymptotic mortality. Amazingly, there is a refuge bottleneck if preference window doesn't go down to zero (0 < p1 <p2 <1) that comes because very tiny fish are less available than small fish. #
-Prey <- (m1/alpha^2)*((exp(-alpha*p1*W)*(1+alpha*p1*W) - exp(-alpha*p2*W)*(1+alpha*p2*W) ) / (1+exp(-alpha*W) )) #
-plot(Prey, xlab="Mass", type="l")
-m1 <- 0.01 #encounter rate , includes unit conversion from length to mass that comes from accounting for density dependence in the denominator#
-#
-alpha <- 0.5 #rate of decay#
-#
-W <- seq(1, 1000, by=0.5)#
-#
-p1 <- 0.1#
-p2 <- 0.7#
- Survival <- exp(-(m1/alpha)*( (exp(-alpha*W/p2) - exp(-alpha*W/p1) ) )/(exp(-alpha*W)) ) #
-quartz()#
-par(mfrow=c(2,2))#
-plot(Survival, type="l", xlab= "Mass", ylab = "Survival")#
-#
-#special cases of the model: ALL prey are available (p1=0, p2=1), mortality is constant. if 0--p2 <1 is available, we see asymptotic mortality. Amazingly, there is a refuge bottleneck if preference window doesn't go down to zero (0 < p1 <p2 <1) that comes because very tiny fish are less available than small fish. #
-Prey <- (m1/alpha^2)*((exp(-alpha*p1*W)*(1+alpha*p1*W) - exp(-alpha*p2*W)*(1+alpha*p2*W) ) / (1+exp(-alpha*W) )) #
-plot(Prey, xlab="Mass", type="l")
 m1 <- 0.01 #encounter rate , includes unit conversion from length to mass that comes from accounting for density dependence in the denominator#
 #
 alpha <- 0.5 #rate of decay#
@@ -2071,6 +1105,351 @@ plot_length <- function(data, filenames) {#
      }#
  mapply(plot_length, length_data, length_filenames)
 warnings()
+setwd("~/Documents/tuna_theory/model_output/31 May run low mort")#
+data_files <- list.files(pattern = "\\.csv$")#
+#
+repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
+state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
+length_filenames <- data_files[1:(length(data_files)/4)]#
+surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+surv_filenames <- unique(surv_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+surv_data <- lapply(surv_filenames, read.csv)#
+ time=1:64
+length_data
+repro_data
+surv_data
+state_data
+length_data
+which.max(length_data[1, -1])
+dim(length_data)
+which.max(length_data)
+data<- as.matrix(length_data)
+which.max(data[1, -1])
+which(data[1, -1] == max(data[1, -1]))
+data[1, -1]
+data<- as.matrix(length_data)
+dim(data)
+data
+data<- as.matrix(length_data, nrow=2)
+data
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 18), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, 64, by=4), labels = (seq(1, 17, by=1)))#
+     maxsize <- min(which(data[1, -1] == max(data[1, -1])))#
+     age_m <- (min(which(data[1, -1] == 0.5*maxsizse)/4#
+     legend("topleft", legend = age_m)#
+     }#
+ mapply(plot_length, length_data, length_filenames)
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 18), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, 64, by=4), labels = (seq(1, 17, by=1)))#
+     maxsize <- min(which(data[1, -1] == max(data[1, -1])))#
+     age_m <- min(which(data[1, -1] == 0.5*maxsizse)/4#
+     legend("topleft", legend = age_m)#
+     }#
+ mapply(plot_length, length_data, length_filenames)
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 18), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, 64, by=4), labels = (seq(1, 17, by=1)))#
+     maxsize <- min(which(data[1, -1] == max(data[1, -1])))#
+     age_m <- min(which(data[1, -1] == 0.5*maxsizse))/4#
+     legend("topleft", legend = age_m)#
+     }#
+ mapply(plot_length, length_data, length_filenames)
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 18), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, 64, by=4), labels = (seq(1, 17, by=1)))#
+     maxsize <- min(which(data[1, -1] == max(data[1, -1])))#
+     age_m <- min(which(data[1, -1] == 0.5*maxsize))/4#
+     legend("topleft", legend = age_m)#
+     }#
+ mapply(plot_length, length_data, length_filenames)
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 18), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, 64, by=4), labels = (seq(1, 17, by=1)))#
+     maxsize <- min(which(data[1, -1] == max(data[1, -1])))#
+     age_m <- min(which(data[1, -1] == 0.5*maxsize))/4#
+     legend("topleft", legend = age_m)#
+     print(data[1, -1])#
+     }#
+ mapply(plot_length, length_data, length_filenames)
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 18), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, 64, by=4), labels = (seq(1, 17, by=1)))#
+     maxsize <- min(which(data[1, -1] == max(data[1, -1])))#
+     age_m <- min(which(data[1, -1] == 0.5*maxsize))/4#
+     legend("topleft", legend = age_m)#
+     print(data[, -1])#
+     }#
+ mapply(plot_length, length_data, length_filenames)
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 18), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, 64, by=4), labels = (seq(1, 17, by=1)))#
+     maxsize <- min(which(data[1, -1] == max(data[1, -1])))#
+     age_m <- min(which(data[1, -1] == 0.5*maxsize))/4#
+     legend("topleft", legend = age_m)#
+     print(data[1, ])#
+     }#
+ mapply(plot_length, length_data, length_filenames)
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 18), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, 64, by=4), labels = (seq(1, 17, by=1)))#
+     maxsize <- min(which(data[1, -1] == max(data[1, -1])))#
+     age_m <- min(which(data[1, -1] == 0.5*maxsize))/4#
+     legend("topleft", legend = age_m)#
+      (data[1, ])#
+     }#
+ mapply(plot_length, length_data, length_filenames)
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 18), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, 64, by=4), labels = (seq(1, 17, by=1)))#
+     maxsize <- min(which(data[1, -1] == max(data[1, -1])))#
+     age_m <- min(which(data[1, -1] == 0.5*maxsize))/4#
+     legend("topleft", legend = age_m)#
+      (data[1,-1 ])#
+     }#
+ mapply(plot_length, length_data, length_filenames)
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 18), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, 64, by=4), labels = (seq(1, 17, by=1)))#
+     maxsize <- min(which(data[1, -1] == max(data[1, -1])))#
+     age_m <- min(which(as.vector(data[1, -1]) == 0.5*maxsize))/4#
+     legend("topleft", legend = age_m)#
+      (data[1,-1 ])#
+     }#
+ mapply(plot_length, length_data, length_filenames)
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 18), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, 64, by=4), labels = (seq(1, 17, by=1)))#
+     maxsize <- min(which(data[1, -1] == max(data[1, -1])))#
+     age_m <- min(which(as.vector(data[1, -1]) == 0.5*maxsize))/4#
+     legend("topleft", legend = age_m)#
+      as.vector(data[1,-1 ])#
+     }#
+ mapply(plot_length, length_data, length_filenames)
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 18), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, 64, by=4), labels = (seq(1, 17, by=1)))#
+     maxsize <- min(which(data[1, -1] == max(data[1, -1])))#
+     age_m <- min(which(as.vector(data[1, -1]) == 0.5*maxsize))/4#
+     legend("topleft", legend = age_m)#
+      as.numeric(data[1,-1 ])#
+     }#
+ mapply(plot_length, length_data, length_filenames)
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 18), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, 64, by=4), labels = (seq(1, 17, by=1)))#
+     maxsize <- min(which(as.numeric(data[1, -1]) == max(data[1, -1])))#
+     age_m <- min(which(as.numeric(data[1, -1]) == 0.5*maxsize))/4#
+     legend("topleft", legend = age_m)#
+      as.numeric(data[1,-1 ])#
+     }#
+ mapply(plot_length, length_data, length_filenames)
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 18), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, 64, by=4), labels = (seq(1, 17, by=1)))#
+     maxsize <- min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1])))#
+     age_m <- min(which(as.numeric(data[1, -1]) == 0.5*maxsize))/4#
+     legend("topleft", legend = age_m)#
+      as.numeric(data[1,-1 ])#
+     }#
+ mapply(plot_length, length_data, length_filenames)
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 18), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, 64, by=4), labels = (seq(1, 17, by=1)))#
+     maxsize <- min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))#
+     age_m <- min(which(as.numeric(data[1, -1]) == 0.5*maxsize))/4#
+     legend("topleft", legend = age_m)#
+      as.numeric(data[1,-1 ])#
+     }#
+ mapply(plot_length, length_data, length_filenames)
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 18), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, 64, by=4), labels = (seq(1, 17, by=1)))#
+     maxsize <- min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))#
+     age_m <- min(which(as.numeric(data[1, -1]) == 0.5*maxsize))/4#
+     legend("topleft", legend = age_m)#
+     maxsize#
+      as.numeric(data[1,-1 ])#
+     }#
+ mapply(plot_length, length_data, length_filenames)
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 18), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, 64, by=4), labels = (seq(1, 17, by=1)))#
+     maxsize <- min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))#
+     age_m <- min(which(as.numeric(data[1, -1]) == 0.5*maxsize))/4#
+     legend("topleft", legend = age_m)#
+     maxsize#
+      #as.numeric(data[1,-1 ])#
+     }#
+ mapply(plot_length, length_data, length_filenames)
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 18), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, 64, by=4), labels = (seq(1, 17, by=1)))#
+     maxsize <- min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))#
+     age_m <- min(which(as.numeric(data[1, -1]) == 0.5*as.numeric(data[1, maxsize]))) #
+     legend("topleft", legend = age_m)#
+     as.numeric(data[1, maxsize])#
+      #as.numeric(data[1,-1 ])#
+     }#
+ mapply(plot_length, length_data, length_filenames)
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 18), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, 64, by=4), labels = (seq(1, 17, by=1)))#
+     maxsize <- min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))#
+     age_m <- min(which(as.numeric(data[1, -1]) == 0.5*as.numeric(data[1, maxsize+1]))) #
+     legend("topleft", legend = age_m)#
+     as.numeric(data[1, maxsize])#
+      #as.numeric(data[1,-1 ])#
+     }#
+ mapply(plot_length, length_data, length_filenames)
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 18), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, 64, by=4), labels = (seq(1, 17, by=1)))#
+     maxsize <- min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))#
+     age_m <- min(which(as.numeric(data[1, -1]) == 0.5*as.numeric(data[1, (maxsize+1)]))) #
+     legend("topleft", legend = age_m)#
+     as.numeric(data[1, maxsize])#
+      #as.numeric(data[1,-1 ])#
+     }#
+ mapply(plot_length, length_data, length_filenames)
+matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 18), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, 64, by=4), labels = (seq(1, 17, by=1)))#
+     maxsize <- (min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))) + 1 #
+     age_m <- min(which(as.numeric(data[1, -1]) == 0.5*as.numeric(data[1, maxsize]))) #
+     legend("topleft", legend = age_m)#
+     as.numeric(data[1, maxsize])#
+      #as.numeric(data[1,-1 ])#
+     }#
+ mapply(plot_length, length_data, length_filenames)
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 18), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, 64, by=4), labels = (seq(1, 17, by=1)))#
+     maxsize <- (min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))) + 1 #
+     age_m <- min(which(as.numeric(data[1, -1]) == 0.5*as.numeric(data[1, maxsize]))) #
+     legend("topleft", legend = age_m)#
+     as.numeric(data[1, maxsize])#
+      #as.numeric(data[1,-1 ])#
+     }#
+ mapply(plot_length, length_data, length_filenames)
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 18), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, 64, by=4), labels = (seq(1, 17, by=1)))#
+     maxsize <- (min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))) + 1 #
+     age_m <- which(as.numeric(data[1, -1]) == 0.5*as.numeric(data[1, maxsize])) #
+     legend("topleft", legend = age_m)#
+     as.numeric(data[1, maxsize])#
+      #as.numeric(data[1,-1 ])#
+     }#
+ mapply(plot_length, length_data, length_filenames)
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 18), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, 64, by=4), labels = (seq(1, 17, by=1)))#
+     maxsize <- (min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))) + 1 #
+     age_m <- which(as.numeric(data[1, -1]) >= 0.5*as.numeric(data[1, maxsize])) #
+     legend("topleft", legend = age_m)#
+     as.numeric(data[1, maxsize])#
+      #as.numeric(data[1,-1 ])#
+     }#
+ mapply(plot_length, length_data, length_filenames)
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 18), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, 64, by=4), labels = (seq(1, 17, by=1)))#
+     maxsize <- (min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))) + 1 #
+     age_m <- which(as.numeric(data[1, -1]) >= 0.5*as.numeric(data[1, maxsize])) #
+     legend("topleft", legend = age_m)#
+     age_m#
+      #as.numeric(data[1,-1 ])#
+     }#
+ mapply(plot_length, length_data, length_filenames)
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 18), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, 64, by=4), labels = (seq(1, 17, by=1)))#
+     maxsize <- (min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))) + 1 #
+     age_m <- min(which(as.numeric(data[1, -1]) >= 0.5*as.numeric(data[1, maxsize])))/4 #
+     legend("topright", legend=age_m)#
+     age_m#
+      #as.numeric(data[1,-1 ])#
+     }#
+ mapply(plot_length, length_data, length_filenames)
+quartz()#
+  par(mfrow=c(3,3))#
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 18), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, 64, by=4), labels = (seq(1, 17, by=1)))#
+     maxsize <- (min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))) + 1 #
+     age_m <- min(which(as.numeric(data[1, -1]) >= 0.5*as.numeric(data[1, maxsize])))/4 #
+     legend("topright", legend=paste0("Age of maturity is ", age_m))#
+     age_m#
+      #as.numeric(data[1,-1 ])#
+     }#
+ mapply(plot_length, length_data, length_filenames)
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 18), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, 64, by=4), labels = (seq(1, 17, by=1)))#
+     maxsize <- (min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))) + 1 #
+     age_m <- min(which(as.numeric(data[1, -1]) >= 0.5*as.numeric(data[1, maxsize])))/4 #
+     legend("topright", legend=paste0("Age of maturity is ", age_m), bty="n")#
+     age_m#
+      #as.numeric(data[1,-1 ])#
+     }#
+ mapply(plot_length, length_data, length_filenames)
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 18), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, 64, by=4), labels = (seq(1, 17, by=1)))#
+     maxsize <- (min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))) + 1 #
+     age_m <- min(which(as.numeric(data[1, -1]) >= 0.5*as.numeric(data[1, maxsize])))/4 #
+     legend("topright", legend=paste0("A_m is ", age_m), bty="n")#
+     age_m#
+      #as.numeric(data[1,-1 ])#
+     }#
+ mapply(plot_length, length_data, length_filenames)
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 18), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, 64, by=4), labels = (seq(1, 17, by=1)))#
+     maxsize <- (min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))) + 1 #
+     age_m <- min(which(as.numeric(data[1, -1]) >= 0.5*as.numeric(data[1, maxsize])))/4 #
+     legend("topright", legend=paste0("A_m is ", age_m, " years"), bty="n")#
+     age_m#
+      #as.numeric(data[1,-1 ])#
+     }#
+ mapply(plot_length, length_data, length_filenames)
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 18), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, 64, by=4), labels = (seq(1, 17, by=1)))#
+     maxsize <- (min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))) + 1 #
+     age_m <- min(which(as.numeric(data[1, -1]) >= 0.5*as.numeric(data[1, maxsize])))/4 #
+     legend("topright", legend=paste0("A_m is ", age_m+1, " years"), bty="n")#
+     age_m#
+      #as.numeric(data[1,-1 ])#
+     }#
+ mapply(plot_length, length_data, length_filenames)
+quartz()#
+  par(mfrow=c(3,3))#
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 18), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, 64, by=4), labels = (seq(1, 17, by=1)))#
+     maxsize <- (min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))) + 1 #
+     age_m <- min(which(as.numeric(data[1, -1]) >= 0.5*as.numeric(data[1, maxsize])))/4 #
+     legend("topright", legend=paste0("age at 50% max is ", age_m+1, " years"), bty="n")#
+          }#
+ mapply(plot_length, length_data, length_filenames)
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 18), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, 64, by=4), labels = (seq(1, 17, by=1)))#
+     maxsize <- (min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))) + 1 #
+     age_m <- min(which(as.numeric(data[1, -1]) >= 0.5*as.numeric(data[1, maxsize])))/4 #
+     legend("topright", legend=paste0("A_50 is ", age_m+1, " years"), bty="n")#
+          }#
+ mapply(plot_length, length_data, length_filenames)
 setwd("~/Documents/tuna_theory/model_output/")#
 data_files <- list.files(pattern = "\\.csv$")#
 #
@@ -2087,722 +1466,1306 @@ surv_filenames <- unique(surv_filenames)#
 length_data <- lapply(length_filenames, read.csv)#
 repro_data <- lapply(repro_filenames, read.csv)#
 state_data <- lapply(state_filenames, read.csv)#
-surv_data <- lapply(surv_filenames, read.csv)
-quartz()#
-  par(mfrow=c(2,2))#
+surv_data <- lapply(surv_filenames, read.csv)#
+ time=1:64#
+ quartz()#
+  par(mfrow=c(3,3))#
 plot_length <- function(data, filenames) {#
-	  #data[is.na(data)] <- 0#
-     matplot(t(data[,-1]), type="l", main=c(substr(filenames, 9, 13), substr(filenames, 14, 20)), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 18), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")#
      axis(1, at = seq(0, 64, by=4), labels = (seq(1, 17, by=1)))#
-     }#
+     maxsize <- (min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))) + 1 #
+     age_m <- min(which(as.numeric(data[1, -1]) >= 0.5*as.numeric(data[1, maxsize])))/4 #
+     legend("topright", legend=paste0("A_50 is ", age_m+1, " years"), bty="n")#
+          }#
+ mapply(plot_length, length_data, length_filenames)
+setwd("~/Documents/tuna_theory/model_output/")#
+data_files <- list.files(pattern = "\\.csv$")#
+#
+repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
+state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
+length_filenames <- data_files[1:(length(data_files)/4)]#
+surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+surv_filenames <- unique(surv_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+surv_data <- lapply(surv_filenames, read.csv)#
+ time=1:64#
+ quartz()#
+  par(mfrow=c(3,3))#
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 18), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, 64, by=4), labels = (seq(1, 17, by=1)))#
+     maxsize <- (min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))) + 1 #
+     age_m <- min(which(as.numeric(data[1, -1]) >= 0.5*as.numeric(data[1, maxsize])))/4 #
+     legend("topright", legend=paste0("A_50 is ", age_m+1, " years"), bty="n")#
+          }#
+ mapply(plot_length, length_data, length_filenames)
+setwd("~/Documents/tuna_theory/model_output/")#
+data_files <- list.files(pattern = "\\.csv$")#
+#
+repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
+state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
+length_filenames <- data_files[1:(length(data_files)/4)]#
+surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+surv_filenames <- unique(surv_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+surv_data <- lapply(surv_filenames, read.csv)#
+ time=1:64#
+ quartz()#
+  par(mfrow=c(3,3))#
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 18), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, 64, by=4), labels = (seq(1, 17, by=1)))#
+     maxsize <- (min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))) + 1 #
+     age_m <- min(which(as.numeric(data[1, -1]) >= 0.5*as.numeric(data[1, maxsize])))/4 #
+     legend("topright", legend=paste0("A_50 is ", age_m+1, " years"), bty="n")#
+          }#
  mapply(plot_length, length_data, length_filenames)
 quartz()#
-  par(mfrow=c(2, 2))#
- age.length <- function(length_data, repro_data, filenames) {#
+  par(mfrow=c(3,3))
+age.length <- function(length_data, repro_data, filenames) {#
  	#need to make a log log plot#
- 	matplot(t(log(length_data[,-1], na.rm=TRUE)), t(log(repro_data[,-1], na.rm=TRUE)), type="p", col="darkgray", pch=20,   main=c(substr(filenames, 9, 15), substr(filenames, 16, 21)),  xlab="Length (cm)", xlim=c(0, 250), ylim=c(0, 1.5e+09), ylab="Reproduction (J)")#
- 	} #
-mapply(age.length, length_data, repro_data, length_filenames)
-quartz()#
-  par(mfrow=c(2, 2))#
- age.length <- function(length_data, repro_data, filenames) {#
- 	#need to make a log log plot#
- 	matplot(t(length_data[,-1]), t(repro_data[,-1]), type="p", col="darkgray", pch=20,   main=c(substr(filenames, 9, 15), substr(filenames, 16, 21)),  xlab="Length (cm)", xlim=c(0, 250), ylim=c(0, 1.5e+09), ylab="Reproduction (J)")#
- 	} #
-mapply(age.length, length_data, repro_data, length_filenames)
-quartz()#
-  par(mfrow=c(2, 2))#
- age.length <- function(length_data, repro_data, filenames) {#
- 	#need to make a log log plot#
- 	matplot(t(length_data[,-1]), t(repro_data[,-1]), type="p", col="darkgray", pch=20,   main=c(substr(filenames, 9, 15), substr(filenames, 16, 21)),  xlab="Length (cm)", xlim=c(0, 350), ylim=c(0, 1.5e+09), ylab="Reproduction (J)")#
+ 	matplot(t(log(length_data[,c(-1,-65)])), t(log(repro_data[,c(-1,-65)])), type="p", col="darkgray", pch=20,   main= substr(repro_filenames, 8, 17),  xlab="Length (cm)", xlim=c(0, 350), ylim=c(0, 1.5e+09), ylab="Reproduction (J)")#
+ 	m1<-lm(log(repro_data[,c(-1,-65)])~log(length_data[,c(-1,-65)]))#
+ 	print(paste0("Env is ", substr(surv_filenames, 8, 18))),", Slope is ", round(as.numeric(coef(m1)[2]), 3)))#
+   legend("topright",   legend=round(as.numeric(coef(m1)[2]), 3), lty=1)#
  	} #
 mapply(age.length, length_data, repro_data, length_filenames)
 age.length <- function(length_data, repro_data, filenames) {#
  	#need to make a log log plot#
- 	matplot(t(length_data[,-1]), t(repro_data[,-1]), type="p", col="darkgray", pch=20,   main=c(substr(filenames, 9, 15), substr(filenames, 16, 21)),  xlab="Length (cm)", xlim=c(0, 350), ylim=c(0, 1.5e+09), ylab="Reproduction (J)")#
+ 	matplot(t(log(length_data[,c(-1,-65)])), t(log(repro_data[,c(-1,-65)])), type="p", col="darkgray", pch=20,   main= substr(repro_filenames, 8, 17),  xlab="Length (cm)", xlim=c(0, 350), ylim=c(0, 1.5e+09), ylab="Reproduction (J)")#
+ 	m1<-lm(log(repro_data[,c(-1,-65)])~log(length_data[,c(-1,-65)]))#
+ 	val<-paste0("Env is ", substr(surv_filenames, 8, 18),", Slope is ", round(as.numeric(coef(m1)[2]), 3))#
+   legend("topright",   legend=round(as.numeric(coef(m1)[2]), 3), lty=1)#
  	} #
 mapply(age.length, length_data, repro_data, length_filenames)
+age.length <- function(data1, data2, filenames) {#
+ 	#need to make a log log plot#
+ 	matplot(t(log(data1[,c(-1,-65)])), t(log(data2[,c(-1,-65)])), type="p", col="darkgray", pch=20,   main= substr(repro_filenames, 8, 17),  xlab="Length (cm)", xlim=c(0, 350), ylim=c(0, 1.5e+09), ylab="Reproduction (J)")#
+ 	m1<-lm(log(data2[,c(-1,-65)])~log(data1[,c(-1,-65)]))#
+ 	val<-paste0("Env is ", substr(surv_filenames, 8, 18),", Slope is ", round(as.numeric(coef(m1)[2]), 3))#
+   legend("topright",   legend=round(as.numeric(coef(m1)[2]), 3), lty=1)#
+ 	} #
+mapply(age.length, length_data, repro_data, length_filenames)
+age.length <- function(ldata1, rdata2, filenames) {#
+ 	data1 <- as.numeric(ldata1)#
+ 	data2 <- as.numeric(rdata2)#
+ 	#need to make a log log plot#
+ 	matplot(t(log(data1[,c(-1,-65)])), t(log(data2[,c(-1,-65)])), type="p", col="darkgray", pch=20,   main= substr(repro_filenames, 8, 17),  xlab="Length (cm)", xlim=c(0, 350), ylim=c(0, 1.5e+09), ylab="Reproduction (J)")#
+ 	m1<-lm(log(data2[,c(-1,-65)])~log(data1[,c(-1,-65)]))#
+ 	val<-paste0("Env is ", substr(surv_filenames, 8, 18),", Slope is ", round(as.numeric(coef(m1)[2]), 3))#
+   legend("topright",   legend=round(as.numeric(coef(m1)[2]), 3), lty=1)#
+ 	} #
+mapply(age.length, length_data, repro_data, length_filenames)
+age.length <- function(ldata1, rdata2, filenames) {#
+ 	data1 <- as.numeric(ldata1[1,])#
+ 	data2 <- as.numeric(rdata2[1, ])#
+ 	#need to make a log log plot#
+ 	matplot(t(log(data1[,c(-1,-65)])), t(log(data2[,c(-1,-65)])), type="p", col="darkgray", pch=20,   main= substr(repro_filenames, 8, 17),  xlab="Length (cm)", xlim=c(0, 350), ylim=c(0, 1.5e+09), ylab="Reproduction (J)")#
+ 	m1<-lm(log(data2[,c(-1,-65)])~log(data1[,c(-1,-65)]))#
+ 	val<-paste0("Env is ", substr(surv_filenames, 8, 18),", Slope is ", round(as.numeric(coef(m1)[2]), 3))#
+   legend("topright",   legend=round(as.numeric(coef(m1)[2]), 3), lty=1)#
+ 	} #
+mapply(age.length, length_data, repro_data, length_filenames)
+age.length <- function(ldata1, rdata2, filenames) {#
+ 	data1 <- as.numeric(ldata1[1,])#
+ 	data2 <- as.numeric(rdata2[1, ])#
+ 	#need to make a log log plot#
+ 	matplot(t(log(data1[c(-1,-65)])), t(log(data2[c(-1,-65)])), type="p", col="darkgray", pch=20,   main= substr(repro_filenames, 8, 17),  xlab="Length (cm)", xlim=c(0, 350), ylim=c(0, 1.5e+09), ylab="Reproduction (J)")#
+ 	m1<-lm(log(data2[c(-1,-65)])~log(data1[c(-1,-65)]))#
+ 	val<-paste0("Env is ", substr(surv_filenames, 8, 18),", Slope is ", round(as.numeric(coef(m1)[2]), 3))#
+   legend("topright",   legend=round(as.numeric(coef(m1)[2]), 3), lty=1)#
+ 	} #
+mapply(age.length, length_data, repro_data, length_filenames)
+age.length <- function(ldata1, rdata2, filenames) {#
+ 	data1 <- as.numeric(ldata1[1,])#
+ 	data2 <- as.numeric(rdata2[1, ])#
+ 	#need to make a log log plot#
+ 	matplot(t(log(data1[c(-1,-65)])), t(log(data2[c(-1,-65)])), type="p", col="darkgray", pch=20,   main= substr(repro_filenames, 8, 17),  xlab="Length (cm)", xlim=c(0, 350), ylim=c(0, 1.5e+09), ylab="Reproduction (J)")#
+ 	m1<-lm(log(data2[c(-1,-65)])~log(data1[c(-1,-65)]))#
+ 	val<-paste0("Env is ", substr(surv_filenames, 8, 18),", Slope is ", round(as.numeric(coef(m1)[2]), 3))#
+   #legend("topright",   legend=round(as.numeric(coef(m1)[2]), 3), lty=1)#
+ 	val#
+ 	} #
+mapply(age.length, length_data, repro_data, length_filenames)
+age.length <- function(ldata1, rdata2, filenames) {#
+ 	data1 <- as.numeric(ldata1[1,])#
+ 	data2 <- as.numeric(rdata2[1, ])#
+ 	#need to make a log log plot#
+ 	matplot(t(log(data1[c(-1,-65)])), t(log(data2[c(-1,-65)])), type="p", col="darkgray", pch=20,   main= substr(repro_filenames, 8, 17),  xlab="Length (cm)",   ylab="Reproduction (J)")#
+ 	m1<-lm(log(data2[c(-1,-65)])~log(data1[c(-1,-65)]))#
+ 	val<-paste0("Env is ", substr(filenames, 8, 18),", Slope is ", round(as.numeric(coef(m1)[2]), 3))#
+   #legend("topright",   legend=round(as.numeric(coef(m1)[2]), 3), lty=1)#
+ 	val#
+ 	} #
+mapply(age.length, length_data, repro_data, length_filenames)
+age.length <- function(ldata1, rdata2, filenames) {#
+ 	data1 <- as.numeric(ldata1[1,])#
+ 	data2 <- as.numeric(rdata2[1, ])#
+ 	#need to make a log log plot#
+ 	matplot(t(log(data1[c(-1,-65)])), t(log(data2[c(-1,-65)])), type="p", col="darkgray", pch=20,   main= substr(filenames, 8, 17),  xlab="Length (cm)",   ylab="Reproduction (J)")#
+ 	m1<-lm(log(data2[c(-1,-65)])~log(data1[c(-1,-65)]))#
+ 	val<-paste0("Env is ", substr(filenames, 8, 18),", Slope is ", round(as.numeric(coef(m1)[2]), 3))#
+   #legend("topright",   legend=round(as.numeric(coef(m1)[2]), 3), lty=1)#
+ 	val#
+ 	} #
+mapply(age.length, length_data, repro_data, length_filenames)
+quartz()#
+   par(mfrow=c(3, 3))#
+ age.length <- function(ldata1, rdata2, filenames) {#
+ 	data1 <- as.numeric(ldata1[1,])#
+ 	data2 <- as.numeric(rdata2[1, ])#
+ 	#need to make a log log plot#
+ 	matplot(t(log(data1[c(-1,-65)])), t(log(data2[c(-1,-65)])), type="p", col="darkgray", pch=20,   main= substr(filenames, 8, 17),  xlab="Length (cm)",   ylab="Reproduction (J)")#
+ 	m1<-lm(log(data2[c(-1,-65)])~log(data1[c(-1,-65)]))#
+ 	val<-paste0("Env is ", substr(filenames, 8, 18),", Slope is ", round(as.numeric(coef(m1)[2]), 3))#
+   #legend("topright",   legend=round(as.numeric(coef(m1)[2]), 3), lty=1)#
+ 	val#
+ 	} #
+mapply(age.length, length_data, repro_data, length_filenames)
+age.length <- function(ldata1, rdata2, filenames) {#
+ 	data1 <- as.numeric(ldata1[1,])#
+ 	data2 <- as.numeric(rdata2[1, ])#
+ 	#need to make a log log plot#
+ 	matplot(t(log(data1[c(-1,-65)])), t(log(data2[c(-1,-65)])), type="p", col="darkgray", pch=20,   main= substr(filenames, 8, 17),  xlab="Length (cm)", ylim=c(0, 25), xlim=c(0, 6) ylab="Reproduction (J)")#
+ 	m1<-lm(log(data2[c(-1,-65)])~log(data1[c(-1,-65)]))#
+ 	val<-paste0("Env is ", substr(filenames, 8, 18),", Slope is ", round(as.numeric(coef(m1)[2]), 3))#
+   #legend("topright",   legend=round(as.numeric(coef(m1)[2]), 3), lty=1)#
+ 	val#
+ 	} #
+mapply(age.length, length_data, repro_data, length_filenames)
+quartz()#
+   par(mfrow=c(3, 3))#
+ age.length <- function(ldata1, rdata2, filenames) {#
+ 	data1 <- as.numeric(ldata1[1,])#
+ 	data2 <- as.numeric(rdata2[1, ])#
+ 	#need to make a log log plot#
+ 	matplot(t(log(data1[c(-1,-65)])), t(log(data2[c(-1,-65)])), type="p", col="darkgray", pch=20,   main= substr(filenames, 8, 17),  xlab="Length (cm)", ylim=c(0, 25), xlim=c(0, 6), ylab="Reproduction (J)")#
+ 	m1<-lm(log(data2[c(-1,-65)])~log(data1[c(-1,-65)]))#
+ 	val<-paste0("Env is ", substr(filenames, 8, 18),", Slope is ", round(as.numeric(coef(m1)[2]), 3))#
+   #legend("topright",   legend=round(as.numeric(coef(m1)[2]), 3), lty=1)#
+ 	val#
+ 	} #
+mapply(age.length, length_data, repro_data, length_filenames)
+age.length <- function(ldata1, rdata2, filenames) {#
+ 	data1 <- as.numeric(ldata1[1,])#
+ 	data2 <- as.numeric(rdata2[1, ])#
+ 	#need to make a log log plot#
+ 	matplot(t(log(data1[c(-1,-65)])), t(log(data2[c(-1,-65)])), type="p", col="darkgray", pch=20,   main= substr(filenames, 8, 17),  xlab="Length (cm)", ylim=c(0, 25), xlim=c(0, 6), ylab="Reproduction (J)")#
+ 	m1<-lm(log(data2[c(-1,-65)])~log(data1[c(-1,-65)]))#
+ 	val<-paste0("Env is ", substr(filenames, 8, 18),", Slope is ", round(as.numeric(coef(m1)[2]), 3))#
+   legend("topleft",   legend=round(as.numeric(coef(m1)[2]), 3), lty=1)#
+ 	#val#
+ 	} #
+mapply(age.length, length_data, repro_data, length_filenames)
+age.length <- function(ldata1, rdata2, filenames) {#
+ 	data1 <- as.numeric(ldata1[1,])#
+ 	data2 <- as.numeric(rdata2[1, ])#
+ 	#need to make a log log plot#
+ 	matplot(t(log(data1[c(-1,-65)])), t(log(data2[c(-1,-65)])), type="p", col="darkgray", pch=20,   main= substr(filenames, 8, 17),  xlab="Length (cm)", ylim=c(0, 25), xlim=c(0, 6), ylab="Reproduction (J)")#
+ 	m1<-lm(log(data2[c(-1,-65)])~log(data1[c(-1,-65)]))#
+ 	abline(m1)#
+ 	val<-paste0("Env is ", substr(filenames, 8, 18),", Slope is ", round(as.numeric(coef(m1)[2]), 3))#
+   legend("topleft",   legend=paste0("slope is ",round(as.numeric(coef(m1)[2]), 3)), bty="n")#
+ 	#val#
+ 	} #
+mapply(age.length, length_data, repro_data, length_filenames)
+##make a plot of reproductive output as a function of length#
+  quartz()#
+   par(mfrow=c(3, 3))#
+ age.length <- function(ldata1, rdata2, filenames) {#
+ 	data1 <- as.numeric(ldata1[1,])#
+ 	data2 <- as.numeric(rdata2[1, ])#
+ 	#need to make a log log plot#
+ 	matplot(t(log(data1[c(-1,-65)])), t(log(data2[c(-1,-65)])), type="p", col="darkgray", pch=20,   main= substr(filenames, 8, 17),  xlab="Length (cm)", ylim=c(0, 25), xlim=c(0, 6), ylab="Reproduction (J)")#
+ 	m1<-lm(log(data2[c(-1,-65)])~log(data1[c(-1,-65)]))#
+ 	abline(m1)#
+ 	val<-paste0("Env is ", substr(filenames, 8, 18),", Slope is ", round(as.numeric(coef(m1)[2]), 3))#
+   legend("topleft",   legend=paste0("slope is ",round(as.numeric(coef(m1)[2]), 3)), bty="n")#
+ 	 val#
+ 	} #
+mapply(age.length, length_data, repro_data, length_filenames)
+age.length <- function(ldata1, rdata2, filenames) {#
+ 	data1 <- as.numeric(ldata1[1,])#
+ 	data2 <- as.numeric(rdata2[1, ])#
+ 	#need to make a log log plot#
+ 	matplot(t(log(data1[c(-1,-65)])), t(log(data2[c(-1,-65)])), type="p", col="darkgray", pch=20,   main= substr(filenames, 8, 17),  xlab="Length (cm)", ylim=c(0, 25), xlim=c(0, 6), ylab="Reproduction (J)")#
+ 	m1<-lm(log(data2[c(-1,-65)])~log(data1[c(-1,-65)]))#
+ 	#abline(m1)#
+ 	val<-paste0("Env is ", substr(filenames, 8, 18),", Slope is ", round(as.numeric(coef(m1)[2]), 3))#
+   legend("topleft",   legend=paste0("slope is ",round(as.numeric(coef(m1)[2]), 3)), bty="n")#
+ 	 val#
+ 	} #
+mapply(age.length, length_data, repro_data, length_filenames)
+quartz()#
+   par(mfrow=c(3, 3))#
+ age.length <- function(ldata1, rdata2, filenames) {#
+ 	data1 <- as.numeric(ldata1[1,])#
+ 	data2 <- as.numeric(rdata2[1, ])#
+ 	#need to make a log log plot#
+ 	matplot(t(log(data1[c(-1,-65)])), t(log(data2[c(-1,-65)])), type="p", col="darkgray", pch=20,   main= substr(filenames, 8, 17),  xlab="Length (cm)", ylim=c(0, 25), xlim=c(0, 6), ylab="Reproduction (J)")#
+ 	m1<-lm(log(data2[c(-1,-65)])~log(data1[c(-1,-65)]))#
+ 	#abline(m1)#
+ 	val<-paste0("Env is ", substr(filenames, 8, 18),", Slope is ", round(as.numeric(coef(m1)[2]), 3))#
+   legend("topleft",   legend=paste0("slope is ",round(as.numeric(coef(m1)[2]), 3)), bty="n")#
+ 	 val#
+ 	} #
+mapply(age.length, length_data, repro_data, length_filenames)
+age.length <- function(ldata1, rdata2, filenames) {#
+ 	data1 <- as.numeric(ldata1[1,])#
+ 	data2 <- as.numeric(rdata2[1, ])#
+ 	#need to make a log log plot#
+ 	matplot(t(log(data1[c(-1,-65)])), t(log(data2[c(-1,-65)])), type="p", col="darkgray", pch=20,   main= substr(filenames, 8, 17),  xlab="Length (cm)", ylim=c(0, 25), xlim=c(0, 6), ylab="Reproduction (J)")#
+ 	m1<-lm(log(data2[c(-1,-65)])~log(data1[c(-1,-65)]))#
+ 	#abline(m1)#
+ 	val<-paste0("Env is ", substr(filenames, 8, 18),", Slope is ", round(as.numeric(coef(m1)[2]), 3))#
+   legend("topleft",   legend=paste0("slope is ",round(as.numeric(coef(m1)[2]), 3)), bty="n")#
+ 	 coef(m1)[2]#
+ 	} #
+mapply(age.length, length_data, repro_data, length_filenames)
+age.length <- function(ldata1, rdata2, filenames) {#
+ 	data1 <- as.numeric(ldata1[1,])#
+ 	data2 <- as.numeric(rdata2[1, ])#
+ 	#need to make a log log plot#
+ 	matplot(t(log(data1[c(-1,-65)])), t(log(data2[c(-1,-65)])), type="p", col="darkgray", pch=20,   main= substr(filenames, 8, 17),  xlab="Length (cm)", ylim=c(0, 25), xlim=c(0, 6), ylab="Reproduction (J)")#
+ 	m1<-lm(log(data2[c(-1,-65)])~log(data1[c(-1,-65)]))#
+ 	if(is.na(coef(m1)[2])==FALSE)  	abline(m1)#
+ 	val<-paste0("Env is ", substr(filenames, 8, 18),", Slope is ", round(as.numeric(coef(m1)[2]), 3))#
+   legend("topleft",   legend=paste0("slope is ",round(as.numeric(coef(m1)[2]), 3)), bty="n")#
+ 	 coef(m1)[2]#
+ 	} #
+mapply(age.length, length_data, repro_data, length_filenames)
+age.length <- function(ldata1, rdata2, filenames) {#
+ 	data1 <- as.numeric(ldata1[1,])#
+ 	data2 <- as.numeric(rdata2[1, ])#
+ 	#need to make a log log plot#
+ 	matplot(t(log(data1[c(-1,-65)])), t(log(data2[c(-1,-65)])), type="p", col="darkgray", pch=20,   main= substr(filenames, 8, 17),  xlab="Length (cm)", ylim=c(0, 25), xlim=c(0, 6), ylab="Reproduction (J)")#
+ 	m1<-lm(log(data2[c(-1,-65)])~log(data1[c(-1,-65)]))#
+ 	if(is.na(coef(m1)[2])==FALSE)  	abline(m1)#
+ 	val<-paste0("Env is ", substr(filenames, 9, 20),", Slope is ", round(as.numeric(coef(m1)[2]), 3))#
+   legend("topleft",   legend=paste0("slope is ",round(as.numeric(coef(m1)[2]), 3)), bty="n")#
+ 	   	} #
+mapply(age.length, length_data, repro_data, length_filenames)
+quartz()#
+   par(mfrow=c(3, 3))#
+ age.length <- function(ldata1, rdata2, filenames) {#
+ 	data1 <- as.numeric(ldata1[1,])#
+ 	data2 <- as.numeric(rdata2[1, ])#
+ 	#need to make a log log plot#
+ 	matplot(t(log(data1[c(-1,-65)])), t(log(data2[c(-1,-65)])), type="p", col="darkgray", pch=20,   main= substr(filenames, 8, 17),  xlab="Length (cm)", ylim=c(0, 25), xlim=c(0, 6), ylab="Reproduction (J)")#
+ 	m1<-lm(log(data2[c(-1,-65)])~log(data1[c(-1,-65)]))#
+ 	if(is.na(coef(m1)[2])==FALSE)  	abline(m1)#
+ 	val<-paste0("Env is ", substr(filenames, 9, 23),", Slope is ", round(as.numeric(coef(m1)[2]), 3))#
+   legend("topleft",   legend=paste0("slope is ",round(as.numeric(coef(m1)[2]), 3)), bty="n")#
+ 	   	} #
+mapply(age.length, length_data, repro_data, length_filenames)
+##make a plot of reproductive output as a function of length#
+  quartz()#
+   par(mfrow=c(3, 3))#
+ age.length <- function(ldata1, rdata2, filenames) {#
+ 	data1 <- as.numeric(ldata1[1,])#
+ 	data2 <- as.numeric(rdata2[1, ])#
+ 	#need to make a log log plot#
+ 	matplot(t(log(data1[c(-1,-65)])), t(log(data2[c(-1,-65)])), type="p", col="darkgray", pch=20,   main= substr(filenames, 10, 20),  xlab="Length (cm)", ylim=c(0, 25), xlim=c(0, 6), ylab="Reproduction (J)")#
+ 	m1<-lm(log(data2[c(-1,-65)])~log(data1[c(-1,-65)]))#
+ 	if(is.na(coef(m1)[2])==FALSE)  	abline(m1)#
+ 	#val<-paste0("Env is ", substr(filenames, 9, 23),", Slope is ", round(as.numeric(coef(m1)[2]), 3))#
+   legend("topleft",   legend=paste0("slope is ",round(as.numeric(coef(m1)[2]), 3)), bty="n")#
+ 	   	} #
+mapply(age.length, length_data, repro_data, length_filenames)
+quartz()#
+   par(mfrow=c(3, 3))#
+ age.length <- function(ldata1, rdata2, filenames) {#
+ 	data1 <- as.numeric(ldata1[1,])#
+ 	data2 <- as.numeric(rdata2[1, ])#
+ 	#need to make a log log plot#
+ 	matplot(t(log(data1[c(-1,-65)])), t(log(data2[c(-1,-65)])), type="p", col="darkgray", pch=20,   main= substr(filenames, 9, 19),  xlab="Length (cm)", ylim=c(0, 25), xlim=c(0, 6), ylab="Reproduction (J)")#
+ 	m1<-lm(log(data2[c(-1,-65)])~log(data1[c(-1,-65)]))#
+ 	if(is.na(coef(m1)[2])==FALSE)  	abline(m1)#
+ 	#val<-paste0("Env is ", substr(filenames, 9, 23),", Slope is ", round(as.numeric(coef(m1)[2]), 3))#
+   legend("topleft",   legend=paste0("slope is ",round(as.numeric(coef(m1)[2]), 3)), bty="n")#
+ 	   	} #
+mapply(age.length, length_data, repro_data, length_filenames)
+age.length <- function(ldata1, rdata2, filenames) {#
+ 	data1 <- as.numeric(ldata1[1,])#
+ 	data2 <- as.numeric(rdata2[1, ])#
+ 	#need to make a log log plot#
+ 	matplot(t(log(data1[c(-1,-65)])), t(log(data2[c(-1,-65)])), type="p", col="darkgray", pch=20,   main= substr(filenames, 9, 19),  xlab="ln(Length) ", ylim=c(0, 25), xlim=c(0, 6), ylab="ln(Reproduction) ")#
+ 	m1<-lm(log(data2[c(-1,-65)])~log(data1[c(-1,-65)]))#
+ 	if(is.na(coef(m1)[2])==FALSE)  	abline(m1)#
+ 	#val<-paste0("Env is ", substr(filenames, 9, 23),", Slope is ", round(as.numeric(coef(m1)[2]), 3))#
+   legend("topleft",   legend=paste0("slope is ",round(as.numeric(coef(m1)[2]), 3)), bty="n")#
+ 	   	} #
+mapply(age.length, length_data, repro_data, length_filenames)
 plot_repro <- function(repro_data, repro_filenames) {#
-     matplot(t(repro_data[,-1]), type="l", main=c(substr(repro_filenames, 8, 14), substr(repro_filenames, 18, 23)), col="darkgray", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 2e+09), xlim=c(0.5, 48))#
+     matplot(t(repro_data[,-1]), type="l", main= substr(repro_filenames, 8, 17), col="darkgray", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 2e+09), xlim=c(0.5, 48))#
+     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
+     }
+mapply(plot_repro, repro_data, repro_filenames)
+# par(mfrow=c(3, 3))#
+  plot_repro <- function(repro_data, repro_filenames) {#
+     matplot(t(repro_data[,-1]), type="l", main= substr(repro_filenames, 8, 17), col="darkgray", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 1e+09), xlim=c(0.5, 48))#
      axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
      }#
 #
 mapply(plot_repro, repro_data, repro_filenames)
-quartz()
-age.length <- function(length_data, repro_data, filenames) {#
- 	#need to make a log log plot#
- 	matplot(t(length_data[,-1]), t(repro_data[,-1]), type="l", col="darkgray", pch=20,   main=c(substr(filenames, 9, 15), substr(filenames, 16, 21)),  xlab="Length (cm)", xlim=c(0, 350), ylim=c(0, 1.5e+09), ylab="Reproduction (J)")#
- 	} #
-mapply(age.length, length_data, repro_data, length_filenames)
-surv <- function(surv_data, filenames) {#
- 	matplot(t(surv_data[, -1]), type="l", main= substr(repro_filenames, 8, 20), col="darkgray", xlab="Age (years)", ylab="Survival"), xaxt="n", ylim=c(0, 1.1), xlim=c(0.5, 48))#
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 18), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, 64, by=4), labels = (seq(1, 17, by=1)))#
+     maxsize <- (min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))) + 1 #
+     age_m <- min(which(as.numeric(data[1, -1]) >= 0.5*as.numeric(data[1, maxsize])))/4 #
+     legend("topright", legend=paste0("A_50 is ", age_m+1, " years"), bty="n")#
+          }#
+ mapply(plot_length, length_data, length_filenames)
+surv <- function(data, filenames) {#
+ 	data1<-as.numeric(data[1,])#
+ 	matplot(data1[, -1], type="l", main= substr(ilenames, 8, 18), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1), xlim=c(0.5, 48))#
      axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
  }#
  	mapply(surv, surv_data, surv_filenames)
-surv <- function(surv_data, filenames) {#
- 	matplot(t(surv_data[, -1]), type="l", main= substr(repro_filenames, 8, 20), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1), xlim=c(0.5, 48))#
-     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
- }#
- 	mapply(surv, surv_data, surv_filenames)
-surv <- function(surv_data, filenames) {#
- 	matplot((surv_data[, -1]), type="l", main= substr(repro_filenames, 8, 20), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1), xlim=c(0.5, 48))#
-     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
- }#
- 	mapply(surv, surv_data, surv_filenames)
-setwd("~/Documents/tuna_theory/model_output/")#
-data_files <- list.files(pattern = "\\.csv$")#
-#
-repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
-state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
-length_filenames <- data_files[1:(length(data_files)/4)]#
-surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
-#
-length_filenames <- unique(length_filenames)#
-repro_filenames <- unique(repro_filenames)#
-state_filenames <- unique(state_filenames)#
-surv_filenames <- unique(surv_filenames)#
-#
-length_data <- lapply(length_filenames, read.csv)#
-repro_data <- lapply(repro_filenames, read.csv)#
-state_data <- lapply(state_filenames, read.csv)#
-surv_data <- lapply(surv_filenames, read.csv)#
- quartz()#
-  par(mfrow=c(2,2))#
-plot_length <- function(data, filenames) {#
-	  #data[is.na(data)] <- 0#
-     matplot(t(data[,-1]), type="l", main=c(substr(filenames, 9, 13), substr(filenames, 14, 20)), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")#
-     axis(1, at = seq(0, 64, by=4), labels = (seq(1, 17, by=1)))#
-     }#
- mapply(plot_length, length_data, length_filenames)    #
-  # plot_hist <- function(data, filenames) {#
-    # hist(data[, 12], breaks=50, xlim=c(50, 350), main=substr(filenames, 13, 49))#
-  # }#
-  # mapply(plot_hist, length_data, length_filenames)#
- # quartz()#
-  # par(mfrow=c(3, 3))#
-  plot_repro <- function(repro_data, repro_filenames) {#
-     matplot(t(repro_data[,-1]), type="l", main=c(substr(repro_filenames, 8, 14), substr(repro_filenames, 18, 23)), col="darkgray", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 2e+09), xlim=c(0.5, 48))#
-     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
-     }#
-#
-mapply(plot_repro, repro_data, repro_filenames)#
-#
-##make a plot of reproductive output as a function of length#
-# quartz()#
-  # par(mfrow=c(2, 2))#
- age.length <- function(length_data, repro_data, filenames) {#
- 	#need to make a log log plot#
- 	matplot(t(length_data[,-c(1, 64)]), t(repro_data[,]-c(1, 64)]), type="l", col="darkgray", pch=20,   main=c(substr(filenames, 9, 15), substr(filenames, 16, 21)),  xlab="Length (cm)", xlim=c(0, 350), ylim=c(0, 1.5e+09), ylab="Reproduction (J)")#
- 	} #
-mapply(age.length, length_data, repro_data, length_filenames)#
- surv <- function(surv_data, filenames) {#
- 	matplot((surv_data[, -1]), type="l", main= substr(repro_filenames, 8, 20), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1), xlim=c(0.5, 48))#
-     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
- }#
- 	mapply(surv, surv_data, surv_filenames)#
- 	#####now calculate the number alive as a function of age#
-# #  mort.est <- function(idata, filename) {#
-     # alive_at_age<- 10000.001 - colSums(apply(idata[,-1],2, is.na ))#
-      # age=1:64#
-      # plot(alive_at_age, type="l", lwd=2, ylab="Population size", main=c(substr(filename, 8, 14), substr(filename, 15, 20)), xlab= "Age (years)", xaxt="n", ylim=c(0, 10005), xlim=c(1, 56))#
-     # axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
-#
-      # mu_a <-  log(alive_at_age[age[-64]+1]/  alive_at_age[age[-64]])#
-      # asp <- min(which(cumprod(mu_a)<=0.01) )#
-     # mu_a[asp:length(mu_a)]=-5  #
-     # m1<- lm(log(alive_at_age) ~ age) 	#
- 	 # mu <- as.numeric(coef(m1)[2])#
- 	 # legend("topright",   legend=round(mu, 5), lty=1)#
- 	 # c(filename, exp(mu), exp(mu_a))#
- 	 # }#
-# quartz()#
- # par(mfrow=c(2, 3))#
-# mapply(mort.est, state_data, state_filenames)
-setwd("~/Documents/tuna_theory/model_output/")#
-data_files <- list.files(pattern = "\\.csv$")#
-#
-repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
-state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
-length_filenames <- data_files[1:(length(data_files)/4)]#
-surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
-#
-length_filenames <- unique(length_filenames)#
-repro_filenames <- unique(repro_filenames)#
-state_filenames <- unique(state_filenames)#
-surv_filenames <- unique(surv_filenames)#
-#
-length_data <- lapply(length_filenames, read.csv)#
-repro_data <- lapply(repro_filenames, read.csv)#
-state_data <- lapply(state_filenames, read.csv)#
-surv_data <- lapply(surv_filenames, read.csv)#
- quartz()#
-  par(mfrow=c(2,2))#
-plot_length <- function(data, filenames) {#
-	  #data[is.na(data)] <- 0#
-     matplot(t(data[,-1]), type="l", main=c(substr(filenames, 9, 13), substr(filenames, 14, 20)), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")#
-     axis(1, at = seq(0, 64, by=4), labels = (seq(1, 17, by=1)))#
-     }#
- mapply(plot_length, length_data, length_filenames)    #
-  # plot_hist <- function(data, filenames) {#
-    # hist(data[, 12], breaks=50, xlim=c(50, 350), main=substr(filenames, 13, 49))#
-  # }#
-  # mapply(plot_hist, length_data, length_filenames)#
- # quartz()#
-  # par(mfrow=c(3, 3))#
-  plot_repro <- function(repro_data, repro_filenames) {#
-     matplot(t(repro_data[,-1]), type="l", main=c(substr(repro_filenames, 8, 14), substr(repro_filenames, 18, 23)), col="darkgray", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 2e+09), xlim=c(0.5, 48))#
-     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
-     }#
-#
-mapply(plot_repro, repro_data, repro_filenames)#
-#
-##make a plot of reproductive output as a function of length#
-# quartz()#
-  # par(mfrow=c(2, 2))#
- age.length <- function(length_data, repro_data, filenames) {#
- 	#need to make a log log plot#
- 	matplot(t(length_data[,c(-1, -64)]), t(repro_data[,c(-1, -64)]), type="p", col="darkgray", pch=20,   main=c(substr(filenames, 9, 15), substr(filenames, 16, 21)),  xlab="Length (cm)", xlim=c(0, 350), ylim=c(0, 1.5e+09), ylab="Reproduction (J)")#
- 	} #
-mapply(age.length, length_data, repro_data, length_filenames)#
- surv <- function(surv_data, filenames) {#
- 	matplot((surv_data[, -1]), type="l", main= substr(repro_filenames, 8, 17), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1), xlim=c(0.5, 48))#
-     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
- }#
- 	mapply(surv, surv_data, surv_filenames)#
- 	#####now calculate the number alive as a function of age#
-# #  mort.est <- function(idata, filename) {#
-     # alive_at_age<- 10000.001 - colSums(apply(idata[,-1],2, is.na ))#
-      # age=1:64#
-      # plot(alive_at_age, type="l", lwd=2, ylab="Population size", main=c(substr(filename, 8, 14), substr(filename, 15, 20)), xlab= "Age (years)", xaxt="n", ylim=c(0, 10005), xlim=c(1, 56))#
-     # axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
-#
-      # mu_a <-  log(alive_at_age[age[-64]+1]/  alive_at_age[age[-64]])#
-      # asp <- min(which(cumprod(mu_a)<=0.01) )#
-     # mu_a[asp:length(mu_a)]=-5  #
-     # m1<- lm(log(alive_at_age) ~ age) 	#
- 	 # mu <- as.numeric(coef(m1)[2])#
- 	 # legend("topright",   legend=round(mu, 5), lty=1)#
- 	 # c(filename, exp(mu), exp(mu_a))#
- 	 # }#
-# quartz()#
- # par(mfrow=c(2, 3))#
-# mapply(mort.est, state_data, state_filenames)
-setwd("~/Documents/tuna_theory/model_output/")#
-data_files <- list.files(pattern = "\\.csv$")#
-#
-repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
-state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
-length_filenames <- data_files[1:(length(data_files)/4)]#
-surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
-#
-length_filenames <- unique(length_filenames)#
-repro_filenames <- unique(repro_filenames)#
-state_filenames <- unique(state_filenames)#
-surv_filenames <- unique(surv_filenames)#
-#
-length_data <- lapply(length_filenames, read.csv)#
-repro_data <- lapply(repro_filenames, read.csv)#
-state_data <- lapply(state_filenames, read.csv)#
-surv_data <- lapply(surv_filenames, read.csv)#
- quartz()#
-  par(mfrow=c(2,2))#
-plot_length <- function(data, filenames) {#
-	  #data[is.na(data)] <- 0#
-     matplot(t(data[,-1]), type="l", main=c(substr(filenames, 9, 13), substr(filenames, 14, 20)), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")#
-     axis(1, at = seq(0, 64, by=4), labels = (seq(1, 17, by=1)))#
-     }#
- mapply(plot_length, length_data, length_filenames)    #
-  # plot_hist <- function(data, filenames) {#
-    # hist(data[, 12], breaks=50, xlim=c(50, 350), main=substr(filenames, 13, 49))#
-  # }#
-  # mapply(plot_hist, length_data, length_filenames)#
- # quartz()#
-  # par(mfrow=c(3, 3))#
-  plot_repro <- function(repro_data, repro_filenames) {#
-     matplot(t(repro_data[,-1]), type="l", main=c(substr(repro_filenames, 8, 14), substr(repro_filenames, 18, 23)), col="darkgray", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 2e+09), xlim=c(0.5, 48))#
-     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
-     }#
-#
-mapply(plot_repro, repro_data, repro_filenames)#
-#
-##make a plot of reproductive output as a function of length#
-# quartz()#
-  # par(mfrow=c(2, 2))#
- age.length <- function(length_data, repro_data, filenames) {#
- 	#need to make a log log plot#
- 	matplot(t(length_data[,-c(1, 64)]), t(repro_data[,c(1, 64)]), type="p", col="darkgray", pch=20,   main=c(substr(filenames, 9, 15), substr(filenames, 16, 21)),  xlab="Length (cm)", xlim=c(0, 350), ylim=c(0, 1.5e+09), ylab="Reproduction (J)")#
- 	} #
-mapply(age.length, length_data, repro_data, length_filenames)#
- surv <- function(surv_data, filenames) {#
- 	matplot((surv_data[, -1]), type="l", main= substr(repro_filenames, 8, 17), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1), xlim=c(0.5, 48))#
-     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
- }#
- 	mapply(surv, surv_data, surv_filenames)#
- 	#####now calculate the number alive as a function of age#
-# #  mort.est <- function(idata, filename) {#
-     # alive_at_age<- 10000.001 - colSums(apply(idata[,-1],2, is.na ))#
-      # age=1:64#
-      # plot(alive_at_age, type="l", lwd=2, ylab="Population size", main=c(substr(filename, 8, 14), substr(filename, 15, 20)), xlab= "Age (years)", xaxt="n", ylim=c(0, 10005), xlim=c(1, 56))#
-     # axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
-#
-      # mu_a <-  log(alive_at_age[age[-64]+1]/  alive_at_age[age[-64]])#
-      # asp <- min(which(cumprod(mu_a)<=0.01) )#
-     # mu_a[asp:length(mu_a)]=-5  #
-     # m1<- lm(log(alive_at_age) ~ age) 	#
- 	 # mu <- as.numeric(coef(m1)[2])#
- 	 # legend("topright",   legend=round(mu, 5), lty=1)#
- 	 # c(filename, exp(mu), exp(mu_a))#
- 	 # }#
-# quartz()#
- # par(mfrow=c(2, 3))#
-# mapply(mort.est, state_data, state_filenames)
-age.length <- function(length_data, repro_data, filenames) {#
- 	#need to make a log log plot#
- 	matplot(t(length_data[,-c(1, 64)]), t(repro_data[,-c(1, 64)]), type="p", col="darkgray", pch=20,   main=c(substr(filenames, 9, 15), substr(filenames, 16, 21)),  xlab="Length (cm)", xlim=c(0, 350), ylim=c(0, 1.5e+09), ylab="Reproduction (J)")#
- 	} #
-mapply(age.length, length_data, repro_data, length_filenames)
-age.length <- function(length_data, repro_data, filenames) {#
- 	#need to make a log log plot#
- 	matplot(t(length_data[,-64)]), t(repro_data[,-64)]), type="p", col="darkgray", pch=20,   main=c(substr(filenames, 9, 15), substr(filenames, 16, 21)),  xlab="Length (cm)", xlim=c(0, 350), ylim=c(0, 1.5e+09), ylab="Reproduction (J)")#
- 	} #
-mapply(age.length, length_data, repro_data, length_filenames)
-artz()#
-  # par(mfrow=c(2, 2))#
- age.length <- function(length_data, repro_data, filenames) {#
- 	#need to make a log log plot#
- 	matplot(t(length_data[,c(-1,-65)]), t(repro_data[,c(-1,-65)]), type="p", col="darkgray", pch=20,   main=c(substr(filenames, 9, 15), substr(filenames, 16, 21)),  xlab="Length (cm)", xlim=c(0, 350), ylim=c(0, 1.5e+09), ylab="Reproduction (J)")#
- 	} #
-mapply(age.length, length_data, repro_data, length_filenames)
-setwd("~/Documents/tuna_theory/model_output/")#
-data_files <- list.files(pattern = "\\.csv$")#
-#
-repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
-state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
-length_filenames <- data_files[1:(length(data_files)/4)]#
-surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
-#
-length_filenames <- unique(length_filenames)#
-repro_filenames <- unique(repro_filenames)#
-state_filenames <- unique(state_filenames)#
-surv_filenames <- unique(surv_filenames)#
-#
-length_data <- lapply(length_filenames, read.csv)#
-repro_data <- lapply(repro_filenames, read.csv)#
-state_data <- lapply(state_filenames, read.csv)#
-surv_data <- lapply(surv_filenames, read.csv)#
- quartz()#
-  par(mfrow=c(2,2))#
-plot_length <- function(data, filenames) {#
-	  #data[is.na(data)] <- 0#
-     matplot(t(data[,-1]), type="l", main=c(substr(filenames, 9, 13), substr(filenames, 14, 20)), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")#
-     axis(1, at = seq(0, 64, by=4), labels = (seq(1, 17, by=1)))#
-     }#
- mapply(plot_length, length_data, length_filenames)    #
-  # plot_hist <- function(data, filenames) {#
-    # hist(data[, 12], breaks=50, xlim=c(50, 350), main=substr(filenames, 13, 49))#
-  # }#
-  # mapply(plot_hist, length_data, length_filenames)#
- # quartz()#
-  # par(mfrow=c(3, 3))#
-  plot_repro <- function(repro_data, repro_filenames) {#
-     matplot(t(repro_data[,-1]), type="l", main=c(substr(repro_filenames, 8, 14), substr(repro_filenames, 18, 23)), col="darkgray", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 2e+09), xlim=c(0.5, 48))#
-     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
-     }#
-#
-mapply(plot_repro, repro_data, repro_filenames)#
-#
-##make a plot of reproductive output as a function of length#
-# quartz()#
-  # par(mfrow=c(2, 2))#
- age.length <- function(length_data, repro_data, filenames) {#
- 	#need to make a log log plot#
- 	matplot(t(length_data[,c(-1,-65)]), t(repro_data[,c(-1,-65)]), type="p", col="darkgray", pch=20,   main=c(substr(filenames, 9, 15), substr(filenames, 16, 21)),  xlab="Length (cm)", xlim=c(0, 350), ylim=c(0, 1.5e+09), ylab="Reproduction (J)")#
- 	} #
-mapply(age.length, length_data, repro_data, length_filenames)#
- surv <- function(surv_data, filenames) {#
- 	matplot((surv_data[, -1]), type="l", main= substr(repro_filenames, 8, 17), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1), xlim=c(0.5, 48))#
-     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
- }#
- 	mapply(surv, surv_data, surv_filenames)#
- 	#####now calculate the number alive as a function of age#
-# #  mort.est <- function(idata, filename) {#
-     # alive_at_age<- 10000.001 - colSums(apply(idata[,-1],2, is.na ))#
-      # age=1:64#
-      # plot(alive_at_age, type="l", lwd=2, ylab="Population size", main=c(substr(filename, 8, 14), substr(filename, 15, 20)), xlab= "Age (years)", xaxt="n", ylim=c(0, 10005), xlim=c(1, 56))#
-     # axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
-#
-      # mu_a <-  log(alive_at_age[age[-64]+1]/  alive_at_age[age[-64]])#
-      # asp <- min(which(cumprod(mu_a)<=0.01) )#
-     # mu_a[asp:length(mu_a)]=-5  #
-     # m1<- lm(log(alive_at_age) ~ age) 	#
- 	 # mu <- as.numeric(coef(m1)[2])#
- 	 # legend("topright",   legend=round(mu, 5), lty=1)#
- 	 # c(filename, exp(mu), exp(mu_a))#
- 	 # }#
-# quartz()#
- # par(mfrow=c(2, 3))#
-# mapply(mort.est, state_data, state_filenames)
-setwd("~/Documents/tuna_theory/model_output/")#
-data_files <- list.files(pattern = "\\.csv$")#
-#
-repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
-state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
-length_filenames <- data_files[1:(length(data_files)/4)]#
-surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
-#
-length_filenames <- unique(length_filenames)#
-repro_filenames <- unique(repro_filenames)#
-state_filenames <- unique(state_filenames)#
-surv_filenames <- unique(surv_filenames)#
-#
-length_data <- lapply(length_filenames, read.csv)#
-repro_data <- lapply(repro_filenames, read.csv)#
-state_data <- lapply(state_filenames, read.csv)#
-surv_data <- lapply(surv_filenames, read.csv)#
- quartz()#
-  par(mfrow=c(2,2))#
-plot_length <- function(data, filenames) {#
-	  #data[is.na(data)] <- 0#
-     matplot(t(data[,-1]), type="l", main=c(substr(filenames, 9, 13), substr(filenames, 14, 18)), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")#
-     axis(1, at = seq(0, 64, by=4), labels = (seq(1, 17, by=1)))#
-     }#
- mapply(plot_length, length_data, length_filenames)    #
-  # plot_hist <- function(data, filenames) {#
-    # hist(data[, 12], breaks=50, xlim=c(50, 350), main=substr(filenames, 13, 49))#
-  # }#
-  # mapply(plot_hist, length_data, length_filenames)#
- # quartz()#
-  # par(mfrow=c(3, 3))#
-  plot_repro <- function(repro_data, repro_filenames) {#
-     matplot(t(repro_data[,-1]), type="l", main= substr(repro_filenames, 10, 19), col="darkgray", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 2e+09), xlim=c(0.5, 48))#
-     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
-     }#
-#
-mapply(plot_repro, repro_data, repro_filenames)#
-#
-##make a plot of reproductive output as a function of length#
-# quartz()#
-  # par(mfrow=c(2, 2))#
- age.length <- function(length_data, repro_data, filenames) {#
- 	#need to make a log log plot#
- 	matplot(t(length_data[,c(-1,-65)]), t(repro_data[,c(-1,-65)]), type="p", col="darkgray", pch=20,   main= substr(repro_filenames, 9, 18),  xlab="Length (cm)", xlim=c(0, 350), ylim=c(0, 1.5e+09), ylab="Reproduction (J)")#
- 	} #
-mapply(age.length, length_data, repro_data, length_filenames)#
- surv <- function(surv_data, filenames) {#
- 	matplot((surv_data[, -1]), type="l", main= substr(repro_filenames, 8, 17), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1), xlim=c(0.5, 48))#
-     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
- }#
- 	mapply(surv, surv_data, surv_filenames)#
- 	#####now calculate the number alive as a function of age#
-# #  mort.est <- function(idata, filename) {#
-     # alive_at_age<- 10000.001 - colSums(apply(idata[,-1],2, is.na ))#
-      # age=1:64#
-      # plot(alive_at_age, type="l", lwd=2, ylab="Population size", main=c(substr(filename, 8, 14), substr(filename, 15, 20)), xlab= "Age (years)", xaxt="n", ylim=c(0, 10005), xlim=c(1, 56))#
-     # axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
-#
-      # mu_a <-  log(alive_at_age[age[-64]+1]/  alive_at_age[age[-64]])#
-      # asp <- min(which(cumprod(mu_a)<=0.01) )#
-     # mu_a[asp:length(mu_a)]=-5  #
-     # m1<- lm(log(alive_at_age) ~ age) 	#
- 	 # mu <- as.numeric(coef(m1)[2])#
- 	 # legend("topright",   legend=round(mu, 5), lty=1)#
- 	 # c(filename, exp(mu), exp(mu_a))#
- 	 # }#
-# quartz()#
- # par(mfrow=c(2, 3))#
-# mapply(mort.est, state_data, state_filenames)
-setwd("~/Documents/tuna_theory/model_output/")#
-data_files <- list.files(pattern = "\\.csv$")#
-#
-repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
-state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
-length_filenames <- data_files[1:(length(data_files)/4)]#
-surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
-#
-length_filenames <- unique(length_filenames)#
-repro_filenames <- unique(repro_filenames)#
-state_filenames <- unique(state_filenames)#
-surv_filenames <- unique(surv_filenames)#
-#
-length_data <- lapply(length_filenames, read.csv)#
-repro_data <- lapply(repro_filenames, read.csv)#
-state_data <- lapply(state_filenames, read.csv)#
-surv_data <- lapply(surv_filenames, read.csv)#
- quartz()#
-  par(mfrow=c(2,2))#
-plot_length <- function(data, filenames) {#
-	  #data[is.na(data)] <- 0#
-     matplot(t(data[,-1]), type="l", main=c(substr(filenames, 9, 13), substr(filenames, 14, 18)), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")#
-     axis(1, at = seq(0, 64, by=4), labels = (seq(1, 17, by=1)))#
-     }#
- mapply(plot_length, length_data, length_filenames)    #
-  # plot_hist <- function(data, filenames) {#
-    # hist(data[, 12], breaks=50, xlim=c(50, 350), main=substr(filenames, 13, 49))#
-  # }#
-  # mapply(plot_hist, length_data, length_filenames)#
- # quartz()#
-  # par(mfrow=c(3, 3))#
-  plot_repro <- function(repro_data, repro_filenames) {#
-     matplot(t(repro_data[,-1]), type="l", main= substr(repro_filenames, 8, 17), col="darkgray", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 2e+09), xlim=c(0.5, 48))#
-     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
-     }#
-#
-mapply(plot_repro, repro_data, repro_filenames)#
-#
-##make a plot of reproductive output as a function of length#
-# quartz()#
-  # par(mfrow=c(2, 2))#
- age.length <- function(length_data, repro_data, filenames) {#
- 	#need to make a log log plot#
- 	matplot(t(length_data[,c(-1,-65)]), t(repro_data[,c(-1,-65)]), type="p", col="darkgray", pch=20,   main= substr(repro_filenames, 8, 17),  xlab="Length (cm)", xlim=c(0, 350), ylim=c(0, 1.5e+09), ylab="Reproduction (J)")#
- 	} #
-mapply(age.length, length_data, repro_data, length_filenames)#
- surv <- function(surv_data, filenames) {#
- 	matplot((surv_data[, -1]), type="l", main= substr(repro_filenames, 8, 17), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1), xlim=c(0.5, 48))#
-     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
- }#
- 	mapply(surv, surv_data, surv_filenames)#
- 	#####now calculate the number alive as a function of age#
-# #  mort.est <- function(idata, filename) {#
-     # alive_at_age<- 10000.001 - colSums(apply(idata[,-1],2, is.na ))#
-      # age=1:64#
-      # plot(alive_at_age, type="l", lwd=2, ylab="Population size", main=c(substr(filename, 8, 14), substr(filename, 15, 20)), xlab= "Age (years)", xaxt="n", ylim=c(0, 10005), xlim=c(1, 56))#
-     # axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
-#
-      # mu_a <-  log(alive_at_age[age[-64]+1]/  alive_at_age[age[-64]])#
-      # asp <- min(which(cumprod(mu_a)<=0.01) )#
-     # mu_a[asp:length(mu_a)]=-5  #
-     # m1<- lm(log(alive_at_age) ~ age) 	#
- 	 # mu <- as.numeric(coef(m1)[2])#
- 	 # legend("topright",   legend=round(mu, 5), lty=1)#
- 	 # c(filename, exp(mu), exp(mu_a))#
- 	 # }#
-# quartz()#
- # par(mfrow=c(2, 3))#
-# mapply(mort.est, state_data, state_filenames)
-setwd("~/Documents/tuna_theory/model_output/")#
-data_files <- list.files(pattern = "\\.csv$")#
-#
-repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
-state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
-length_filenames <- data_files[1:(length(data_files)/4)]#
-surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
-#
-length_filenames <- unique(length_filenames)#
-repro_filenames <- unique(repro_filenames)#
-state_filenames <- unique(state_filenames)#
-surv_filenames <- unique(surv_filenames)#
-#
-length_data <- lapply(length_filenames, read.csv)#
-repro_data <- lapply(repro_filenames, read.csv)#
-state_data <- lapply(state_filenames, read.csv)#
-surv_data <- lapply(surv_filenames, read.csv)#
- quartz()#
-  par(mfrow=c(2,2))#
-plot_length <- function(data, filenames) {#
-	  #data[is.na(data)] <- 0#
-     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 18), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")#
-     axis(1, at = seq(0, 64, by=4), labels = (seq(1, 17, by=1)))#
-     }#
- mapply(plot_length, length_data, length_filenames)    #
-  # plot_hist <- function(data, filenames) {#
-    # hist(data[, 12], breaks=50, xlim=c(50, 350), main=substr(filenames, 13, 49))#
-  # }#
-  # mapply(plot_hist, length_data, length_filenames)#
- # quartz()#
-  # par(mfrow=c(3, 3))#
-  plot_repro <- function(repro_data, repro_filenames) {#
-     matplot(t(repro_data[,-1]), type="l", main= substr(repro_filenames, 8, 17), col="darkgray", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 2e+09), xlim=c(0.5, 48))#
-     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
-     }#
-#
-mapply(plot_repro, repro_data, repro_filenames)#
-#
-##make a plot of reproductive output as a function of length#
-# quartz()#
-  # par(mfrow=c(2, 2))#
- age.length <- function(length_data, repro_data, filenames) {#
- 	#need to make a log log plot#
- 	matplot(t(length_data[,c(-1,-65)]), t(repro_data[,c(-1,-65)]), type="p", col="darkgray", pch=20,   main= substr(repro_filenames, 8, 17),  xlab="Length (cm)", xlim=c(0, 350), ylim=c(0, 1.5e+09), ylab="Reproduction (J)")#
- 	} #
-mapply(age.length, length_data, repro_data, length_filenames)#
- surv <- function(surv_data, filenames) {#
- 	matplot((surv_data[, -1]), type="l", main= substr(repro_filenames, 8, 17), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1), xlim=c(0.5, 48))#
-     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
- }#
- 	mapply(surv, surv_data, surv_filenames)#
- 	#####now calculate the number alive as a function of age#
-# #  mort.est <- function(idata, filename) {#
-     # alive_at_age<- 10000.001 - colSums(apply(idata[,-1],2, is.na ))#
-      # age=1:64#
-      # plot(alive_at_age, type="l", lwd=2, ylab="Population size", main=c(substr(filename, 8, 14), substr(filename, 15, 20)), xlab= "Age (years)", xaxt="n", ylim=c(0, 10005), xlim=c(1, 56))#
-     # axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
-#
-      # mu_a <-  log(alive_at_age[age[-64]+1]/  alive_at_age[age[-64]])#
-      # asp <- min(which(cumprod(mu_a)<=0.01) )#
-     # mu_a[asp:length(mu_a)]=-5  #
-     # m1<- lm(log(alive_at_age) ~ age) 	#
- 	 # mu <- as.numeric(coef(m1)[2])#
- 	 # legend("topright",   legend=round(mu, 5), lty=1)#
- 	 # c(filename, exp(mu), exp(mu_a))#
- 	 # }#
-# quartz()#
- # par(mfrow=c(2, 3))#
-# mapply(mort.est, state_data, state_filenames)
-setwd("~/Documents/tuna_theory/model_output/")#
-data_files <- list.files(pattern = "\\.csv$")#
-#
-repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
-state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
-length_filenames <- data_files[1:(length(data_files)/4)]#
-surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
-#
-length_filenames <- unique(length_filenames)#
-repro_filenames <- unique(repro_filenames)#
-state_filenames <- unique(state_filenames)#
-surv_filenames <- unique(surv_filenames)#
-#
-length_data <- lapply(length_filenames, read.csv)#
-repro_data <- lapply(repro_filenames, read.csv)#
-state_data <- lapply(state_filenames, read.csv)#
-surv_data <- lapply(surv_filenames, read.csv)#
- quartz()#
-  par(mfrow=c(2,2))#
-plot_length <- function(data, filenames) {#
-	  #data[is.na(data)] <- 0#
-     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 18), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")#
-     axis(1, at = seq(0, 64, by=4), labels = (seq(1, 17, by=1)))#
-     }#
- mapply(plot_length, length_data, length_filenames)    #
-  # plot_hist <- function(data, filenames) {#
-    # hist(data[, 12], breaks=50, xlim=c(50, 350), main=substr(filenames, 13, 49))#
-  # }#
-  # mapply(plot_hist, length_data, length_filenames)#
- # quartz()#
-  # par(mfrow=c(3, 3))#
-  plot_repro <- function(repro_data, repro_filenames) {#
-     matplot(t(repro_data[,-1]), type="l", main= substr(repro_filenames, 8, 17), col="darkgray", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 2e+09), xlim=c(0.5, 48))#
-     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
-     }#
-#
-mapply(plot_repro, repro_data, repro_filenames)#
-#
-##make a plot of reproductive output as a function of length#
-# quartz()#
-  # par(mfrow=c(2, 2))#
- age.length <- function(length_data, repro_data, filenames) {#
- 	#need to make a log log plot#
- 	matplot(t(length_data[,c(-1,-65)]), t(repro_data[,c(-1,-65)]), type="p", col="darkgray", pch=20,   main= substr(repro_filenames, 8, 17),  xlab="Length (cm)", xlim=c(0, 350), ylim=c(0, 1.5e+09), ylab="Reproduction (J)")#
- 	} #
-mapply(age.length, length_data, repro_data, length_filenames)#
- surv <- function(surv_data, filenames) {#
- 	matplot((surv_data[, -1]), type="l", main= substr(repro_filenames, 8, 17), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1), xlim=c(0.5, 48))#
-     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
- }#
- 	mapply(surv, surv_data, surv_filenames)#
- 	#####now calculate the number alive as a function of age#
-# #  mort.est <- function(idata, filename) {#
-     # alive_at_age<- 10000.001 - colSums(apply(idata[,-1],2, is.na ))#
-      # age=1:64#
-      # plot(alive_at_age, type="l", lwd=2, ylab="Population size", main=c(substr(filename, 8, 14), substr(filename, 15, 20)), xlab= "Age (years)", xaxt="n", ylim=c(0, 10005), xlim=c(1, 56))#
-     # axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
-#
-      # mu_a <-  log(alive_at_age[age[-64]+1]/  alive_at_age[age[-64]])#
-      # asp <- min(which(cumprod(mu_a)<=0.01) )#
-     # mu_a[asp:length(mu_a)]=-5  #
-     # m1<- lm(log(alive_at_age) ~ age) 	#
- 	 # mu <- as.numeric(coef(m1)[2])#
- 	 # legend("topright",   legend=round(mu, 5), lty=1)#
- 	 # c(filename, exp(mu), exp(mu_a))#
- 	 # }#
-# quartz()#
- # par(mfrow=c(2, 3))#
-# mapply(mort.est, state_data, state_filenames)
-setwd("~/Documents/tuna_theory/model_output/")#
-data_files <- list.files(pattern = "\\.csv$")#
-#
-repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
-state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
-length_filenames <- data_files[1:(length(data_files)/4)]#
-surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
-#
-length_filenames <- unique(length_filenames)#
-repro_filenames <- unique(repro_filenames)#
-state_filenames <- unique(state_filenames)#
-surv_filenames <- unique(surv_filenames)#
-#
-length_data <- lapply(length_filenames, read.csv)#
-repro_data <- lapply(repro_filenames, read.csv)#
-state_data <- lapply(state_filenames, read.csv)#
-surv_data <- lapply(surv_filenames, read.csv)#
- quartz()#
-  par(mfrow=c(2,2))#
-plot_length <- function(data, filenames) {#
-	  #data[is.na(data)] <- 0#
-     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 18), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")#
-     axis(1, at = seq(0, 64, by=4), labels = (seq(1, 17, by=1)))#
-     }#
- mapply(plot_length, length_data, length_filenames)    #
-  # plot_hist <- function(data, filenames) {#
-    # hist(data[, 12], breaks=50, xlim=c(50, 350), main=substr(filenames, 13, 49))#
-  # }#
-  # mapply(plot_hist, length_data, length_filenames)#
- # quartz()#
-  # par(mfrow=c(3, 3))#
-  plot_repro <- function(repro_data, repro_filenames) {#
-     matplot(t(repro_data[,-1]), type="l", main= substr(repro_filenames, 8, 17), col="darkgray", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 2e+09), xlim=c(0.5, 48))#
-     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
-     }#
-#
-#mapply(plot_repro, repro_data, repro_filenames)#
-#
-##make a plot of reproductive output as a function of length#
-# quartz()#
-  # par(mfrow=c(2, 2))#
- age.length <- function(length_data, repro_data, filenames) {#
- 	#need to make a log log plot#
- 	matplot(t(length_data[,c(-1,-65)]), t(repro_data[,c(-1,-65)]), type="p", col="darkgray", pch=20,   main= substr(repro_filenames, 8, 17),  xlab="Length (cm)", xlim=c(0, 350), ylim=c(0, 1.5e+09), ylab="Reproduction (J)")#
- 	} #
-mapply(age.length, length_data, repro_data, length_filenames)#
-quartz()#
- par(mfrow=c(2, 2))#
-#
- surv <- function(surv_data, filenames) {#
- 	matplot((surv_data[, -1]), type="l", main= substr(repro_filenames, 8, 17), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1), xlim=c(0.5, 48))#
-     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
- }#
- 	mapply(surv, surv_data, surv_filenames)#
- 	#####now calculate the number alive as a function of age#
-# #  mort.est <- function(idata, filename) {#
-     # alive_at_age<- 10000.001 - colSums(apply(idata[,-1],2, is.na ))#
-      # age=1:64#
-      # plot(alive_at_age, type="l", lwd=2, ylab="Population size", main=c(substr(filename, 8, 14), substr(filename, 15, 20)), xlab= "Age (years)", xaxt="n", ylim=c(0, 10005), xlim=c(1, 56))#
-     # axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
-#
-      # mu_a <-  log(alive_at_age[age[-64]+1]/  alive_at_age[age[-64]])#
-      # asp <- min(which(cumprod(mu_a)<=0.01) )#
-     # mu_a[asp:length(mu_a)]=-5  #
-     # m1<- lm(log(alive_at_age) ~ age) 	#
- 	 # mu <- as.numeric(coef(m1)[2])#
- 	 # legend("topright",   legend=round(mu, 5), lty=1)#
- 	 # c(filename, exp(mu), exp(mu_a))#
- 	 # }#
-# quartz()#
- # par(mfrow=c(2, 3))#
-# mapply(mort.est, state_data, state_filenames)
-quartz()#
- par(mfrow=c(2, 2))#
-#
- surv <- function(surv_data, filenames) {#
- 	matplot((surv_data[, -1]), type="l", main= substr(repro_filenames, 8, 18), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1), xlim=c(0.5, 48))#
+surv <- function(data, filenames) {#
+ 	data1<-as.numeric(data[1,])#
+ 	matplot(data1[-1], type="l", main= substr(ilenames, 8, 18), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1), xlim=c(0.5, 48))#
      axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
  }#
  	mapply(surv, surv_data, surv_filenames)
 quartz()#
- par(mfrow=c(2, 2))#
+ par(mfrow=c(3, 3))#
 #
- surv <- function(surv_data, filenames) {#
- 	matplot(surv_data[, -1], type="l", main= substr(surv_filenames, 8, 18), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1), xlim=c(0.5, 48))#
+ surv <- function(data, filenames) {#
+ 	data1<-as.numeric(data[1,])#
+ 	matplot(data1[-1], type="l", main= substr(ilenames, 8, 18), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1), xlim=c(0.5, 48))#
      axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
  }#
  	mapply(surv, surv_data, surv_filenames)
+surv <- function(data, filenames) {#
+ 	data1<-as.numeric(data[1,])#
+ 	matplot(data1[-1], type="l", main= substr(filenames, 8, 18), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1), xlim=c(0.5, 48))#
+     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
+ }#
+ 	mapply(surv, surv_data, surv_filenames)
+quartz()#
+ par(mfrow=c(3, 3))#
+#
+ surv <- function(data, filenames) {#
+ 	data1<-as.numeric(data[1,])#
+ 	matplot(data1[-1], type="l", main= substr(filenames, 6, 17), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1), xlim=c(0.5, 48))#
+     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
+ }#
+ 	mapply(surv, surv_data, surv_filenames)
+surv <- function(data, filenames) {#
+ 	#data1<-as.numeric(data[1,])#
+ 	matplot(data[1,-1], type="l", main= substr(filenames, 6, 17), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1), xlim=c(0.5, 48))#
+     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
+ }#
+ 	mapply(surv, surv_data, surv_filenames)
+quartz()#
+ par(mfrow=c(3, 3))#
+#
+ surv <- function(data, filenames) {#
+ 	#data1<-as.numeric(data[1,])#
+ 	matplot(data[,-1], type="l", main= substr(filenames, 6, 17), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1), xlim=c(0.5, 48))#
+     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
+ }#
+ 	mapply(surv, surv_data, surv_filenames)
+surv <- function(data, filenames) {#
+ 	#data1<-as.numeric(data[1,])#
+ 	matplot(data[,-1], type="l", main= substr(filenames, 6, 17), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1), xlim=c(0.5, 48))#
+     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
+  as.numeric(data[1,])#
+ }#
+ 	mapply(surv, surv_data, surv_filenames)
+surv <- function(data, filenames) {#
+ 	#data1<-as.numeric(data[1,])#
+ 	matplot(data[,-1], type="l", main= substr(filenames, 6, 17), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1), xlim=c(0.5, 48))#
+     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
+  as.numeric(data[1,])#
+ }#
+ 	mapply(surv, surv_data, surv_filenames)#
+  lnsurv <- function(data, filenames) {#
+ 	data1<-as.numeric(data[,1])
+surv <- function(data, filenames) {#
+ 	#data1<-as.numeric(data[1,])#
+ 	matplot(data[,-1], type="l", main= substr(filenames, 6, 17), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1), xlim=c(0.5, 48))#
+     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
+  as.numeric(data[-1,1])#
+ }#
+ 	mapply(surv, surv_data, surv_filenames)
+surv <- function(data, filenames) {#
+ 	#data1<-as.numeric(data[1,])#
+ 	matplot(data[,-1], type="l", main= substr(filenames, 6, 17), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1), xlim=c(0.5, 48))#
+     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
+  as.numeric(data[-1,1])#
+ }#
+ 	mapply(surv, surv_data, surv_filenames)
+surv <- function(data, filenames) {#
+ 	#data1<-as.numeric(data[1,])#
+ 	matplot(data[,-1], type="l", main= substr(filenames, 6, 17), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1), xlim=c(0.5, 48))#
+     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
+  as.numeric(data[,1])#
+ }
+mapply(surv, surv_data, surv_filenames)
+quartz()#
+ par(mfrow=c(3, 3))#
+#
+ surv <- function(data, filenames) {#
+ 	#data1<-as.numeric(data[1,])#
+ 	matplot(data[,-1], type="l", main= substr(filenames, 6, 17), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1), xlim=c(0.5, 48))#
+     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
+  as.numeric(data[,2])#
+ }#
+ 	mapply(surv, surv_data, surv_filenames)
+lnsurv <- function(data, filenames) {#
+ 	data1<-as.numeric(data[,2])#
+ 	matplot(log(data1[-1]), type="l", main= substr(surv_filenames, 8, 18), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1), xlim=c(0.5, 48))#
+     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
+   m2<-lm(log(data1[-1]~time)#
+   abline(m2)#
+   print(paste0("Env is ", substr(surv_filenames, 8, 18))),", Slope is ", round(as.numeric(coef(m2)[2]), 3)))#
+   legend("topright",   legend=paste0("slope is ",round(as.numeric(coef(m1)[2]), 3)), bty="n")#
+ }#
+ 	mapply(lnsurv, surv_data, surv_filenames)
+lnsurv <- function(data, filenames) {#
+ 	data1<-as.numeric(data[,2])#
+ 	matplot(log(data1[-1]), type="l", main= substr(surv_filenames, 8, 18), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1), xlim=c(0.5, 48))#
+     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
+   m2<-lm(log(data1[-1]~time))#
+   abline(m2)#
+   print(paste0("Env is ", substr(surv_filenames, 8, 18))),", Slope is ", round(as.numeric(coef(m2)[2]), 3)))#
+   legend("topright",   legend=paste0("slope is ",round(as.numeric(coef(m1)[2]), 3)), bty="n")#
+ }#
+ 	mapply(lnsurv, surv_data, surv_filenames)
+lnsurv <- function(data, filenames) {#
+ 	data1<-as.numeric(data[,2])#
+ 	matplot(log(data1[-1]), type="l", main= substr(surv_filenames, 8, 18), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1), xlim=c(0.5, 48))#
+     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
+   m2<-lm(log(data1[-1])~time)#
+   abline(m2)#
+   print(paste0("Env is ", substr(surv_filenames, 8, 18))),", Slope is ", round(as.numeric(coef(m2)[2]), 3)))#
+   legend("topright",   legend=paste0("slope is ",round(as.numeric(coef(m1)[2]), 3)), bty="n")#
+ }#
+ 	mapply(lnsurv, surv_data, surv_filenames)
+lnsurv <- function(data, filenames) {#
+ 	data1<-as.numeric(data[,2])#
+ 	matplot(log(data1[-1]), type="l", main= substr(surv_filenames, 8, 18), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1), xlim=c(0.5, 48))#
+     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
+   m2<-lm(log(data1[-1])~time)#
+   abline(m2)#
+   #print(paste0("Env is ", substr(surv_filenames, 8, 18))),", Slope is ", round(as.numeric(coef(m2)[2]), 3)))#
+   legend("topright",   legend=paste0("slope is ",round(as.numeric(coef(m1)[2]), 3)), bty="n")#
+ }#
+ 	mapply(lnsurv, surv_data, surv_filenames)
+data1<-as.numeric(data[,2])#
+ 	matplot(log(data1[-1]), type="l", main= substr(surv_filenames, 8, 18), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1), xlim=c(0.5, 48))#
+     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
+   m2<-lm(log(data1[-1])~time[-64])#
+   abline(m2)#
+   #print(paste0("Env is ", substr(surv_filenames, 8, 18))),", Slope is ", round(as.numeric(coef(m2)[2]), 3)))#
+   legend("topright",   legend=paste0("slope is ",round(as.numeric(coef(m1)[2]), 3)), bty="n")#
+ }#
+ 	mapply(lnsurv, surv_data, surv_filenames)
+lnsurv <- function(data, filenames) {#
+ 	data1<-as.numeric(data[,2])#
+ 	matplot(log(data1[-1]), type="l", main= substr(surv_filenames, 8, 18), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1), xlim=c(0.5, 48))#
+     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
+   m2<-lm(log(data1[-1])~time[-64])#
+   abline(m2)#
+   #print(paste0("Env is ", substr(surv_filenames, 8, 18))),", Slope is ", round(as.numeric(coef(m2)[2]), 3)))#
+   legend("topright",   legend=paste0("slope is ",round(as.numeric(coef(m2)[2]), 3)), bty="n")#
+ }#
+ 	mapply(lnsurv, surv_data, surv_filenames)
+lnsurv <- function(data, filenames) {#
+ 	data1<-as.numeric(data[,2])#
+ 	matplot(log(data1[-1]), type="l", main= substr(filenames, 8, 18), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1), xlim=c(0.5, 48))#
+     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
+   m2<-lm(log(data1[-1])~time[-64])#
+   abline(m2)#
+   #print(paste0("Env is ", substr(surv_filenames, 8, 18))),", Slope is ", round(as.numeric(coef(m2)[2]), 3)))#
+   legend("topright",   legend=paste0("slope is ",round(as.numeric(coef(m2)[2]), 3)), bty="n")#
+ }#
+ 	mapply(lnsurv, surv_data, surv_filenames)
+lnsurv <- function(data, filenames) {#
+ 	data1<-as.numeric(data[,2])#
+ 	matplot(log(data1[-1]), type="l", main= substr(filenames, 8, 18), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n",  xlim=c(0.5, 48))#
+     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
+   m2<-lm(log(data1[-1])~time[-64])#
+   abline(m2)#
+   #print(paste0("Env is ", substr(surv_filenames, 8, 18))),", Slope is ", round(as.numeric(coef(m2)[2]), 3)))#
+   legend("topright",   legend=paste0("slope is ",round(as.numeric(coef(m2)[2]), 3)), bty="n")#
+ }#
+ 	mapply(lnsurv, surv_data, surv_filenames)
+lnsurv <- function(data, filenames) {#
+ 	data1<-as.numeric(data[,2])#
+ 	matplot(log(data1[-1]), type="l", main= substr(filenames, 8, 18), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n",  ylim=c(-20, 0), xlim=c(0.5, 48))#
+     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
+   m2<-lm(log(data1[-1])~time[-64])#
+   abline(m2)#
+   #print(paste0("Env is ", substr(surv_filenames, 8, 18))),", Slope is ", round(as.numeric(coef(m2)[2]), 3)))#
+   legend("topright",   legend=paste0("slope is ",round(as.numeric(coef(m2)[2]), 3)), bty="n")#
+ }#
+ 	mapply(lnsurv, surv_data, surv_filenames)
+lnsurv <- function(data, filenames) {#
+ 	data1<-as.numeric(data[,2])#
+ 	matplot(log(data1[-1]), type="l", main= substr(filenames, 8, 18), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n",  ylim=c(-20, 0), xlim=c(0.5, 48))#
+     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
+   m2<-lm(log(data1[-1])~time[-64])#
+   abline(m2)#
+   #print(paste0("Env is ", substr(surv_filenames, 8, 18))),", Slope is ", round(as.numeric(coef(m2)[2]), 3)))#
+   legend("bottomright",   legend=paste0("slope is ",round(as.numeric(coef(m2)[2]), 3)), bty="n")#
+ }#
+ 	mapply(lnsurv, surv_data, surv_filenames)
+lnsurv <- function(data, filenames) {#
+ 	data1<-as.numeric(data[,2])#
+ 	matplot(log(data1[-1]), type="l", main= substr(filenames, 8, 18), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n",  ylim=c(-20, 0), xlim=c(0.5, 48))#
+     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
+   m2<-lm(log(data1[-1])~time[-64])#
+   abline(m2)#
+   #print(paste0("Env is ", substr(surv_filenames, 8, 18))),", Slope is ", round(as.numeric(coef(m2)[2]), 3)))#
+   legend("bottomleft",   legend=paste0("slope is ",round(as.numeric(coef(m2)[2]), 3)), bty="n")#
+ }#
+ 	mapply(lnsurv, surv_data, surv_filenames)
+surv <- function(data, filenames) {#
+ 	matplot(data[,-1], type="l", main= substr(filenames, 6, 17), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1), xlim=c(0.5, 48))#
+     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
+ }#
+ 	mapply(surv, surv_data, surv_filenames)
+setwd("~/Documents/tuna_theory/model_output/")#
+data_files <- list.files(pattern = "\\.csv$")#
+#
+repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
+state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
+length_filenames <- data_files[1:(length(data_files)/4)]#
+surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+surv_filenames <- unique(surv_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+surv_data <- lapply(surv_filenames, read.csv)#
+ time=1:64#
+ quartz()#
+  par(mfrow=c(3,3))#
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 18), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, 64, by=4), labels = (seq(1, 17, by=1)))#
+     maxsize <- (min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))) + 1 #
+     age_m <- min(which(as.numeric(data[1, -1]) >= 0.5*as.numeric(data[1, maxsize])))/4 #
+     legend("topright", legend=paste0("A_50 is ", age_m+1, " years"), bty="n")#
+          }#
+ mapply(plot_length, length_data, length_filenames)    #
+  # plot_hist <- function(data, filenames) {#
+    # hist(data[, 12], breaks=50, xlim=c(50, 350), main=substr(filenames, 13, 49))#
+  # }#
+  # mapply(plot_hist, length_data, length_filenames)#
+ # quartz()#
+  # par(mfrow=c(3, 3))#
+  plot_repro <- function(repro_data, repro_filenames) {#
+     matplot(t(repro_data[,-1]), type="l", main= substr(repro_filenames, 8, 17), col="darkgray", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 1e+09), xlim=c(0.5, 48))#
+     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
+     }#
+#
+mapply(plot_repro, repro_data, repro_filenames)#
+#
+##make a plot of reproductive output as a function of length#
+  # quartz()#
+   # par(mfrow=c(3, 3))#
+ age.length <- function(ldata1, rdata2, filenames) {#
+ 	data1 <- as.numeric(ldata1[1,])#
+ 	data2 <- as.numeric(rdata2[1, ])#
+ 	#need to make a log log plot#
+ 	matplot(t(log(data1[c(-1,-65)])), t(log(data2[c(-1,-65)])), type="p", col="darkgray", pch=20,   main= substr(filenames, 9, 19),  xlab="ln(Length) ", ylim=c(0, 25), xlim=c(0, 6), ylab="ln(Reproduction) ")#
+ 	m1<-lm(log(data2[c(-1,-65)])~log(data1[c(-1,-65)]))#
+ 	if(is.na(coef(m1)[2])==FALSE)  	abline(m1)#
+ 	#val<-paste0("Env is ", substr(filenames, 9, 23),", Slope is ", round(as.numeric(coef(m1)[2]), 3))#
+   legend("topleft",   legend=paste0("slope is ",round(as.numeric(coef(m1)[2]), 3)), bty="n")#
+ 	   	} #
+mapply(age.length, length_data, repro_data, length_filenames)#
+# quartz()#
+ # par(mfrow=c(3, 3))#
+#
+ surv <- function(data, filenames) {#
+ 	matplot(data[,-1], type="l", main= substr(filenames, 6, 17), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1), xlim=c(0.5, 48))#
+     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
+ }#
+ 	mapply(surv, surv_data, surv_filenames)#
+  lnsurv <- function(data, filenames) {#
+ 	data1<-as.numeric(data[,2])#
+ 	matplot(log(data1[-1]), type="l", main= substr(filenames, 8, 18), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n",  ylim=c(-20, 0), xlim=c(0.5, 48))#
+     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
+   m2<-lm(log(data1[-1])~time[-64])#
+   abline(m2)#
+   #print(paste0("Env is ", substr(surv_filenames, 8, 18))),", Slope is ", round(as.numeric(coef(m2)[2]), 3)))#
+   legend("bottomleft",   legend=paste0("slope is ",round(as.numeric(coef(m2)[2]), 3)), bty="n")#
+ }#
+ 	mapply(lnsurv, surv_data, surv_filenames)#
+ 	#####now calculate the number alive as a function of age#
+# #  mort.est <- function(idata, filename) {#
+     # alive_at_age<- 10000.001 - colSums(apply(idata[,-1],2, is.na ))#
+      # age=1:64#
+      # plot(alive_at_age, type="l", lwd=2, ylab="Population size", main=c(substr(filename, 8, 14), substr(filename, 15, 20)), xlab= "Age (years)", xaxt="n", ylim=c(0, 10005), xlim=c(1, 56))#
+     # axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
+#
+      # mu_a <-  log(alive_at_age[age[-64]+1]/  alive_at_age[age[-64]])#
+      # asp <- min(which(cumprod(mu_a)<=0.01) )#
+     # mu_a[asp:length(mu_a)]=-5  #
+     # m1<- lm(log(alive_at_age) ~ age) 	#
+ 	 # mu <- as.numeric(coef(m1)[2])#
+ 	 # legend("topright",   legend=round(mu, 5), lty=1)#
+ 	 # c(filename, exp(mu), exp(mu_a))#
+ 	 # }#
+# quartz()#
+ # par(mfrow=c(2, 3))#
+# mapply(mort.est, state_data, state_filenames)
+setwd("~/Documents/tuna_theory/model_output/")#
+data_files <- list.files(pattern = "\\.csv$")#
+#
+repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
+state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
+length_filenames <- data_files[1:(length(data_files)/4)]#
+surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+surv_filenames <- unique(surv_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+surv_data <- lapply(surv_filenames, read.csv)#
+ time=1:64#
+ # quartz()#
+  # par(mfrow=c(3,3))#
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 18), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, 64, by=4), labels = (seq(1, 17, by=1)))#
+     maxsize <- (min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))) + 1 #
+     age_m <- min(which(as.numeric(data[1, -1]) >= 0.5*as.numeric(data[1, maxsize])))/4 #
+     legend("topright", legend=paste0("A_50 is ", age_m+1, " years"), bty="n")#
+          }#
+ mapply(plot_length, length_data, length_filenames)    #
+  # plot_hist <- function(data, filenames) {#
+    # hist(data[, 12], breaks=50, xlim=c(50, 350), main=substr(filenames, 13, 49))#
+  # }#
+  # mapply(plot_hist, length_data, length_filenames)#
+ # quartz()#
+  # par(mfrow=c(3, 3))#
+  plot_repro <- function(repro_data, repro_filenames) {#
+     matplot(t(repro_data[,-1]), type="l", main= substr(repro_filenames, 8, 17), col="darkgray", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 1e+09), xlim=c(0.5, 48))#
+     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
+     }#
+#
+mapply(plot_repro, repro_data, repro_filenames)#
+#
+##make a plot of reproductive output as a function of length#
+  # quartz()#
+   # par(mfrow=c(3, 3))#
+ age.length <- function(ldata1, rdata2, filenames) {#
+ 	data1 <- as.numeric(ldata1[1,])#
+ 	data2 <- as.numeric(rdata2[1, ])#
+ 	#need to make a log log plot#
+ 	matplot(t(log(data1[c(-1,-65)])), t(log(data2[c(-1,-65)])), type="p", col="darkgray", pch=20,   main= substr(filenames, 9, 19),  xlab="ln(Length) ", ylim=c(0, 25), xlim=c(0, 6), ylab="ln(Reproduction) ")#
+ 	m1<-lm(log(data2[c(-1,-65)])~log(data1[c(-1,-65)]))#
+ 	if(is.na(coef(m1)[2])==FALSE)  	abline(m1)#
+ 	#val<-paste0("Env is ", substr(filenames, 9, 23),", Slope is ", round(as.numeric(coef(m1)[2]), 3))#
+   legend("topleft",   legend=paste0("slope is ",round(as.numeric(coef(m1)[2]), 3)), bty="n")#
+ 	   	} #
+mapply(age.length, length_data, repro_data, length_filenames)#
+# quartz()#
+ # par(mfrow=c(3, 3))#
+#
+ surv <- function(data, filenames) {#
+ 	matplot(data[,-1], type="l", main= substr(filenames, 6, 17), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1), xlim=c(0.5, 48))#
+     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
+ }#
+ 	mapply(surv, surv_data, surv_filenames)#
+  lnsurv <- function(data, filenames) {#
+ 	data1<-as.numeric(data[,2])#
+ 	matplot(log(data1[-1]), type="l", main= substr(filenames, 7, 17), col="darkgray", xlab="Age (years)", ylab="ln(Survival)", xaxt="n",  ylim=c(-20, 0), xlim=c(0.5, 48))#
+     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
+   m2<-lm(log(data1[-1])~time[-64])#
+   abline(m2)#
+   #print(paste0("Env is ", substr(surv_filenames, 8, 18))),", Slope is ", round(as.numeric(coef(m2)[2]), 3)))#
+   legend("bottomleft",   legend=paste0("slope is ",round(as.numeric(coef(m2)[2]), 3)), bty="n")#
+ }#
+ 	mapply(lnsurv, surv_data, surv_filenames)#
+ 	#####now calculate the number alive as a function of age#
+# #  mort.est <- function(idata, filename) {#
+     # alive_at_age<- 10000.001 - colSums(apply(idata[,-1],2, is.na ))#
+      # age=1:64#
+      # plot(alive_at_age, type="l", lwd=2, ylab="Population size", main=c(substr(filename, 8, 14), substr(filename, 15, 20)), xlab= "Age (years)", xaxt="n", ylim=c(0, 10005), xlim=c(1, 56))#
+     # axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
+#
+      # mu_a <-  log(alive_at_age[age[-64]+1]/  alive_at_age[age[-64]])#
+      # asp <- min(which(cumprod(mu_a)<=0.01) )#
+     # mu_a[asp:length(mu_a)]=-5  #
+     # m1<- lm(log(alive_at_age) ~ age) 	#
+ 	 # mu <- as.numeric(coef(m1)[2])#
+ 	 # legend("topright",   legend=round(mu, 5), lty=1)#
+ 	 # c(filename, exp(mu), exp(mu_a))#
+ 	 # }#
+# quartz()#
+ # par(mfrow=c(2, 3))#
+# mapply(mort.est, state_data, state_filenames)
+setwd("~/Documents/tuna_theory/model_output/")#
+data_files <- list.files(pattern = "\\.csv$")#
+#
+repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
+state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
+length_filenames <- data_files[1:(length(data_files)/4)]#
+surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+surv_filenames <- unique(surv_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+surv_data <- lapply(surv_filenames, read.csv)#
+ time=1:64#
+ # quartz()#
+  # par(mfrow=c(3,3))#
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 18), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, 64, by=4), labels = (seq(1, 17, by=1)))#
+     maxsize <- (min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))) + 1 #
+     age_m <- min(which(as.numeric(data[1, -1]) >= 0.5*as.numeric(data[1, maxsize])))/4 #
+     legend("topright", legend=paste0("A_50 is ", age_m+1, " years"), bty="n")#
+          }#
+ mapply(plot_length, length_data, length_filenames)    #
+  # plot_hist <- function(data, filenames) {#
+    # hist(data[, 12], breaks=50, xlim=c(50, 350), main=substr(filenames, 13, 49))#
+  # }#
+  # mapply(plot_hist, length_data, length_filenames)#
+ # quartz()#
+  # par(mfrow=c(3, 3))#
+  plot_repro <- function(repro_data, repro_filenames) {#
+     matplot(t(repro_data[,-1]), type="l", main= substr(repro_filenames, 8, 17), col="darkgray", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 1e+09), xlim=c(0.5, 48))#
+     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
+     }#
+#
+mapply(plot_repro, repro_data, repro_filenames)#
+#
+##make a plot of reproductive output as a function of length#
+  # quartz()#
+   # par(mfrow=c(3, 3))#
+ age.length <- function(ldata1, rdata2, filenames) {#
+ 	data1 <- as.numeric(ldata1[1,])#
+ 	data2 <- as.numeric(rdata2[1, ])#
+ 	#need to make a log log plot#
+ 	matplot(t(log(data1[c(-1,-65)])), t(log(data2[c(-1,-65)])), type="p", col="darkgray", pch=20,   main= substr(filenames, 9, 19),  xlab="ln(Length) ", ylim=c(0, 25), xlim=c(0, 6), ylab="ln(Reproduction) ")#
+ 	m1<-lm(log(data2[c(-1,-65)])~log(data1[c(-1,-65)]))#
+ 	if(is.na(coef(m1)[2])==FALSE)  	abline(m1)#
+ 	#val<-paste0("Env is ", substr(filenames, 9, 23),", Slope is ", round(as.numeric(coef(m1)[2]), 3))#
+   legend("topleft",   legend=paste0("slope is ",round(as.numeric(coef(m1)[2]), 3)), bty="n")#
+ 	   	} #
+mapply(age.length, length_data, repro_data, length_filenames)#
+# quartz()#
+ # par(mfrow=c(3, 3))#
+#
+ surv <- function(data, filenames) {#
+ 	matplot(data[,-1], type="l", main= substr(filenames, 6, 17), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1), xlim=c(0.5, 48))#
+     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
+ }#
+ 	mapply(surv, surv_data, surv_filenames)#
+  lnsurv <- function(data, filenames) {#
+ 	data1<-as.numeric(data[,2])#
+ 	matplot(log(data1[-1]), type="l", main= substr(filenames, 7, 17), col="darkgray", xlab="Age (years)", ylab="ln(Survival)", xaxt="n",  ylim=c(-20, 0), xlim=c(0.5, 48))#
+     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
+   m2<-lm(log(data1[-1])~time[-64])#
+   abline(m2)#
+   #print(paste0("Env is ", substr(surv_filenames, 8, 18))),", Slope is ", round(as.numeric(coef(m2)[2]), 3)))#
+   legend("bottomleft",   legend=paste0("slope is ",round(as.numeric(coef(m2)[2]), 3)), bty="n")#
+ }#
+ 	mapply(lnsurv, surv_data, surv_filenames)#
+ 	#####now calculate the number alive as a function of age#
+# #  mort.est <- function(idata, filename) {#
+     # alive_at_age<- 10000.001 - colSums(apply(idata[,-1],2, is.na ))#
+      # age=1:64#
+      # plot(alive_at_age, type="l", lwd=2, ylab="Population size", main=c(substr(filename, 8, 14), substr(filename, 15, 20)), xlab= "Age (years)", xaxt="n", ylim=c(0, 10005), xlim=c(1, 56))#
+     # axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
+#
+      # mu_a <-  log(alive_at_age[age[-64]+1]/  alive_at_age[age[-64]])#
+      # asp <- min(which(cumprod(mu_a)<=0.01) )#
+     # mu_a[asp:length(mu_a)]=-5  #
+     # m1<- lm(log(alive_at_age) ~ age) 	#
+ 	 # mu <- as.numeric(coef(m1)[2])#
+ 	 # legend("topright",   legend=round(mu, 5), lty=1)#
+ 	 # c(filename, exp(mu), exp(mu_a))#
+ 	 # }#
+# quartz()#
+ # par(mfrow=c(2, 3))#
+# mapply(mort.est, state_data, state_filenames)
+setwd("~/Documents/tuna_theory/model_output/")#
+data_files <- list.files(pattern = "\\.csv$")#
+#
+repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
+state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
+length_filenames <- data_files[1:(length(data_files)/4)]#
+surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+surv_filenames <- unique(surv_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+surv_data <- lapply(surv_filenames, read.csv)#
+ time=1:64#
+ # quartz()#
+  # par(mfrow=c(3,3))#
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 18), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, 64, by=4), labels = (seq(1, 17, by=1)))#
+     maxsize <- (min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))) + 1 #
+     age_m <- min(which(as.numeric(data[1, -1]) >= 0.5*as.numeric(data[1, maxsize])))/4 #
+     legend("topright", legend=paste0("A_50 is ", age_m+1, " years"), bty="n")#
+          }#
+ mapply(plot_length, length_data, length_filenames)
+setwd("~/Documents/tuna_theory/model_output/")#
+data_files <- list.files(pattern = "\\.csv$")#
+#
+repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
+state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
+length_filenames <- data_files[1:(length(data_files)/4)]#
+surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+surv_filenames <- unique(surv_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+surv_data <- lapply(surv_filenames, read.csv)#
+ time=1:64#
+ # quartz()#
+  # par(mfrow=c(3,3))#
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 18), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, 64, by=4), labels = (seq(1, 17, by=1)))#
+     maxsize <- (min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))) + 1 #
+     age_m <- min(which(as.numeric(data[1, -1]) >= 0.5*as.numeric(data[1, maxsize])))/4 #
+     legend("topright", legend=paste0("A_50 is ", age_m+1, " years"), bty="n")#
+          }#
+ mapply(plot_length, length_data, length_filenames)    #
+  # plot_hist <- function(data, filenames) {#
+    # hist(data[, 12], breaks=50, xlim=c(50, 350), main=substr(filenames, 13, 49))#
+  # }#
+  # mapply(plot_hist, length_data, length_filenames)#
+ # quartz()#
+  # par(mfrow=c(3, 3))#
+  plot_repro <- function(repro_data, repro_filenames) {#
+     matplot(t(repro_data[,-1]), type="l", main= substr(repro_filenames, 8, 17), col="darkgray", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 1e+09), xlim=c(0.5, 48))#
+     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
+     }#
+#
+mapply(plot_repro, repro_data, repro_filenames)#
+#
+##make a plot of reproductive output as a function of length#
+  # quartz()#
+   # par(mfrow=c(3, 3))#
+ age.length <- function(ldata1, rdata2, filenames) {#
+ 	data1 <- as.numeric(ldata1[1,])#
+ 	data2 <- as.numeric(rdata2[1, ])#
+ 	#need to make a log log plot#
+ 	matplot(t(log(data1[c(-1,-65)])), t(log(data2[c(-1,-65)])), type="p", col="darkgray", pch=20,   main= substr(filenames, 9, 19),  xlab="ln(Length) ", ylim=c(0, 25), xlim=c(0, 6), ylab="ln(Reproduction) ")#
+ 	m1<-lm(log(data2[c(-1,-65)])~log(data1[c(-1,-65)]))#
+ 	if(is.na(coef(m1)[2])==FALSE)  	abline(m1)#
+ 	#val<-paste0("Env is ", substr(filenames, 9, 23),", Slope is ", round(as.numeric(coef(m1)[2]), 3))#
+   legend("topleft",   legend=paste0("slope is ",round(as.numeric(coef(m1)[2]), 3)), bty="n")#
+ 	   	} #
+mapply(age.length, length_data, repro_data, length_filenames)#
+# quartz()#
+ # par(mfrow=c(3, 3))#
+#
+ surv <- function(data, filenames) {#
+ 	matplot(data[,-1], type="l", main= substr(filenames, 6, 17), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1), xlim=c(0.5, 48))#
+     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
+ }#
+ 	mapply(surv, surv_data, surv_filenames)#
+  lnsurv <- function(data, filenames) {#
+ 	data1<-as.numeric(data[,2])#
+ 	matplot(log(data1[-1]), type="l", main= substr(filenames, 7, 17), col="darkgray", xlab="Age (years)", ylab="ln(Survival)", xaxt="n",  ylim=c(-20, 0), xlim=c(0.5, 48))#
+     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
+   m2<-lm(log(data1[-1])~time[-64])#
+   abline(m2)#
+   #print(paste0("Env is ", substr(surv_filenames, 8, 18))),", Slope is ", round(as.numeric(coef(m2)[2]), 3)))#
+   legend("bottomleft",   legend=paste0("slope is ",round(as.numeric(coef(m2)[2]), 3)), bty="n")#
+ }#
+ 	mapply(lnsurv, surv_data, surv_filenames)#
+ 	#####now calculate the number alive as a function of age#
+# #  mort.est <- function(idata, filename) {#
+     # alive_at_age<- 10000.001 - colSums(apply(idata[,-1],2, is.na ))#
+      # age=1:64#
+      # plot(alive_at_age, type="l", lwd=2, ylab="Population size", main=c(substr(filename, 8, 14), substr(filename, 15, 20)), xlab= "Age (years)", xaxt="n", ylim=c(0, 10005), xlim=c(1, 56))#
+     # axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
+#
+      # mu_a <-  log(alive_at_age[age[-64]+1]/  alive_at_age[age[-64]])#
+      # asp <- min(which(cumprod(mu_a)<=0.01) )#
+     # mu_a[asp:length(mu_a)]=-5  #
+     # m1<- lm(log(alive_at_age) ~ age) 	#
+ 	 # mu <- as.numeric(coef(m1)[2])#
+ 	 # legend("topright",   legend=round(mu, 5), lty=1)#
+ 	 # c(filename, exp(mu), exp(mu_a))#
+ 	 # }#
+# quartz()#
+ # par(mfrow=c(2, 3))#
+# mapply(mort.est, state_data, state_filenames)
+setwd("~/Documents/tuna_theory/model_output/")#
+data_files <- list.files(pattern = "\\.csv$")#
+#
+repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
+state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
+length_filenames <- data_files[1:(length(data_files)/4)]#
+surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+surv_filenames <- unique(surv_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+surv_data <- lapply(surv_filenames, read.csv)#
+ time=1:64#
+  quartz()#
+   par(mfrow=c(2,2))#
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 18), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, 64, by=4), labels = (seq(1, 17, by=1)))#
+     maxsize <- (min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))) + 1 #
+     age_m <- min(which(as.numeric(data[1, -1]) >= 0.5*as.numeric(data[1, maxsize])))/4 #
+     legend("topright", legend=paste0("A_50 is ", age_m+1, " years"), bty="n")#
+          }#
+ mapply(plot_length, length_data, length_filenames)    #
+  # plot_hist <- function(data, filenames) {#
+    # hist(data[, 12], breaks=50, xlim=c(50, 350), main=substr(filenames, 13, 49))#
+  # }#
+  # mapply(plot_hist, length_data, length_filenames)#
+ # quartz()#
+  # par(mfrow=c(3, 3))#
+  plot_repro <- function(repro_data, repro_filenames) {#
+     matplot(t(repro_data[,-1]), type="l", main= substr(repro_filenames, 8, 17), col="darkgray", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 1e+09), xlim=c(0.5, 48))#
+     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
+     }#
+#
+mapply(plot_repro, repro_data, repro_filenames)#
+#
+##make a plot of reproductive output as a function of length#
+  # quartz()#
+   # par(mfrow=c(3, 3))#
+ age.length <- function(ldata1, rdata2, filenames) {#
+ 	data1 <- as.numeric(ldata1[1,])#
+ 	data2 <- as.numeric(rdata2[1, ])#
+ 	#need to make a log log plot#
+ 	matplot(t(log(data1[c(-1,-65)])), t(log(data2[c(-1,-65)])), type="p", col="darkgray", pch=20,   main= substr(filenames, 9, 19),  xlab="ln(Length) ", ylim=c(0, 25), xlim=c(0, 6), ylab="ln(Reproduction) ")#
+ 	m1<-lm(log(data2[c(-1,-65)])~log(data1[c(-1,-65)]))#
+ 	if(is.na(coef(m1)[2])==FALSE)  	abline(m1)#
+ 	#val<-paste0("Env is ", substr(filenames, 9, 23),", Slope is ", round(as.numeric(coef(m1)[2]), 3))#
+   legend("topleft",   legend=paste0("slope is ",round(as.numeric(coef(m1)[2]), 3)), bty="n")#
+ 	   	} #
+mapply(age.length, length_data, repro_data, length_filenames)#
+# quartz()#
+ # par(mfrow=c(3, 3))#
+#
+ surv <- function(data, filenames) {#
+ 	matplot(data[,-1], type="l", main= substr(filenames, 6, 17), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1), xlim=c(0.5, 48))#
+     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
+ }#
+ 	mapply(surv, surv_data, surv_filenames)#
+  lnsurv <- function(data, filenames) {#
+ 	data1<-as.numeric(data[,2])#
+ 	matplot(log(data1[-1]), type="l", main= substr(filenames, 7, 17), col="darkgray", xlab="Age (years)", ylab="ln(Survival)", xaxt="n",  ylim=c(-20, 0), xlim=c(0.5, 48))#
+     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
+   m2<-lm(log(data1[-1])~time[-64])#
+   abline(m2)#
+   #print(paste0("Env is ", substr(surv_filenames, 8, 18))),", Slope is ", round(as.numeric(coef(m2)[2]), 3)))#
+   legend("bottomleft",   legend=paste0("slope is ",round(as.numeric(coef(m2)[2]), 3)), bty="n")#
+ }#
+ 	mapply(lnsurv, surv_data, surv_filenames)#
+ 	#####now calculate the number alive as a function of age#
+# #  mort.est <- function(idata, filename) {#
+     # alive_at_age<- 10000.001 - colSums(apply(idata[,-1],2, is.na ))#
+      # age=1:64#
+      # plot(alive_at_age, type="l", lwd=2, ylab="Population size", main=c(substr(filename, 8, 14), substr(filename, 15, 20)), xlab= "Age (years)", xaxt="n", ylim=c(0, 10005), xlim=c(1, 56))#
+     # axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
+#
+      # mu_a <-  log(alive_at_age[age[-64]+1]/  alive_at_age[age[-64]])#
+      # asp <- min(which(cumprod(mu_a)<=0.01) )#
+     # mu_a[asp:length(mu_a)]=-5  #
+     # m1<- lm(log(alive_at_age) ~ age) 	#
+ 	 # mu <- as.numeric(coef(m1)[2])#
+ 	 # legend("topright",   legend=round(mu, 5), lty=1)#
+ 	 # c(filename, exp(mu), exp(mu_a))#
+ 	 # }#
+# quartz()#
+ # par(mfrow=c(2, 3))#
+# mapply(mort.est, state_data, state_filenames)
+setwd("~/Documents/tuna_theory/model_output/")#
+data_files <- list.files(pattern = "\\.csv$")#
+#
+repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
+state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
+length_filenames <- data_files[1:(length(data_files)/4)]#
+surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+surv_filenames <- unique(surv_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+surv_data <- lapply(surv_filenames, read.csv)#
+ time=1:64#
+  quartz()#
+   par(mfrow=c(2,2))#
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 18), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, 64, by=4), labels = (seq(1, 17, by=1)))#
+     maxsize <- (min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))) + 1 #
+     age_m <- min(which(as.numeric(data[1, -1]) >= 0.5*as.numeric(data[1, maxsize])))/4 #
+     legend("topright", legend=paste0("A_50 is ", age_m+1, " years"), bty="n")#
+          }#
+ mapply(plot_length, length_data, length_filenames)    #
+  # plot_hist <- function(data, filenames) {#
+    # hist(data[, 12], breaks=50, xlim=c(50, 350), main=substr(filenames, 13, 49))#
+  # }#
+  # mapply(plot_hist, length_data, length_filenames)#
+ # quartz()#
+  # par(mfrow=c(3, 3))#
+  plot_repro <- function(repro_data, repro_filenames) {#
+     matplot(t(repro_data[,-1]), type="l", main= substr(repro_filenames, 8, 17), col="darkgray", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 1e+09), xlim=c(0.5, 48))#
+     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
+     }#
+#
+mapply(plot_repro, repro_data, repro_filenames)#
+#
+##make a plot of reproductive output as a function of length#
+  # quartz()#
+   # par(mfrow=c(3, 3))#
+ age.length <- function(ldata1, rdata2, filenames) {#
+ 	data1 <- as.numeric(ldata1[1,])#
+ 	data2 <- as.numeric(rdata2[1, ])#
+ 	#need to make a log log plot#
+ 	matplot(t(log(data1[c(-1,-65)])), t(log(data2[c(-1,-65)])), type="p", col="darkgray", pch=20,   main= substr(filenames, 9, 19),  xlab="ln(Length) ", ylim=c(0, 25), xlim=c(0, 6), ylab="ln(Reproduction) ")#
+ 	m1<-lm(log(data2[c(-1,-65)])~log(data1[c(-1,-65)]))#
+ 	if(is.na(coef(m1)[2])==FALSE)  	abline(m1)#
+ 	#val<-paste0("Env is ", substr(filenames, 9, 23),", Slope is ", round(as.numeric(coef(m1)[2]), 3))#
+   legend("topleft",   legend=paste0("slope is ",round(as.numeric(coef(m1)[2]), 3)), bty="n")#
+ 	   	} #
+mapply(age.length, length_data, repro_data, length_filenames)#
+# quartz()#
+ # par(mfrow=c(3, 3))#
+#
+ surv <- function(data, filenames) {#
+ 	matplot(data[,-1], type="l", main= substr(filenames, 6, 17), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1), xlim=c(0.5, 48))#
+     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
+ }#
+ 	mapply(surv, surv_data, surv_filenames)#
+  lnsurv <- function(data, filenames) {#
+ 	data1<-as.numeric(data[,2])#
+ 	matplot(log(data1[-1]), type="l", main= substr(filenames, 7, 17), col="darkgray", xlab="Age (years)", ylab="ln(Survival)", xaxt="n",  ylim=c(-20, 0), xlim=c(0.5, 48))#
+     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
+   m2<-lm(log(data1[-1])~time[-64])#
+   abline(m2)#
+   #print(paste0("Env is ", substr(surv_filenames, 8, 18))),", Slope is ", round(as.numeric(coef(m2)[2]), 3)))#
+   legend("bottomleft",   legend=paste0("slope is ",round(as.numeric(coef(m2)[2]), 3)), bty="n")#
+ }#
+ 	mapply(lnsurv, surv_data, surv_filenames)#
+ 	#####now calculate the number alive as a function of age#
+# #  mort.est <- function(idata, filename) {#
+     # alive_at_age<- 10000.001 - colSums(apply(idata[,-1],2, is.na ))#
+      # age=1:64#
+      # plot(alive_at_age, type="l", lwd=2, ylab="Population size", main=c(substr(filename, 8, 14), substr(filename, 15, 20)), xlab= "Age (years)", xaxt="n", ylim=c(0, 10005), xlim=c(1, 56))#
+     # axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
+#
+      # mu_a <-  log(alive_at_age[age[-64]+1]/  alive_at_age[age[-64]])#
+      # asp <- min(which(cumprod(mu_a)<=0.01) )#
+     # mu_a[asp:length(mu_a)]=-5  #
+     # m1<- lm(log(alive_at_age) ~ age) 	#
+ 	 # mu <- as.numeric(coef(m1)[2])#
+ 	 # legend("topright",   legend=round(mu, 5), lty=1)#
+ 	 # c(filename, exp(mu), exp(mu_a))#
+ 	 # }#
+# quartz()#
+ # par(mfrow=c(2, 3))#
+# mapply(mort.est, state_data, state_filenames)
+setwd("~/Documents/tuna_theory/model_output/")#
+data_files <- list.files(pattern = "\\.csv$")#
+#
+repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
+state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
+length_filenames <- data_files[1:(length(data_files)/4)]#
+surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+surv_filenames <- unique(surv_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+surv_data <- lapply(surv_filenames, read.csv)#
+ time=1:64#
+  quartz()#
+   par(mfrow=c(2,2))#
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 18), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, 64, by=4), labels = (seq(1, 17, by=1)))#
+     maxsize <- (min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))) + 1 #
+     age_m <- min(which(as.numeric(data[1, -1]) >= 0.5*as.numeric(data[1, maxsize])))/4 #
+     legend("topright", legend=paste0("A_50 is ", age_m+1, " years"), bty="n")#
+          }#
+ mapply(plot_length, length_data, length_filenames)    #
+  # plot_hist <- function(data, filenames) {#
+    # hist(data[, 12], breaks=50, xlim=c(50, 350), main=substr(filenames, 13, 49))#
+  # }#
+  # mapply(plot_hist, length_data, length_filenames)#
+ quartz()#
+  par(mfrow=c(2, 2))#
+  plot_repro <- function(repro_data, repro_filenames) {#
+     matplot(t(repro_data[,-1]), type="l", main= substr(repro_filenames, 8, 17), col="darkgray", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 1e+09), xlim=c(0.5, 48))#
+     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
+     }#
+#
+mapply(plot_repro, repro_data, repro_filenames)#
+#
+##make a plot of reproductive output as a function of length#
+  # quartz()#
+   # par(mfrow=c(3, 3))#
+ age.length <- function(ldata1, rdata2, filenames) {#
+ 	data1 <- as.numeric(ldata1[1,])#
+ 	data2 <- as.numeric(rdata2[1, ])#
+ 	#need to make a log log plot#
+ 	matplot(t(log(data1[c(-1,-65)])), t(log(data2[c(-1,-65)])), type="p", col="darkgray", pch=20,   main= substr(filenames, 9, 19),  xlab="ln(Length) ", ylim=c(0, 25), xlim=c(0, 6), ylab="ln(Reproduction) ")#
+ 	m1<-lm(log(data2[c(-1,-65)])~log(data1[c(-1,-65)]))#
+ 	if(is.na(coef(m1)[2])==FALSE)  	abline(m1)#
+ 	#val<-paste0("Env is ", substr(filenames, 9, 23),", Slope is ", round(as.numeric(coef(m1)[2]), 3))#
+   legend("topleft",   legend=paste0("slope is ",round(as.numeric(coef(m1)[2]), 3)), bty="n")#
+ 	   	} #
+mapply(age.length, length_data, repro_data, length_filenames)#
+# quartz()#
+ # par(mfrow=c(3, 3))#
+#
+ surv <- function(data, filenames) {#
+ 	matplot(data[,-1], type="l", main= substr(filenames, 6, 17), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1), xlim=c(0.5, 48))#
+     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
+ }#
+ 	mapply(surv, surv_data, surv_filenames)#
+  lnsurv <- function(data, filenames) {#
+ 	data1<-as.numeric(data[,2])#
+ 	matplot(log(data1[-1]), type="l", main= substr(filenames, 7, 17), col="darkgray", xlab="Age (years)", ylab="ln(Survival)", xaxt="n",  ylim=c(-20, 0), xlim=c(0.5, 48))#
+     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
+   m2<-lm(log(data1[-1])~time[-64])#
+   abline(m2)#
+   #print(paste0("Env is ", substr(surv_filenames, 8, 18))),", Slope is ", round(as.numeric(coef(m2)[2]), 3)))#
+   legend("bottomleft",   legend=paste0("slope is ",round(as.numeric(coef(m2)[2]), 3)), bty="n")#
+ }#
+ 	mapply(lnsurv, surv_data, surv_filenames)#
+ 	#####now calculate the number alive as a function of age#
+# #  mort.est <- function(idata, filename) {#
+     # alive_at_age<- 10000.001 - colSums(apply(idata[,-1],2, is.na ))#
+      # age=1:64#
+      # plot(alive_at_age, type="l", lwd=2, ylab="Population size", main=c(substr(filename, 8, 14), substr(filename, 15, 20)), xlab= "Age (years)", xaxt="n", ylim=c(0, 10005), xlim=c(1, 56))#
+     # axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
+#
+      # mu_a <-  log(alive_at_age[age[-64]+1]/  alive_at_age[age[-64]])#
+      # asp <- min(which(cumprod(mu_a)<=0.01) )#
+     # mu_a[asp:length(mu_a)]=-5  #
+     # m1<- lm(log(alive_at_age) ~ age) 	#
+ 	 # mu <- as.numeric(coef(m1)[2])#
+ 	 # legend("topright",   legend=round(mu, 5), lty=1)#
+ 	 # c(filename, exp(mu), exp(mu_a))#
+ 	 # }#
+# quartz()#
+ # par(mfrow=c(2, 3))#
+# mapply(mort.est, state_data, state_filenames)
+setwd("~/Documents/tuna_theory/model_output/")#
+data_files <- list.files(pattern = "\\.csv$")#
+#
+repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
+state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
+length_filenames <- data_files[1:(length(data_files)/4)]#
+surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+surv_filenames <- unique(surv_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+surv_data <- lapply(surv_filenames, read.csv)#
+ time=1:64#
+  quartz()#
+   par(mfrow=c(2,2))#
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 18), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, 64, by=4), labels = (seq(1, 17, by=1)))#
+     maxsize <- (min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))) + 1 #
+     age_m <- min(which(as.numeric(data[1, -1]) >= 0.5*as.numeric(data[1, maxsize])))/4 #
+     legend("topright", legend=paste0("A_50 is ", age_m+1, " years"), bty="n")#
+          }#
+ mapply(plot_length, length_data, length_filenames)
+quartz()#
+  par(mfrow=c(2, 2))#
+  plot_repro <- function(repro_data, repro_filenames) {#
+     matplot(t(repro_data[,-1]), type="l", main= substr(repro_filenames, 8, 17), col="darkgray", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 1e+09), xlim=c(0.5, 48))#
+     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
+     }#
+#
+mapply(plot_repro, repro_data, repro_filenames)
+age.length <- function(ldata1, rdata2, filenames) {#
+ 	data1 <- as.numeric(ldata1[1,])#
+ 	data2 <- as.numeric(rdata2[1, ])#
+ 	#need to make a log log plot#
+ 	matplot(t(log(data1[c(-1,-65)])), t(log(data2[c(-1,-65)])), type="p", col="darkgray", pch=20,   main= substr(filenames, 9, 19),  xlab="ln(Length) ", ylim=c(0, 25), xlim=c(0, 6), ylab="ln(Reproduction) ")#
+ 	m1<-lm(log(data2[c(-1,-65)])~log(data1[c(-1,-65)]))#
+ 	if(is.na(coef(m1)[2])==FALSE)  	abline(m1)#
+ 	#val<-paste0("Env is ", substr(filenames, 9, 23),", Slope is ", round(as.numeric(coef(m1)[2]), 3))#
+   legend("topleft",   legend=paste0("slope is ",round(as.numeric(coef(m1)[2]), 3)), bty="n")#
+ 	   	} #
+mapply(age.length, length_data, repro_data, length_filenames)
+surv <- function(data, filenames) {#
+ 	matplot(data[,-1], type="l", main= substr(filenames, 6, 17), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1), xlim=c(0.5, 48))#
+     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
+ }
+mapply(surv, surv_data, surv_filenames)#
+  lnsurv <- function(data, filenames) {#
+ 	data1<-as.numeric(data[,2])#
+ 	matplot(log(data1[-1]), type="l", main= substr(filenames, 7, 17), col="darkgray", xlab="Age (years)", ylab="ln(Survival)", xaxt="n",  ylim=c(-20, 0), xlim=c(0.5, 48))#
+     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
+   m2<-lm(log(data1[-1])~time[-64])#
+   abline(m2)#
+   #print(paste0("Env is ", substr(surv_filenames, 8, 18))),", Slope is ", round(as.numeric(coef(m2)[2]), 3)))#
+   legend("bottomleft",   legend=paste0("slope is ",round(as.numeric(coef(m2)[2]), 3)), bty="n")#
+ }#
+ 	mapply(lnsurv, surv_data, surv_filenames)
