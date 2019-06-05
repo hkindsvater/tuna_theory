@@ -58,8 +58,8 @@ met_mort <- -0.25 #the argument in Andersen book is that mass-specific rates suc
 
  
 #Kappa=1
-kmult <- c(1, 1,1, 1)
-raiseT <- c(0, 0, 0, 0)
+kmult <- rep(1, 12)
+raiseT <- rep(0,12)
 Mass <- a*(Lmin:Lmax)^3
 
 mu<- phi_p*f_h*Mass^met_mort #note we are excluding "background" mortality that is independent of size.... 
@@ -159,11 +159,11 @@ for (Y in 1:(Estoresmax)) { #for all   values of Energy Stores in loop (unscaled
       i <- Tmax-1	
       for (i in (Tmax-1):1) { #where i is time (age) in months
         
-        
-        if( i %in% c((1:16)*4-3) ==TRUE) season=1
-        if( i %in% c((1:16)*4-2) ==TRUE) season=2
-        if( i %in% c((1:16)*4-1) ==TRUE) season=3
-        if( i %in% c((1:16)*4) ==TRUE) season=4
+        season=1
+        # if( i %in% c((1:16)*12-3) ==TRUE) season=1
+        # if( i %in% c((1:16)*12-2) ==TRUE) season=2
+        # if( i %in% c((1:16)*12-1) ==TRUE) season=3
+        # if( i %in% c((1:16)*12) ==TRUE) season=4
         g <- 1
         for (g in 1:length(u)) { #fractional placeholder (placeholder variable so we can loop over non-integers)
           
