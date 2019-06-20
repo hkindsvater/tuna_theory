@@ -66,7 +66,7 @@ mu<- phi_p*f_h*Mass^met_mort #note we are excluding "background" mortality that 
 
 Income = matrix(nrow = 4, ncol = length(Mass))
 MTcosts = matrix(nrow = 4, ncol = length(Mass))
-for (kap in 1:1) {
+for (kap in 1:4) {
   
   Income[kap, ] <- kmult[kap]*Kappa*phi_a*K_c*Mass^(2-lam) #this describes the scaling with size and ecostystem richness
   MTcosts[kap, ] <-coef1*(Mass)^theta*(exp(-E/(k*(Temp+raiseT[kap]))))/3 
@@ -76,8 +76,8 @@ for (kap in 1:1) {
 #Income = Kappa*phi_a*K_c*Mass^(2-lam) #this describes the scaling with size and ecostystem richness
 # plot(Income)
 SDfood=0
-minI = Income[1] - SDfood * 2
-maxI = Income[1] + SDfood * 2
+minI = Income - SDfood * 2
+maxI = Income + SDfood * 2
 bins = 20
 foodmatrix=matrix(ncol=bins, nrow=length(Mass))
 weightmatrix=matrix(ncol=bins, nrow=length(Mass))
