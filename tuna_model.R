@@ -76,8 +76,8 @@ for (kap in 1:1) {
 #Income = Kappa*phi_a*K_c*Mass^(2-lam) #this describes the scaling with size and ecostystem richness
 # plot(Income)
 SDfood=0
-minI = Income - SDfood * 2
-maxI = Income + SDfood * 2
+minI = Income[1] - SDfood * 2
+maxI = Income[1] + SDfood * 2
 bins = 20
 foodmatrix=matrix(ncol=bins, nrow=length(Mass))
 weightmatrix=matrix(ncol=bins, nrow=length(Mass))

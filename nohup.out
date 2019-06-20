@@ -1,5 +1,6 @@
 mkdir: /Users/hollykindsvater/Documents/tuna_theory/monthly_model_output: File exists
 [1] 1
-There were 50 or more warnings (use warnings() to see the first 50)
-[1] 2
-There were 50 or more warnings (use warnings() to see the first 50)
+Error in seq.default(minI[p], maxI[p], length.out = bins + 1) : 
+  'from' must be a finite number
+Calls: seq -> seq.default
+Execution halted
