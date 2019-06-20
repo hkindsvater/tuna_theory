@@ -66,7 +66,7 @@ mu<- phi_p*f_h*Mass^met_mort #note we are excluding "background" mortality that 
 
 Income = matrix(nrow = 4, ncol = length(Mass))
 MTcosts = matrix(nrow = 4, ncol = length(Mass))
-for (kap in 1:4) {
+for (kap in 1:1) {
   
   Income[kap, ] <- kmult[kap]*Kappa*phi_a*K_c*Mass^(2-lam) #this describes the scaling with size and ecostystem richness
   MTcosts[kap, ] <-coef1*(Mass)^theta*(exp(-E/(k*(Temp+raiseT[kap]))))/3 
@@ -460,9 +460,9 @@ reproduction[, -Tmax]<-ifelse(reproduction[, -Tmax]>0,  reproduction[, -Tmax], N
 
 idist[, -Tmax]<-ifelse(idist[, -Tmax]>0,  idist[, -Tmax], NA)
 
-write.csv(idist, file=paste0("monthly_model_output/03StateRlim0.5",  "f_h", f_h,  "Kappa", Kappa,  ".csv"))
+write.csv(idist, file=paste0("monthly_model_output/03StateRlim0.5",  "f_h", round(f_h, 2),  "Kappa", Kappa,  ".csv"))
 
-write.csv(sizedist, file=paste0("monthly_model_output/01LengthRlim0.5",  "f_h", f_h,   "Kappa", Kappa,  ".csv"))
-write.csv(reproduction, file=paste0("monthly_model_output/02ReproRlim0.5",  "f_h", f_h,   "Kappa", Kappa,   ".csv")) 
-write.csv(survival, file=paste0("monthly_model_output/04SurvRlim0.5",  "f_h", f_h,   "Kappa", Kappa,   ".csv")) 
+write.csv(sizedist, file=paste0("monthly_model_output/01LengthRlim0.5",  "f_h", round(f_h, 2),   "Kappa", Kappa,  ".csv"))
+write.csv(reproduction, file=paste0("monthly_model_output/02ReproRlim0.5",  "f_h", round(f_h, 2),   "Kappa", Kappa,   ".csv")) 
+write.csv(survival, file=paste0("monthly_model_output/04SurvRlim0.5",  "f_h", round(f_h, 2),   "Kappa", Kappa,   ".csv")) 
   
