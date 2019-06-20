@@ -2,7 +2,7 @@
  
 
 
-setwd("~/Documents/tuna_theory/model_output")
+setwd("~/Documents/tuna_theory/monthly_model_output")
 data_files <- list.files(pattern = "\\.csv$")
 
 repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   
@@ -23,12 +23,12 @@ surv_data <- lapply(surv_filenames, read.csv)
  time=1:64
  
   quartz()
-   par(mfrow=c(3,2))
+   par(mfrow=c(3,3))
  
 plot_length <- function(data, filenames) {
 	   
 	   
-     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 21), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 30), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")
      axis(1, at = seq(0, 64, by=4), labels = (seq(1, 17, by=1)))
      
      maxsize <- (min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))) + 1 
@@ -52,7 +52,7 @@ plot_length <- function(data, filenames) {
   # par(mfrow=c(2, 2))
   plot_repro <- function(repro_data, repro_filenames) {
 	 
-     matplot(t(repro_data[,-1]), type="l", main= substr(repro_filenames, 8, 17), col="darkgray", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 1e+09), xlim=c(0.5, 48))
+     matplot(t(repro_data[,-1]), type="l", main= substr(repro_filenames, 8, 20), col="darkgray", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 1e+09), xlim=c(0.5, 48))
      axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))
  
      }
@@ -60,14 +60,14 @@ plot_length <- function(data, filenames) {
 mapply(plot_repro, repro_data, repro_filenames)
 
 ##make a plot of reproductive output as a function of length
-  # quartz()
-   # par(mfrow=c(3, 3))
+  quartz()
+   par(mfrow=c(3, 3))
  
  age.length <- function(ldata1, rdata2, filenames) {
  	data1 <- as.numeric(ldata1[1,])
  	data2 <- as.numeric(rdata2[1, ])
  	#need to make a log log plot
- 	matplot(t(log(data1[c(-1,-65)])), t(log(data2[c(-1,-65)])), type="p", col="darkgray", pch=20,   main= substr(filenames, 9, 21),  xlab="ln(Length) ", ylim=c(0, 25), xlim=c(0, 6), ylab="ln(Reproduction) ")
+ 	matplot(t(log(data1[c(-1,-65)])), t(log(data2[c(-1,-65)])), type="p", col="darkgray", pch=20,   main= substr(filenames, 9, 30),  xlab="ln(Length) ", ylim=c(0, 25), xlim=c(0, 6), ylab="ln(Reproduction) ")
  	
  	m1<-lm(log(data2[c(-1,-65)])~log(data1[c(-1,-65)]))
  	if(is.na(coef(m1)[2])==FALSE)  	abline(m1)
@@ -84,7 +84,7 @@ mapply(age.length, length_data, repro_data, length_filenames)
  surv <- function(data, filenames) {
  	
  	  	
- 	matplot(data[,-1], type="l", main= substr(filenames, 6, 17), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1), xlim=c(0.5, 48))
+ 	matplot(data[,-1], type="l", main= substr(filenames, 6, 25), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1), xlim=c(0.5, 48))
      axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))
  
    
@@ -96,7 +96,7 @@ mapply(age.length, length_data, repro_data, length_filenames)
  	
  	data1<-as.numeric(data[,2])
  	
- 	matplot(log(data1[-1]), type="l", main= substr(filenames, 7, 19), col="darkgray", xlab="Age (years)", ylab="ln(Survival)", xaxt="n",  ylim=c(-20, 0), xlim=c(0.5, 48))
+ 	matplot(log(data1[-1]), type="l", main= substr(filenames, 7, 30), col="darkgray", xlab="Age (years)", ylab="ln(Survival)", xaxt="n",  ylim=c(-20, 0), xlim=c(0.5, 48))
      axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))
  
    m2<-lm(log(data1[-1])~time[-64])
