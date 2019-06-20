@@ -460,9 +460,9 @@ reproduction[, -Tmax]<-ifelse(reproduction[, -Tmax]>0,  reproduction[, -Tmax], N
 
 idist[, -Tmax]<-ifelse(idist[, -Tmax]>0,  idist[, -Tmax], NA)
 
-write.csv(idist, file=paste0("monthly_model_output/03StateRlim0.5",  "f_h", round(f_h, 2),  "Kappa", round(Kappa,2),  ".csv"))
+write.csv(idist, file=paste0("monthly_model_output/03StateRlim0.2",  "f_h", round(f_h, 2),  "Kappa", round(Kappa,2),  ".csv"))
 
-write.csv(sizedist, file=paste0("monthly_model_output/01LengthRlim0.5",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),  ".csv"))
-write.csv(reproduction, file=paste0("monthly_model_output/02ReproRlim0.5",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),   ".csv")) 
-write.csv(survival, file=paste0("monthly_model_output/04SurvRlim0.5",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),   ".csv")) 
+write.csv(sizedist, file=paste0("monthly_model_output/01LengthRlim0.2",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),  ".csv"))
+write.csv(reproduction, file=paste0("monthly_model_output/02ReproRlim0.2",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),   ".csv")) 
+write.csv(survival, file=paste0("monthly_model_output/04SurvRlim0.2",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),   ".csv")) 
   
