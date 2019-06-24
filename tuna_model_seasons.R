@@ -114,7 +114,7 @@ sto.food <- function (i) {
 # }
 
 # ###plot metabolic cost functions for each temp to check they are sensible
-  matplot( ((1:Smax)), t( (MTcosts)), type = "l", lty=1, lwd=2,   xlab=" (Mass (kg))", ylab="Metabolic rate in J/season", col=c(4, 3, "orange", 2, "dark red"))    
+ # matplot( ((1:length(Mass))), t( (MTcosts)), type = "l", lty=1, lwd=2,   xlab=" (Mass (kg))", ylab="Metabolic rate in J/season", col=c(4, 3, "orange", 2, "dark red"))    
 #################################################################################################################################################################################################
 
 
