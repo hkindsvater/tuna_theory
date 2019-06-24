@@ -36,7 +36,7 @@ Estoresmax=350 #maximum stores in loop
 
 storelimit= 1 #proportion of structural mass that inidivduals can devote to energy storage
 storemin = 0.1
-reprolimit = .1
+reprolimit = .2
 
 ###################################################################################################################################################################################################
 ###Lookup Tables - look up costs and food functions so they are not calculated every time
@@ -57,16 +57,16 @@ hprime <- 17.2
 met_mort <- -0.25 #the argument in Andersen book is that mass-specific rates such as mortality scales with the metabolic esp of 3/4 (Brown et al. 2004). 
 
  
-#Kappa=1
-kmult <- rep(1, 12)
-raiseT <- rep(0,12)
+####ADD SEASONALITY IN RESOURCES AND FOOD TO SOME MONTHS
+kmult <- c(rep(1, 6), rep(3, 6))
+raiseT <- c(rep(5,6), rep(0, 6))
 Mass <- a*(Lmin:Lmax)^3
 
 mu<- phi_p*f_h*Mass^met_mort #note we are excluding "background" mortality that is independent of size.... 
 
-Income = matrix(nrow = 4, ncol = length(Mass))
-MTcosts = matrix(nrow = 4, ncol = length(Mass))
-for (kap in 1:4) {
+Income = matrix(nrow = timebin, ncol = length(Mass))
+MTcosts = matrix(nrow = timebin, ncol = length(Mass))
+for (kap in 1:timebin) {
   
   Income[kap, ] <- kmult[kap]*Kappa*phi_a*K_c*Mass^(2-lam) #this describes the scaling with size and ecostystem richness
   MTcosts[kap, ] <-coef1*(Mass)^theta*(exp(-E/(k*(Temp+raiseT[kap]))))/3 
@@ -114,7 +114,7 @@ sto.food <- function (i) {
 # }
 
 # ###plot metabolic cost functions for each temp to check they are sensible
-# matplot( ((1:Smax)), t( (MTcosts)), type = "l", lty=1, lwd=2,   xlab=" (Mass (kg))", ylab="Metabolic rate in J/season", col=c(4, 3, "orange", 2, "dark red"))    
+  matplot( ((1:Smax)), t( (MTcosts)), type = "l", lty=1, lwd=2,   xlab=" (Mass (kg))", ylab="Metabolic rate in J/season", col=c(4, 3, "orange", 2, "dark red"))    
 #################################################################################################################################################################################################
 
 
@@ -158,12 +158,12 @@ for (Y in 1:(Estoresmax)) { #for all   values of Energy Stores in loop (unscaled
     for (p in 1:phi) { #for every temp environment
       i <- Tmax-1	
       for (i in (Tmax-1):1) { #where i is time (age) in months
+    
+        for (m  in 0:11) {
+          if (i%%12  ==  m) month = m 
+        }
         
-        season=1
-        # if( i %in% c((1:16)*12-3) ==TRUE) season=1
-        # if( i %in% c((1:16)*12-2) ==TRUE) season=2
-        # if( i %in% c((1:16)*12-1) ==TRUE) season=3
-        # if( i %in% c((1:16)*12) ==TRUE) season=4
+         
         g <- 1
         for (g in 1:length(u)) { #fractional placeholder (placeholder variable so we can loop over non-integers)
           
@@ -202,9 +202,8 @@ for (Y in 1:(Estoresmax)) { #for all   values of Energy Stores in loop (unscaled
               
               #state dynamics
               
-              EstoresP <- Estores*(1-reprod-growth) +Income[season, L]*scale - MTcosts[season, L] #combines mass-dependent food intake and mass-dependent metabolic costs
-              ##EstoresP <- Estores*(1-reprod-growth) +foodmatrix[ceiling(Wtotal), ] - MTcosts[ceiling(Wtotal)] #combines mass-dependent food intake and mass-dependent metabolic costs
-
+              EstoresP <- Estores*(1-reprod-growth) +Income[month, L]*scale - MTcosts[month, L] #combines mass-dependent food intake and mass-dependent metabolic costs
+               
               EstructureP <- Estructure + growth*Estores
               
               WstructureP <- EstructureP/scale 
@@ -364,10 +363,10 @@ survival=rep(0, Tmax)
 survival[1]<-1
 
 for (i in 1:(Tmax-1)) { 
-  if( i %in% c((1:16)*4-3) ==TRUE) season=1
-  if( i %in% c((1:16)*4-2) ==TRUE) season=2
-  if( i %in% c((1:16)*4-1) ==TRUE) season=3
-  if( i %in% c((1:16)*4) ==TRUE) season=4
+  for (m  in 0:11) {
+    if (i%%12  ==  m) month = m 
+  }
+  
   
   state  <- idist[,i] 
   
@@ -433,14 +432,8 @@ for (i in 1:(Tmax-1)) {
     Food<-sapply(size[index], sto.food) #calculates stochastic food quantity for every index individual
     
     #####future state calculation:
-   #survival2<- ifelse(((1-repro[index, i]-g_allo[index,i])*state[index] + Income[season, size[index]]*scale - MTcosts[season, size[index]])  > critstores, 1, 0) #check that future state will be greater than current EcritL 
+   idist[index,i+1] <- (1-repro[index, i]-g_allo[index,i])*state[index] + Income[month, size[index]]*scale - MTcosts[month, size[index]] 
     
-    #idist[index,i+1] <- ifelse(survival+survival2==2, ((1-repro[index, i]-g_allo[index,i])*state[index] + Income[season, size[index]]*scale - MTcosts[season, size[index]]),  NA)
-    idist[index,i+1] <- (1-repro[index, i]-g_allo[index,i])*state[index] + Income[season, size[index]]*scale - MTcosts[season, size[index]] 
-    # survival2<- ifelse(((1-repro[index, i]-g_allo[index,i])*state[index] + Food - MTcosts[size[index]])  > critstores, 1, 0) #check that future state will be greater than current EcritL
-    # idist[index,i+1] <- ifelse(survival+survival2==2, ((1-repro[index, i]-g_allo[index,i])*state[index] + Food - MTcosts[size[index]]),  NA)
-
-    #sizedist[index, i+1] <- ifelse(survival+survival2==2,  nextsize, NA)   
    sizedist[index, i+1] <- nextsize
     
     #alive[group, i+1]=sum(idist[,i+1] > 0, na.rm=TRUE) #number of survivors
@@ -460,9 +453,9 @@ reproduction[, -Tmax]<-ifelse(reproduction[, -Tmax]>0,  reproduction[, -Tmax], N
 
 idist[, -Tmax]<-ifelse(idist[, -Tmax]>0,  idist[, -Tmax], NA)
 
-write.csv(idist, file=paste0("monthly_model_output/03StateRlim0.1",  "f_h", round(f_h, 2),  "Kappa", round(Kappa,2),  ".csv"))
+write.csv(idist, file=paste0("seasonal/03State",  "f_h", round(f_h, 2),  "Kappa", round(Kappa,2),  ".csv"))
 
-write.csv(sizedist, file=paste0("monthly_model_output/01LengthRlim0.1",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),  ".csv"))
-write.csv(reproduction, file=paste0("monthly_model_output/02ReproRlim0.1",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),   ".csv")) 
-write.csv(survival, file=paste0("monthly_model_output/04SurvRlim0.1",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),   ".csv")) 
-  
+write.csv(sizedist, file=paste0("seasonal/01Length",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),  ".csv"))
+write.csv(reproduction, file=paste0("seasonal/02Repro",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),   ".csv")) 
+write.csv(survival, file=paste0("seasonal/04Surv",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),   ".csv")) 
+ 

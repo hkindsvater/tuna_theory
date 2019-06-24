@@ -5,7 +5,7 @@
 paras = c(c1=0, Kappa = 5, f_h=5)
 
 # Name the set of results
-name = "monthly_model_output"
+name = "seasonal"
 newDir = paste("mkdir /Users/hollykindsvater/Documents/tuna_theory/", name, sep="") 
 system(newDir)
 
@@ -14,7 +14,7 @@ system(newDir)
   
 v1 = "f_h"
 v2 = "Kappa"
-L1 =  c(10)
+L1 =  c(5)
 L2 = c(5,10)
 n1 = length(L1)
 n2 = length(L2)
@@ -27,7 +27,7 @@ index = 1
 
 while(index <= total)
 {
-	if(length(suppressWarnings(system2("pgrep", "-f tuna_model.R", stdout=TRUE))) < limit)
+	if(length(suppressWarnings(system2("pgrep", "-f tuna_model_seasons.R", stdout=TRUE))) < limit)
 	{
 		argList = ""
 		argList = paste(argList, index, " ", sep="")
@@ -39,7 +39,7 @@ while(index <= total)
 			argList = paste(argList, x, " ", sep="")
 		}
 
-		system(paste("Rscript ~/Documents/tuna_theory/tuna_model.R", argList) ,wait=FALSE)
+		system(paste("Rscript ~/Documents/tuna_theory/tuna_model_seasons.R", argList) ,wait=FALSE)
 		print(index)
 		index = index + 1
 	} else {
