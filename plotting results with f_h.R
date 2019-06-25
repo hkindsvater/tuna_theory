@@ -2,7 +2,7 @@
  
 
 
-setwd("~/Documents/tuna_theory/monthly_model_output")
+setwd("~/Documents/tuna_theory/seasonal")
 data_files <- list.files(pattern = "\\.csv$")
 
 repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   
