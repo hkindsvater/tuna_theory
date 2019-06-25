@@ -34,9 +34,9 @@ Lmax=375  #maximum size of 4 meters
 Lmin = 1 
 Estoresmax=350 #maximum stores in loop  
 
-storelimit= 1.5 #proportion of structural mass that inidivduals can devote to energy storage
+storelimit= 1 #proportion of structural mass that inidivduals can devote to energy storage
 storemin = 0.1
-reprolimit = 0.2
+reprolimit = .2
 
 ###################################################################################################################################################################################################
 ###Lookup Tables - look up costs and food functions so they are not calculated every time
@@ -58,8 +58,8 @@ met_mort <- -0.25 #the argument in Andersen book is that mass-specific rates suc
 
  
 ####ADD SEASONALITY IN RESOURCES AND FOOD TO SOME MONTHS
-kmult <- c(rep(1, 6), rep(2, 6))
-raiseT <- c(rep(4,6), rep(0, 6))
+kmult <- c(rep(1, 6), rep(3, 6))
+raiseT <- c(rep(5,6), rep(0, 6))
 Mass <- a*(Lmin:Lmax)^3
 
 mu<- phi_p*f_h*Mass^met_mort #note we are excluding "background" mortality that is independent of size.... 
