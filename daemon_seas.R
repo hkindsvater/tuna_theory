@@ -14,7 +14,11 @@ system(newDir)
   
 v1 = "f_h"
 v2 = "Kappa"
+<<<<<<< HEAD
 L1 =  c(5,10)
+=======
+L1 =  c(5)
+>>>>>>> 09f7be7815dcc9524fe233432ffce291a37769df
 L2 = c(1,2)
 n1 = length(L1)
 n2 = length(L2)

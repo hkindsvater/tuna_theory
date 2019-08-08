@@ -2,7 +2,7 @@
  
 
 
-setwd("~/Documents/tuna_theory/seasonal")
+setwd("~/Documents/tuna_theory/monthly_model_output")
 data_files <- list.files(pattern = "\\.csv$")
 
 repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   
@@ -23,7 +23,7 @@ surv_data <- lapply(surv_filenames, read.csv)
  time=1:192
  
   quartz()
-   par(mfrow=c(2,1))
+   par(mfrow=c(2,3))
  
 plot_length <- function(data, filenames) {
 	   
