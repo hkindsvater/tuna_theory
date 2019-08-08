@@ -28,7 +28,7 @@ surv_data <- lapply(surv_filenames, read.csv)
 plot_length <- function(data, filenames) {
 	   
 	   
-     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 30), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 164), xlab= "Age (years)", xaxt="n")
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 30), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 2000), xlim=c(0.5, 164), xlab= "Age (years)", xaxt="n")
      axis(1, at = seq(0, 192, by=12), labels = (seq(1, 17, by=1)))
      
      maxsize <- (min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))) + 1 

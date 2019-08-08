@@ -9,8 +9,8 @@ timebin <- 12
 args <-  commandArgs(trailingOnly = TRUE)
 counter <- as.numeric(args[1]) 
 c1 = as.numeric(args[2])
-Kappa = as.numeric(args[3])/3
-f_h = as.numeric(args[4])/3
+Kappa = as.numeric(args[3])/12
+f_h = as.numeric(args[4])/12
 
  Temp <- 293
 
@@ -36,7 +36,7 @@ Estoresmax=350 #maximum stores in loop
 
 storelimit= 1.5 #proportion of structural mass that inidivduals can devote to energy storage
 storemin = 0.1
-reprolimit = 0.2
+reprolimit = 1
 
 ###################################################################################################################################################################################################
 ###Lookup Tables - look up costs and food functions so they are not calculated every time
@@ -74,7 +74,7 @@ for (kap in 1:timebin) {
 }
 
 #Income = Kappa*phi_a*K_c*Mass^(2-lam) #this describes the scaling with size and ecostystem richness
-# plot(Income)
+plot(Income)
 SDfood=0
 minI = Income - SDfood * 2
 maxI = Income + SDfood * 2
