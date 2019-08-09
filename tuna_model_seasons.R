@@ -159,7 +159,7 @@ for (Y in 1:(Estoresmax)) { #for all   values of Energy Stores in loop (unscaled
       i <- Tmax-1	
       for (i in (Tmax-1):1) { #where i is time (age) in months
     
-        for (m  in 0:11) {
+        for (m  in 1:12) {
           if (i%%12  ==  m) month = m 
         }
         
@@ -310,7 +310,7 @@ for (Y in 1:(Estoresmax)) { #for all   values of Energy Stores in loop (unscaled
 # pal=terrain.colors(n=100)# ##set the palette
 # quartz()
 # par(mfrow=c(2,2)) 	
-# image(1:10, 45:100, optU[1:10 , 45:100 ,1,1], col=pal, ylab="Size", xlab="Energy Stores", main="Growth, Age is 1" )
+# image(optU[1:36, 45:100, 1,1], col=pal,   ylab="Size", xlab="Energy Stores", main="Growth, Age is 1" )
 # image(optU[  , 100  , 1,   ], col=pal, ylab="Age", xlab="growth", main="Growth, Length is 100" ) 
 
 # image(optU[ , 200 , 1,  ] , col=pal, ylab="Age", xlab="Energy Stores", main="Growth, Length is 200" ) 
@@ -319,7 +319,7 @@ for (Y in 1:(Estoresmax)) { #for all   values of Energy Stores in loop (unscaled
 # quartz()
 # par(mfrow=c(2,2)) 	
 
-# image(1:10, 45:100, optR[1:10, 45:100 ,1,1], col=pal, ylab="Size", xlab="Energy Stores", main="Repro, Age is 1 " )	   	   
+# image( optR[1:36, 45:100 ,1,1], col=pal, ylab="Size", xlab="Energy Stores", main="Repro, Age is 1 " )	   	   
 
 # image(optR[ , 100  , 1,  ],col=pal, ylab="Age", xlab="Energy Stores", main="R, Length is 100" ) 
 
@@ -363,7 +363,7 @@ survival=rep(0, Tmax)
 survival[1]<-1
 
 for (i in 1:(Tmax-1)) { 
-  for (m  in 0:11) {
+  for (m  in 1:12) {
     if (i%%12  ==  m) month = m 
   }
   
@@ -410,7 +410,7 @@ for (i in 1:(Tmax-1)) {
     
     EcritL <- Wstructure*storemin*scale
     
-    if (Y*scale < EstoresmaxL)  Estores<- Y*scale  else 
+    if (Y*scale < EstoresmaxL[1])  Estores<- Y*scale  else 
       Estores=EstoresmaxL	#stored energy capped at a certain body size
     
     Wstores<-state[index]/(scale)
@@ -424,8 +424,9 @@ for (i in 1:(Tmax-1)) {
     
     nextsize <-   ((Wstructure +  g_allo[index,i]*Wstores)/a)^(1/3)
     
-    #survival <- randraw[index,i] <= exp(-mu[size[index]])  
-    survival[i+1] <- survival[i]*exp(-mu[size[index]])
+    #survival <- randraw[index,i] <= exp(-mu[size[index]]) 
+     
+    survival[i+1] <- survival[i]*exp(-mu[size[index[1]]])
     
     critstores <- a*nextsize^3*storemin*scale
     
