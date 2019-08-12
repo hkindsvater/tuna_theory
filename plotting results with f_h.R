@@ -20,16 +20,16 @@ repro_data <- lapply(repro_filenames, read.csv)
 state_data <- lapply(state_filenames, read.csv)
 surv_data <- lapply(surv_filenames, read.csv)
  
- time=1:192
+ time=1:204
  
   quartz()
-   par(mfrow=c(2,1))
+   par(mfrow=c(2,2))
  
 plot_length <- function(data, filenames) {
 	   
 	   
-     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 30), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 2000), xlim=c(0.5, 164), xlab= "Age (years)", xaxt="n")
-     axis(1, at = seq(0, 192, by=12), labels = (seq(1, 17, by=1)))
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 30), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 204), xlab= "Age (years)", xaxt="n")
+     axis(1, at = seq(0, 204, by=12), labels = (seq(1, 18, by=1)))
      
      maxsize <- (min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))) + 1 
      
@@ -52,8 +52,8 @@ plot_length <- function(data, filenames) {
   # par(mfrow=c(2, 2))
   plot_repro <- function(repro_data, repro_filenames) {
 	 
-     matplot(t(repro_data[,-1]), type="l", main= substr(repro_filenames, 8, 20), col="darkgray", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 1e+09), xlim=c(0.5, 48))
-     axis(1, at = seq(0, 192, by=12), labels = (seq(1, 17, by=1)))
+     matplot(t(repro_data[,-1]), type="l", main= substr(repro_filenames, 8, 20), col="darkgray", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 2e+08), xlim=c(0.5, 204))
+     axis(1, at = seq(0, 204, by=12), labels = (seq(1, 18, by=1)))
     print(repro_data[,-1]) 
  
      }
@@ -80,8 +80,8 @@ mapply(plot_repro, repro_data, repro_filenames)
 mapply(age.length, length_data, repro_data, length_filenames)
 
 
-# quartz()
- # par(mfrow=c(2,2))
+quartz()
+ par(mfrow=c(2,2))
 
  surv <- function(data, filenames) {
  	
@@ -98,13 +98,13 @@ mapply(age.length, length_data, repro_data, length_filenames)
     lnsurv <- function(data, filenames) {
  	
  	data1<-as.numeric(data[,2])
- 	
+ 	print(dim(data1))
  	matplot(log(data1[-1]), type="l", main= substr(filenames, 7, 30), col="darkgray", xlab="Age (years)", ylab="ln(Survival)", xaxt="n",  ylim=c(-10, 0), xlim=c(0.5, 164))
      axis(1, at = seq(0, 192, by=12), labels = (seq(1, 17, by=1))) 
-   m2<-lm(log(data1[-1])~time[-192])
-   abline(m2)
+   #m2<-lm(log(data1[-1])~time[-204])
+   #abline(m2)
    #print(paste0("Env is ", substr(surv_filenames, 8, 18))),", Slope is ", round(as.numeric(coef(m2)[2]), 3)))
-   legend("bottomleft",   legend=paste0("slope is ",round(as.numeric(coef(m2)[2]), 3)), bty="n")
+   #legend("bottomleft",   legend=paste0("slope is ",round(as.numeric(coef(m2)[2]), 3)), bty="n")
  }
  
  	mapply(lnsurv, surv_data, surv_filenames)
