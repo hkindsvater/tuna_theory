@@ -36,7 +36,7 @@ Estoresmax=350 #maximum stores in loop
 
 storelimit= 1.5 #proportion of structural mass that inidivduals can devote to energy storage
 storemin = 0.1
-reprolimit = 0.5
+reprolimit = 0.2
 
 ###################################################################################################################################################################################################
 ###Lookup Tables - look up costs and food functions so they are not calculated every time
