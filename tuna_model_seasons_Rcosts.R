@@ -258,7 +258,7 @@ for (Y in 1:(Estoresmax)) { #for all   values of Energy Stores in loop (unscaled
               if(Estores >= EcritL)  currentR <- min(reprod*Estores, Rlimit) else
                 currentR <- 0
               
-              if(reprod*Estores < Rlimit & reprod*Estores > 0.2*Rlimit   ) survchance <- exp(-2*mu[L])
+              if(reprod*Estores < Rlimit & reprod*Estores > 0.2*Rlimit   ) survchance <- 0.5*exp(-mu[L]) 
               if(reprod*Estores < 0.2*Rlimit) survchance <- exp(-mu[L]) 
               if(reprod*Estores > Rlimit) survchance <- 0
               
@@ -425,7 +425,7 @@ for (i in 1:(Tmax-1)) {
     
     reproduction[index, i]<- ifelse(repro[index, i]*state[index] < Replim, repro[index, i]*state[index], Replim)
     
-    survival[i+1] <- ifelse(repro[index, i]*state[index] < Replim & repro[index, i]*state[index] > 0.2*Replim, survival[i]*exp(-2*mu[size[index[1]]]), 0)
+    survival[i+1] <- ifelse(repro[index, i]*state[index] < Replim & repro[index, i]*state[index] > 0.2*Replim, survival[i]*0.5*exp(-mu[size[index[1]]]), 0)
    survival[i+1] <- ifelse(repro[index, i]*state[index] < 0.2*Replim, survival[i]*exp(-mu[size[index[1]]]), 0)   
     
     
@@ -459,9 +459,9 @@ reproduction[, -Tmax]<-ifelse(reproduction[, -Tmax]>0,  reproduction[, -Tmax], N
 
 idist[, -Tmax]<-ifelse(idist[, -Tmax]>0,  idist[, -Tmax], NA)
 
-write.csv(idist, file=paste0("seasonal/03State",  "f_h", round(f_h, 2),  "Kappa", round(Kappa,2),  "Rcosts.csv"))
+write.csv(idist, file=paste0("seasonal/03State",  "f_h", round(f_h, 2),  "Kappa", round(Kappa,2),  "Rcosts50.csv"))
 
-write.csv(sizedist, file=paste0("seasonal/01Length",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),  "Rcosts.csv"))
-write.csv(reproduction, file=paste0("seasonal/02Repro",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),   "Rcosts.csv")) 
-write.csv(survival, file=paste0("seasonal/04Surv",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),   "Rcosts.csv")) 
+write.csv(sizedist, file=paste0("seasonal/01Length",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),  "Rcosts50.csv"))
+write.csv(reproduction, file=paste0("seasonal/02Repro",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),   "Rcosts50.csv")) 
+write.csv(survival, file=paste0("seasonal/04Surv",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),   "Rcosts50.csv")) 
  
