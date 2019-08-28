@@ -23,7 +23,7 @@ surv_data <- lapply(surv_filenames, read.csv)
  time=1:204
  
   quartz()
-   par(mfrow=c(2,2))
+   par(mfrow=c(2,3))
  
 plot_length <- function(data, filenames) {
 	   
@@ -48,8 +48,8 @@ plot_length <- function(data, filenames) {
   # mapply(plot_hist, length_data, length_filenames)
   
   
- # quartz()
-  # par(mfrow=c(2, 2))
+ quartz()
+   par(mfrow=c(2,3))
   plot_repro <- function(repro_data, repro_filenames) {
 	 
      matplot(t(repro_data[,-1]), type="l", main= substr(repro_filenames, 8, 20), col="darkgray", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 2e+08), xlim=c(0.5, 204))
@@ -61,9 +61,8 @@ plot_length <- function(data, filenames) {
 mapply(plot_repro, repro_data, repro_filenames)
 
 ##make a plot of reproductive output as a function of length
-  # quartz()
-   # par(mfrow=c(3, 3))
- 
+quartz()
+   par(mfrow=c(2,3)) 
  age.length <- function(ldata1, rdata2, filenames) {
  	data1 <- as.numeric(ldata1[1,])
  	data2 <- as.numeric(rdata2[1, ])
@@ -81,8 +80,7 @@ mapply(age.length, length_data, repro_data, length_filenames)
 
 
 quartz()
- par(mfrow=c(2,2))
-
+  par(mfrow=c(2,3))
  surv <- function(data, filenames) {
  	
  	  	
@@ -107,7 +105,7 @@ quartz()
    #legend("bottomleft",   legend=paste0("slope is ",round(as.numeric(coef(m2)[2]), 3)), bty="n")
  }
  
- 	mapply(lnsurv, surv_data, surv_filenames)
+ 	#mapply(lnsurv, surv_data, surv_filenames)
  
   
 

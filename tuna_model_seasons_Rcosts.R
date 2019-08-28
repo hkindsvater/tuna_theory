@@ -20,7 +20,7 @@ Tmax = 16*timebin  #seasonal time steps, maximum lifespan is 16 years
 k=1.3e-23
 E = 1.04e-19
 theta=0.66
-coef1  = 5e+17 ##normalization constant puts tuna SMR in the same ballpark as the costs Kitchell et al. (1978) Bioenergetic spectra of skipjack and yellowfin tunas, pp 359 IN Sharp G.D. and Dizon A.E. eds. The Physiological Ecology of Tunas, Academic press.  
+coef1  = 4e+17 ##normalization constant puts tuna SMR in the same ballpark as the costs Kitchell et al. (1978) Bioenergetic spectra of skipjack and yellowfin tunas, pp 359 IN Sharp G.D. and Dizon A.E. eds. The Physiological Ecology of Tunas, Academic press.  
 
 #physiological parameters
 a <- 1e-5 #from ICCAT 2015 BFT length-weight relationship
@@ -35,7 +35,7 @@ Lmin = 1
 Estoresmax=350 #maximum stores in loop  
 
 storelimit= 1.5 #proportion of structural mass that inidivduals can devote to energy storage
-storemin = 0.1
+storemin = 0.2
 reprolimit = 1
 
 ###################################################################################################################################################################################################
@@ -72,7 +72,7 @@ for (kap in 1:timebin) {
   MTcosts[kap, ] <-coef1*(Mass)^theta*(exp(-E/(k*(Temp+raiseT[kap]))))/3 
   
 }
-
+#matplot((1:375),t(log10(MTcosts)), type="l")
 #Income = Kappa*phi_a*K_c*Mass^(2-lam) #this describes the scaling with size and ecostystem richness
 plot(Income)
 SDfood=0
@@ -258,8 +258,8 @@ for (Y in 1:(Estoresmax)) { #for all   values of Energy Stores in loop (unscaled
               if(Estores >= EcritL)  currentR <- min(reprod*Estores, Rlimit) else
                 currentR <- 0
               
-              if(reprod*Estores < Rlimit & reprod*Estores > 0.2*Rlimit   ) survchance <- 0.5*exp(-mu[L]) 
-              if(reprod*Estores < 0.2*Rlimit) survchance <- exp(-mu[L]) 
+              if(reprod*Estores < Rlimit & reprod*Estores > 0.3*Rlimit) survchance <- exp(-2*mu[L]) 
+              if(reprod*Estores < 0.3*Rlimit) survchance <- exp(-mu[L]) 
               if(reprod*Estores > Rlimit) survchance <- 0
               
                Vmat[Y,L, p, i, g, h]	<-  currentR + survchance*FutureFitness 
@@ -425,8 +425,8 @@ for (i in 1:(Tmax-1)) {
     
     reproduction[index, i]<- ifelse(repro[index, i]*state[index] < Replim, repro[index, i]*state[index], Replim)
     
-    survival[i+1] <- ifelse(repro[index, i]*state[index] < Replim & repro[index, i]*state[index] > 0.2*Replim, survival[i]*0.5*exp(-mu[size[index[1]]]), 0)
-   survival[i+1] <- ifelse(repro[index, i]*state[index] < 0.2*Replim, survival[i]*exp(-mu[size[index[1]]]), 0)   
+    survival[i+1] <- ifelse(repro[index, i]*state[index] < Replim & repro[index, i]*state[index] > 0.3*Replim, survival[i]*exp(-2*mu[size[index[1]]]), 0)
+   survival[i+1] <- ifelse(repro[index, i]*state[index] < 0.3*Replim, survival[i]*exp(-mu[size[index[1]]]), 0)   
     
     
     nextsize <-   ((Wstructure +  g_allo[index,i]*Wstores)/a)^(1/3)

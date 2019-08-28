@@ -20,7 +20,7 @@ Tmax = 16*timebin  #seasonal time steps, maximum lifespan is 16 years
 k=1.3e-23
 E = 1.04e-19
 theta=0.66
-coef1  = 5e+17 ##normalization constant puts tuna SMR in the same ballpark as the costs Kitchell et al. (1978) Bioenergetic spectra of skipjack and yellowfin tunas, pp 359 IN Sharp G.D. and Dizon A.E. eds. The Physiological Ecology of Tunas, Academic press.  
+coef1  = 5e+16 ##normalization constant puts tuna SMR in the same ballpark as the costs Kitchell et al. (1978) Bioenergetic spectra of skipjack and yellowfin tunas, pp 359 IN Sharp G.D. and Dizon A.E. eds. The Physiological Ecology of Tunas, Academic press.  
 
 #physiological parameters
 a <- 1e-5 #from ICCAT 2015 BFT length-weight relationship
@@ -291,10 +291,10 @@ for (Y in 1:(Estoresmax)) { #for all   values of Energy Stores in loop (unscaled
           } # end 2nd h loop  
         } #end 2nd g loop
         
-        #take mean of all behaviors with same fitness as max
+        #take min of all behaviors with same fitness as max
         
-        optU[Y, L,p,i]=mean(mult_u, na.rm=TRUE) 
-        optR[Y, L,p,i]=mean(mult_r, na.rm=TRUE)  
+        optU[Y, L,p,i]=min(mult_u, na.rm=TRUE) 
+        optR[Y, L,p,i]=min(mult_r, na.rm=TRUE)  
         
         #if(optU[Y, L,p,i]+optR[Y, L,p,i] > 1) optR[Y, L,p,i]<- optR[Y, L,p,i] - 0.1 
         

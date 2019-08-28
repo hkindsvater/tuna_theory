@@ -15,9 +15,9 @@ system(newDir)
 v1 = "f_h"
 v2 = "Kappa"
 
-L1 =  c(15, 20)
+L1 =  c(5, 15)
 
-L2 = c(6, 12)
+L2 = c(3,  6)
 n1 = length(L1)
 n2 = length(L2)
 reps = 1
@@ -41,7 +41,7 @@ while(index <= total)
 			argList = paste(argList, x, " ", sep="")
 		}
 
-		system(paste("Rscript ~/Documents/tuna_theory/tuna_model_seasons.R", argList) ,wait=FALSE)
+		system(paste("Rscript ~/Documents/tuna_theory/tuna_model_seasons_Rcosts.R", argList) ,wait=FALSE)
 		print(index)
 		index = index + 1
 	} else {
