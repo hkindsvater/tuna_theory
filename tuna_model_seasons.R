@@ -2,7 +2,7 @@
 #!/usr/bin/env Rscript --vanilla
 #install.packages("fields")
 # library(fields)
-setwd("/Users/hollykindsvater/Documents/tuna_theory/")
+setwd("~/Documents/tuna_theory/")
 
 set.seed(1001)
 timebin <- 12
