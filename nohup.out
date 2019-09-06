@@ -1,15 +1,7 @@
 mkdir: /Users/hkindsvater/Documents/tuna_theory/seasonal: File exists
 [1] 1
-Error: vector memory exhausted (limit reached?)
+Error in optU[Ilo[condind == FALSE], size[index[condind == FALSE]], p,  : 
+  subscript out of bounds
+Calls: diag
 Execution halted
 [1] 2
-Error: vector memory exhausted (limit reached?)
-Execution halted
-mkdir: /Users/hkindsvater/Documents/tuna_theory/seasonal: File exists
-[1] 1
-[1] 2
-mkdir: /Users/hkindsvater/Documents/tuna_theory/seasonal: File exists
-[1] 1
-[1] 2
-[1] 3
-[1] 4

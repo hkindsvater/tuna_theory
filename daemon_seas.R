@@ -17,7 +17,7 @@ v2 = "Kappa"
 
 L1 =  c(10, 15)
 
-L2 = c(9, 12)
+L2 = c(18)
 n1 = length(L1)
 n2 = length(L2)
 reps = 1
