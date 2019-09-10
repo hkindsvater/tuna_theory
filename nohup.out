@@ -5,3 +5,7 @@ Error in optU[Ilo[condind == FALSE], size[index[condind == FALSE]], p,  :
 Calls: diag
 Execution halted
 [1] 2
+Error in optU[Ilo[condind == FALSE], size[index[condind == FALSE]], p,  : 
+  subscript out of bounds
+Calls: diag
+Execution halted

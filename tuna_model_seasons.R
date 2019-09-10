@@ -291,12 +291,12 @@ for (Y in 1:(Estoresmax)) { #for all   values of Energy Stores in loop (unscaled
           } # end 2nd h loop  
         } #end 2nd g loop
         
-        #take min of all behaviors with same fitness as max
+        #take mean of all behaviors with same fitness as max
         
-        optU[Y, L,p,i]=min(mult_u, na.rm=TRUE) 
-        optR[Y, L,p,i]=min(mult_r, na.rm=TRUE)  
+        optU[Y, L,p,i]=mean(mult_u, na.rm=TRUE) 
+        optR[Y, L,p,i]=mean(mult_r, na.rm=TRUE)  
         
-        #if(optU[Y, L,p,i]+optR[Y, L,p,i] > 1) optR[Y, L,p,i]<- optR[Y, L,p,i] - 0.1 
+        
         
         
       } #end i loop

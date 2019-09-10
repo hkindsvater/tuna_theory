@@ -52,7 +52,7 @@ plot_length <- function(data, filenames) {
    par(mfrow=c(3,3))
   plot_repro <- function(repro_data, repro_filenames) {
 	 
-     matplot(t(repro_data[,-1]), type="l", main= substr(repro_filenames, 8, 20), col="darkgray", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 2e+08), xlim=c(0.5, 204))
+     matplot(t(repro_data[,-1]), type="l", main= substr(repro_filenames, 8, 23), col="darkgray", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 4e+08), xlim=c(0.5, 204))
      axis(1, at = seq(0, 204, by=12), labels = (seq(1, 18, by=1)))
     print(repro_data[,-1]) 
  
