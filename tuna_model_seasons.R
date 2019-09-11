@@ -5,16 +5,18 @@
 setwd("~/Documents/tuna_theory/")
 
 set.seed(1001)
-timebin <- 12
+ 
 args <-  commandArgs(trailingOnly = TRUE)
 counter <- as.numeric(args[1]) 
-c1 = as.numeric(args[2])
+reprolimit = as.numeric(args[2])
 Kappa = as.numeric(args[3])/12
 f_h = as.numeric(args[4])/12
 
+timebin=12
+c1=1
  Temp <- 293
 
-Tmax = 16*timebin  #seasonal time steps, maximum lifespan is 16 years
+Tmax = 18*timebin  #monthly stime steps, maximum lifespan is 16 years
 
 #describe temperature dependent costs
 k=1.3e-23
@@ -34,9 +36,9 @@ Lmax=375  #maximum size of 4 meters
 Lmin = 1 
 Estoresmax=350 #maximum stores in loop  
 
-storelimit= 1.5 #proportion of structural mass that inidivduals can devote to energy storage
+storelimit= 1 #proportion of structural mass that inidivduals can devote to energy storage
 storemin = 0.1
-reprolimit = 0.2
+#reprolimit = 0.35
 
 ###################################################################################################################################################################################################
 ###Lookup Tables - look up costs and food functions so they are not calculated every time
@@ -293,8 +295,8 @@ for (Y in 1:(Estoresmax)) { #for all   values of Energy Stores in loop (unscaled
         
         #take mean of all behaviors with same fitness as max
         
-        optU[Y, L,p,i]=mean(mult_u, na.rm=TRUE) 
-        optR[Y, L,p,i]=mean(mult_r, na.rm=TRUE)  
+        optU[Y, L,p,i]=min(mult_u, na.rm=TRUE) 
+        optR[Y, L,p,i]=min(mult_r, na.rm=TRUE)  
         
         
         
@@ -316,14 +318,14 @@ for (Y in 1:(Estoresmax)) { #for all   values of Energy Stores in loop (unscaled
 # image(optU[ , 200 , 1,  ] , col=pal, ylab="Age", xlab="Energy Stores", main="Growth, Length is 200" ) 
 
 
-# quartz()
-# par(mfrow=c(2,2)) 	
+ quartz()
+ par(mfrow=c(2,2)) 	
 
-# image( optR[1:36, 45:100 ,1,1], col=pal, ylab="Size", xlab="Energy Stores", main="Repro, Age is 1 " )	   	   
+ image( optR[1:36, 45:100 ,1,1], col=pal, ylab="Size", xlab="Energy Stores", main="Repro, Age is 1 " )	   	   
 
-# image(optR[ , 100  , 1,  ],col=pal, ylab="Age", xlab="Energy Stores", main="R, Length is 100" ) 
+ image(optR[ , 100  , 1,  ],col=pal, ylab="Age", xlab="Energy Stores", main="R, Length is 100" ) 
 
-# image(optR[, 200 , 1, ], col=pal, ylab="Age", xlab="Energy Stores", main="R, Length is 200" ) 
+ image(optR[, 200 , 1, ], col=pal, ylab="Age", xlab="Energy Stores", main="R, Length is 200" ) 
 
 
 # # 	  # # image(optR[,  300  , 1 , ], col=pal  ) 
@@ -400,7 +402,7 @@ for (i in 1:(Tmax-1)) {
     
     #now calculate Wtotal, Costs, and Net energy intake
     
-    Wstructure<- a*size[index]^3 
+    Wstructure<- a*size[index]^3 #structural mass in kilograms 
      
     
     Estructure <- Wstructure*scale
@@ -408,12 +410,11 @@ for (i in 1:(Tmax-1)) {
     EstoresmaxL <-Wstructure*storelimit*scale #modified from Chapman et al.  
     #Energy stores are capped to be a fraction if TOTAL body mass
     
-    EcritL <- Wstructure*storemin*scale
     
-    if (Y*scale < EstoresmaxL[1])  Estores<- Y*scale  else 
-      Estores=EstoresmaxL	#stored energy capped at a certain body size
     
-    Wstores<-state[index]/(scale)
+    state[index] <- ifelse(state[index] > EstoresmaxL, EstoresmaxL, state[index]) #stored energy capped at a certain body size
+    
+    Wstores<-state[index]/scale
     
     Wtotal <-  Wstores+Wstructure   #body mass
     
@@ -454,9 +455,8 @@ reproduction[, -Tmax]<-ifelse(reproduction[, -Tmax]>0,  reproduction[, -Tmax], N
 
 idist[, -Tmax]<-ifelse(idist[, -Tmax]>0,  idist[, -Tmax], NA)
 
-write.csv(idist, file=paste0("seasonal/03State",  "f_h", round(f_h, 2),  "Kappa", round(Kappa,2),  ".csv"))
-
-write.csv(sizedist, file=paste0("seasonal/01Length",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),  ".csv"))
-write.csv(reproduction, file=paste0("seasonal/02Repro",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),   ".csv")) 
-write.csv(survival, file=paste0("seasonal/04Surv",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),   ".csv")) 
+write.csv(idist, file=paste0("seasonal/03State",  "f_h", round(f_h, 2),  "Kappa", round(Kappa,2), "reprolimit", reprolimit,  ".csv"))
+write.csv(sizedist, file=paste0("seasonal/01Length",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),  "reprolimit", reprolimit, ".csv"))
+write.csv(reproduction, file=paste0("seasonal/02Repro",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),  "reprolimit", reprolimit, ".csv")) 
+write.csv(survival, file=paste0("seasonal/04Surv",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),   "reprolimit", reprolimit, ".csv")) 
  

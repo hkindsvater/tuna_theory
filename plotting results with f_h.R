@@ -78,6 +78,28 @@ quartz()
  	
 mapply(age.length, length_data, repro_data, length_filenames)
 
+quartz()
+   par(mfrow=c(3,3)) 
+
+fec.exp <-function(ldata1, rdata2, filenames) {
+ 	data1 <- as.numeric(ldata1[1,])
+ 	data2 <- as.numeric(rdata2[1, ])
+ 	  	matplot(t(log(data1[c(-1,-193)])), t(log(data2[c(-1,-193)])), type="p", col="darkgray", pch=20,   main= substr(filenames, 9, 30),  xlab="ln(Length) ", ylim=c(0, 25), xlim=c(0, 6), ylab="ln(Reproduction) ")
+ 	# print((ldata1))
+ 	# print((rdata2))
+ 	 
+ 	  max.rep.age = as.numeric(which.max(data2))
+ 	  min.rep.age = as.numeric(which.min(data2[c(-1, -193)])) #min(which(data2 >= as.numeric(0.15*data2[max.rep.age])))
+ 	   
+ 	  m1<-lm(log(data2[c(min.rep.age:max.rep.age)])~log(data1[c(min.rep.age:max.rep.age)]))
+ 	 if(is.na(coef(m1)[2])==FALSE)  	abline(m1)
+ 	#val<-paste0("Env is ", substr(filenames, 9, 23),", Slope is ", round(as.numeric(coef(m1)[2]), 3))
+   legend("topleft",   legend=paste0("slope is ",round(as.numeric(coef(m1)[2]), 3)), bty="n")
+ 	   	} 
+
+mapply(fec.exp, length_data, repro_data, length_filenames)
+
+ 
 
 quartz()
   par(mfrow=c(3,3))
