@@ -15,9 +15,9 @@ system(newDir)
 v1 = "f_h"
 v2 = "Kappa"
 
-L1 =  c(5, 10, 15)
+L1 =  c(10, 15)
 
-L2 = c(6, 12, 18)
+L2 = c(5, 15)
 n1 = length(L1)
 n2 = length(L2)
 reps = 1

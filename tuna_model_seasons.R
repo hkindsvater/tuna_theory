@@ -318,15 +318,15 @@ for (Y in 1:(Estoresmax)) { #for all   values of Energy Stores in loop (unscaled
 # image(optU[ , 200 , 1,  ] , col=pal, ylab="Age", xlab="Energy Stores", main="Growth, Length is 200" ) 
 
 
- quartz()
- par(mfrow=c(2,2)) 	
-
- image( optR[1:36, 45:100 ,1,1], col=pal, ylab="Size", xlab="Energy Stores", main="Repro, Age is 1 " )	   	   
-
- image(optR[ , 100  , 1,  ],col=pal, ylab="Age", xlab="Energy Stores", main="R, Length is 100" ) 
-
- image(optR[, 200 , 1, ], col=pal, ylab="Age", xlab="Energy Stores", main="R, Length is 200" ) 
-
+ # quartz()
+ # par(mfrow=c(2,2)) 	
+ # 
+ # image( optR[1:36, 45:100 ,1,1], col=pal, ylab="Size", xlab="Energy Stores", main="Repro, Age is 1 " )	   	   
+ # 
+ # image(optR[ , 100  , 1,  ],col=pal, ylab="Age", xlab="Energy Stores", main="R, Length is 100" ) 
+ # 
+ # image(optR[, 200 , 1, ], col=pal, ylab="Age", xlab="Energy Stores", main="R, Length is 200" ) 
+ # 
 
 # # 	  # # image(optR[,  300  , 1 , ], col=pal  ) 
 set.seed(2001)
