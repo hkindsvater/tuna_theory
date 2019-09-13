@@ -2,7 +2,7 @@
 
 
 # Defaults
-paras = c(reprolimit=0.2, Kappa = 1, f_h=5)
+paras = c(reprolimit=0.3, Kappa = 1, f_h=5)
 
 # Name the set of results
 name = "seasonal"

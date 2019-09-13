@@ -2,7 +2,7 @@
  
 
 
-setwd("~/Documents/tuna_theory/seasonal/")
+setwd("~/Documents/tuna_theory/seasonal/limit.2")
 data_files <- list.files(pattern = "\\.csv$")
 
 repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   
@@ -28,8 +28,8 @@ surv_data <- lapply(surv_filenames, read.csv)
 plot_length <- function(data, filenames) {
 	   
 	   
-     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 30), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 204), xlab= "Age (years)", xaxt="n")
-     axis(1, at = seq(0, 204, by=12), labels = (seq(1, 18, by=1)))
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 30), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 220), xlab= "Age (years)", xaxt="n")
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))
      
      maxsize <- (min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))) + 1 
      
@@ -52,44 +52,47 @@ plot_length <- function(data, filenames) {
    par(mfrow=c(3,3))
   plot_repro <- function(repro_data, repro_filenames) {
 	 
-     matplot(t(repro_data[,-1]), type="l", main= substr(repro_filenames, 8, 23), col="darkgray", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 4e+08), xlim=c(0.5, 204))
-     axis(1, at = seq(0, 204, by=12), labels = (seq(1, 18, by=1)))
-    print(repro_data[,-1]) 
+     matplot(t(repro_data[,-1]), type="l", main= substr(repro_filenames, 8, 23), col="darkgray", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 4e+08), xlim=c(0.5, 220))
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))
+   # print(repro_data[,-1]) 
  
      }
 
 mapply(plot_repro, repro_data, repro_filenames)
 
 ##make a plot of reproductive output as a function of length
-quartz()
-   par(mfrow=c(3,3)) 
- age.length <- function(ldata1, rdata2, filenames) {
- 	data1 <- as.numeric(ldata1[1,])
- 	data2 <- as.numeric(rdata2[1, ])
- 	#need to make a log log plot
- 	matplot(t(log(data1[c(-1,-195)])), t(log(data2[c(-1,-195)])), type="p", col="darkgray", pch=20,   main= substr(filenames, 9, 30),  xlab="ln(Length) ", ylim=c(0, 25), xlim=c(0, 6), ylab="ln(Reproduction) ")
- 	# print((ldata1))
- 	# print((rdata2))
- 	m1<-lm(log(data2[c(-1,-193)])~log(data1[c(-1,-193)]))
- 	if(is.na(coef(m1)[2])==FALSE)  	abline(m1)
- 	#val<-paste0("Env is ", substr(filenames, 9, 23),", Slope is ", round(as.numeric(coef(m1)[2]), 3))
-   legend("topleft",   legend=paste0("slope is ",round(as.numeric(coef(m1)[2]), 3)), bty="n")
- 	   	} 
+# quartz()
+   # par(mfrow=c(3,3)) 
+ # age.length <- function(ldata1, rdata2, filenames) {
+ 	# data1 <- as.numeric(ldata1[1,])
+ 	# data2 <- as.numeric(rdata2[1, ])
+ 	# #need to make a log log plot
+ 	# matplot(t(log(data1[c(-1,-194)])), t(log(data2[c(-1,-194)])), type="p", col="darkgray", pch=20,   main= substr(filenames, 9, 30),  xlab="ln(Length) ", ylim=c(0, 25), xlim=c(0, 6), ylab="ln(Reproduction) ")
+ 	# # print((ldata1))
+ 	# # print((rdata2))
+ 	# m1<-lm(log(data2[c(-1,-193)])~log(data1[c(-1,-193)]))
+ 	# if(is.na(coef(m1)[2])==FALSE)  	abline(m1)
+ 	# #val<-paste0("Env is ", substr(filenames, 9, 23),", Slope is ", round(as.numeric(coef(m1)[2]), 3))
+   # legend("topleft",   legend=paste0("slope is ",round(as.numeric(coef(m1)[2]), 3)), bty="n")
+ 	   	# } 
  	
-mapply(age.length, length_data, repro_data, length_filenames)
+# mapply(age.length, length_data, repro_data, length_filenames)
 
 quartz()
    par(mfrow=c(3,3)) 
 
 fec.exp <-function(ldata1, rdata2, filenames) {
- 	data1 <- as.numeric(ldata1[1,])
- 	data2 <- as.numeric(rdata2[1, ])
- 	  	matplot(t(log(data1[c(-1,-193)])), t(log(data2[c(-1,-193)])), type="p", col="darkgray", pch=20,   main= substr(filenames, 9, 30),  xlab="ln(Length) ", ylim=c(0, 25), xlim=c(0, 6), ylab="ln(Reproduction) ")
- 	# print((ldata1))
- 	# print((rdata2))
+ 	data1 <- as.numeric(ldata1[1,-1])
+ 	data2 <- as.numeric(rdata2[1, -1])
+ 	  	matplot(t(log(data1[-216])), t(log(data2[-216])), type="p", col="darkgray", pch=20,   main= substr(filenames, 9, 30),  xlab="ln(Length) ", ylim=c(0, 25), xlim=c(0, 7), ylab="ln(Reproduction) ")
+ 	print((data1))
+ 	print((data2))
  	 
  	  max.rep.age = as.numeric(which.max(data2))
- 	  min.rep.age = as.numeric(which.min(data2[c(-1, -193)])) #min(which(data2 >= as.numeric(0.15*data2[max.rep.age])))
+ 	  min.rep.age = as.numeric(which.min(data2[-216])) 
+ 	  
+ 	   print(max.rep.age)
+ 	   print(min.rep.age)
  	   
  	  m1<-lm(log(data2[c(min.rep.age:max.rep.age)])~log(data1[c(min.rep.age:max.rep.age)]))
  	 if(is.na(coef(m1)[2])==FALSE)  	abline(m1)
@@ -106,8 +109,8 @@ quartz()
  surv <- function(data, filenames) {
  	
  	  	
- 	matplot(data[,-1], type="l", main= substr(filenames, 6, 25), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1), xlim=c(0.5, 164))
-     axis(1, at = seq(0, 192, by=12), labels = (seq(1, 17, by=1)))
+ 	matplot(data[,-1], type="l", main= substr(filenames, 6, 25), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1), xlim=c(0.5, 220))
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))
      
  
    
@@ -119,8 +122,8 @@ quartz()
  	
  	data1<-as.numeric(data[,2])
  	print(dim(data1))
- 	matplot(log(data1[-1]), type="l", main= substr(filenames, 7, 30), col="darkgray", xlab="Age (years)", ylab="ln(Survival)", xaxt="n",  ylim=c(-10, 0), xlim=c(0.5, 164))
-     axis(1, at = seq(0, 192, by=12), labels = (seq(1, 17, by=1))) 
+ 	matplot(log(data1[-1]), type="l", main= substr(filenames, 7, 30), col="darkgray", xlab="Age (years)", ylab="ln(Survival)", xaxt="n",  ylim=c(-10, 0), xlim=c(0.5, 220))
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1))) 
    #m2<-lm(log(data1[-1])~time[-204])
    #abline(m2)
    #print(paste0("Env is ", substr(surv_filenames, 8, 18))),", Slope is ", round(as.numeric(coef(m2)[2]), 3)))
