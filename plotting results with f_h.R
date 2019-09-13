@@ -2,7 +2,7 @@
  
 
 
-setwd("~/Documents/tuna_theory/seasonal/limit.2")
+setwd("~/Documents/tuna_theory/seasonal/")
 data_files <- list.files(pattern = "\\.csv$")
 
 repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   
@@ -60,23 +60,7 @@ plot_length <- function(data, filenames) {
 
 mapply(plot_repro, repro_data, repro_filenames)
 
-##make a plot of reproductive output as a function of length
-# quartz()
-   # par(mfrow=c(3,3)) 
- # age.length <- function(ldata1, rdata2, filenames) {
- 	# data1 <- as.numeric(ldata1[1,])
- 	# data2 <- as.numeric(rdata2[1, ])
- 	# #need to make a log log plot
- 	# matplot(t(log(data1[c(-1,-194)])), t(log(data2[c(-1,-194)])), type="p", col="darkgray", pch=20,   main= substr(filenames, 9, 30),  xlab="ln(Length) ", ylim=c(0, 25), xlim=c(0, 6), ylab="ln(Reproduction) ")
- 	# # print((ldata1))
- 	# # print((rdata2))
- 	# m1<-lm(log(data2[c(-1,-193)])~log(data1[c(-1,-193)]))
- 	# if(is.na(coef(m1)[2])==FALSE)  	abline(m1)
- 	# #val<-paste0("Env is ", substr(filenames, 9, 23),", Slope is ", round(as.numeric(coef(m1)[2]), 3))
-   # legend("topleft",   legend=paste0("slope is ",round(as.numeric(coef(m1)[2]), 3)), bty="n")
- 	   	# } 
- 	
-# mapply(age.length, length_data, repro_data, length_filenames)
+#make a plot of reproductive output as a function of length
 
 quartz()
    par(mfrow=c(3,3)) 
@@ -89,13 +73,14 @@ fec.exp <-function(ldata1, rdata2, filenames) {
  	print((data2))
  	 
  	  max.rep.age = as.numeric(which.max(data2))
- 	  min.rep.age = as.numeric(which.min(data2[-216])) 
- 	  
- 	   print(max.rep.age)
- 	   print(min.rep.age)
- 	   
+ 	  print (which.min((data2 >= 0.25 *data2[max.rep.age])) )
+ 	  print(max.rep.age)
+ 	   	min.rep.age=36     	   
  	  m1<-lm(log(data2[c(min.rep.age:max.rep.age)])~log(data1[c(min.rep.age:max.rep.age)]))
  	 if(is.na(coef(m1)[2])==FALSE)  	abline(m1)
+ 	 
+ 	 
+ 	 
  	#val<-paste0("Env is ", substr(filenames, 9, 23),", Slope is ", round(as.numeric(coef(m1)[2]), 3))
    legend("topleft",   legend=paste0("slope is ",round(as.numeric(coef(m1)[2]), 3)), bty="n")
  	   	} 
