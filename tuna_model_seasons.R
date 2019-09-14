@@ -261,7 +261,7 @@ for (Y in 1:(Estoresmax)) { #for all   values of Energy Stores in loop (unscaled
                 currentR <- 0
               
               
-               Vmat[Y,L, p, i, g, h]	<-  currentR + exp(-mu[L])*FutureFitness 
+               Vmat[Y,L, p, i, g, h]	<-  currentR + exp(-mu[L]-reprod*0.2)*FutureFitness 
               
               
             } #end if growth + reprod < 1	   
@@ -427,7 +427,7 @@ for (i in 1:(Tmax-1)) {
     
     #survival <- randraw[index,i] <= exp(-mu[size[index]]) 
      
-    survival[i+1] <- survival[i]*exp(-mu[size[index[1]]])
+    survival[i+1] <- survival[i]*exp(-mu[size[index[1]]]-repro[index, i]*0.2)
     
     critstores <- a*nextsize^3*storemin*scale
     
