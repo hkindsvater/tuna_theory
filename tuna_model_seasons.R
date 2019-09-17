@@ -36,7 +36,7 @@ Lmax=375  #maximum size of 4 meters
 Lmin = 1 
 Estoresmax=350 #maximum stores in loop  
 
-storelimit= 1 #proportion of structural mass that inidivduals can devote to energy storage
+storelimit= 1.5 #proportion of structural mass that inidivduals can devote to energy storage
 storemin = 0.1
 #reprolimit = 0.35
 
@@ -261,7 +261,7 @@ for (Y in 1:(Estoresmax)) { #for all   values of Energy Stores in loop (unscaled
                 currentR <- 0
               
               
-               Vmat[Y,L, p, i, g, h]	<-  currentR + exp(-mu[L]-reprod*0.2)*FutureFitness 
+               Vmat[Y,L, p, i, g, h]	<-  currentR + exp(-mu[L]-reprod*0)*FutureFitness 
               
               
             } #end if growth + reprod < 1	   
@@ -427,7 +427,7 @@ for (i in 1:(Tmax-1)) {
     
     #survival <- randraw[index,i] <= exp(-mu[size[index]]) 
      
-    survival[i+1] <- survival[i]*exp(-mu[size[index[1]]]-repro[index, i]*0.2)
+    survival[i+1] <- survival[i]*exp(-mu[size[index[1]]]-repro[index, i]*0)
     
     critstores <- a*nextsize^3*storemin*scale
     
@@ -455,8 +455,8 @@ reproduction[, -Tmax]<-ifelse(reproduction[, -Tmax]>0,  reproduction[, -Tmax], N
 
 idist[, -Tmax]<-ifelse(idist[, -Tmax]>0,  idist[, -Tmax], NA)
 
-write.csv(idist, file=paste0("seasonal/03State",  "f_h", round(f_h, 2),  "Kappa", round(Kappa,2), "reprolimit", reprolimit,  "Wcosts.csv"))
-write.csv(sizedist, file=paste0("seasonal/01Length",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),  "reprolimit", reprolimit, "Wcosts.csv"))
-write.csv(reproduction, file=paste0("seasonal/02Repro",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),  "reprolimit", reprolimit, "Wcosts.csv")) 
-write.csv(survival, file=paste0("seasonal/04Surv",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),   "reprolimit", reprolimit, "Wcosts.csv")) 
+write.csv(idist, file=paste0("seasonal/03State",  "f_h", round(f_h, 2),  "Kappa", round(Kappa,2), "reprolimit", reprolimit, "storelimit", storelimit, ".csv"))
+write.csv(sizedist, file=paste0("seasonal/01Length",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),  "reprolimit", reprolimit, "storelimit", storelimit, ".csv"))
+write.csv(reproduction, file=paste0("seasonal/02Repro",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),  "reprolimit", reprolimit, "storelimit", storelimit, ".csv")) 
+write.csv(survival, file=paste0("seasonal/04Surv",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),   "reprolimit", reprolimit, "storelimit", storelimit, ".csv")) 
  

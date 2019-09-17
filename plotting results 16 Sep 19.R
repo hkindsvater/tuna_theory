@@ -2,7 +2,7 @@
  
 
 
-setwd("~/Documents/tuna_theory/seasonal/rcosts0.3")
+setwd("~/Documents/tuna_theory/seasonal/reprolimit.5/")
 data_files <- list.files(pattern = "\\.csv$")
 
 repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   
@@ -23,7 +23,7 @@ surv_data <- lapply(surv_filenames, read.csv)
  time=1:204
  
   quartz()
-   par(mfrow=c(3,3))
+   par(mfrow=c(2,2))
  
 plot_length <- function(data, filenames) {
 	   
@@ -33,9 +33,10 @@ plot_length <- function(data, filenames) {
      
      maxsize <- (min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))) + 1 
      
-     age_m <- min(which(as.numeric(data[1, -1]) >= 0.5*as.numeric(data[1, maxsize])))/4 
+     age_m <- min(which(as.numeric(data[1, -1]) >= 0.5*as.numeric(data[1, maxsize])))/12 
      
-     #legend("topright", legend=paste0("A_50 is ", age_m+1, " years"), bty="n")
+   
+     legend("topleft", legend=paste0("Lmax is ", round(data[1, maxsize]), " cm"), bty="n")
           }
      
  mapply(plot_length, length_data, length_filenames)    
@@ -49,21 +50,36 @@ plot_length <- function(data, filenames) {
   
   
  quartz()
-   par(mfrow=c(3,3))
+   par(mfrow=c(2,2))
   plot_repro <- function(repro_data, repro_filenames) {
-	 
-     matplot(t(repro_data[,-1]), type="l", main= substr(repro_filenames, 8, 23), col="darkgray", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 4e+08), xlim=c(0.5, 220))
+	       matplot(t(repro_data[,-1]), type="l", main= substr(repro_filenames, 8, 23), col="darkgray", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 5e+08), xlim=c(0.5, 220))
      axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))
+     
+     maxsize <- (min(which(as.numeric(repro_data[1, -1]) == max(as.numeric(repro_data[1, -1]), na.rm=TRUE)))) + 1 
+     print(maxsize)
+      age_m <- min(which(as.numeric(repro_data[1, -1]) >= 0.5*as.numeric(repro_data[1, maxsize])), na.rm=TRUE)/12 
+
+      legend("topright", legend=paste0("A_50 is ", round(age_m+1, 2), " years"), bty="n")
    # print(repro_data[,-1]) 
  
      }
 
 mapply(plot_repro, repro_data, repro_filenames)
 
-#make a plot of reproductive output as a function of length
+  quartz()
+   par(mfrow=c(2,2))
+  plot_state <- function(state_data, state_filenames) {
+	 
+     matplot(t(state_data[,-1]), type="l", main= substr(state_filenames, 8, 23), col="darkgray", lwd=1.75, lty=1,   ylab="State (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 6e+08), xlim=c(0.5, 220))
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))
+  
+ 
+     }
+
+mapply(plot_state, state_data, state_filenames)
 
 quartz()
-   par(mfrow=c(3,3)) 
+   par(mfrow=c(2,2)) 
 
 fec.exp <-function(ldata1, rdata2, filenames) {
  	data1 <- as.numeric(ldata1[1,-1])
@@ -73,16 +89,22 @@ fec.exp <-function(ldata1, rdata2, filenames) {
  	print((data2))
  	 
  	  max.rep.age = as.numeric(which.max(data2))
- 	  print (which.min((data2 >= 0.25 *data2[max.rep.age])) )
+      
  	  print(max.rep.age)
- 	   	min.rep.age=36     	   
- 	  m1<-lm(log(data2[c(min.rep.age:max.rep.age)])~log(data1[c(min.rep.age:max.rep.age)]))
- 	 if(is.na(coef(m1)[2])==FALSE)  	abline(m1)
+ 
+ 	  min.rep.age = as.numeric(which.min(data2[-216])) 
+ 	  print(min.rep.age)
+ 	   m1<-lm(log(data2[c(min.rep.age:max.rep.age)])~log(data1[c(min.rep.age:max.rep.age)]))
+ 	   
+ 	   b= (log(data2[max.rep.age])-log(data2[min.rep.age])) / (log(data1[max.rep.age]) - log(data1[min.rep.age]) )
+ 	    a=0
+ 	  if(is.na(coef(m1)[2])==FALSE) abline(m1)
  	 
- 	 
- 	 
+ 	 #abline(a, b)
+ 	 #print(coef(m1)[2])
  	#val<-paste0("Env is ", substr(filenames, 9, 23),", Slope is ", round(as.numeric(coef(m1)[2]), 3))
-   legend("topleft",   legend=paste0("slope is ",round(as.numeric(coef(m1)[2]), 3)), bty="n")
+    
+    legend("topleft",   legend=paste0("slope is ", round(b, 3), " vs ", round(as.numeric(coef(m1)[2]), 3))) #round(as.numeric(coef(m1)[2]), 3)), bty="n")
  	   	} 
 
 mapply(fec.exp, length_data, repro_data, length_filenames)
@@ -90,7 +112,7 @@ mapply(fec.exp, length_data, repro_data, length_filenames)
  
 
 quartz()
-  par(mfrow=c(3,3))
+  par(mfrow=c(2,2))
  surv <- function(data, filenames) {
  	
  	  	
