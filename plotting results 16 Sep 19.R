@@ -2,7 +2,7 @@
  
 
 
-setwd("~/Documents/tuna_theory/seasonal/reprolimit.2/")
+setwd("~/Documents/tuna_theory/seasonal/storelimit1")
 data_files <- list.files(pattern = "\\.csv$")
 
 repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   
@@ -21,9 +21,9 @@ state_data <- lapply(state_filenames, read.csv)
 surv_data <- lapply(surv_filenames, read.csv)
  
  time=1:204
- 
+ windowframe=c(2,2)
   quartz()
-   par(mfrow=c(2,2))
+   par(mfrow=windowframe)
  
 plot_length <- function(data, filenames) {
 	   
@@ -50,7 +50,7 @@ plot_length <- function(data, filenames) {
   
   
  quartz()
-   par(mfrow=c(2,2))
+   par(mfrow=windowframe)
   plot_repro <- function(repro_data, repro_filenames) {
 	       matplot(t(repro_data[,-1]), type="l", main= substr(repro_filenames, 8, 23), col="darkgray", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 5e+08), xlim=c(0.5, 220))
      axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))
@@ -67,7 +67,7 @@ plot_length <- function(data, filenames) {
 mapply(plot_repro, repro_data, repro_filenames)
 
   quartz()
-   par(mfrow=c(2,2))
+   par(mfrow=windowframe)
   plot_state <- function(state_data, state_filenames) {
 	 
      matplot(t(state_data[,-1]), type="l", main= substr(state_filenames, 8, 23), col="darkgray", lwd=1.75, lty=1,   ylab="State (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 6e+08), xlim=c(0.5, 220))
@@ -79,7 +79,7 @@ mapply(plot_repro, repro_data, repro_filenames)
 mapply(plot_state, state_data, state_filenames)
 
 quartz()
-   par(mfrow=c(2,2)) 
+   par(mfrow=windowframe) 
 
 fec.exp <-function(ldata1, rdata2, filenames) {
  	data1 <- as.numeric(ldata1[1,-1])
@@ -112,7 +112,7 @@ mapply(fec.exp, length_data, repro_data, length_filenames)
  
 
 quartz()
-  par(mfrow=c(2,2))
+  par(mfrow=windowframe)
  surv <- function(data, filenames) {
  	
  	  	

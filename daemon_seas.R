@@ -2,7 +2,7 @@
 
 
 # Defaults
-paras = c(reprolimit=0.3, Kappa = 1, f_h=5)
+paras = c(reprolimit=0.2, Kappa = 1, f_h=5)
 
 # Name the set of results
 name = "seasonal"
@@ -15,9 +15,9 @@ system(newDir)
 v1 = "f_h"
 v2 = "Kappa"
 
-L1 =  c(10,12, 15)
+L1 =  c(10,  15)
 
-L2 = c(5, 10, 15)
+L2 = c(5,   15)
 n1 = length(L1)
 n2 = length(L2)
 reps = 1

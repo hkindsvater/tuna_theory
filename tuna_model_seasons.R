@@ -36,7 +36,7 @@ Lmax=375  #maximum size of 4 meters
 Lmin = 1 
 Estoresmax=350 #maximum stores in loop  
 
-storelimit= 1.5 #proportion of structural mass that inidivduals can devote to energy storage
+storelimit= 0.5 #proportion of structural mass that inidivduals can devote to energy storage
 storemin = 0.1
 #reprolimit = 0.35
 
