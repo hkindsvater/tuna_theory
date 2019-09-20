@@ -1,1 +1,7 @@
 mkdir: /Users/hkindsvater/Documents/tuna_theory/seasonal: File exists
+<<<<<<< HEAD
+=======
+[1] 1
+mkdir: /Users/hkindsvater/Documents/tuna_theory/seasonal: File exists
+There were 50 or more warnings (use warnings() to see the first 50)
+>>>>>>> 53eeed69a7d877fd84a4a472ec8b10726a4ca26a
