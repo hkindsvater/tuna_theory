@@ -14,7 +14,7 @@ f_h = as.numeric(args[4])/12
 
 timebin=12
 c1=1
- Temp <- 293
+ Temp <- 295
 
 Tmax = 18*timebin  #monthly stime steps, maximum lifespan is 16 years
 
@@ -36,7 +36,7 @@ Lmax=375  #maximum size of 4 meters
 Lmin = 1 
 Estoresmax=350 #maximum stores in loop  
 
-storelimit= 0.5 #proportion of structural mass that inidivduals can devote to energy storage
+storelimit= 0.75 #proportion of structural mass that inidivduals can devote to energy storage
 storemin = 0.1
 #reprolimit = 0.35
 
@@ -455,8 +455,8 @@ reproduction[, -Tmax]<-ifelse(reproduction[, -Tmax]>0,  reproduction[, -Tmax], N
 
 idist[, -Tmax]<-ifelse(idist[, -Tmax]>0,  idist[, -Tmax], NA)
 
-write.csv(idist, file=paste0("seasonal/03State",  "f_h", round(f_h, 2),  "Kappa", round(Kappa,2), "reprolimit", reprolimit, "storelimit", storelimit, ".csv"))
-write.csv(sizedist, file=paste0("seasonal/01Length",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),  "reprolimit", reprolimit, "storelimit", storelimit, ".csv"))
-write.csv(reproduction, file=paste0("seasonal/02Repro",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),  "reprolimit", reprolimit, "storelimit", storelimit, ".csv")) 
-write.csv(survival, file=paste0("seasonal/04Surv",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),   "reprolimit", reprolimit, "storelimit", storelimit, ".csv")) 
+write.csv(idist, file=paste0("seasonal/Temp295/03State",  "f_h", round(f_h, 2),  "Kappa", round(Kappa,2), "reprolimit", reprolimit, "storelimit", storelimit, ".csv"))
+write.csv(sizedist, file=paste0("seasonal/Temp295/01Length",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),  "reprolimit", reprolimit, "storelimit", storelimit, ".csv"))
+write.csv(reproduction, file=paste0("seasonal/Temp295/02Repro",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),  "reprolimit", reprolimit, "storelimit", storelimit, ".csv")) 
+write.csv(survival, file=paste0("seasonal/Temp295/04Surv",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),   "reprolimit", reprolimit, "storelimit", storelimit, ".csv")) 
  
