@@ -16,7 +16,7 @@ timebin=12
 c1=1
  Temp <- 295
 
-Tmax = 18*timebin  #monthly stime steps, maximum lifespan is 16 years
+Tmax = 25*timebin  #monthly stime steps, maximum lifespan is 16 years
 
 #describe temperature dependent costs
 k=1.3e-23
@@ -455,8 +455,8 @@ reproduction[, -Tmax]<-ifelse(reproduction[, -Tmax]>0,  reproduction[, -Tmax], N
 
 idist[, -Tmax]<-ifelse(idist[, -Tmax]>0,  idist[, -Tmax], NA)
 
-write.csv(idist, file=paste0("seasonal/Temp295/03State",  "f_h", round(f_h, 2),  "Kappa", round(Kappa,2), "reprolimit", reprolimit, "storelimit", storelimit, ".csv"))
-write.csv(sizedist, file=paste0("seasonal/Temp295/01Length",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),  "reprolimit", reprolimit, "storelimit", storelimit, ".csv"))
-write.csv(reproduction, file=paste0("seasonal/Temp295/02Repro",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),  "reprolimit", reprolimit, "storelimit", storelimit, ".csv")) 
-write.csv(survival, file=paste0("seasonal/Temp295/04Surv",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),   "reprolimit", reprolimit, "storelimit", storelimit, ".csv")) 
+write.csv(idist, file=paste0("seasonal/Temp295/Tfinal20/03State",  "f_h", round(f_h, 2),  "Kappa", round(Kappa,2), "reprolimit", reprolimit, "storelimit", storelimit, ".csv"))
+write.csv(sizedist, file=paste0("seasonal/Temp295/Tfinal20/01Length",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),  "reprolimit", reprolimit, "storelimit", storelimit, ".csv"))
+write.csv(reproduction, file=paste0("seasonal/Temp295/Tfinal20/02Repro",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),  "reprolimit", reprolimit, "storelimit", storelimit, ".csv")) 
+write.csv(survival, file=paste0("seasonal/Temp295/Tfinal20/04Surv",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),   "reprolimit", reprolimit, "storelimit", storelimit, ".csv")) 
  
