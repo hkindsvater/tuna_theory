@@ -14,7 +14,7 @@ f_h = as.numeric(args[4])/12
 
 timebin=12
 c1=1
- Temp <- 295
+ Temp <- 290
 
 Tmax = 18*timebin  #monthly stime steps, maximum lifespan is 18 years
 
@@ -60,8 +60,8 @@ met_mort <- -0.25 #the argument in Andersen book is that mass-specific rates suc
 
  
 ####ADD SEASONALITY IN RESOURCES AND FOOD TO SOME MONTHS
-kmult <- c(rep(1, 6), rep(2, 6))
-raiseT <- c(rep(4,6), rep(0, 6))
+kmult <- rep(1, timebin) #c(rep(1, 6), rep(2, 6))
+raiseT <- rep(0, timebin) # c(rep(4,6), rep(0, 6))
 Mass <- a*(Lmin:Lmax)^3
 
 mu<- phi_p*f_h*Mass^met_mort #note we are excluding "background" mortality that is independent of size.... 
@@ -455,8 +455,8 @@ reproduction[, -Tmax]<-ifelse(reproduction[, -Tmax]>0,  reproduction[, -Tmax], N
 
 idist[, -Tmax]<-ifelse(idist[, -Tmax]>0,  idist[, -Tmax], NA)
 
-write.csv(idist, file=paste0("seasonal/Temp295/03State",  "f_h", round(f_h, 2),  "Kappa", round(Kappa,2), "reprolimit", reprolimit, "storelimit", storelimit, ".csv"))
-write.csv(sizedist, file=paste0("seasonal/Temp295/01Length",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),  "reprolimit", reprolimit, "storelimit", storelimit, ".csv"))
-write.csv(reproduction, file=paste0("seasonal/Temp295/02Repro",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),  "reprolimit", reprolimit, "storelimit", storelimit, ".csv")) 
-write.csv(survival, file=paste0("seasonal/Temp295/04Surv",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),   "reprolimit", reprolimit, "storelimit", storelimit, ".csv")) 
+write.csv(idist, file=paste0("Temp290/03State",  "f_h", round(f_h, 2),  "Kappa", round(Kappa,2), "reprolimit", reprolimit, "storelimit", storelimit, ".csv"))
+write.csv(sizedist, file=paste0("Temp290/01Length",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),  "reprolimit", reprolimit, "storelimit", storelimit, ".csv"))
+write.csv(reproduction, file=paste0("Temp290/02Repro",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),  "reprolimit", reprolimit, "storelimit", storelimit, ".csv")) 
+write.csv(survival, file=paste0("Temp290/04Surv",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),   "reprolimit", reprolimit, "storelimit", storelimit, ".csv")) 
  
