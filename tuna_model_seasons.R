@@ -7,14 +7,16 @@ setwd("~/Documents/tuna_theory/")
 set.seed(1001)
  
 args <-  commandArgs(trailingOnly = TRUE)
-counter <- as.numeric(args[1]) 
+counter <- as.numeric(args[1])
 reprolimit = as.numeric(args[2])
 Kappa = as.numeric(args[3])/12
 f_h = as.numeric(args[4])/12
 
+
+
 timebin=12
 c1=1
- Temp <- 290
+ Temp <- 295
 
 Tmax = 18*timebin  #monthly stime steps, maximum lifespan is 18 years
 
@@ -60,8 +62,8 @@ met_mort <- -0.25 #the argument in Andersen book is that mass-specific rates suc
 
  
 ####ADD SEASONALITY IN RESOURCES AND FOOD TO SOME MONTHS
-kmult <- rep(1, timebin) #c(rep(1, 6), rep(2, 6))
-raiseT <- rep(0, timebin) # c(rep(4,6), rep(0, 6))
+kmult <-  c(rep(1, 6), rep(2, 6)) #rep(1, timebin) 
+raiseT <- c(rep(4,6), rep(0, 6))  # rep(0, timebin)
 Mass <- a*(Lmin:Lmax)^3
 
 mu<- phi_p*f_h*Mass^met_mort #note we are excluding "background" mortality that is independent of size.... 
@@ -71,12 +73,17 @@ MTcosts = matrix(nrow = timebin, ncol = length(Mass))
 for (kap in 1:timebin) {
   
   Income[kap, ] <- kmult[kap]*Kappa*phi_a*K_c*Mass^(2-lam) #this describes the scaling with size and ecostystem richness
-  MTcosts[kap, ] <-coef1*(Mass)^theta*(exp(-E/(k*(Temp+raiseT[kap]))))/3 
+  MTcosts[kap, ] <-coef1*(Mass)^theta*(exp(-E/(k*(Temp+raiseT[kap])))) 
   
 }
-
+ 
+plot(MTcosts[7, ], type="l", ylab="Monthly Metabolic Costs (J)", xaxt="n", lwd=5, ylim=c(0, 2600000), col=4)
+plot(MTcosts[7, ], type="l", ylab="Monthly Metabolic Costs (J)", xaxt="n", lwd=5, ylim=c(0, 7800000), col=4)
+lines(MTcosts[1, ], lty=1, col=1, lwd=2)
+plot(MTcosts[7, ], type="l", ylab="Monthly Metabolic Costs (J)", xaxt="n", lwd=5, ylim=c(0, 7800000), col=1)
+lines(MTcosts[1, ], lty=1, col=2, lwd=2)
 #Income = Kappa*phi_a*K_c*Mass^(2-lam) #this describes the scaling with size and ecostystem richness
-plot(Income)
+#plot(Income)
 SDfood=0
 minI = Income - SDfood * 2
 maxI = Income + SDfood * 2
@@ -455,8 +462,8 @@ reproduction[, -Tmax]<-ifelse(reproduction[, -Tmax]>0,  reproduction[, -Tmax], N
 
 idist[, -Tmax]<-ifelse(idist[, -Tmax]>0,  idist[, -Tmax], NA)
 
-write.csv(idist, file=paste0("Temp290/03State",  "f_h", round(f_h, 2),  "Kappa", round(Kappa,2), "reprolimit", reprolimit, "storelimit", storelimit, ".csv"))
-write.csv(sizedist, file=paste0("Temp290/01Length",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),  "reprolimit", reprolimit, "storelimit", storelimit, ".csv"))
-write.csv(reproduction, file=paste0("Temp290/02Repro",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),  "reprolimit", reprolimit, "storelimit", storelimit, ".csv")) 
-write.csv(survival, file=paste0("Temp290/04Surv",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),   "reprolimit", reprolimit, "storelimit", storelimit, ".csv")) 
+write.csv(idist, file=paste0("HiCosts/Temp295/seasons/03State",  "f_h", round(f_h, 2),  "Kappa", round(Kappa,2), "reprolimit", reprolimit, "storelimit", storelimit, ".csv"))
+write.csv(sizedist, file=paste0("HiCosts/Temp295/seasons/01Length",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),  "reprolimit", reprolimit, "storelimit", storelimit, ".csv"))
+write.csv(reproduction, file=paste0("HiCosts/Temp295/seasons/02Repro",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),  "reprolimit", reprolimit, "storelimit", storelimit, ".csv")) 
+write.csv(survival, file=paste0("HiCosts/Temp295/seasons/04Surv",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),   "reprolimit", reprolimit, "storelimit", storelimit, ".csv")) 
  

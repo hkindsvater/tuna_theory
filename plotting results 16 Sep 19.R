@@ -2,7 +2,7 @@
  
 
 
-setwd("~/Documents/tuna_theory/seasonal/Temp295/")
+setwd("~/Documents/tuna_theory/Temp295/")
 data_files <- list.files(pattern = "\\.csv$")
 
 repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   
@@ -19,8 +19,8 @@ length_data <- lapply(length_filenames, read.csv)
 repro_data <- lapply(repro_filenames, read.csv)
 state_data <- lapply(state_filenames, read.csv)
 surv_data <- lapply(surv_filenames, read.csv)
- Tmax=20
- time=1:204
+ Tmax=18
+ time=1:(Tmax*12)
  windowframe=c(4,2)
   quartz()
    par(mfrow=windowframe)
@@ -130,16 +130,14 @@ quartz()
  	print(dim(data1))
  	matplot(log(data1[-1]), type="l", main= substr(filenames, 7, 30), col="darkgray", xlab="Age (years)", ylab="ln(Survival)", xaxt="n",  ylim=c(-10, 0), xlim=c(0.5, Tmax*12))
      axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1))) 
-   #m2<-lm(log(data1[-1])~time[-204])
-   #abline(m2)
-   #print(paste0("Env is ", substr(surv_filenames, 8, 18))),", Slope is ", round(as.numeric(coef(m2)[2]), 3)))
-   #legend("bottomleft",   legend=paste0("slope is ",round(as.numeric(coef(m2)[2]), 3)), bty="n")
+   m2<-lm(log(data1[-1])~time[-length(time)])
+   abline(m2)
+   print(paste0("Slope is ", round(as.numeric(coef(m2)[2]), 3)))
+   legend("bottomleft",   legend=paste0("slope is ",round(as.numeric(coef(m2)[2]), 3)), bty="n")
  }
  
- 	#mapply(lnsurv, surv_data, surv_filenames)
+ mapply(lnsurv, surv_data, surv_filenames)
  
-  
-
-
+ 
 
  
