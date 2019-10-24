@@ -5,8 +5,8 @@
 paras = c(reprolimit=0.2, Kappa = 1, f_h=5)
 
 # Name the set of results
-name = "HiCosts/Temp295/seasons"
-newDir = paste("mkdir ~/Documents/tuna_theory/", name, sep="") 
+name = "constant"
+newDir = paste("mkdir ~/Documents/tuna_theory/HiCosts/Temp295/", name, sep="") 
 system(newDir)
 
 

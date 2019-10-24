@@ -40,7 +40,7 @@ Estoresmax=350 #maximum stores in loop
 
 storelimit= 0.75 #proportion of structural mass that inidivduals can devote to energy storage
 storemin = 0.1
-#reprolimit = 0.35
+ 
 
 ###################################################################################################################################################################################################
 ###Lookup Tables - look up costs and food functions so they are not calculated every time
@@ -56,15 +56,15 @@ lam <- 1.95
 phi_p <- 0.07 #from table 2.2 in Andersen book
 f_0 <- 0.6 #somewhere between 0 and 1, but predators rarely caught with totally full stomach
 hprime <- 17.2
-#f_h<-f_0*hprime
+ 
 #coefficient on the consumption rate from table 2.2
 met_mort <- -0.25 #the argument in Andersen book is that mass-specific rates such as mortality scales with the metabolic esp of 3/4 (Brown et al. 2004). 
 
  
 ####ADD SEASONALITY IN RESOURCES AND FOOD TO SOME MONTHS
-kmult <-  c(rep(1, 6), rep(2, 6)) #rep(1, timebin) 
-raiseT <- c(rep(4,6), rep(0, 6))  # rep(0, timebin)
-Mass <- a*(Lmin:Lmax)^3
+kmult <- rep(1, timebin) #c(rep(1, 6), rep(2, 6)) # 
+raiseT <- rep(0, timebin)#c(rep(4,6), rep(0, 6))  # 
+Mass <- a*(Lmin:Lmax)^3 
 
 mu<- phi_p*f_h*Mass^met_mort #note we are excluding "background" mortality that is independent of size.... 
 
@@ -77,11 +77,11 @@ for (kap in 1:timebin) {
   
 }
  
-plot(MTcosts[7, ], type="l", ylab="Monthly Metabolic Costs (J)", xaxt="n", lwd=5, ylim=c(0, 2600000), col=4)
-plot(MTcosts[7, ], type="l", ylab="Monthly Metabolic Costs (J)", xaxt="n", lwd=5, ylim=c(0, 7800000), col=4)
-lines(MTcosts[1, ], lty=1, col=1, lwd=2)
-plot(MTcosts[7, ], type="l", ylab="Monthly Metabolic Costs (J)", xaxt="n", lwd=5, ylim=c(0, 7800000), col=1)
-lines(MTcosts[1, ], lty=1, col=2, lwd=2)
+# plot(MTcosts[7, ], type="l", ylab="Monthly Metabolic Costs (J)", xaxt="n", lwd=5, ylim=c(0, 2600000), col=4)
+# plot(MTcosts[7, ], type="l", ylab="Monthly Metabolic Costs (J)", xaxt="n", lwd=5, ylim=c(0, 7800000), col=4)
+# lines(MTcosts[1, ], lty=1, col=1, lwd=2)
+# plot(MTcosts[7, ], type="l", ylab="Monthly Metabolic Costs (J)", xaxt="n", lwd=5, ylim=c(0, 7800000), col=1)
+# lines(MTcosts[1, ], lty=1, col=2, lwd=2)
 #Income = Kappa*phi_a*K_c*Mass^(2-lam) #this describes the scaling with size and ecostystem richness
 #plot(Income)
 SDfood=0
@@ -462,8 +462,8 @@ reproduction[, -Tmax]<-ifelse(reproduction[, -Tmax]>0,  reproduction[, -Tmax], N
 
 idist[, -Tmax]<-ifelse(idist[, -Tmax]>0,  idist[, -Tmax], NA)
 
-write.csv(idist, file=paste0("HiCosts/Temp295/seasons/03State",  "f_h", round(f_h, 2),  "Kappa", round(Kappa,2), "reprolimit", reprolimit, "storelimit", storelimit, ".csv"))
-write.csv(sizedist, file=paste0("HiCosts/Temp295/seasons/01Length",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),  "reprolimit", reprolimit, "storelimit", storelimit, ".csv"))
-write.csv(reproduction, file=paste0("HiCosts/Temp295/seasons/02Repro",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),  "reprolimit", reprolimit, "storelimit", storelimit, ".csv")) 
-write.csv(survival, file=paste0("HiCosts/Temp295/seasons/04Surv",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),   "reprolimit", reprolimit, "storelimit", storelimit, ".csv")) 
+write.csv(idist, file=paste0("HiCosts/Temp295/constant/03State",  "f_h", round(f_h, 2),  "Kappa", round(Kappa,2), "reprolimit", reprolimit, "storelimit", storelimit, ".csv"))
+write.csv(sizedist, file=paste0("HiCosts/Temp295/constant/01Length",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),  "reprolimit", reprolimit, "storelimit", storelimit, ".csv"))
+write.csv(reproduction, file=paste0("HiCosts/Temp295/constant/02Repro",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),  "reprolimit", reprolimit, "storelimit", storelimit, ".csv")) 
+write.csv(survival, file=paste0("HiCosts/Temp295/constant/04Surv",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),   "reprolimit", reprolimit, "storelimit", storelimit, ".csv")) 
  
