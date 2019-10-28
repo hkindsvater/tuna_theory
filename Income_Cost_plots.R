@@ -1,11 +1,11 @@
 counter = 1
 reprolimit=0.2
-Kappa=5
+Kappa=15
 f_h=20
 
 timebin=12
 c1=1
- Temp <- 295
+ Temp <- 290
 
 Tmax = 18*timebin  #monthly stime steps, maximum lifespan is 18 years
 
@@ -13,7 +13,7 @@ Tmax = 18*timebin  #monthly stime steps, maximum lifespan is 18 years
 k=1.3e-23
 E = 1.04e-19
 theta=0.66
-coef1  = 5e+16 ##normalization constant puts tuna SMR in the same ballpark as the costs Kitchell et al. (1978) Bioenergetic spectra of skipjack and yellowfin tunas, pp 359 IN Sharp G.D. and Dizon A.E. eds. The Physiological Ecology of Tunas, Academic press.  
+coef1  = 5e+16/3 ##normalization constant puts tuna SMR in the same ballpark as the costs Kitchell et al. (1978) Bioenergetic spectra of skipjack and yellowfin tunas, pp 359 IN Sharp G.D. and Dizon A.E. eds. The Physiological Ecology of Tunas, Academic press.  
 
 #physiological parameters
 a <- 1e-5 #from ICCAT 2015 BFT length-weight relationship
@@ -51,8 +51,8 @@ met_mort <- -0.25 #the argument in Andersen book is that mass-specific rates suc
 
  
 ####ADD SEASONALITY IN RESOURCES AND FOOD TO SOME MONTHS
-kmult <- rep(1, timebin) #c(rep(1, 6), rep(2, 6)) # 
-raiseT <- rep(0, timebin)#c(rep(4,6), rep(0, 6))  # 
+kmult <-   c(rep(1, 6), rep(2, 6)) # rep(1, timebin)
+raiseT <- c(rep(4,6), rep(0, 6))  # rep(0, timebin)
 Mass <- a*(Lmin:Lmax)^3 
 
 mu<- phi_p*f_h*Mass^met_mort #note we are excluding "background" mortality that is independent of size.... 
@@ -66,9 +66,19 @@ for (kap in 1:timebin) {
   
 }
  
-# plot(MTcosts[7, ], type="l", ylab="Monthly Metabolic Costs (J)", xaxt="n", lwd=5, ylim=c(0, 2600000), col=4)
-# plot(MTcosts[7, ], type="l", ylab="Monthly Metabolic Costs (J)", xaxt="n", lwd=5, ylim=c(0, 7800000), col=4)
-# lines(MTcosts[1, ], lty=1, col=1, lwd=2)
-# plot(MTcosts[7, ], type="l", ylab="Monthly Metabolic Costs (J)", xaxt="n", lwd=5, ylim=c(0, 7800000), col=1)
-# lines(MTcosts[1, ], lty=1, col=2, lwd=2)
+ 
+# plot(MTcosts[7, ], type="l", ylab="Monthly Metabolic Costs (J)", xlab="Body length (cm)", lwd=5, ylim=c(0, 2500000), col=4)
+#lines(MTcosts[1, ], lty=2, col=2, lwd=5)
+ 
+  lines(MTcosts[7, ], lty=1, col=4, lwd=2)
+lines(MTcosts[1, ], lty=2, col=2, lwd=2)
+
+ # plot(Income[1, ]*scale, type="l", lwd=2.5, ylab="Monthly Income (J)",  ylim=c(0, 1250*scale), col=2, xlab="Body length (cm)" )      # lines(Income[7, ]*scale,  lty=2, lwd=2.5,  col=4)
+      
+# #        lines(Income[1, ]*scale,  lty=1, lwd=5,  col=2)
+		 # lines(Income[7, ]*scale,  lty=2, lwd=5,  col=4)
+
+      
+      
+ 
  
