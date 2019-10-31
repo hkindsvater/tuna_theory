@@ -66,14 +66,15 @@ for (kap in 1:timebin) {
   
 }
  
- 
+# 
 # plot(MTcosts[7, ], type="l", ylab="Monthly Metabolic Costs (J)", xlab="Body length (cm)", lwd=5, ylim=c(0, 2500000), col=4)
-#lines(MTcosts[1, ], lty=2, col=2, lwd=5)
- 
-  lines(MTcosts[7, ], lty=1, col=4, lwd=2)
-lines(MTcosts[1, ], lty=2, col=2, lwd=2)
+# lines(MTcosts[1, ], lty=2, col="Medium Orchid", lwd=5)
 
- # plot(Income[1, ]*scale, type="l", lwd=2.5, ylab="Monthly Income (J)",  ylim=c(0, 1250*scale), col=2, xlab="Body length (cm)" )      # lines(Income[7, ]*scale,  lty=2, lwd=2.5,  col=4)
+ #  lines(MTcosts[7, ], lty=1, col="Medium Violet Red", lwd=2)
+ # lines(MTcosts[1, ], lty=2, col=2, lwd=2)
+
+ # plot(Income[1, ]*scale, type="l", lwd=2.5, ylab="Monthly Income (J)",  ylim=c(0, 1250*scale), col=2, xlab="Body length (cm)" )
+      # lines(Income[7, ]*scale,  lty=2, lwd=2.5,  col=4)
       
 # #        lines(Income[1, ]*scale,  lty=1, lwd=5,  col=2)
 		 # lines(Income[7, ]*scale,  lty=2, lwd=5,  col=4)

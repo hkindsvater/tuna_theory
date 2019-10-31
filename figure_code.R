@@ -17,7 +17,7 @@ a <- ggplot(rate_dat,
 
    scale_shape_manual(values=c(15, 20)) +
    scale_color_manual(values = c("blue", "red")) +
-   labs(y="Age of 50% Maturity")+
+   labs(y="Age at 50% Maturity (years)")+
  
   
 facet_wrap(~Seasonality) 
@@ -73,7 +73,7 @@ d <- ggplot(rate_dat,
 
    scale_shape_manual(values=c(15, 20)) +
    scale_color_manual(values = c("blue", "red")) +
-   labs(y="Maximum Length") +
+   labs(y="Maximum Length (cm)") +
 
   
 facet_wrap(~Seasonality) 
@@ -81,10 +81,25 @@ d
  
  
  
+ quartz()
+E <- ggplot(rate_dat,
+    aes(x=Predation, y=Sizemat) 
+    ) + 
+	geom_point(aes(colour = Temp, shape=Food), size = 3 ) +
  
+        scale_size_manual(values=c(4, 1)) +
+
+   scale_shape_manual(values=c(15, 20)) +
+   scale_color_manual(values = c("blue", "red")) +
+   labs(y="Size at 50% Maturity (cm)")+
  
+  
+facet_wrap(~Seasonality) 
+E
+
  
- 
+ FIGURE 2 CODE
+###################################################################################### 
 
  setwd("~/Documents/tuna_theory/Length_data/HighmortHighfood/")
  
