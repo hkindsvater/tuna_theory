@@ -2,7 +2,7 @@
  
 
 
-setwd("~/Documents/tuna_theory/seasonal/Temp295/")
+setwd("~/Documents/tuna_theory/HiCosts/Temp295/")
 data_files <- list.files(pattern = "\\.csv$")
 
 repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   
@@ -21,26 +21,26 @@ state_data <- lapply(state_filenames, read.csv)
 surv_data <- lapply(surv_filenames, read.csv)
  Tmax=18
  time=1:(Tmax*12)
- windowframe=c(4,2)
+ windowframe=c(2,2)
   
   
   
-  quartz()
-   par(mfrow=windowframe)
-  plot_repro <- function(repro_data, length_data, repro_filenames) {
-	       matplot(t(repro_data[,-1]), type="l", main= substr(repro_filenames, 8, 23), col="darkgray", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 5e+08), xlim=c(0.5, Tmax*12))
-     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))
+# #   quartz()
+   # par(mfrow=windowframe)
+  # plot_repro <- function(repro_data, length_data, repro_filenames) {
+	       # matplot(t(repro_data[,-1]), type="l", main= substr(repro_filenames, 8, 23), col="darkgray", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 5e+08), xlim=c(0.5, Tmax*12))
+     # axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))
      
-     maxsize <- (min(which(as.numeric(repro_data[1, -1]) == max(as.numeric(repro_data[1, -1]), na.rm=TRUE)))) + 1 
-     #print(maxsize)
-      age_m <- min(which(as.numeric(repro_data[1, -1]) >= 0.5*as.numeric(repro_data[1, maxsize])), na.rm=TRUE)/12 
-      size_m <- length_data[1, round(age_m*12)]
-      #print(size_m)
-    legend("topright", legend=c(paste0("A_50 is ", round(age_m+1, 2), " years"), paste0("Lmat50 is ", round(size_m), " cm")), bty="n")
-   # print(round(age_m*12) )
-     }
+     # maxsize <- (min(which(as.numeric(repro_data[1, -1]) == max(as.numeric(repro_data[1, -1]), na.rm=TRUE)))) + 1 
+     # #print(maxsize)
+      # age_m <- min(which(as.numeric(repro_data[1, -1]) >= 0.5*as.numeric(repro_data[1, maxsize])), na.rm=TRUE)/12 
+      # size_m <- length_data[1, round(age_m*12)]
+      # #print(size_m)
+    # legend("topright", legend=c(paste0("A_50 is ", round(age_m+1, 2), " years"), paste0("Lmat50 is ", round(size_m), " cm")), bty="n")
+   # # print(round(age_m*12) )
+     # }
 
-mapply(plot_repro, repro_data, length_data, repro_filenames)
+# mapply(plot_repro, repro_data, length_data, repro_filenames)
 
   
   

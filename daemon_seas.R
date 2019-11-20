@@ -5,8 +5,8 @@
 paras = c(reprolimit=0.2, Kappa = 1, f_h=5)
 
 # Name the set of results
-name = "constant"
-newDir = paste("mkdir ~/Documents/tuna_theory/HiCosts/Temp290/", name, sep="") 
+name = "seasons"
+newDir = paste("mkdir ~/Documents/tuna_theory/Temp290/", name, sep="") 
 system(newDir)
 
 
@@ -15,9 +15,9 @@ system(newDir)
 v1 = "f_h"
 v2 = "Kappa"
 
-L1 =  c( 15, 20 )
+L1 =  c( 16,17,18 )
 
-L2 = c(5,   15)
+L2 = c(15)
 n1 = length(L1)
 n2 = length(L2)
 reps = 1
