@@ -28,7 +28,7 @@ index = 1
 
 while(index <= total)
 {
-	if(length(suppressWarnings(system2("pgrep", "-f tuna_model_seasons.R", stdout=TRUE))) < limit)
+	if(length(suppressWarnings(system2("pgrep", "-f tuna_model_seasons_sens.R", stdout=TRUE))) < limit)
 	{
 		argList = ""
 		argList = paste(argList, index, " ", sep="")

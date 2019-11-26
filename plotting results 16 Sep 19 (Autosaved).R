@@ -165,7 +165,7 @@ quartz()
     lnsurv <- function(data, filenames) {
  	
  	data1<-as.numeric(data[,2])
- 	print(dim(data1))
+ 	print((data1))
  	matplot(log(data1[-1]), type="l", main= substr(filenames, 7, 30), col="darkgray", xlab="Age (years)", ylab="ln(Survival)", xaxt="n",  ylim=c(-10, 0), xlim=c(0.5, Tmax*12))
      axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1))) 
    m2<-lm(log(data1[-1])~time[-length(time)])
