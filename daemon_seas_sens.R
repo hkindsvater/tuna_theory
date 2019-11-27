@@ -5,8 +5,8 @@
 paras = c(reprolimit=0.2, Kappa = 1, f_h=15)
 
 # Name the set of results
-name = "rlimsensitivity"
-newDir = paste("mkdir ~/Documents/tuna_theory/Temp290Hicost/", name, sep="") 
+name = "HiCosts/Temp290/seasons/Lmaxsens/"
+newDir = paste("mkdir ~/Documents/tuna_theory/", name, sep="") 
 system(newDir)
  
 # Pick two variables to vary factorially
@@ -14,7 +14,7 @@ system(newDir)
 v1 = "reprolimit"
 v2 = "Kappa"
 
-L1 =  c(0.1, 0.2, 0.3, 0.4)
+L1 =  c(0.15, 0.2, 0.4)
 
 L2 = c(15)
 n1 = length(L1)
@@ -40,7 +40,7 @@ while(index <= total)
 			argList = paste(argList, x, " ", sep="")
 		}
 
-		system(paste("Rscript ~/Documents/tuna_theory/tuna_model_seasons.R", argList) ,wait=FALSE)
+		system(paste("Rscript ~/Documents/tuna_theory/tuna_model_seasons_sens.R", argList) ,wait=FALSE)
 		print(index)
 		index = index + 1
 	} else {
