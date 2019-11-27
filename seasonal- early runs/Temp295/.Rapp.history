@@ -1,0 +1,1338 @@
+setwd("~/Documents/tuna_theory/seasonal/")#
+data_files <- list.files(pattern = "\\.csv$")#
+#
+repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
+state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
+length_filenames <- data_files[1:(length(data_files)/4)]#
+surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+surv_filenames <- unique(surv_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+surv_data <- lapply(surv_filenames, read.csv)#
+ time=1:204#
+  quartz()#
+   par(mfrow=c(2,3))#
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 30), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 204), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, 204, by=12), labels = (seq(1, 18, by=1)))#
+     maxsize <- (min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))) + 1 #
+     age_m <- min(which(as.numeric(data[1, -1]) >= 0.5*as.numeric(data[1, maxsize])))/4 #
+     #legend("topright", legend=paste0("A_50 is ", age_m+1, " years"), bty="n")#
+          }#
+ mapply(plot_length, length_data, length_filenames)
+getwd()
+setwd("/Users/hkindsvater/Documents/tuna_theory/seasonal/")
+getwd()
+setwd("~/Documents/tuna_theory/seasonal/")#
+data_files <- list.files(pattern = "\\.csv$")
+eggs=1:10000#
+#
+Y=eggs^1.5#
+#
+plot(eggs, Y)
+eggs=1:10000#
+#
+Y=eggs^1.9#
+#
+plot(eggs, Y)
+eggs=1:10000#
+#
+Y=eggs^1.9#
+#
+plot(eggs, Y, type="l", lwd=4)
+eggs=1:10000#
+#
+Y=eggs^1.9#
+#
+plot(eggs, Y, type="l", lwd=4, las=1)
+eggs=1:10000#
+#
+Y=eggs^1.9/1+e06#
+#
+plot(eggs, Y, type="l", lwd=4, las=1, xlab="Eggs in nest", ylab="Larvae hatched out")
+eggs=1:10000#
+#
+Y=eggs^1.9/1+06#
+#
+plot(eggs, Y, type="l", lwd=4, las=1, xlab="Eggs in nest", ylab="Larvae hatched out")
+eggs=1:10000#
+#
+Y=eggs^1.9/1+07#
+#
+plot(eggs, Y, type="l", lwd=4, las=1, xlab="Eggs in nest", ylab="Larvae hatched out")
+eggs=1:10000#
+#
+Y=(eggs^1.9)/1e+07#
+#
+plot(eggs, Y, type="l", lwd=4, las=1, xlab="Eggs in nest", ylab="Larvae hatched out")
+eggs=1:10000#
+#
+Y=(eggs^1.9)/1e+06#
+#
+plot(eggs, Y, type="l", lwd=4, las=1, xlab="Eggs in nest", ylab="Larvae hatched out")
+eggs=1:10000#
+#
+Y=(eggs^1.9)/1e+05#
+#
+plot(eggs, Y, type="l", lwd=4, las=1, xlab="Eggs in nest", ylab="Larvae hatched out")
+par(mfrow=c(2,2))#
+plot(eggs, Y, type="l", lwd=4, las=1, xlab="Eggs in nest", ylab="Larvae hatched out")#
+plot(eggs, Y/eggs, type="l", lwd=4, las=1, xlab="Eggs in nest", ylab="Care per egg")
+eggs=1:900#
+#
+Y=(eggs^1.9)/1e+06#
+par(mfrow=c(2,2))#
+plot(eggs, Y, type="l", lwd=4, las=1, xlab="Male Size", ylab="Larvae hatched over season")#
+plot(eggs, Y/eggs, type="l", lwd=4, las=1, xlab="Male Size", ylab="Care per egg")
+eggs=1:900#
+#
+Y=(eggs^1.9)/1e+05#
+par(mfrow=c(2,2))#
+plot(eggs, Y, type="l", lwd=4, las=1, xlab="Male Size", ylab="Larvae hatched over season")#
+plot(eggs, Y/eggs, type="l", lwd=4, las=1, xlab="Male Size", ylab="Care per egg")
+eggs=1:900#
+#
+Y=(eggs^1.9)/1e+05#
+par(mfrow=c(2,2))#
+plot(eggs, Y, type="l", lwd=4, las=1, xlab="Male Size", main="Larvae hatched over season", ylab="Number")#
+plot(eggs, Y/eggs, type="l", lwd=4, las=1, xlab="Male Size", main="Care per egg")
+eggs=1:900#
+#
+Y=(eggs^1.9)/1e+05#
+par(mfrow=c(2,2))#
+plot(eggs, Y, type="l", lwd=4, las=1, xlab="Male Size", main="Larvae hatched over season", ylab="Number")#
+plot(eggs, Y/eggs, type="l", lwd=4, las=1, xlab="Male Size", ylab=", main="Care per egg")
+eggs=1:900#
+#
+Y=(eggs^1.9)/1e+05#
+par(mfrow=c(2,2))#
+plot(eggs, Y, type="l", lwd=4, las=1, xlab="Male Size", main="Larvae hatched over season", ylab="Number")#
+plot(eggs, Y/eggs, type="l", lwd=4, las=1, xlab="Male Size", ylab="", main="Care per egg")
+eggs=1:900#
+#
+Y=(eggs^1.9)/1e+04#
+par(mfrow=c(2,2))#
+plot(eggs, Y, type="l", lwd=4, las=1, xlab="Male Size", main="Larvae hatched over season", ylab="Number")#
+plot(eggs, Y/eggs, type="l", lwd=4, las=1, xlab="Male Size", ylab="", main="Care per egg")
+eggs=1:900#
+#
+Y=(eggs^1.9)/1e+03#
+par(mfrow=c(2,2))#
+plot(eggs, Y, type="l", lwd=4, las=1, xlab="Male Size", main="Larvae hatched over season", ylab="Number")#
+plot(eggs, Y/eggs, type="l", lwd=4, las=1, xlab="Male Size", ylab="", main="Care per egg")
+eggs=1:900#
+#
+Y=(eggs^2.9)/1e+03#
+par(mfrow=c(2,2))#
+plot(eggs, Y, type="l", lwd=4, las=1, xlab="Male Size", main="Larvae hatched over season", ylab="Number")#
+plot(eggs, Y/eggs, type="l", lwd=4, las=1, xlab="Male Size", ylab="", main="Care per egg")
+eggs=1:900#
+#
+Y=(eggs^2.4)/1e+03#
+par(mfrow=c(2,2))#
+plot(eggs, Y, type="l", lwd=4, las=1, xlab="Male Size", main="Larvae hatched over season", ylab="Number")#
+plot(eggs, Y/eggs, type="l", lwd=4, las=1, xlab="Male Size", ylab="", main="Care per egg")
+eggs=1:900#
+#
+Y=(eggs^2.4)/1e+04#
+par(mfrow=c(2,2))#
+plot(eggs, Y, type="l", lwd=4, las=1, xlab="Male Size", main="Larvae hatched over season", ylab="Number")#
+plot(eggs, Y/eggs, type="l", lwd=4, las=1, xlab="Male Size", ylab="", main="Care per egg")
+eggs=1:900#
+#
+Y=(eggs^2.4)/1e+04#
+par(mfrow=c(2,2))#
+plot(eggs, Y, type="l", lwd=4, las=1, xlab="Male Size", main="Larvae hatched over season", ylab="Number", xlim=c(200, 900))#
+plot(eggs, Y/eggs, type="l", lwd=4, las=1, xlab="Male Size", ylab="", main="Care per egg", xlim=c(200, 900))
+eggs=1:900#
+#
+Y=(eggs^2.4)/1e+03#
+par(mfrow=c(2,2))#
+plot(eggs, Y, type="l", lwd=4, las=1, xlab="Male Size", main="Larvae hatched over season", ylab="Number", xlim=c(200, 900))#
+plot(eggs, Y/eggs, type="l", lwd=4, las=1, xlab="Male Size", ylab="", main="Care per egg", xlim=c(200, 900))
+eggs=1:900#
+#
+Y=(eggs^2.4)/1e+03#
+par(mfrow=c(2,2))#
+plot(eggs, Y, type="l", lwd=4, las=1, xlab="Male Size", main="Larvae hatched over season", ylab="Number", xlim=c(250, 900))#
+plot(eggs, Y/eggs, type="l", lwd=4, las=1, xlab="Male Size", ylab="", main="Care per egg", xlim=c(250, 900))
+eggs=1:900#
+#
+Y=(eggs^1)/1e+03#
+par(mfrow=c(2,2))#
+plot(eggs, Y, type="l", lwd=4, las=1, xlab="Male Size", main="Larvae hatched over season", ylab="Number", xlim=c(250, 900))#
+plot(eggs, Y/eggs, type="l", lwd=4, las=1, xlab="Male Size", ylab="", main="Care per egg", xlim=c(250, 900))
+setwd("~/Documents/tuna_theory/Temp290/")#
+data_files <- list.files(pattern = "\\.csv$")#
+#
+repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
+state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
+length_filenames <- data_files[1:(length(data_files)/4)]#
+surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+surv_filenames <- unique(surv_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+surv_data <- lapply(surv_filenames, read.csv)#
+ Tmax=20#
+ time=1:204#
+ windowframe=c(4,2)#
+  quartz()#
+   par(mfrow=windowframe)#
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 30), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, Tmax*12), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))#
+     maxsize <- (min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))) + 1 #
+     age_m <- min(which(as.numeric(data[1, -1]) >= 0.5*as.numeric(data[1, maxsize])))/12 #
+     legend("topleft", legend=paste0("Lmax is ", round(data[1, maxsize]), " cm"), bty="n")#
+          }#
+      mapply(plot_length, length_data, length_filenames)    #
+  # plot_hist <- function(data, filenames) {#
+    # hist(data[, 12], breaks=50, xlim=c(50, 350), main=substr(filenames, 13, 49))#
+  # }#
+  # mapply(plot_hist, length_data, length_filenames)#
+ quartz()#
+   par(mfrow=windowframe)#
+  plot_repro <- function(repro_data, repro_filenames) {#
+	       matplot(t(repro_data[,-1]), type="l", main= substr(repro_filenames, 8, 23), col="darkgray", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 5e+08), xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))#
+     maxsize <- (min(which(as.numeric(repro_data[1, -1]) == max(as.numeric(repro_data[1, -1]), na.rm=TRUE)))) + 1 #
+     print(maxsize)#
+      age_m <- min(which(as.numeric(repro_data[1, -1]) >= 0.5*as.numeric(repro_data[1, maxsize])), na.rm=TRUE)/12 #
+#
+      legend("topright", legend=paste0("A_50 is ", round(age_m+1, 2), " years"), bty="n")#
+   # print(repro_data[,-1]) #
+     }#
+#
+mapply(plot_repro, repro_data, repro_filenames)#
+#
+  quartz()#
+   par(mfrow=windowframe)#
+  plot_state <- function(state_data, state_filenames) {#
+     matplot(t(state_data[,-1]), type="l", main= substr(state_filenames, 8, 23), col="darkgray", lwd=1.75, lty=1,   ylab="State (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 6e+08), xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))#
+     }#
+#
+mapply(plot_state, state_data, state_filenames)#
+#
+quartz()#
+   par(mfrow=windowframe) #
+#
+fec.exp <-function(ldata1, rdata2, filenames) {#
+ 	data1 <- as.numeric(ldata1[1,-1])#
+ 	data2 <- as.numeric(rdata2[1, -1])#
+ 	  	matplot(t(log(data1[-216])), t(log(data2[-216])), type="p", col="darkgray", pch=20,   main= substr(filenames, 9, 30),  xlab="ln(Length) ", ylim=c(0, 25), xlim=c(0, 7), ylab="ln(Reproduction) ")#
+ 	print((data1))#
+ 	print((data2))#
+ 	  max.rep.age = as.numeric(which.max(data2))#
+ 	  print(max.rep.age)#
+ 	  min.rep.age = as.numeric(which.min(data2[-216])) #
+ 	  print(min.rep.age)#
+ 	   m1<-lm(log(data2[c(min.rep.age:max.rep.age)])~log(data1[c(min.rep.age:max.rep.age)]))#
+ 	   b= (log(data2[max.rep.age])-log(data2[min.rep.age])) / (log(data1[max.rep.age]) - log(data1[min.rep.age]) )#
+ 	    a=0#
+ 	  if(is.na(coef(m1)[2])==FALSE) abline(m1)#
+ 	 #abline(a, b)#
+ 	 #print(coef(m1)[2])#
+ 	#val<-paste0("Env is ", substr(filenames, 9, 23),", Slope is ", round(as.numeric(coef(m1)[2]), 3))#
+    legend("topleft",   legend=paste0("slope is ", round(b, 3), " vs ", round(as.numeric(coef(m1)[2]), 3))) #round(as.numeric(coef(m1)[2]), 3)), bty="n")#
+ 	   	} #
+#
+mapply(fec.exp, length_data, repro_data, length_filenames)#
+quartz()#
+  par(mfrow=windowframe)#
+ surv <- function(data, filenames) {#
+ 	matplot(data[,-1], type="l", main= substr(filenames, 6, 25), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1),xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))#
+ }#
+ 	mapply(surv, surv_data, surv_filenames)#
+    lnsurv <- function(data, filenames) {#
+ 	data1<-as.numeric(data[,2])#
+ 	print(dim(data1))#
+ 	matplot(log(data1[-1]), type="l", main= substr(filenames, 7, 30), col="darkgray", xlab="Age (years)", ylab="ln(Survival)", xaxt="n",  ylim=c(-10, 0), xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1))) #
+   #m2<-lm(log(data1[-1])~time[-204])#
+   #abline(m2)#
+   #print(paste0("Env is ", substr(surv_filenames, 8, 18))),", Slope is ", round(as.numeric(coef(m2)[2]), 3)))#
+   #legend("bottomleft",   legend=paste0("slope is ",round(as.numeric(coef(m2)[2]), 3)), bty="n")#
+ }#
+ 	#mapply(lnsurv, surv_data, surv_filenames)
+setwd("~/Documents/tuna_theory/seasonal/Temp290/")#
+data_files <- list.files(pattern = "\\.csv$")#
+#
+repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
+state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
+length_filenames <- data_files[1:(length(data_files)/4)]#
+surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+surv_filenames <- unique(surv_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+surv_data <- lapply(surv_filenames, read.csv)#
+ Tmax=20#
+ time=1:204#
+ windowframe=c(4,2)#
+  quartz()#
+   par(mfrow=windowframe)#
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 30), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, Tmax*12), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))#
+     maxsize <- (min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))) + 1 #
+     age_m <- min(which(as.numeric(data[1, -1]) >= 0.5*as.numeric(data[1, maxsize])))/12 #
+     legend("topleft", legend=paste0("Lmax is ", round(data[1, maxsize]), " cm"), bty="n")#
+          }#
+      mapply(plot_length, length_data, length_filenames)    #
+  # plot_hist <- function(data, filenames) {#
+    # hist(data[, 12], breaks=50, xlim=c(50, 350), main=substr(filenames, 13, 49))#
+  # }#
+  # mapply(plot_hist, length_data, length_filenames)#
+ quartz()#
+   par(mfrow=windowframe)#
+  plot_repro <- function(repro_data, repro_filenames) {#
+	       matplot(t(repro_data[,-1]), type="l", main= substr(repro_filenames, 8, 23), col="darkgray", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 5e+08), xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))#
+     maxsize <- (min(which(as.numeric(repro_data[1, -1]) == max(as.numeric(repro_data[1, -1]), na.rm=TRUE)))) + 1 #
+     print(maxsize)#
+      age_m <- min(which(as.numeric(repro_data[1, -1]) >= 0.5*as.numeric(repro_data[1, maxsize])), na.rm=TRUE)/12 #
+#
+      legend("topright", legend=paste0("A_50 is ", round(age_m+1, 2), " years"), bty="n")#
+   # print(repro_data[,-1]) #
+     }#
+#
+mapply(plot_repro, repro_data, repro_filenames)#
+#
+  quartz()#
+   par(mfrow=windowframe)#
+  plot_state <- function(state_data, state_filenames) {#
+     matplot(t(state_data[,-1]), type="l", main= substr(state_filenames, 8, 23), col="darkgray", lwd=1.75, lty=1,   ylab="State (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 6e+08), xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))#
+     }#
+#
+mapply(plot_state, state_data, state_filenames)#
+#
+quartz()#
+   par(mfrow=windowframe) #
+#
+fec.exp <-function(ldata1, rdata2, filenames) {#
+ 	data1 <- as.numeric(ldata1[1,-1])#
+ 	data2 <- as.numeric(rdata2[1, -1])#
+ 	  	matplot(t(log(data1[-216])), t(log(data2[-216])), type="p", col="darkgray", pch=20,   main= substr(filenames, 9, 30),  xlab="ln(Length) ", ylim=c(0, 25), xlim=c(0, 7), ylab="ln(Reproduction) ")#
+ 	print((data1))#
+ 	print((data2))#
+ 	  max.rep.age = as.numeric(which.max(data2))#
+ 	  print(max.rep.age)#
+ 	  min.rep.age = as.numeric(which.min(data2[-216])) #
+ 	  print(min.rep.age)#
+ 	   m1<-lm(log(data2[c(min.rep.age:max.rep.age)])~log(data1[c(min.rep.age:max.rep.age)]))#
+ 	   b= (log(data2[max.rep.age])-log(data2[min.rep.age])) / (log(data1[max.rep.age]) - log(data1[min.rep.age]) )#
+ 	    a=0#
+ 	  if(is.na(coef(m1)[2])==FALSE) abline(m1)#
+ 	 #abline(a, b)#
+ 	 #print(coef(m1)[2])#
+ 	#val<-paste0("Env is ", substr(filenames, 9, 23),", Slope is ", round(as.numeric(coef(m1)[2]), 3))#
+    legend("topleft",   legend=paste0("slope is ", round(b, 3), " vs ", round(as.numeric(coef(m1)[2]), 3))) #round(as.numeric(coef(m1)[2]), 3)), bty="n")#
+ 	   	} #
+#
+mapply(fec.exp, length_data, repro_data, length_filenames)#
+quartz()#
+  par(mfrow=windowframe)#
+ surv <- function(data, filenames) {#
+ 	matplot(data[,-1], type="l", main= substr(filenames, 6, 25), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1),xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))#
+ }#
+ 	mapply(surv, surv_data, surv_filenames)#
+    lnsurv <- function(data, filenames) {#
+ 	data1<-as.numeric(data[,2])#
+ 	print(dim(data1))#
+ 	matplot(log(data1[-1]), type="l", main= substr(filenames, 7, 30), col="darkgray", xlab="Age (years)", ylab="ln(Survival)", xaxt="n",  ylim=c(-10, 0), xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1))) #
+   #m2<-lm(log(data1[-1])~time[-204])#
+   #abline(m2)#
+   #print(paste0("Env is ", substr(surv_filenames, 8, 18))),", Slope is ", round(as.numeric(coef(m2)[2]), 3)))#
+   #legend("bottomleft",   legend=paste0("slope is ",round(as.numeric(coef(m2)[2]), 3)), bty="n")#
+ }#
+ 	#mapply(lnsurv, surv_data, surv_filenames)
+setwd("~/Documents/tuna_theory/seasonal/Temp295/")#
+data_files <- list.files(pattern = "\\.csv$")#
+#
+repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
+state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
+length_filenames <- data_files[1:(length(data_files)/4)]#
+surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+surv_filenames <- unique(surv_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+surv_data <- lapply(surv_filenames, read.csv)#
+ Tmax=20#
+ time=1:204#
+ windowframe=c(4,2)#
+  quartz()#
+   par(mfrow=windowframe)#
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 30), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, Tmax*12), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))#
+     maxsize <- (min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))) + 1 #
+     age_m <- min(which(as.numeric(data[1, -1]) >= 0.5*as.numeric(data[1, maxsize])))/12 #
+     legend("topleft", legend=paste0("Lmax is ", round(data[1, maxsize]), " cm"), bty="n")#
+          }#
+      mapply(plot_length, length_data, length_filenames)    #
+  # plot_hist <- function(data, filenames) {#
+    # hist(data[, 12], breaks=50, xlim=c(50, 350), main=substr(filenames, 13, 49))#
+  # }#
+  # mapply(plot_hist, length_data, length_filenames)#
+ quartz()#
+   par(mfrow=windowframe)#
+  plot_repro <- function(repro_data, repro_filenames) {#
+	       matplot(t(repro_data[,-1]), type="l", main= substr(repro_filenames, 8, 23), col="darkgray", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 5e+08), xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))#
+     maxsize <- (min(which(as.numeric(repro_data[1, -1]) == max(as.numeric(repro_data[1, -1]), na.rm=TRUE)))) + 1 #
+     print(maxsize)#
+      age_m <- min(which(as.numeric(repro_data[1, -1]) >= 0.5*as.numeric(repro_data[1, maxsize])), na.rm=TRUE)/12 #
+#
+      legend("topright", legend=paste0("A_50 is ", round(age_m+1, 2), " years"), bty="n")#
+   # print(repro_data[,-1]) #
+     }#
+#
+mapply(plot_repro, repro_data, repro_filenames)#
+#
+  quartz()#
+   par(mfrow=windowframe)#
+  plot_state <- function(state_data, state_filenames) {#
+     matplot(t(state_data[,-1]), type="l", main= substr(state_filenames, 8, 23), col="darkgray", lwd=1.75, lty=1,   ylab="State (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 6e+08), xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))#
+     }#
+#
+mapply(plot_state, state_data, state_filenames)#
+#
+quartz()#
+   par(mfrow=windowframe) #
+#
+fec.exp <-function(ldata1, rdata2, filenames) {#
+ 	data1 <- as.numeric(ldata1[1,-1])#
+ 	data2 <- as.numeric(rdata2[1, -1])#
+ 	  	matplot(t(log(data1[-216])), t(log(data2[-216])), type="p", col="darkgray", pch=20,   main= substr(filenames, 9, 30),  xlab="ln(Length) ", ylim=c(0, 25), xlim=c(0, 7), ylab="ln(Reproduction) ")#
+ 	print((data1))#
+ 	print((data2))#
+ 	  max.rep.age = as.numeric(which.max(data2))#
+ 	  print(max.rep.age)#
+ 	  min.rep.age = as.numeric(which.min(data2[-216])) #
+ 	  print(min.rep.age)#
+ 	   m1<-lm(log(data2[c(min.rep.age:max.rep.age)])~log(data1[c(min.rep.age:max.rep.age)]))#
+ 	   b= (log(data2[max.rep.age])-log(data2[min.rep.age])) / (log(data1[max.rep.age]) - log(data1[min.rep.age]) )#
+ 	    a=0#
+ 	  if(is.na(coef(m1)[2])==FALSE) abline(m1)#
+ 	 #abline(a, b)#
+ 	 #print(coef(m1)[2])#
+ 	#val<-paste0("Env is ", substr(filenames, 9, 23),", Slope is ", round(as.numeric(coef(m1)[2]), 3))#
+    legend("topleft",   legend=paste0("slope is ", round(b, 3), " vs ", round(as.numeric(coef(m1)[2]), 3))) #round(as.numeric(coef(m1)[2]), 3)), bty="n")#
+ 	   	} #
+#
+mapply(fec.exp, length_data, repro_data, length_filenames)#
+quartz()#
+  par(mfrow=windowframe)#
+ surv <- function(data, filenames) {#
+ 	matplot(data[,-1], type="l", main= substr(filenames, 6, 25), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1),xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))#
+ }#
+ 	mapply(surv, surv_data, surv_filenames)#
+    lnsurv <- function(data, filenames) {#
+ 	data1<-as.numeric(data[,2])#
+ 	print(dim(data1))#
+ 	matplot(log(data1[-1]), type="l", main= substr(filenames, 7, 30), col="darkgray", xlab="Age (years)", ylab="ln(Survival)", xaxt="n",  ylim=c(-10, 0), xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1))) #
+   #m2<-lm(log(data1[-1])~time[-204])#
+   #abline(m2)#
+   #print(paste0("Env is ", substr(surv_filenames, 8, 18))),", Slope is ", round(as.numeric(coef(m2)[2]), 3)))#
+   #legend("bottomleft",   legend=paste0("slope is ",round(as.numeric(coef(m2)[2]), 3)), bty="n")#
+ }#
+ 	#mapply(lnsurv, surv_data, surv_filenames)
+setwd("~/Documents/tuna_theory/seasonal/Temp290/")#
+data_files <- list.files(pattern = "\\.csv$")#
+#
+repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
+state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
+length_filenames <- data_files[1:(length(data_files)/4)]#
+surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+surv_filenames <- unique(surv_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+surv_data <- lapply(surv_filenames, read.csv)#
+ Tmax=20#
+ time=1:204#
+ windowframe=c(4,2)#
+  quartz()#
+   par(mfrow=windowframe)#
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 30), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, Tmax*12), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))#
+     maxsize <- (min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))) + 1 #
+     age_m <- min(which(as.numeric(data[1, -1]) >= 0.5*as.numeric(data[1, maxsize])))/12 #
+     legend("topleft", legend=paste0("Lmax is ", round(data[1, maxsize]), " cm"), bty="n")#
+          }#
+      mapply(plot_length, length_data, length_filenames)    #
+  # plot_hist <- function(data, filenames) {#
+    # hist(data[, 12], breaks=50, xlim=c(50, 350), main=substr(filenames, 13, 49))#
+  # }#
+  # mapply(plot_hist, length_data, length_filenames)#
+ quartz()#
+   par(mfrow=windowframe)#
+  plot_repro <- function(repro_data, repro_filenames) {#
+	       matplot(t(repro_data[,-1]), type="l", main= substr(repro_filenames, 8, 23), col="darkgray", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 5e+08), xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))#
+     maxsize <- (min(which(as.numeric(repro_data[1, -1]) == max(as.numeric(repro_data[1, -1]), na.rm=TRUE)))) + 1 #
+     print(maxsize)#
+      age_m <- min(which(as.numeric(repro_data[1, -1]) >= 0.5*as.numeric(repro_data[1, maxsize])), na.rm=TRUE)/12 #
+#
+      legend("topright", legend=paste0("A_50 is ", round(age_m+1, 2), " years"), bty="n")#
+   # print(repro_data[,-1]) #
+     }#
+#
+mapply(plot_repro, repro_data, repro_filenames)#
+#
+  quartz()#
+   par(mfrow=windowframe)#
+  plot_state <- function(state_data, state_filenames) {#
+     matplot(t(state_data[,-1]), type="l", main= substr(state_filenames, 8, 23), col="darkgray", lwd=1.75, lty=1,   ylab="State (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 6e+08), xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))#
+     }#
+#
+mapply(plot_state, state_data, state_filenames)#
+#
+quartz()#
+   par(mfrow=windowframe) #
+#
+fec.exp <-function(ldata1, rdata2, filenames) {#
+ 	data1 <- as.numeric(ldata1[1,-1])#
+ 	data2 <- as.numeric(rdata2[1, -1])#
+ 	  	matplot(t(log(data1[-216])), t(log(data2[-216])), type="p", col="darkgray", pch=20,   main= substr(filenames, 9, 30),  xlab="ln(Length) ", ylim=c(0, 25), xlim=c(0, 7), ylab="ln(Reproduction) ")#
+ 	print((data1))#
+ 	print((data2))#
+ 	  max.rep.age = as.numeric(which.max(data2))#
+ 	  print(max.rep.age)#
+ 	  min.rep.age = as.numeric(which.min(data2[-216])) #
+ 	  print(min.rep.age)#
+ 	   m1<-lm(log(data2[c(min.rep.age:max.rep.age)])~log(data1[c(min.rep.age:max.rep.age)]))#
+ 	   b= (log(data2[max.rep.age])-log(data2[min.rep.age])) / (log(data1[max.rep.age]) - log(data1[min.rep.age]) )#
+ 	    a=0#
+ 	  if(is.na(coef(m1)[2])==FALSE) abline(m1)#
+ 	 #abline(a, b)#
+ 	 #print(coef(m1)[2])#
+ 	#val<-paste0("Env is ", substr(filenames, 9, 23),", Slope is ", round(as.numeric(coef(m1)[2]), 3))#
+    legend("topleft",   legend=paste0("slope is ", round(b, 3), " vs ", round(as.numeric(coef(m1)[2]), 3))) #round(as.numeric(coef(m1)[2]), 3)), bty="n")#
+ 	   	} #
+#
+mapply(fec.exp, length_data, repro_data, length_filenames)#
+quartz()#
+  par(mfrow=windowframe)#
+ surv <- function(data, filenames) {#
+ 	matplot(data[,-1], type="l", main= substr(filenames, 6, 25), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1),xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))#
+ }#
+ 	mapply(surv, surv_data, surv_filenames)#
+    lnsurv <- function(data, filenames) {#
+ 	data1<-as.numeric(data[,2])#
+ 	print(dim(data1))#
+ 	matplot(log(data1[-1]), type="l", main= substr(filenames, 7, 30), col="darkgray", xlab="Age (years)", ylab="ln(Survival)", xaxt="n",  ylim=c(-10, 0), xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1))) #
+   #m2<-lm(log(data1[-1])~time[-204])#
+   #abline(m2)#
+   #print(paste0("Env is ", substr(surv_filenames, 8, 18))),", Slope is ", round(as.numeric(coef(m2)[2]), 3)))#
+   #legend("bottomleft",   legend=paste0("slope is ",round(as.numeric(coef(m2)[2]), 3)), bty="n")#
+ }#
+ 	#mapply(lnsurv, surv_data, surv_filenames)
+lnsurv <- function(data, filenames) {#
+ 	data1<-as.numeric(data[,2])#
+ 	print(dim(data1))#
+ 	matplot(log(data1[-1]), type="l", main= substr(filenames, 7, 30), col="darkgray", xlab="Age (years)", ylab="ln(Survival)", xaxt="n",  ylim=c(-10, 0), xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1))) #
+   m2<-lm(log(data1[-1])~time[-204])#
+   abline(m2)#
+   print(paste0("Env is ", substr(surv_filenames, 8, 18))),", Slope is ", round(as.numeric(coef(m2)[2]), 3)))#
+   legend("bottomleft",   legend=paste0("slope is ",round(as.numeric(coef(m2)[2]), 3)), bty="n")#
+ }#
+ mapply(lnsurv, surv_data, surv_filenames)
+lnsurv <- function(data, filenames) {#
+ 	data1<-as.numeric(data[,2])#
+ 	print(dim(data1))#
+ 	matplot(log(data1[-1]), type="l", main= substr(filenames, 7, 30), col="darkgray", xlab="Age (years)", ylab="ln(Survival)", xaxt="n",  ylim=c(-10, 0), xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1))) #
+   m2<-lm(log(data1[-1])~time[-204])#
+   abline(m2)#
+   print(paste0("Slope is ", round(as.numeric(coef(m2)[2]), 3)))#
+   legend("bottomleft",   legend=paste0("slope is ",round(as.numeric(coef(m2)[2]), 3)), bty="n")#
+ }#
+ mapply(lnsurv, surv_data, surv_filenames)
+Tmax=18#
+ time=1:(Tmax*12)
+lnsurv <- function(data, filenames) {#
+ 	data1<-as.numeric(data[,2])#
+ 	print(dim(data1))#
+ 	matplot(log(data1[-1]), type="l", main= substr(filenames, 7, 30), col="darkgray", xlab="Age (years)", ylab="ln(Survival)", xaxt="n",  ylim=c(-10, 0), xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1))) #
+   m2<-lm(log(data1[-1])~time[-length(time)])#
+   abline(m2)#
+   print(paste0("Slope is ", round(as.numeric(coef(m2)[2]), 3)))#
+   legend("bottomleft",   legend=paste0("slope is ",round(as.numeric(coef(m2)[2]), 3)), bty="n")#
+ }#
+ mapply(lnsurv, surv_data, surv_filenames)
+quartz()#
+  par(mfrow=windowframe)#
+ surv <- function(data, filenames) {#
+ 	matplot(data[,-1], type="l", main= substr(filenames, 6, 25), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1),xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))#
+ }#
+ 	mapply(surv, surv_data, surv_filenames)#
+    lnsurv <- function(data, filenames) {#
+ 	data1<-as.numeric(data[,2])#
+ 	print(dim(data1))#
+ 	matplot(log(data1[-1]), type="l", main= substr(filenames, 7, 30), col="darkgray", xlab="Age (years)", ylab="ln(Survival)", xaxt="n",  ylim=c(-10, 0), xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1))) #
+   m2<-lm(log(data1[-1])~time[-length(time)])#
+   abline(m2)#
+   print(paste0("Slope is ", round(as.numeric(coef(m2)[2]), 3)))#
+   legend("bottomleft",   legend=paste0("slope is ",round(as.numeric(coef(m2)[2]), 3)), bty="n")#
+ }#
+ mapply(lnsurv, surv_data, surv_filenames)
+setwd("~/Documents/tuna_theory/Temp290/")#
+data_files <- list.files(pattern = "\\.csv$")#
+#
+repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
+state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
+length_filenames <- data_files[1:(length(data_files)/4)]#
+surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+surv_filenames <- unique(surv_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+surv_data <- lapply(surv_filenames, read.csv)#
+ Tmax=18#
+ time=1:(Tmax*12)#
+ windowframe=c(4,2)#
+  quartz()#
+   par(mfrow=windowframe)#
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 30), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, Tmax*12), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))#
+     maxsize <- (min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))) + 1 #
+     age_m <- min(which(as.numeric(data[1, -1]) >= 0.5*as.numeric(data[1, maxsize])))/12 #
+     legend("topleft", legend=paste0("Lmax is ", round(data[1, maxsize]), " cm"), bty="n")#
+          }#
+      mapply(plot_length, length_data, length_filenames)    #
+  # plot_hist <- function(data, filenames) {#
+    # hist(data[, 12], breaks=50, xlim=c(50, 350), main=substr(filenames, 13, 49))#
+  # }#
+  # mapply(plot_hist, length_data, length_filenames)#
+ quartz()#
+   par(mfrow=windowframe)#
+  plot_repro <- function(repro_data, repro_filenames) {#
+	       matplot(t(repro_data[,-1]), type="l", main= substr(repro_filenames, 8, 23), col="darkgray", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 5e+08), xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))#
+     maxsize <- (min(which(as.numeric(repro_data[1, -1]) == max(as.numeric(repro_data[1, -1]), na.rm=TRUE)))) + 1 #
+     print(maxsize)#
+      age_m <- min(which(as.numeric(repro_data[1, -1]) >= 0.5*as.numeric(repro_data[1, maxsize])), na.rm=TRUE)/12 #
+#
+      legend("topright", legend=paste0("A_50 is ", round(age_m+1, 2), " years"), bty="n")#
+   # print(repro_data[,-1]) #
+     }#
+#
+mapply(plot_repro, repro_data, repro_filenames)#
+#
+  quartz()#
+   par(mfrow=windowframe)#
+  plot_state <- function(state_data, state_filenames) {#
+     matplot(t(state_data[,-1]), type="l", main= substr(state_filenames, 8, 23), col="darkgray", lwd=1.75, lty=1,   ylab="State (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 6e+08), xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))#
+     }#
+#
+mapply(plot_state, state_data, state_filenames)#
+#
+quartz()#
+   par(mfrow=windowframe) #
+#
+fec.exp <-function(ldata1, rdata2, filenames) {#
+ 	data1 <- as.numeric(ldata1[1,-1])#
+ 	data2 <- as.numeric(rdata2[1, -1])#
+ 	  	matplot(t(log(data1[-216])), t(log(data2[-216])), type="p", col="darkgray", pch=20,   main= substr(filenames, 9, 30),  xlab="ln(Length) ", ylim=c(0, 25), xlim=c(0, 7), ylab="ln(Reproduction) ")#
+ 	print((data1))#
+ 	print((data2))#
+ 	  max.rep.age = as.numeric(which.max(data2))#
+ 	  print(max.rep.age)#
+ 	  min.rep.age = as.numeric(which.min(data2[-216])) #
+ 	  print(min.rep.age)#
+ 	   m1<-lm(log(data2[c(min.rep.age:max.rep.age)])~log(data1[c(min.rep.age:max.rep.age)]))#
+ 	   b= (log(data2[max.rep.age])-log(data2[min.rep.age])) / (log(data1[max.rep.age]) - log(data1[min.rep.age]) )#
+ 	    a=0#
+ 	  if(is.na(coef(m1)[2])==FALSE) abline(m1)#
+ 	 #abline(a, b)#
+ 	 #print(coef(m1)[2])#
+ 	#val<-paste0("Env is ", substr(filenames, 9, 23),", Slope is ", round(as.numeric(coef(m1)[2]), 3))#
+    legend("topleft",   legend=paste0("slope is ", round(b, 3), " vs ", round(as.numeric(coef(m1)[2]), 3))) #round(as.numeric(coef(m1)[2]), 3)), bty="n")#
+ 	   	} #
+#
+mapply(fec.exp, length_data, repro_data, length_filenames)#
+quartz()#
+  par(mfrow=windowframe)#
+ surv <- function(data, filenames) {#
+ 	matplot(data[,-1], type="l", main= substr(filenames, 6, 25), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1),xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))#
+ }#
+ 	mapply(surv, surv_data, surv_filenames)#
+    lnsurv <- function(data, filenames) {#
+ 	data1<-as.numeric(data[,2])#
+ 	print(dim(data1))#
+ 	matplot(log(data1[-1]), type="l", main= substr(filenames, 7, 30), col="darkgray", xlab="Age (years)", ylab="ln(Survival)", xaxt="n",  ylim=c(-10, 0), xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1))) #
+   m2<-lm(log(data1[-1])~time[-length(time)])#
+   abline(m2)#
+   print(paste0("Slope is ", round(as.numeric(coef(m2)[2]), 3)))#
+   legend("bottomleft",   legend=paste0("slope is ",round(as.numeric(coef(m2)[2]), 3)), bty="n")#
+ }#
+ mapply(lnsurv, surv_data, surv_filenames)
+mapply(plot_length, length_data, length_filenames)
+setwd("~/Documents/tuna_theory/seasonal/Temp295/")#
+data_files <- list.files(pattern = "\\.csv$")#
+#
+repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
+state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
+length_filenames <- data_files[1:(length(data_files)/4)]#
+surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+surv_filenames <- unique(surv_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+surv_data <- lapply(surv_filenames, read.csv)#
+ Tmax=18#
+ time=1:(Tmax*12)#
+ windowframe=c(4,2)#
+  quartz()#
+   par(mfrow=windowframe)#
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 30), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, Tmax*12), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))#
+     maxsize <- (min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))) + 1 #
+     age_m <- min(which(as.numeric(data[1, -1]) >= 0.5*as.numeric(data[1, maxsize])))/12 #
+     legend("topleft", legend=paste0("Lmax is ", round(data[1, maxsize]), " cm"), bty="n")#
+          }#
+      mapply(plot_length, length_data, length_filenames)    #
+  # plot_hist <- function(data, filenames) {#
+    # hist(data[, 12], breaks=50, xlim=c(50, 350), main=substr(filenames, 13, 49))#
+  # }#
+  # mapply(plot_hist, length_data, length_filenames)#
+ quartz()#
+   par(mfrow=windowframe)#
+  plot_repro <- function(repro_data, repro_filenames) {#
+	       matplot(t(repro_data[,-1]), type="l", main= substr(repro_filenames, 8, 23), col="darkgray", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 5e+08), xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))#
+     maxsize <- (min(which(as.numeric(repro_data[1, -1]) == max(as.numeric(repro_data[1, -1]), na.rm=TRUE)))) + 1 #
+     print(maxsize)#
+      age_m <- min(which(as.numeric(repro_data[1, -1]) >= 0.5*as.numeric(repro_data[1, maxsize])), na.rm=TRUE)/12 #
+#
+      legend("topright", legend=paste0("A_50 is ", round(age_m+1, 2), " years"), bty="n")#
+   # print(repro_data[,-1]) #
+     }#
+#
+mapply(plot_repro, repro_data, repro_filenames)#
+#
+  quartz()#
+   par(mfrow=windowframe)#
+  plot_state <- function(state_data, state_filenames) {#
+     matplot(t(state_data[,-1]), type="l", main= substr(state_filenames, 8, 23), col="darkgray", lwd=1.75, lty=1,   ylab="State (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 6e+08), xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))#
+     }#
+#
+mapply(plot_state, state_data, state_filenames)#
+#
+quartz()#
+   par(mfrow=windowframe) #
+#
+fec.exp <-function(ldata1, rdata2, filenames) {#
+ 	data1 <- as.numeric(ldata1[1,-1])#
+ 	data2 <- as.numeric(rdata2[1, -1])#
+ 	  	matplot(t(log(data1[-216])), t(log(data2[-216])), type="p", col="darkgray", pch=20,   main= substr(filenames, 9, 30),  xlab="ln(Length) ", ylim=c(0, 25), xlim=c(0, 7), ylab="ln(Reproduction) ")#
+ 	print((data1))#
+ 	print((data2))#
+ 	  max.rep.age = as.numeric(which.max(data2))#
+ 	  print(max.rep.age)#
+ 	  min.rep.age = as.numeric(which.min(data2[-216])) #
+ 	  print(min.rep.age)#
+ 	   m1<-lm(log(data2[c(min.rep.age:max.rep.age)])~log(data1[c(min.rep.age:max.rep.age)]))#
+ 	   b= (log(data2[max.rep.age])-log(data2[min.rep.age])) / (log(data1[max.rep.age]) - log(data1[min.rep.age]) )#
+ 	    a=0#
+ 	  if(is.na(coef(m1)[2])==FALSE) abline(m1)#
+ 	 #abline(a, b)#
+ 	 #print(coef(m1)[2])#
+ 	#val<-paste0("Env is ", substr(filenames, 9, 23),", Slope is ", round(as.numeric(coef(m1)[2]), 3))#
+    legend("topleft",   legend=paste0("slope is ", round(b, 3), " vs ", round(as.numeric(coef(m1)[2]), 3))) #round(as.numeric(coef(m1)[2]), 3)), bty="n")#
+ 	   	} #
+#
+mapply(fec.exp, length_data, repro_data, length_filenames)#
+quartz()#
+  par(mfrow=windowframe)#
+ surv <- function(data, filenames) {#
+ 	matplot(data[,-1], type="l", main= substr(filenames, 6, 25), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1),xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))#
+ }#
+ 	mapply(surv, surv_data, surv_filenames)#
+    lnsurv <- function(data, filenames) {#
+ 	data1<-as.numeric(data[,2])#
+ 	print(dim(data1))#
+ 	matplot(log(data1[-1]), type="l", main= substr(filenames, 7, 30), col="darkgray", xlab="Age (years)", ylab="ln(Survival)", xaxt="n",  ylim=c(-10, 0), xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1))) #
+   m2<-lm(log(data1[-1])~time[-length(time)])#
+   abline(m2)#
+   print(paste0("Slope is ", round(as.numeric(coef(m2)[2]), 3)))#
+   legend("bottomleft",   legend=paste0("slope is ",round(as.numeric(coef(m2)[2]), 3)), bty="n")#
+ }#
+ mapply(lnsurv, surv_data, surv_filenames)
+exp(-.03)
+(exp(-.03))^18
+(exp(-.03))^(18*12)
+(exp(-.03*12))
+(exp(-.03*12))^18
+.03^12
+.03*12
+exp(-.36)
+rate_dat<-read_csv("data_summary.csv") #bring in the summary spreadsheet I made of trait data
+install.packages("readr")#
+install.packages("ggplot2")#
+library(readr)#
+library(ggplot2)#
+#
+rate_dat<-read_csv("data_summary.csv") #bring in the summary spreadsheet I made of trait data
+rate_dat<-read_csv("~/Documents/tuna_theory/data_summary.csv") #bring in the summary spreadsheet I made of trait data
+a <- ggplot(rate_dat, aes(Amat))
+a + geom_bar(), color=FOOD
+a + geom_bar(color=FOOD)
+a + geom_bar(color="FOOD")
+a + geom_col(color="FOOD")
+a + geom_col(x=MORT, y=Amat, color="FOOD")
+a + geom_col()
+a <- ggplot(rate_dat, aes(MORT, Amat))+
+geom_col()
+a <- ggplot(rate_dat, aes(x=MORT, y=Amat, color = FOOD)) +
+geom_col()
+a
+a <- ggplot(rate_dat, aes(x=MORT, y=Amat, color = FOOD)) +
+geom_point()
+a
+a <- ggplot(rate_dat, aes(x=MORT, y=Amat, color = FOOD)) +#
+  geom_point() +#
+  theme_bw() +#
+  facet_wrap(~Seasonality)
+a
+install.packages("readr")#
+install.packages("ggplot2")#
+library(readr)#
+library(ggplot2)#
+#
+rate_dat<-read_csv("~/Documents/tuna_theory/data_summary.csv") #bring in the summary spreadsheet I made of trait data
+a <- ggplot(rate_dat, aes(x=Predation, y=Amat, color = Temp, size=Food)) +#
+  geom_point() +#
+  theme_bw() +#
+  facet_wrap(~Seasonality)
+a
+a <- ggplot(rate_dat, aes(x=Predation, y=Amat, color = Temp, shape=Food)) +#
+  geom_point() +#
+  theme_bw() +#
+  facet_wrap(~Seasonality)
+a
+rate_dat<-read_csv("~/Documents/tuna_theory/data_summary.csv") #bring in the summary spreadsheet I made of trait data#
+a <- ggplot(rate_dat, aes(x=Predation, y=Amat, color = Temp, shape=Food)) +#
+  geom_point() +#
+  theme_bw() +#
+  facet_wrap(~Seasonality)
+a
+a <- ggplot(rate_dat, aes(x=Predation, y=Amat, color = Temp, shape=Food)) +#
+  geom_point() +#
+ + scale_fill_brewer(palette = "Reds")   #
+  theme_bw() +#
+  facet_wrap(~Seasonality)
+RColorBrewer::display.brewer.all()
+a <- ggplot(rate_dat, aes(x=Predation, y=Amat, color = Temp, shape=Food)) +#
+  geom_point() +#
+ + scale_fill_brewer(palette = "Spectral")
+a <- ggplot(rate_dat, aes(x=Predation, y=Amat, color = Temp, shape=Food)) +#
+  geom_point() +#
+ scale_fill_brewer(palette = "Spectral") +#
+#
+  theme_bw() +#
+  facet_wrap(~Seasonality)
+a
+a
+a <- ggplot(rate_dat, aes(x=Predation, y=Amat, color = Temp, shape=Food)) +#
+   scale_fill_brewer(palette = "Spectral") +#
+geom_point() +#
+#
+  theme_bw() +#
+  facet_wrap(~Seasonality)
+a
+a <- ggplot(rate_dat, aes(x=Predation, y=Amat, color = Temp, shape=Food)) +#
+a+   scale_fill_brewer(palette = "Spectral") +#
+geom_point() +#
+#
+  theme_bw() +#
+  facet_wrap(~Seasonality)
+a <- ggplot(rate_dat, aes(x=Predation, y=Amat, color = Temp, shape=Food))  #
+a +   scale_fill_brewer(palette = "Spectral") +#
+geom_point() +#
+#
+  theme_bw() +#
+  facet_wrap(~Seasonality)
+a
+a
+a <- ggplot(rate_dat, aes(x=Predation, y=Amat, color = Temp, shape=Food))  #
+a +   scale_fill_brewer(palette = "Spectral") +#
+geom_point() +
+facet_wrap(~Seasonality)
+a <- ggplot(rate_dat, aes(x=Predation, y=Amat,  shape=Food)) + #
+	geom_point(aes(colour = factor(Temp)))+#
+  facet_wrap(~Seasonality)
+a
+a <- ggplot(rate_dat, aes(x=Predation, y=Amat,  shape=Food)) + #
+	geom_point(aes(colour = factor(Temp)))+#
+  facet_wrap(~Seasonality)#
+  a  + scale_color_manual(values = c("blue", "red"))
+a <- ggplot(rate_dat, aes(x=Predation, y=Amat,  shape=Food)) + #
+	geom_point(shape = 21, alpha = 0.5, size = 2 , aes(colour = factor(Temp))) +#
+  facet_wrap(~Seasonality)#
+  a  + scale_color_manual(values = c("blue", "red"))
+a <- ggplot(rate_dat, aes(x=Predation, y=Amat,  shape=Food)) + #
+	geom_point(shape = c(1, 4), alpha = 0.5, size = c(2, 1) , aes(colour = factor(Temp))) +#
+  facet_wrap(~Seasonality)#
+  a  + scale_color_manual(values = c("blue", "red"))
+a <- ggplot(rate_dat, aes(x=Predation, y=Amat,  shape=Food)) + #
+	geom_point(shape = c(1, 4), size = c(2, 1) , aes(colour = factor(Temp))) +#
+  facet_wrap(~Seasonality)#
+  a  + scale_color_manual(values = c("blue", "red"))
+a <- ggplot(rate_dat, aes(x=Predation, y=Amat,  shape=Food)) + #
+	geom_point( aes(colour = factor(Temp))) +#
+  facet_wrap(~Seasonality)#
+  a  + scale_color_manual(values = c("blue", "red"))
+a <- ggplot(rate_dat, aes(x=Predation, y=Amat,  shape=Food)) + #
+	geom_point( aes(colour = factor(Temp),size=2)) +#
+  facet_wrap(~Seasonality)#
+  a  + scale_color_manual(values = c("blue", "red"))
+a <- ggplot(rate_dat, aes(x=Predation, y=Amat,  shape=Food)) + #
+	geom_point(aes(colour = factor(Temp),size = 2)) +#
+  facet_wrap(~Seasonality)#
+  a  + scale_color_manual(values = c("blue", "red"))
+a <- ggplot(rate_dat, aes(x=Predation, y=Amat,  shape=Food, size=2)) + #
+	geom_point(aes(colour = factor(Temp)) +#
+  facet_wrap(~Seasonality)#
+  a  + scale_color_manual(values = c("blue", "red"))
+a <- ggplot(rate_dat, aes(x=Predation, y=Amat,  shape=Food, size=2)) + #
+	geom_point(aes(colour = factor(Temp))) +#
+  facet_wrap(~Seasonality)#
+  a  + scale_color_manual(values = c("blue", "red"))
+a <- ggplot(rate_dat,#
+    aes(x=Predation, y=Amat,  shape=factor(Food)) #
+    ) + #
+	geom_point(aes(colour = factor(Temp))) +#
+  facet_wrap(~Seasonality)#
+  a  + scale_color_manual(values = c("blue", "red"))
+a <- ggplot(rate_dat,#
+    aes(x=Predation, y=Amat,  shape=Food) #
+    ) + #
+	geom_point(aes(colour = Temp)) +#
+  facet_wrap(~Seasonality)#
+  a  + scale_color_manual(values = c("blue", "red"))
+a <- ggplot(rate_dat,#
+    aes(x=Predation, y=Amat,  shape=Food, size=c(2,1)) #
+    ) + #
+	geom_point(aes(colour = Temp)) +#
+  facet_wrap(~Seasonality)#
+  a  + scale_color_manual(values = c("blue", "red"))
+a <- ggplot(rate_dat,#
+    aes(x=Predation, y=Amat,  shape=Food, size=2) #
+    ) + #
+	geom_point(aes(colour = Temp)) +#
+  facet_wrap(~Seasonality)#
+  a  + scale_color_manual(values = c("blue", "red"))
+a <- ggplot(rate_dat,#
+    aes(x=Predation, y=Amat,  shape=Food) #
+    ) + #
+	geom_point(aes(size = 2, colour = Temp)) +#
+  facet_wrap(~Seasonality)#
+  a  + scale_color_manual(values = c("blue", "red"))
+a <- ggplot(rate_dat,#
+    aes(x=Predation, y=Amat,  shape=Food) #
+    ) + #
+	geom_point(aes(size = 2) + # colour = Temp)) +#
+  facet_wrap(~Seasonality)#
+  a  + scale_color_manual(values = c("blue", "red"))
+a <- ggplot(rate_dat,#
+    aes(x=Predation, y=Amat,  shape=Food) #
+    ) + #
+	geom_point(aes(size = 2)) + # colour = Temp)) +#
+  facet_wrap(~Seasonality)#
+  a  + scale_color_manual(values = c("blue", "red"))
+a <- ggplot(rate_dat,#
+    aes(x=Predation, y=Amat,  shape=Food) #
+    ) + #
+	geom_point(aes(size = Food, colour = Temp)) +#
+  facet_wrap(~Seasonality)#
+  a  + scale_color_manual(values = c("blue", "red"))
+a <- ggplot(rate_dat,#
+    aes(x=Predation, y=Amat,  shape=Food) #
+    ) + #
+	geom_point(aes(size = 1.5, colour = Temp)) +#
+  facet_wrap(~Seasonality)#
+  a  + scale_color_manual(values = c("blue", "red"))
+a <- ggplot(rate_dat) + theme_bw() +#
+#
+    aes(x=Predation, y=Amat,  shape=Food) #
+    ) + #
+	geom_point(aes(size = 1.5, fill = Temp)) +#
+  facet_wrap(~Seasonality)#
+  a  + scale_color_manual(values = c("blue", "red"))
+a <- ggplot(rate_dat) + theme_bw() +#
+#
+    aes(x=Predation, y=Amat,  shape=Food) #
+	geom_point(aes(size = 1.5, fill = Temp)) +#
+  facet_wrap(~Seasonality)#
+  a  + scale_color_manual(values = c("blue", "red"))
+a <- ggplot(rate_dat) + theme_bw() +#
+#
+    aes(x=Predation, y=Amat,  shape=Food) #
+	geom_point(aes(size = 1.5, fill = Temp)) +#
+a+  facet_wrap(~Seasonality)#
+  a  + scale_color_manual(values = c("blue", "red"))
+a <- ggplot(rate_dat  + theme_bw() +#
+#
+    aes(x=Predation, y=Amat,  shape=Food) #
+	geom_point(aes(size = 1.5, fill = Temp)) +#
+ ) +#
+  facet_wrap(~Seasonality)#
+  a  + scale_color_manual(values = c("blue", "red"))
+a <- ggplot(rate_dat,#
+    aes(x=Predation, y=Amat,  shape=Food) #
+    ) + #
+	geom_point(aes(size = as.numeric(Food), colour = Temp)) +#
+  facet_wrap(~Seasonality)#
+  a  + scale_color_manual(values = c("blue", "red"))
+a <- ggplot(rate_dat,#
+    aes(x=Predation, y=Amat,  shape=Food) #
+    ) + #
+	geom_point(aes(size = 1.5, colour = Temp)) +#
+  facet_wrap(~Seasonality)#
+  a  + scale_color_manual(values = c("blue", "red"))
+rate_dat<-read_csv("~/Documents/tuna_theory/data_summary.csv") #bring in the summary spreadsheet I made of trait data#
+a <- ggplot(rate_dat,#
+    aes(x=Predation, y=Amat,  shape=Food) #
+    ) + #
+	geom_point(aes(colour = Temp), size = 1.5 ) +#
+  facet_wrap(~Seasonality)#
+  a  + scale_color_manual(values = c("blue", "red"))
+a <- ggplot(rate_dat,#
+    aes(x=Predation, y=Amat,  shape=Food) #
+    ) + #
+	geom_point(aes(colour = Temp), size = 3 ) +#
+  facet_wrap(~Seasonality)#
+  a  + scale_color_manual(values = c("blue", "red"))
+a <- ggplot(rate_dat,#
+    aes(x=Predation, y=Amat) #
+    ) + #
+	geom_point(aes(colour = Temp, shape=Food), size = 3 ) +#
+     facet_wrap(~Seasonality) #
+  a  + scale_color_manual(values = c("blue", "red"))#
+  a + scale_shape_manual(values=c(3, 16))
+a <- ggplot(rate_dat,#
+    aes(x=Predation, y=Amat) #
+    ) + #
+	geom_point(aes(colour = Temp, shape=Food), size = 3 ) +#
+     facet_wrap(~Seasonality) #
+  a + scale_shape_manual(values=c(17, 16))#
+  a  + scale_color_manual(values = c("blue", "red"))
+a + scale_shape_manual(values=c(17, 19))#
+  a  + scale_color_manual(values = c("blue", "red"))
+a + scale_shape_manual(values=c(17, 20))#
+  a  + scale_color_manual(values = c("blue", "red"))
+a <- ggplot(rate_dat,#
+    aes(x=Predation, y=Amat) #
+    ) + #
+	geom_point(aes(colour = Temp, shape=Food), size = 3 ) +#
+     facet_wrap(~Seasonality) #
+   a  + scale_size_manual(values=c(3, 1))#
+#
+  a + scale_shape_manual(values=c(4, 20))#
+  a  + scale_color_manual(values = c("blue", "red"))
+a <- ggplot(rate_dat,#
+    aes(x=Predation, y=Amat) #
+    ) + #
+	geom_point(aes(colour = Temp, shape=Food), size = 3 ) +#
+        scale_size_manual(values=c(3, 1)) +#
+#
+   scale_shape_manual(values=c(4, 20)) +#
+   scale_color_manual(values = c("blue", "red")) +#
+facet_wrap(~Seasonality)
+a
+a <- ggplot(rate_dat,#
+    aes(x=Predation, y=Amat) #
+    ) + #
+	geom_point(aes(colour = Temp, shape=Food), size = 3 ) +#
+        scale_size_manual(values=c(3, 1)) +#
+#
+   scale_shape_manual(values=c(8, 20)) +#
+   scale_color_manual(values = c("blue", "red")) +#
+facet_wrap(~Seasonality) #
+a
+a <- ggplot(rate_dat,#
+    aes(x=Predation, y=Amat) #
+    ) + #
+	geom_point(aes(colour = Temp, shape=Food), size = 3 ) +#
+        scale_size_manual(values=c(3, 1)) +#
+#
+   scale_shape_manual(values=c(3, 20)) +#
+   scale_color_manual(values = c("blue", "red")) +#
+facet_wrap(~Seasonality) #
+a
+a <- ggplot(rate_dat,#
+    aes(x=Predation, y=Amat) #
+    ) + #
+	geom_point(aes(colour = Temp, shape=Food), size = 3 ) +#
+        scale_size_manual(values=c(3, 1)) +#
+#
+   scale_shape_manual(values=c(5, 20)) +#
+   scale_color_manual(values = c("blue", "red")) +#
+facet_wrap(~Seasonality) #
+a
+a <- ggplot(rate_dat,#
+    aes(x=Predation, y=Amat) #
+    ) + #
+	geom_point(aes(colour = Temp, shape=Food), size = 3 ) +#
+        scale_size_manual(values=c(3, 1)) +#
+#
+   scale_shape_manual(values=c(1, 20)) +#
+   scale_color_manual(values = c("blue", "red")) +#
+facet_wrap(~Seasonality) #
+a
+a <- ggplot(rate_dat,#
+    aes(x=Predation, y=Amat) #
+    ) + #
+	geom_point(aes(colour = Temp, shape=Food), size = 3 ) +#
+        scale_size_manual(values=c(3, 1)) +#
+#
+   scale_shape_manual(values=c(5, 20)) +#
+   scale_color_manual(values = c("blue", "red")) +#
+facet_wrap(~Seasonality) #
+a
+a <- ggplot(rate_dat,#
+    aes(x=Predation, y=Amat) #
+    ) + #
+	geom_point(aes(colour = Temp, shape=Food), size = 3 ) +#
+        scale_size_manual(values=c(3, 1)) +#
+#
+   scale_shape_manual(values=c(4, 20)) +#
+   scale_color_manual(values = c("blue", "red")) +#
+facet_wrap(~Seasonality) #
+a
+a <- ggplot(rate_dat,#
+    aes(x=Predation, y=Amat) #
+    ) + #
+	geom_point(aes(colour = Temp, shape=Food), size = 3 ) +#
+        scale_size_manual(values=c(3, 1)) +#
+#
+   scale_shape_manual(values=c(15, 20)) +#
+   scale_color_manual(values = c("blue", "red")) +#
+facet_wrap(~Seasonality) #
+a
+a <- ggplot(rate_dat,#
+    aes(x=Predation, y=Amat) #
+    ) + #
+	geom_point(aes(colour = Temp, shape=Food), size = 3 ) +#
+        scale_size_manual(values=c(4, 1)) +#
+#
+   scale_shape_manual(values=c(15, 20)) +#
+   scale_color_manual(values = c("blue", "red")) +#
+facet_wrap(~Seasonality) #
+a
+a <- ggplot(rate_dat,#
+    aes(x=Predation, y=Amat) #
+    ) + #
+	geom_point(aes(colour = Temp, shape=Food), size = 3 ) +#
+        scale_size_manual(values=c(4, 1)) +#
+#
+   scale_shape_manual(values=c(19, 15)) +#
+   scale_color_manual(values = c("blue", "red")) +#
+facet_wrap(~Seasonality) #
+a
+a <- ggplot(rate_dat,#
+    aes(x=Predation, y=Amat) #
+    ) + #
+	geom_point(aes(colour = Temp, shape=Food), size = 3 ) +#
+        scale_size_manual(values=c(4, 1)) +#
+#
+   scale_shape_manual(values=c(20, 15)) +#
+   scale_color_manual(values = c("blue", "red")) +#
+facet_wrap(~Seasonality) #
+a
+rate_dat<-read_csv("~/Documents/tuna_theory/data_summary.csv") #bring in the summary spreadsheet I made of trait data#
+a <- ggplot(rate_dat,#
+    aes(x=Predation, y=Amat) #
+    ) + #
+	geom_point(aes(colour = Temp, shape=Food), size = 3 ) +#
+        scale_size_manual(values=c(4, 1)) +#
+#
+   scale_shape_manual(values=c(15, 20)) +#
+   scale_color_manual(values = c("blue", "red")) +#
+facet_wrap(~Seasonality) #
+a
+a <- ggplot(rate_dat,#
+    aes(x=Predation, y=Fecexp) #
+    ) + #
+	geom_point(aes(colour = Temp, shape=Food), size = 3 ) +#
+        scale_size_manual(values=c(4, 1)) +#
+#
+   scale_shape_manual(values=c(15, 20)) +#
+   scale_color_manual(values = c("blue", "red")) +#
+facet_wrap(~Seasonality) #
+a
+b <- ggplot(rate_dat,#
+    aes(x=Predation, y=Fecexp) #
+    ) + #
+	geom_point(aes(colour = Temp, shape=Food), size = 3 ) +#
+        scale_size_manual(values=c(4, 1)) +#
+#
+   scale_shape_manual(values=c(15, 20)) +#
+   scale_color_manual(values = c("blue", "red")) +#
+facet_wrap(~Seasonality) #
+b
+quartz()
+a
+a <- ggplot(rate_dat,#
+    aes(x=Predation, y=Amat) #
+    ) + #
+	geom_point(aes(colour = Temp, shape=Food), size = 3 ) +#
+        scale_size_manual(values=c(4, 1)) +#
+#
+   scale_shape_manual(values=c(15, 20)) +#
+   scale_color_manual(values = c("blue", "red")) +#
+facet_wrap(~Seasonality) #
+a
+c <- ggplot(rate_dat,#
+    aes(x=Predation, y=Mu_annual) #
+    ) + #
+	geom_point(aes(colour = Temp, shape=Food), size = 3 ) +#
+        scale_size_manual(values=c(4, 1)) +#
+#
+   scale_shape_manual(values=c(15, 20)) +#
+   scale_color_manual(values = c("blue", "red")) +#
+facet_wrap(~Seasonality) #
+c
+quartz()
+b <- ggplot(rate_dat,#
+    aes(x=Predation, y=Fecexp) #
+    ) + #
+	geom_point(aes(colour = Temp, shape=Food), size = 3 ) +#
+        scale_size_manual(values=c(4, 1)) +#
+#
+   scale_shape_manual(values=c(15, 20)) +#
+   scale_color_manual(values = c("blue", "red")) +#
+facet_wrap(~Seasonality) #
+b
+install.packages("readr")#
+install.packages("ggplot2")#
+library(readr)#
+library(ggplot2)#
+#
+rate_dat<-read_csv("~/Documents/tuna_theory/data_summary.csv") #bring in the summary spreadsheet I made of trait data#
+#
+quartz()#
+a <- ggplot(rate_dat,#
+    aes(x=Predation, y=Amat) #
+    ) + #
+	geom_point(aes(colour = Temp, shape=Food), size = 3 ) +#
+        scale_size_manual(values=c(4, 1)) +#
+#
+   scale_shape_manual(values=c(15, 20)) +#
+   scale_color_manual(values = c("blue", "red")) +#
+   labs(y="Age of 50% Maturity")+#
+)#
+facet_wrap(~Seasonality) #
+a#
+quartz()#
+b <- ggplot(rate_dat,#
+    aes(x=Predation, y=Fecexp) #
+    ) + #
+	geom_point(aes(colour = Temp, shape=Food), size = 3 ) +#
+        scale_size_manual(values=c(4, 1)) +#
+#
+   scale_shape_manual(values=c(15, 20)) +#
+   scale_color_manual(values = c("blue", "red")) +#
+   labs(y="Fecundity exponent")+#
+facet_wrap(~Seasonality) #
+b#
+quartz()#
+c <- ggplot(rate_dat,#
+    aes(x=Predation, y=Mu_annual) #
+    ) + #
+	geom_point(aes(colour = Temp, shape=Food), size = 3 ) +#
+        scale_size_manual(values=c(4, 1)) +#
+#
+   scale_shape_manual(values=c(15, 20)) +#
+   scale_color_manual(values = c("blue", "red")) +#
+   labs(y="Annual mortlaity rate (M)")+#
+facet_wrap(~Seasonality) #
+c
+quartz()#
+a <- ggplot(rate_dat,#
+    aes(x=Predation, y=Amat) #
+    ) + #
+	geom_point(aes(colour = Temp, shape=Food), size = 3 ) +#
+        scale_size_manual(values=c(4, 1)) +#
+#
+   scale_shape_manual(values=c(15, 20)) +#
+   scale_color_manual(values = c("blue", "red")) +#
+   labs(y="Age of 50% Maturity")+#
+facet_wrap(~Seasonality) #
+a
+quartz()#
+c <- ggplot(rate_dat,#
+    aes(x=Predation, y=Mu_annual) #
+    ) + #
+	geom_point(aes(colour = Temp, shape=Food), size = 3 ) +#
+        scale_size_manual(values=c(4, 1)) +#
+#
+   scale_shape_manual(values=c(15, 20)) +#
+   scale_color_manual(values = c("blue", "red")) +#
+   labs(y="Annual mortlaity rate (M)")+#
+facet_wrap(~Seasonality) #
+c
