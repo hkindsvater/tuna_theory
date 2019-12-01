@@ -2,7 +2,7 @@
  
 
 
-setwd("~/Documents/tuna_theory/Temp290/seasons/")
+setwd("~/Documents/tuna_theory/HiCosts/Temp290/seasons/rlimsensitivity")
 data_files <- list.files(pattern = "\\.csv$")
 
 repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   
@@ -21,7 +21,7 @@ state_data <- lapply(state_filenames, read.csv)
 surv_data <- lapply(surv_filenames, read.csv)
  Tmax=18
  time=1:(Tmax*12)
- windowframe=c(4,2)
+ windowframe=c(3,1)
   
   
   
@@ -89,7 +89,7 @@ plot_length <- function(data, filenames) {
  quartz()
    par(mfrow=windowframe)
   plot_repro <- function(repro_data, length_data, repro_filenames) {
-	       matplot(t(repro_data[,-1]), type="l", main= substr(repro_filenames, 8, 23), col="darkgray", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 5e+08), xlim=c(0.5, Tmax*12))
+	       matplot(t(repro_data[,-1]), type="l", main= substr(repro_filenames, 8, 23), col="darkgray", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 5.5e+08), xlim=c(0.5, Tmax*12))
      axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))
      
      maxsize <- (min(which(as.numeric(repro_data[1, -1]) == max(as.numeric(repro_data[1, -1]), na.rm=TRUE)))) + 1 
@@ -97,7 +97,7 @@ plot_length <- function(data, filenames) {
       age_m <- min(which(as.numeric(repro_data[1, -1]) >= 0.5*as.numeric(repro_data[1, maxsize])), na.rm=TRUE)/12 
       size_m <- length_data[1, round(age_m*12)]
       #print(size_m)
-    legend("topright", legend=c(paste0("A_50 is ", round(age_m+1, 2), " years"), paste0("Lmat50 is ", round(size_m), " cm")), bty="n")
+    legend("topleft", legend=c(paste0("Amat_50 is ", round(age_m+1, 2), " years"), paste0("Lmat50 is ", round(size_m), " cm")), bty="n")
    # print(round(age_m*12) )
      }
 
@@ -122,10 +122,7 @@ fec.exp <-function(ldata1, rdata2, filenames) {
  	data1 <- as.numeric(ldata1[1,-1])
  	data2 <- as.numeric(rdata2[1, -1])
  	  	matplot(t(log(data1[-216])), t(log(data2[-216])), type="p", col="darkgray", pch=20,   main= substr(filenames, 9, 30),  xlab="ln(Length) ", ylim=c(0, 25), xlim=c(0, 7), ylab="ln(Reproduction) ")
- 	print((data1))
- 	print((data2))
- 	 
- 	  max.rep.age = as.numeric(which.max(data2))
+ 	 	  max.rep.age = as.numeric(which.max(data2))
       
  	  print(max.rep.age)
  
@@ -141,7 +138,7 @@ fec.exp <-function(ldata1, rdata2, filenames) {
  	 #print(coef(m1)[2])
  	#val<-paste0("Env is ", substr(filenames, 9, 23),", Slope is ", round(as.numeric(coef(m1)[2]), 3))
     
-    legend("topleft",   legend=paste0("slope is ", round(b, 3), " vs ", round(as.numeric(coef(m1)[2]), 3))) #round(as.numeric(coef(m1)[2]), 3)), bty="n")
+    legend("topleft",   legend=paste0("slope is ", round(b, 3)), bty="n") #round(as.numeric(coef(m1)[2]), 3)), bty="n")
  	   	} 
 
 mapply(fec.exp, length_data, repro_data, length_filenames)
@@ -165,13 +162,13 @@ quartz()
     lnsurv <- function(data, filenames) {
  	
  	data1<-as.numeric(data[,2])
- 	print((data1))
+ 	print(dim(data1))
  	matplot(log(data1[-1]), type="l", main= substr(filenames, 7, 30), col="darkgray", xlab="Age (years)", ylab="ln(Survival)", xaxt="n",  ylim=c(-10, 0), xlim=c(0.5, Tmax*12))
      axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1))) 
    m2<-lm(log(data1[-1])~time[-length(time)])
    abline(m2)
    print(paste0("Slope is ", round(as.numeric(coef(m2)[2]), 3)))
-   legend("bottomleft",   legend=paste0("slope is ",round(as.numeric(coef(m2)[2]), 3)), bty="n")
+   legend("bottomleft",   legend=paste0("slope is ",round(as.numeric(coef(m2)[2])*12, 3)), bty="n")
  }
  
  mapply(lnsurv, surv_data, surv_filenames)

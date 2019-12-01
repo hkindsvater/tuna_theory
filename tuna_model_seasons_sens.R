@@ -5,21 +5,19 @@
 setwd("~/Documents/tuna_theory/")
 
 set.seed(1001)
- 
+ timebin=12
 args <-  commandArgs(trailingOnly = TRUE)
 counter <- as.numeric(args[1])
 reprolimit = as.numeric(args[2])
 Kappa = as.numeric(args[3])/12
 f_h = as.numeric(args[4])/12
-
-
-
-timebin=12
+Tmax = as.numeric(args[5])*timebin
+ 
 c1=1
  Temp <- 290
 
-Tmax = 18*timebin  #monthly stime steps, maximum lifespan is 18 years
-
+#Tmax = 18*timebin  #monthly stime steps, maximum lifespan is 18 years
+ 
 #describe temperature dependent costs
 k=1.3e-23
 E = 1.04e-19
@@ -34,9 +32,9 @@ d = 2.4
 
 #STATE VARIABLES
 phi=1 # only 1 environment
-Lmax=375  #maximum size of 4 meters
+Lmax=400  #maximum size of 4 meters
 Lmin = 1 
-Estoresmax=350 #maximum stores in loop  
+Estoresmax=200 #maximum stores in loop  
 
 storelimit= 0.75 #proportion of structural mass that inidivduals can devote to energy storage
 storemin = 0.1
@@ -49,9 +47,8 @@ storemin = 0.1
   #total mass maximum in kg
 ##Prey availability   
 phi_a <- 3 #from table 2.2 in Andersen book
-K_c <- 10 #from table 2.2, this is averaged over "all" - so PP in stomach of all preds and preys have a MR of 1224 independently of body size - but htis is something that changes with ecosystem according to KAPPA, eg less in deep sea, more in upwelling
 lam <- 1.95
-
+K_c=10 #from Table 2.2, this changes with season (and is scaled by Kappa)
 ##mass dependent mortality
 phi_p <- 0.07 #from table 2.2 in Andersen book
 f_0 <- 0.6 #somewhere between 0 and 1, but predators rarely caught with totally full stomach
@@ -463,8 +460,8 @@ reproduction[, -Tmax]<-ifelse(reproduction[, -Tmax]>0,  reproduction[, -Tmax], N
 
 idist[, -Tmax]<-ifelse(idist[, -Tmax]>0,  idist[, -Tmax], NA)
 
-write.csv(idist, file=paste0("Temp290Hicost/rlimsensitivity/03State",  "f_h", round(f_h, 2),  "Kappa", round(Kappa,2), "reprolimit", reprolimit, "storelimit", storelimit, ".csv"))
-write.csv(sizedist, file=paste0("Temp290Hicost/rlimsensitivity/01Length",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),  "reprolimit", reprolimit, "storelimit", storelimit, ".csv"))
-write.csv(reproduction, file=paste0("Temp290Hicost/rlimsensitivity/02Repro",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),  "reprolimit", reprolimit, "storelimit", storelimit, ".csv")) 
-write.csv(survival, file=paste0("Temp290Hicost/rlimsensitivity/04Surv",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),   "reprolimit", reprolimit, "storelimit", storelimit, ".csv")) 
+write.csv(idist, file=paste0("HiCosts/Temp290/seasons/Tmaxsens/03State",  "f_h", round(f_h, 2),  "Kappa", round(Kappa,2), "reprolimit", reprolimit, "Tmax", Tmax, ".csv"))
+write.csv(sizedist, file=paste0("HiCosts/Temp290/seasons/Tmaxsens/01Length",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),  "reprolimit", reprolimit, "Tmax", Tmax, ".csv"))
+write.csv(reproduction, file=paste0("HiCosts/Temp290/seasons/Tmaxsens/02Repro",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),  "reprolimit", reprolimit, "Tmax", Tmax, ".csv")) 
+write.csv(survival, file=paste0("HiCosts/Temp290/seasons/Tmaxsens/04Surv",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),   "reprolimit", reprolimit, "Tmax", Tmax, ".csv")) 
  
