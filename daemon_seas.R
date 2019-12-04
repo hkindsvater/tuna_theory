@@ -5,18 +5,18 @@
 paras = c(reprolimit=0.2, Kappa = 1, f_h=15)
 
 # Name the set of results
-name = "rlimsensitivity"
-newDir = paste("mkdir ~/Documents/tuna_theory/Temp290Hicost/", name, sep="") 
+name = "HiCosts/Temp290/seasons/"
+newDir = paste("mkdir ~/Documents/tuna_theory/", name, sep="") 
 system(newDir)
  
 # Pick two variables to vary factorially
   
-v1 = "reprolimit"
+v1 = "f_h"
 v2 = "Kappa"
 
-L1 =  c(0.1, 0.2, 0.3, 0.4)
+L1 =  c(15, 20)
 
-L2 = c(15)
+L2 = c(5, 15)
 n1 = length(L1)
 n2 = length(L2)
 reps = 1

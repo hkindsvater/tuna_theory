@@ -101,7 +101,7 @@ E
  FIGURE 2 CODE
 ###################################################################################### 
 
- setwd("~/Documents/tuna_theory/Length_data/HighmortHighfood/")
+ setwd("~/Documents/tuna_theory/Hi_costs/HighmortHighfood/")
  
  HimuHifood <- list.files(pattern =  "\\.csv")
 
@@ -124,7 +124,7 @@ legend("bottomright", bty="n", legend=c("Temp290K, Constant Env", "Temp 290K, Se
 
 
 
- setwd("~/Documents/tuna_theory/Length_data/HighmortLowfood/")
+ setwd("~/Documents/tuna_theory/Hi_costs/HighmortLowfood/")
  
  HimuLofood <- list.files(pattern =  "\\.csv")
 
@@ -146,7 +146,7 @@ HimuLofood
 bodysize
 
 
- setwd("~/Documents/tuna_theory/Length_data/LowmortHighfood/")
+ setwd("~/Documents/tuna_theory/Hi_costs/LowmortHighfood/")
  
  LomuHifood <- list.files(pattern =  "\\.csv")
 
@@ -171,7 +171,7 @@ bodysize
 
 
 
- setwd("~/Documents/tuna_theory/Length_data/LowmortLowfood/")
+ setwd("~/Documents/tuna_theory/Hi_costs/LowmortLowfood/")
  
  LomuLofood <- list.files(pattern =  "\\.csv")
 

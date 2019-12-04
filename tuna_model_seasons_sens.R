@@ -11,12 +11,12 @@ counter <- as.numeric(args[1])
 reprolimit = as.numeric(args[2])
 Kappa = as.numeric(args[3])/12
 f_h = as.numeric(args[4])/12
-Tmax = as.numeric(args[5])*timebin
+#Tmax = as.numeric(args[5])*timebin
  
 c1=1
  Temp <- 290
 
-#Tmax = 18*timebin  #monthly stime steps, maximum lifespan is 18 years
+ Tmax = 18*timebin  #monthly stime steps, maximum lifespan is 18 years
  
 #describe temperature dependent costs
 k=1.3e-23
@@ -34,7 +34,7 @@ d = 2.4
 phi=1 # only 1 environment
 Lmax=400  #maximum size of 4 meters
 Lmin = 1 
-Estoresmax=200 #maximum stores in loop  
+Estoresmax=400 #maximum stores in loop  
 
 storelimit= 0.75 #proportion of structural mass that inidivduals can devote to energy storage
 storemin = 0.1
@@ -460,8 +460,8 @@ reproduction[, -Tmax]<-ifelse(reproduction[, -Tmax]>0,  reproduction[, -Tmax], N
 
 idist[, -Tmax]<-ifelse(idist[, -Tmax]>0,  idist[, -Tmax], NA)
 
-write.csv(idist, file=paste0("HiCosts/Temp290/seasons/Tmaxsens/03State",  "f_h", round(f_h, 2),  "Kappa", round(Kappa,2), "reprolimit", reprolimit, "Tmax", Tmax, ".csv"))
-write.csv(sizedist, file=paste0("HiCosts/Temp290/seasons/Tmaxsens/01Length",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),  "reprolimit", reprolimit, "Tmax", Tmax, ".csv"))
-write.csv(reproduction, file=paste0("HiCosts/Temp290/seasons/Tmaxsens/02Repro",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),  "reprolimit", reprolimit, "Tmax", Tmax, ".csv")) 
-write.csv(survival, file=paste0("HiCosts/Temp290/seasons/Tmaxsens/04Surv",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),   "reprolimit", reprolimit, "Tmax", Tmax, ".csv")) 
+write.csv(idist, file=paste0("HiCosts/Temp290/seasons/Lmaxsens/03State",  "f_h", round(f_h, 2),  "Kappa", round(Kappa,2), "reprolimit", reprolimit, "Tmax", Tmax, ".csv"))
+write.csv(sizedist, file=paste0("HiCosts/Temp290/seasons/Lmaxsens/01Length",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),  "reprolimit", reprolimit, "Tmax", Tmax, ".csv"))
+write.csv(reproduction, file=paste0("HiCosts/Temp290/seasons/Lmaxsens/02Repro",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),  "reprolimit", reprolimit, "Tmax", Tmax, ".csv")) 
+write.csv(survival, file=paste0("HiCosts/Temp290/seasons/Lmaxsens/04Surv",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),   "reprolimit", reprolimit, "Tmax", Tmax, ".csv")) 
  

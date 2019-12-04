@@ -5,26 +5,24 @@
 setwd("~/Documents/tuna_theory/")
 
 set.seed(1001)
- 
+ timebin=12
 args <-  commandArgs(trailingOnly = TRUE)
 counter <- as.numeric(args[1])
 reprolimit = as.numeric(args[2])
 Kappa = as.numeric(args[3])/12
 f_h = as.numeric(args[4])/12
-
-
-
-timebin=12
+#Tmax = as.numeric(args[5])*timebin
+ Tmax=18*timebin
 c1=1
  Temp <- 290
 
-Tmax = 18*timebin  #monthly stime steps, maximum lifespan is 18 years
-
+#Tmax = 18*timebin  #monthly stime steps, maximum lifespan is 18 years
+ 
 #describe temperature dependent costs
 k=1.3e-23
 E = 1.04e-19
 theta=0.66
-coef1  =1.67e+16 ##normalization constant puts tuna SMR in the same ballpark as the costs Kitchell et al. (1978) Bioenergetic spectra of skipjack and yellowfin tunas, pp 359 IN Sharp G.D. and Dizon A.E. eds. The Physiological Ecology of Tunas, Academic press.  
+coef1  =5e+16 ##normalization constant puts tuna SMR in the same ballpark as the costs Kitchell et al. (1978) Bioenergetic spectra of skipjack and yellowfin tunas, pp 359 IN Sharp G.D. and Dizon A.E. eds. The Physiological Ecology of Tunas, Academic press.  
 
 #physiological parameters
 a <- 1e-5 #from ICCAT 2015 BFT length-weight relationship
@@ -49,9 +47,8 @@ storemin = 0.1
   #total mass maximum in kg
 ##Prey availability   
 phi_a <- 3 #from table 2.2 in Andersen book
-K_c <- 10 #from table 2.2, this is averaged over "all" - so PP in stomach of all preds and preys have a MR of 1224 independently of body size - but htis is something that changes with ecosystem according to KAPPA, eg less in deep sea, more in upwelling
 lam <- 1.95
-
+K_c=10 #from Table 2.2, this changes with season (and is scaled by Kappa)
 ##mass dependent mortality
 phi_p <- 0.07 #from table 2.2 in Andersen book
 f_0 <- 0.6 #somewhere between 0 and 1, but predators rarely caught with totally full stomach
@@ -463,8 +460,8 @@ reproduction[, -Tmax]<-ifelse(reproduction[, -Tmax]>0,  reproduction[, -Tmax], N
 
 idist[, -Tmax]<-ifelse(idist[, -Tmax]>0,  idist[, -Tmax], NA)
 
-write.csv(idist, file=paste0("Temp290/seasons/03State",  "f_h", round(f_h, 2),  "Kappa", round(Kappa,2), "reprolimit", reprolimit, "storelimit", storelimit, ".csv"))
-write.csv(sizedist, file=paste0("Temp290/seasons/01Length",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),  "reprolimit", reprolimit, "storelimit", storelimit, ".csv"))
-write.csv(reproduction, file=paste0("Temp290/seasons/02Repro",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),  "reprolimit", reprolimit, "storelimit", storelimit, ".csv")) 
-write.csv(survival, file=paste0("Temp290/seasons/04Surv",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),   "reprolimit", reprolimit, "storelimit", storelimit, ".csv")) 
+write.csv(idist, file=paste0("HiCosts/Temp290/seasons/03State",  "f_h", round(f_h, 2),  "Kappa", round(Kappa,2), "reprolimit", reprolimit, "Tmax", Tmax, ".csv"))
+write.csv(sizedist, file=paste0("HiCosts/Temp290/seasons/01Length",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),  "reprolimit", reprolimit, "Tmax", Tmax, ".csv"))
+write.csv(reproduction, file=paste0("HiCosts/Temp290/seasons/02Repro",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),  "reprolimit", reprolimit, "Tmax", Tmax, ".csv")) 
+write.csv(survival, file=paste0("HiCosts/Temp290/seasons/04Surv",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),   "reprolimit", reprolimit, "Tmax", Tmax, ".csv")) 
  
