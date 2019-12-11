@@ -2,7 +2,7 @@
  
 
 
-setwd("~/Documents/tuna_theory/HiCosts/Temp290/seasons/")
+setwd("~/Documents/tuna_theory/HiCosts/Temp290/seasons/Tmaxsens")
 data_files <- list.files(pattern = "\\.csv$")
 
 repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   
@@ -19,9 +19,9 @@ length_data <- lapply(length_filenames, read.csv)
 repro_data <- lapply(repro_filenames, read.csv)
 state_data <- lapply(state_filenames, read.csv)
 surv_data <- lapply(surv_filenames, read.csv)
- Tmax=18
+ Tmax=15
  time=1:(Tmax*12)
- windowframe=c(2,2)
+ windowframe=c(2,3)
   
   
    
@@ -34,7 +34,7 @@ plot_length <- function(data, filenames) {
 	   
 	   
      matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 30), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, Tmax*12), xlab= "Age (years)", xaxt="n")
-     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))
+     axis(1, at = seq(0, (Tmax)*12, by=12), labels = (seq(1, Tmax+1, by=1)))
      
      maxsize <- (min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))) + 1 
      
