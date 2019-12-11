@@ -2,7 +2,7 @@
  
 
 
-setwd("~/Documents/tuna_theory/HiCosts/Temp290/seasons/rlimsens")
+setwd("~/Documents/tuna_theory/HiCosts/Temp290/seasons/Tmaxsens")
 data_files <- list.files(pattern = "\\.csv$")
 
 repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   
@@ -21,7 +21,7 @@ state_data <- lapply(state_filenames, read.csv)
 surv_data <- lapply(surv_filenames, read.csv)
  Tmax=18
  time=1:(Tmax*12)
- windowframe=c(2,2)
+ windowframe=c(1,2)
   
   
    

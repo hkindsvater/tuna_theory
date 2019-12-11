@@ -2,19 +2,19 @@
 
 
 # Defaults
-paras = c(reprolimit=0.2, Kappa = 1, f_h=15, Tmax=18)
+paras = c(reprolimit=0.2, Kappa = 1, f_h=15, Tmax=25)
 
 # Name the set of results
-name = "HiCosts/Temp290/seasons/Lmaxsens/"
+name = "HiCosts/Temp290/seasons/Tmaxsens/"
 newDir = paste("mkdir ~/Documents/tuna_theory/", name, sep="") 
 system(newDir)
  
 # Pick two variables to vary factorially
   
-v1 = "reprolimit"
+v1 = "Tmax"
 v2 = "Kappa"
 
-L1 =  seq(0.1, 0.3, by=0.1)
+L1 =  c(22)
 
 L2 = c(5, 15)
 n1 = length(L1)
