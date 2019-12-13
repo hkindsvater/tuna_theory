@@ -2,11 +2,9 @@
  
 
 
-<<<<<<< HEAD
+ 
 setwd("~/Documents/tuna_theory/HiCosts/Temp290/seasons/Tmaxsens")
-=======
-setwd("~/Documents/tuna_theory/HiCosts/Temp290/seasons/")
->>>>>>> c060f12740812446a26a301a7aa4f9344e86341b
+ 
 data_files <- list.files(pattern = "\\.csv$")
 
 repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   

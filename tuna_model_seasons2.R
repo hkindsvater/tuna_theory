@@ -14,7 +14,7 @@ f_h = as.numeric(args[4])/12
 #Tmax = as.numeric(args[5])*timebin
  Tmax=18*timebin
 c1=1
- Temp <- 295
+ Temp <- 290
 
 #Tmax = 18*timebin  #monthly stime steps, maximum lifespan is 18 years
  
@@ -460,8 +460,8 @@ reproduction[, -Tmax]<-ifelse(reproduction[, -Tmax]>0,  reproduction[, -Tmax], N
 
 idist[, -Tmax]<-ifelse(idist[, -Tmax]>0,  idist[, -Tmax], NA)
 
-write.csv(idist, file=paste0("HiCosts/Temp295/seasons/03State",  "f_h", round(f_h, 2),  "Kappa", round(Kappa,2), "reprolimit", reprolimit, "Tmax", Tmax, ".csv"))
-write.csv(sizedist, file=paste0("HiCosts/Temp295/seasons/01Length",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),  "reprolimit", reprolimit, "Tmax", Tmax, ".csv"))
-write.csv(reproduction, file=paste0("HiCosts/Temp295/seasons/02Repro",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),  "reprolimit", reprolimit, "Tmax", Tmax, ".csv")) 
-write.csv(survival, file=paste0("HiCosts/Temp295/seasons/04Surv",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),   "reprolimit", reprolimit, "Tmax", Tmax, ".csv")) 
+write.csv(idist, file=paste0("HiCosts/Temp290/seasons/03State",  "f_h", round(f_h, 2),  "Kappa", round(Kappa,2), "reprolimit", reprolimit, "Tmax", Tmax, ".csv"))
+write.csv(sizedist, file=paste0("HiCosts/Temp290/seasons/01Length",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),  "reprolimit", reprolimit, "Tmax", Tmax, ".csv"))
+write.csv(reproduction, file=paste0("HiCosts/Temp290/seasons/02Repro",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),  "reprolimit", reprolimit, "Tmax", Tmax, ".csv")) 
+write.csv(survival, file=paste0("HiCosts/Temp290/seasons/04Surv",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),   "reprolimit", reprolimit, "Tmax", Tmax, ".csv")) 
  

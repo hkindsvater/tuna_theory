@@ -5,7 +5,7 @@
 paras = c(reprolimit=0.2, Kappa = 1, f_h=15)
 
 # Name the set of results
-name = "HiCosts/Temp295/seasons/"
+name = "HiCosts/Temp290/seasons/"
 newDir = paste("mkdir ~/Documents/tuna_theory/", name, sep="") 
 system(newDir)
  
@@ -16,7 +16,7 @@ v2 = "Kappa"
 
 L1 =  c(15, 20)
 
-L2 = c(5, 15)
+L2 = c(5, 10)
 n1 = length(L1)
 n2 = length(L2)
 reps = 1
