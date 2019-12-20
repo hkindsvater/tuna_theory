@@ -5,10 +5,9 @@ install.packages("ggplot2")
 library(readr)
 library(ggplot2)
 
-rate_dat<-read_csv("~/Documents/tuna_theory/data_summary.csv") #bring in the summary spreadsheet I made of trait data
+rate_dat<-read_csv("~/Documents/tuna_theory/data_summary19Dec2019.csv") #bring in the summary spreadsheet I made of trait data
 
-quartz()
-a <- ggplot(rate_dat,
+ a <- ggplot(rate_dat,
     aes(x=Predation, y=Amat) 
     ) + 
 	geom_point(aes(colour = Temp, shape=Food), size = 3 ) +
@@ -23,11 +22,7 @@ a <- ggplot(rate_dat,
 facet_wrap(~Seasonality) 
 a
 
-
-
-
-
-quartz()
+ 
 b <- ggplot(rate_dat,
     aes(x=Predation, y=Fecexp) 
     ) + 
@@ -42,10 +37,7 @@ b <- ggplot(rate_dat,
   
 facet_wrap(~Seasonality) 
 b
-
-
-
-quartz()
+ 
 c <- ggplot(rate_dat,
     aes(x=Predation, y=Mu_annual) 
     ) + 
@@ -63,7 +55,6 @@ c
  
  
  
- quartz()
 d <- ggplot(rate_dat,
     aes(x=Predation, y=bodysize) 
     ) + 
@@ -81,7 +72,7 @@ d
  
  
  
- quartz()
+  
 E <- ggplot(rate_dat,
     aes(x=Predation, y=Sizemat) 
     ) + 
@@ -97,101 +88,107 @@ E <- ggplot(rate_dat,
 facet_wrap(~Seasonality) 
 E
 
+quartz()
+par(mfrow=c(2,2))
+a
+b
+c
+d
  
 # FIGURE 2 CODE
-###################################################################################### 
-par(mfrow=c(2,2))
- setwd("~/Documents/tuna_theory/Hicosts/Highmortmedfood/")
+# ##################################################################################### 
+# par(mfrow=c(2,2))
+ # setwd("~/Documents/tuna_theory/Hicosts/Highmortmedfood/")
  
- HimuHifood <- list.files(pattern =  "\\.csv")
+ # HimuHifood <- list.files(pattern =  "\\.csv")
 
- HHdata <- lapply(HimuHifood, read.csv)
+ # HHdata <- lapply(HimuHifood, read.csv)
  
-datamat=matrix(nrow=216, ncol=4)
-bodysize=rep(NA, 4)
-for (i in 1:4) {
+# datamat=matrix(nrow=216, ncol=4)
+# bodysize=rep(NA, 4)
+# for (i in 1:4) {
 	
-    	datamat[, i]<-as.numeric(HHdata[[i]][1, -1])
-	  bodysize[i]<-max(as.numeric(HHdata[[i]][1, -1]))
-}
+    	# datamat[, i]<-as.numeric(HHdata[[i]][1, -1])
+	  # bodysize[i]<-max(as.numeric(HHdata[[i]][1, -1]))
+# }
 
 
-matplot(datamat, type="l", lty=c(1,2,1,2), col=c(1, 4, 6, 2), lwd=c(3, 2.5, 2, 1.5),  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 16*12), xlab= "Age (years)", xaxt="n")
-     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))
+# matplot(datamat, type="l", lty=c(1,2,1,2), col=c(1, 4, 6, 2), lwd=c(3, 2.5, 2, 1.5),  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 16*12), xlab= "Age (years)", xaxt="n")
+     # axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))
 
-legend("bottomright", bty="n", legend=c("Temp290K, Constant Env", "Temp 290K, Seasonal Env", "Temp 295K, Constant Env", "Temp 295K, Seasonal Env"), col=c(1, 4, 6, 2), lwd=c(3, 2.5, 2, 1.5),lty=c(1,2,1,2) )
-
-
+# legend("bottomright", bty="n", legend=c("Temp290K, Constant Env", "Temp 290K, Seasonal Env", "Temp 295K, Constant Env", "Temp 295K, Seasonal Env"), col=c(1, 4, 6, 2), lwd=c(3, 2.5, 2, 1.5),lty=c(1,2,1,2) )
 
 
- setwd("~/Documents/tuna_theory/Hicosts/HighmortLowfood/")
+
+
+ # setwd("~/Documents/tuna_theory/Hicosts/HighmortLowfood/")
  
- HimuLofood <- list.files(pattern =  "\\.csv")
+ # HimuLofood <- list.files(pattern =  "\\.csv")
 
- HLdata <- lapply(HimuLofood, read.csv)
+ # HLdata <- lapply(HimuLofood, read.csv)
  
-datamat=matrix(nrow=216, ncol=4)
-bodysize=rep(NA, 4)
-for (i in 1:4) {
+# datamat=matrix(nrow=216, ncol=4)
+# bodysize=rep(NA, 4)
+# for (i in 1:4) {
 	
-    	datamat[, i]<-as.numeric(HLdata[[i]][1, -1])
-	  bodysize[i]<-max(as.numeric(HLdata[[i]][1, -1]))
-}
+    	# datamat[, i]<-as.numeric(HLdata[[i]][1, -1])
+	  # bodysize[i]<-max(as.numeric(HLdata[[i]][1, -1]))
+# }
 
 
-matplot(datamat, type="l", lty=c(1,2,1,2), col=c(1, 4, 6, 2), lwd=c(3, 2.5, 2, 1.5),  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 16*12), xlab= "Age (years)", xaxt="n")
-     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))
+# matplot(datamat, type="l", lty=c(1,2,1,2), col=c(1, 4, 6, 2), lwd=c(3, 2.5, 2, 1.5),  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 16*12), xlab= "Age (years)", xaxt="n")
+     # axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))
 
-HimuLofood
-bodysize
+# HimuLofood
+# bodysize
 
 
- setwd("~/Documents/tuna_theory/Hicosts/Lowmortmedfood/")
+ # setwd("~/Documents/tuna_theory/Hicosts/Lowmortmedfood/")
  
- LomuHifood <- list.files(pattern =  "\\.csv")
+ # LomuHifood <- list.files(pattern =  "\\.csv")
 
- LHdata <- lapply(LomuHifood, read.csv)
+ # LHdata <- lapply(LomuHifood, read.csv)
  
-datamat=matrix(nrow=216, ncol=4)
-bodysize=rep(NA, 4)
-for (i in 1:4) {
+# datamat=matrix(nrow=216, ncol=4)
+# bodysize=rep(NA, 4)
+# for (i in 1:4) {
 	
-    	datamat[, i]<-as.numeric(LHdata[[i]][1, -1])
-	  bodysize[i]<-max(as.numeric(LHdata[[i]][1, -1]))
-}
+    	# datamat[, i]<-as.numeric(LHdata[[i]][1, -1])
+	  # bodysize[i]<-max(as.numeric(LHdata[[i]][1, -1]))
+# }
 
 
-matplot(datamat, type="l",  lty=c(1,2,1,2), col=c(1, 4, 6, 2), lwd=c(3, 2.5, 2, 1.5),  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 16*12), xlab= "Age (years)", xaxt="n")
-     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))
+# matplot(datamat, type="l",  lty=c(1,2,1,2), col=c(1, 4, 6, 2), lwd=c(3, 2.5, 2, 1.5),  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 16*12), xlab= "Age (years)", xaxt="n")
+     # axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))
 
 
-LomuHifood
-bodysize
+# LomuHifood
+# bodysize
 
 
 
 
- setwd("~/Documents/tuna_theory/Hicosts/LowmortLowfood/")
+ # setwd("~/Documents/tuna_theory/Hicosts/LowmortLowfood/")
  
- LomuLofood <- list.files(pattern =  "\\.csv")
+ # LomuLofood <- list.files(pattern =  "\\.csv")
 
- LLdata <- lapply(LomuLofood, read.csv)
+ # LLdata <- lapply(LomuLofood, read.csv)
  
-datamat=matrix(nrow=216, ncol=4)
-bodysize=rep(NA, 4)
-for (i in 1:4) {
+# datamat=matrix(nrow=216, ncol=4)
+# bodysize=rep(NA, 4)
+# for (i in 1:4) {
 	
-    	datamat[, i]<-as.numeric(LLdata[[i]][1, -1])
-	  bodysize[i]<-max(as.numeric(LLdata[[i]][1, -1]))
-}
+    	# datamat[, i]<-as.numeric(LLdata[[i]][1, -1])
+	  # bodysize[i]<-max(as.numeric(LLdata[[i]][1, -1]))
+# }
 
 
-matplot(datamat, type="l", lty=c(1,2,1,2),  col=c(1, 4, 6, 2), lwd=c(3, 2.5, 2, 1.5),  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 16*12), xlab= "Age (years)", xaxt="n")
-     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))
+# matplot(datamat, type="l", lty=c(1,2,1,2),  col=c(1, 4, 6, 2), lwd=c(3, 2.5, 2, 1.5),  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 16*12), xlab= "Age (years)", xaxt="n")
+     # axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))
 
 
-LomuLofood
-bodysize
+# LomuLofood
+# bodysize
 
 
 
