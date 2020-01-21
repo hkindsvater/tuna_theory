@@ -5,7 +5,7 @@ install.packages("ggplot2")
 library(readr)
 library(ggplot2)
 
-rate_dat<-read_csv("~/Documents/tuna_theory/data_summary19Dec2019.csv") #bring in the summary spreadsheet I made of trait data
+rate_dat<-read_csv("~/Library/Mobile Documents/com~apple~CloudDocs/Documents/tuna_theory/data_summary19Dec2019.csv") #bring in the summary spreadsheet I made of trait data
 
  a <- ggplot(rate_dat,
     aes(x=Predation, y=Amat) 
@@ -34,12 +34,13 @@ b <- ggplot(rate_dat,
    scale_color_manual(values = c("blue", "red")) +
    labs(y="Fecundity exponent")+
 
+
   
 facet_wrap(~Seasonality) 
 b
  
 c <- ggplot(rate_dat,
-    aes(x=Predation, y=Mu_annual) 
+    aes(x=Predation, y=annual_mu) 
     ) + 
 	geom_point(aes(colour = Temp, shape=Food), size = 3 ) +
  
