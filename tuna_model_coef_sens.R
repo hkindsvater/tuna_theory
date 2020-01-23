@@ -461,8 +461,8 @@ reproduction[, -Tmax]<-ifelse(reproduction[, -Tmax]>0,  reproduction[, -Tmax], N
 
 idist[, -Tmax]<-ifelse(idist[, -Tmax]>0,  idist[, -Tmax], NA)
 
-write.csv(idist, file=paste0("coef_s/Temp295/seasons/03State",  "f_h", round(f_h, 2),  "Kappa", round(Kappa,2), "reprolimit", reprolimit, "Tmax", Tmax, ".csv"))
-write.csv(sizedist, file=paste0("HiCosts/Temp295/seasons/01Length",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),  "reprolimit", reprolimit, "Tmax", Tmax, ".csv"))
-write.csv(reproduction, file=paste0("HiCosts/Temp295/seasons/02Repro",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),  "reprolimit", reprolimit, "Tmax", Tmax, ".csv")) 
-write.csv(survival, file=paste0("HiCosts/Temp295/seasons/04Surv",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),   "reprolimit", reprolimit, "Tmax", Tmax, ".csv")) 
+write.csv(idist, file=paste0("coefsens/Temp295/seasons/03State",  "f_h", round(f_h, 2),  "Kappa", round(Kappa,2), "coef1", coef1, "Tmax", Tmax, ".csv"))
+write.csv(sizedist, file=paste0("coefsens/Temp295/seasons/01Length",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),  "coef1", coef1, "Tmax", Tmax, ".csv"))
+write.csv(reproduction, file=paste0("coefsens/Temp295/seasons/02Repro",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2), "coef1", coef1, "Tmax", Tmax, ".csv")) 
+write.csv(survival, file=paste0("coefsens/Temp295/seasons/04Surv",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),  "coef1", coef1, "Tmax", Tmax, ".csv")) 
  

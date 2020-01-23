@@ -2,19 +2,19 @@
 
 
 # Defaults
-paras = c(reprolimit=0.2, Kappa = 1, f_h=15)
+paras = c(reprolimit=0.2, Kappa = 1, f_h=15, coef1=5e+16)
 
 # Name the set of results
-name = "HiCosts/Temp295/seasons/"
+name = "coef_sens/Temp295/seasons/"
 newDir = paste("mkdir ~/Documents/tuna_theory/", name, sep="") 
 system(newDir)
  
 # Pick two variables to vary factorially
   
-v1 = "f_h"
+v1 = "coef1"
 v2 = "Kappa"
 
-L1 =  c(15, 20)
+L1 =  c(1e+16, 1e+17)
 
 L2 = c(5, 10)
 n1 = length(L1)
@@ -28,7 +28,7 @@ index = 1
 
 while(index <= total)
 {
-	if(length(suppressWarnings(system2("pgrep", "-f tuna_model_seasons.R", stdout=TRUE))) < limit)
+	if(length(suppressWarnings(system2("pgrep", "-f tuna_model_coef_sens.R", stdout=TRUE))) < limit)
 	{
 		argList = ""
 		argList = paste(argList, index, " ", sep="")
@@ -40,7 +40,7 @@ while(index <= total)
 			argList = paste(argList, x, " ", sep="")
 		}
 
-		system(paste("Rscript ~/Documents/tuna_theory/tuna_model_seasons.R", argList) ,wait=FALSE)
+		system(paste("Rscript ~/Documents/tuna_theory/tuna_model_coef_sens.R", argList) ,wait=FALSE)
 		print(index)
 		index = index + 1
 	} else {
