@@ -5,7 +5,7 @@
 paras = c(reprolimit=0.2, Kappa = 1, f_h=15, coef1=5e+16)
 
 # Name the set of results
-name = "coef_sens/Temp295/seasons/"
+name = "coefsens/Temp295/seasons/"
 newDir = paste("mkdir ~/Documents/tuna_theory/", name, sep="") 
 system(newDir)
  
