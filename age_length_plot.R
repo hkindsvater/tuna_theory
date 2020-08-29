@@ -2,22 +2,12 @@
  
 setwd("~/Documents/tuna_theory_paper/Length_age_results/Highmort/")
  
-data_files <- list.files(pattern = "\\.csv$")
+cool_filenames <- list.files(pattern = "\\Temp290.csv$")
+warm_filenames <- list.files(pattern = "\\Temp295.csv$")
 
-repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   
-state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]
-length_filenames <- data_files[1:(length(data_files)/4)]
-surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]
+warm_length_data <- lapply(warm_filenames, read.csv)
+cool_length_data <- lapply(cool_filenames, read.csv)
 
-length_filenames <- unique(length_filenames)
-repro_filenames <- unique(repro_filenames)
-state_filenames <- unique(state_filenames)
-surv_filenames <- unique(surv_filenames)
-
-length_data <- lapply(length_filenames, read.csv)
-repro_data <- lapply(repro_filenames, read.csv)
-state_data <- lapply(state_filenames, read.csv)
-surv_data <- lapply(surv_filenames, read.csv)
  Tmax=18
  time=1:(Tmax*12)
  
@@ -26,11 +16,29 @@ surv_data <- lapply(surv_filenames, read.csv)
   quartz()
    par(mfrow=windowframe)
  
-plot_length <- function(data, filenames) {
+plot_length <- function(warmdata, warmfilenames, cooldata, coolfilenames) {
 	   
+     
+       
+      K0.08dataw <-  cbind(warmdata[[1]][1,-1],warmdata[[2]][1,-1] )
+      K0.21dataw <-  cbind(warmdata[[3]][1,-1],warmdata[[4]][1,-1] )
+      K0.42dataw <-  cbind(warmdata[[5]][1,-1],warmdata[[6]][1,-1] )
+      K0.83dataw <-  cbind(warmdata[[7]][1,-1],warmdata[[8]][1,-1] )
+      
+      K0.08datac <-  cbind(cooldata[[1]][1,-1],cooldata[[2]][1,-1] )
+      K0.21datac <-  cbind(cooldata[[3]][1,-1],cooldata[[4]][1,-1] )
+      K0.42datac <-  cbind(cooldata[[5]][1,-1],cooldata[[6]][1,-1] )
+      K0.83datac <-  cbind(cooldata[[7]][1,-1],cooldata[[8]][1,-1] )
+      
+      
+       matplot(t(K0.08dataw), type="l", main=substr(warmfilenames[1:2], 1, 9), col="red", lwd=1.75, lty=c(1, 2),  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, Tmax*12), xlab= "Age (years)", xaxt="n")
+       axis(1, at = seq(0, (Tmax)*12, by=12), labels = (seq(1, Tmax+1, by=1)))
+       matlines(t(K0.08datac), col="blue", lwd=1.75, lty=c(1,2))
+       
+     }
 	   
-     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 38), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, Tmax*12), xlab= "Age (years)", xaxt="n")
-     axis(1, at = seq(0, (Tmax)*12, by=12), labels = (seq(1, Tmax+1, by=1)))
+plot_length(warm_length_data, warm_filenames, cool_length_data, cool_filenames)
+   
      
      maxsize <- (min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))) + 1 
      
