@@ -100,98 +100,130 @@ E
  
  FIGURE 2 CODE
 ###################################################################################### 
-par(mfrow=c(2,2))
- setwd("~/Documents/tuna_theory/Hicosts/HighmortHighfood/")
+par(mfrow=c(2,4))
  
- HimuHifood <- list.files(pattern =  "\\.csv")
+ 
+ # LomuLofood <- list.files(pattern =  "\\.csv")
 
- HHdata <- lapply(HimuHifood, read.csv)
+ # LLdata <- lapply(LomuLofood, read.csv)
  
-datamat=matrix(nrow=216, ncol=4)
-bodysize=rep(NA, 4)
-for (i in 1:4) {
+# datamat=matrix(nrow=216, ncol=4)
+# bodysize=rep(NA, 4)
+# for (i in 1:4) {
 	
-    	datamat[, i]<-as.numeric(HHdata[[i]][1, -1])
-	  bodysize[i]<-max(as.numeric(HHdata[[i]][1, -1]))
-}
+    	# datamat[, i]<-as.numeric(LLdata[[i]][1, -1])
+	  # bodysize[i]<-max(as.numeric(LLdata[[i]][1, -1]))
+# }
+
+cool_cons_lomort_vlowfood<-read.csv("~/Desktop/holly_results/Temp290/constant/size_costs_threshold7/01Lengthf_h0.33Kappa0.08reprolimit0.2Tmax216.csv")
+
+cool_cons_lomort_lowfood<-read.csv("~/Desktop/holly_results/Temp290/constant/size_costs_threshold7/01Lengthf_h0.33Kappa0.21reprolimit0.2Tmax216.csv")
+ 
+ cool_cons_lomort_medfood<-read.csv("~/Desktop/holly_results/Temp290/constant/size_costs_threshold7/01Lengthf_h0.33Kappa0.42reprolimit0.2Tmax216.csv")
+
+cool_cons_lomort_hifood<-read.csv("~/Desktop/holly_results/Temp290/constant/size_costs_threshold7/01Lengthf_h0.33Kappa0.83reprolimit0.2Tmax216.csv")
+
+cool_cons_himort_vlowfood<-read.csv("~/Desktop/holly_results/Temp290/constant/size_costs_threshold7/01Lengthf_h0.67Kappa0.08reprolimit0.2Tmax216.csv")
+ 
+cool_cons_himort_lowfood<-read.csv("~/Desktop/holly_results/Temp290/constant/size_costs_threshold7/01Lengthf_h0.67Kappa0.21reprolimit0.2Tmax216.csv")
+ 
+ cool_cons_himort_medfood<-read.csv("~/Desktop/holly_results/Temp290/constant/size_costs_threshold7/01Lengthf_h0.67Kappa0.42reprolimit0.2Tmax216.csv")
+
+cool_cons_himort_hifood<-read.csv("~/Desktop/holly_results/Temp290/constant/size_costs_threshold7/01Lengthf_h0.67Kappa0.83reprolimit0.2Tmax216.csv")
+
+warm_cons_lomort_vlowfood<-read.csv("~/Desktop/holly_results/Temp295/constant/size_costs_threshold7/01Lengthf_h0.33Kappa0.08reprolimit0.2Tmax216.csv")
+warm_cons_lomort_lowfood<-read.csv("~/Desktop/holly_results/Temp295/constant/size_costs_threshold7/01Lengthf_h0.33Kappa0.21reprolimit0.2Tmax216.csv")
+ 
+ warm_cons_lomort_medfood<-read.csv("~/Desktop/holly_results/Temp295/constant/size_costs_threshold7/01Lengthf_h0.33Kappa0.42reprolimit0.2Tmax216.csv")
+
+warm_cons_lomort_hifood<-read.csv("~/Desktop/holly_results/Temp295/constant/size_costs_threshold7/01Lengthf_h0.33Kappa0.83reprolimit0.2Tmax216.csv")
+
+warm_cons_himort_vlowfood<-read.csv("~/Desktop/holly_results/Temp295/constant/size_costs_threshold7/01Lengthf_h0.67Kappa0.08reprolimit0.2Tmax216.csv")
+warm_cons_himort_lowfood<-read.csv("~/Desktop/holly_results/Temp295/constant/size_costs_threshold7/01Lengthf_h0.67Kappa0.21reprolimit0.2Tmax216.csv")
+ 
+ warm_cons_himort_medfood<-read.csv("~/Desktop/holly_results/Temp295/constant/size_costs_threshold7/01Lengthf_h0.67Kappa0.42reprolimit0.2Tmax216.csv")
+
+warm_cons_himort_hifood<-read.csv("~/Desktop/holly_results/Temp295/constant/size_costs_threshold7/01Lengthf_h0.67Kappa0.83reprolimit0.2Tmax216.csv")
 
 
-matplot(datamat, type="l", lty=1, col=c(1, 4, 6, 2), lwd=c(3, 2.5, 2, 1.5),  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 16*12), xlab= "Age (years)", xaxt="n")
+cool_seas_lomort_vlowfood<-read.csv("~/Desktop/holly_results/Temp290/seasonal/size_costs_threshold7/01Lengthf_h0.33Kappa0.08reprolimit0.2Tmax216.csv")
+ 
+cool_seas_lomort_lowfood<-read.csv("~/Desktop/holly_results/Temp290/seasonal/size_costs_threshold7/01Lengthf_h0.33Kappa0.21reprolimit0.2Tmax216.csv")
+ 
+ cool_seas_lomort_medfood<-read.csv("~/Desktop/holly_results/Temp290/seasonal/size_costs_threshold7/01Lengthf_h0.33Kappa0.42reprolimit0.2Tmax216.csv")
+ 
+ cool_seas_lomort_hifood<-read.csv("~/Desktop/holly_results/Temp290/seasonal/size_costs_threshold7/01Lengthf_h0.33Kappa0.83reprolimit0.2Tmax216.csv")
+ 
+ 
+ cool_seas_himort_vlowfood<-read.csv("~/Desktop/holly_results/Temp290/seasonal/size_costs_threshold7/01Lengthf_h0.67Kappa0.08reprolimit0.2Tmax216.csv")
+ 
+ cool_seas_himort_lowfood<-read.csv("~/Desktop/holly_results/Temp290/seasonal/size_costs_threshold7/01Lengthf_h0.67Kappa0.21reprolimit0.2Tmax216.csv")
+ 
+ cool_seas_himort_medfood<-read.csv("~/Desktop/holly_results/Temp290/seasonal/size_costs_threshold7/01Lengthf_h0.67Kappa0.42reprolimit0.2Tmax216.csv")
+ 
+ cool_seas_himort_hifood<-read.csv("~/Desktop/holly_results/Temp290/seasonal/size_costs_threshold7/01Lengthf_h0.67Kappa0.83reprolimit0.2Tmax216.csv")
+ 
+
+warm_seas_lomort_vlowfood<-read.csv("~/Desktop/holly_results/Temp295/seasonal/size_costs_threshold7/01Lengthf_h0.33Kappa0.08reprolimit0.2Tmax216.csv")
+warm_seas_lomort_lowfood<-read.csv("~/Desktop/holly_results/Temp295/seasonal/size_costs_threshold7/01Lengthf_h0.33Kappa0.21reprolimit0.2Tmax216.csv")
+ 
+ warm_seas_lomort_medfood<-read.csv("~/Desktop/holly_results/Temp295/seasonal/size_costs_threshold7/01Lengthf_h0.33Kappa0.42reprolimit0.2Tmax216.csv")
+ 
+ 
+
+  warm_seas_himort_vlowfood<-read.csv("~/Desktop/holly_results/Temp295/seasonal/size_costs_threshold7/01Lengthf_h0.67Kappa0.08reprolimit0.2Tmax216.csv")
+  warm_seas_himort_lowfood<-read.csv("~/Desktop/holly_results/Temp295/seasonal/size_costs_threshold7/01Lengthf_h0.67Kappa0.21reprolimit0.2Tmax216.csv")
+ 
+ warm_seas_himort_medfood<-read.csv("~/Desktop/holly_results/Temp295/seasonal/size_costs_threshold7/01Lengthf_h0.67Kappa0.42reprolimit0.2Tmax216.csv")
+
+datamat0<-rbind(cool_cons_lomort_vlowfood[1,], cool_seas_lomort_vlowfood[1,], warm_cons_lomort_vlowfood[1,], warm_seas_lomort_vlowfood[1,])
+matplot(t(datamat0), type="l", lty=1, col=c(1, 4, 6, 2), lwd=c(3, 2.5, 2, 1.5),  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 16*12), xlab= "Age (years)", xaxt="n")
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))
+    
+
+ datamat1<-rbind(cool_cons_lomort_lowfood[1,], cool_seas_lomort_lowfood[1,], warm_cons_lomort_lowfood[1,], warm_seas_lomort_lowfood[1,])
+
+matplot(t(datamat1), type="l", lty=1, col=c(1, 4, 6, 2), lwd=c(3, 2.5, 2, 1.5),  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 16*12), xlab= "Age (years)", xaxt="n")
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))
+     
+
+  datamat2<-rbind(cool_cons_lomort_medfood[1,], cool_seas_lomort_medfood[1,], warm_cons_lomort_medfood[1,], warm_seas_lomort_medfood[1,])
+
+matplot(t(datamat2), type="l", lty=1, col=c(1, 4, 6, 2), lwd=c(3, 2.5, 2, 1.5),  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 16*12), xlab= "Age (years)", xaxt="n")
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))     
+     
+ datamat3<-rbind(cool_cons_lomort_hifood[1,],  warm_cons_lomort_hifood[1,])
+
+matplot(t(datamat3), type="l", lty=1, col=c(1, 4, 6, 2), lwd=c(3, 2.5, 2, 1.5),  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 16*12), xlab= "Age (years)", xaxt="n")
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))    
+     
+ datamat4.0<-rbind(cool_cons_himort_vlowfood[1,], cool_seas_himort_vlowfood[1,], warm_cons_himort_vlowfood[1,], warm_seas_himort_vlowfood[1,])
+matplot(t(datamat4.0), type="l", lty=1, col=c(1, 4, 6, 2), lwd=c(3, 2.5, 2, 1.5),  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 16*12), xlab= "Age (years)", xaxt="n")
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))
+
+
+  datamat4<-rbind(cool_cons_himort_lowfood[1,], cool_seas_himort_lowfood[1,], warm_cons_himort_lowfood[1,], warm_seas_himort_lowfood[1,])
+  
+matplot(t(datamat4), type="l", lty=1, col=c(1, 4, 6, 2), lwd=c(3, 2.5, 2, 1.5),  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 16*12), xlab= "Age (years)", xaxt="n")
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))
+
+
+
+  datamat5<-rbind(cool_cons_himort_medfood[1,], cool_seas_himort_medfood[1,], warm_cons_himort_medfood[1,], warm_seas_himort_medfood[1,])
+  
+matplot(t(datamat5), type="l", lty=1, col=c(1, 4, 6, 2), lwd=c(3, 2.5, 2, 1.5),  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 16*12), xlab= "Age (years)", xaxt="n")
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))
+
+
+  datamat6<-rbind(cool_cons_himort_hifood[1,],  warm_cons_himort_hifood[1,])
+
+matplot(t(datamat6), type="l", lty=1, col=c(1, 4, 6, 2), lwd=c(3, 2.5, 2, 1.5),  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 16*12), xlab= "Age (years)", xaxt="n")
      axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))
 
 legend("bottomright", bty="n", legend=c("Temp290K, Constant Env", "Temp 290K, Seasonal Env", "Temp 295K, Constant Env", "Temp 295K, Seasonal Env"), col=c(1, 4, 6, 2), lwd=c(3, 2.5, 2, 1.5) )
 
 
 
-
- setwd("~/Documents/tuna_theory/Hicosts/HighmortLowfood/")
- 
- HimuLofood <- list.files(pattern =  "\\.csv")
-
- HLdata <- lapply(HimuLofood, read.csv)
- 
-datamat=matrix(nrow=216, ncol=4)
-bodysize=rep(NA, 4)
-for (i in 1:4) {
-	
-    	datamat[, i]<-as.numeric(HLdata[[i]][1, -1])
-	  bodysize[i]<-max(as.numeric(HLdata[[i]][1, -1]))
-}
-
-
-matplot(datamat, type="l", lty=1, col=c(1, 4, 6, 2), lwd=c(3, 2.5, 2, 1.5),  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 16*12), xlab= "Age (years)", xaxt="n")
-     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))
-
-HimuLofood
-bodysize
-
-
- setwd("~/Documents/tuna_theory/Hicosts/LowmortHighfood/")
- 
- LomuHifood <- list.files(pattern =  "\\.csv")
-
- LHdata <- lapply(LomuHifood, read.csv)
- 
-datamat=matrix(nrow=216, ncol=4)
-bodysize=rep(NA, 4)
-for (i in 1:4) {
-	
-    	datamat[, i]<-as.numeric(LHdata[[i]][1, -1])
-	  bodysize[i]<-max(as.numeric(LHdata[[i]][1, -1]))
-}
-
-
-matplot(datamat, type="l", lty=1, col=c(1, 4, 6, 2), lwd=c(3, 2.5, 2, 1.5),  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 16*12), xlab= "Age (years)", xaxt="n")
-     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))
-
-
-LomuHifood
-bodysize
-
-
-
-
- setwd("~/Documents/tuna_theory/Hicosts/LowmortLowfood/")
- 
- LomuLofood <- list.files(pattern =  "\\.csv")
-
- LLdata <- lapply(LomuLofood, read.csv)
- 
-datamat=matrix(nrow=216, ncol=4)
-bodysize=rep(NA, 4)
-for (i in 1:4) {
-	
-    	datamat[, i]<-as.numeric(LLdata[[i]][1, -1])
-	  bodysize[i]<-max(as.numeric(LLdata[[i]][1, -1]))
-}
-
-
-matplot(datamat, type="l", lty=1, col=c(1, 4, 6, 2), lwd=c(3, 2.5, 2, 1.5),  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 16*12), xlab= "Age (years)", xaxt="n")
-     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))
-
-
-LomuLofood
-bodysize
 
 
 
