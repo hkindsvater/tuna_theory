@@ -11,30 +11,32 @@ cool_length_data <- lapply(cool_filenames, read.csv)
  Tmax=18
  time=1:(Tmax*12)
  
- windowframe=c(3,2)
+ windowframe=c(1,4)
   
   quartz()
    par(mfrow=windowframe)
  
 plot_length <- function(warmdata, warmfilenames, cooldata, coolfilenames) {
-	   
-     
+  #switch the list index to choose which value of Kappa: 1-2 is 0.08; 3-4 is 0.21, 5-6 is 0.42, 7-8 is 0.83 
+  
+  for(i in seq(1, 8, 2)){ 
+  
+     datawcons <-warmdata[[i]][1,-1]  
+     datawseas<-warmdata[[i+1]][1,-1] 
+     dataccons <-cooldata[[i]][1,-1]
+     datacseas <- cooldata[[i+1]][1,-1]  
        
-      K0.08dataw <-  cbind(warmdata[[1]][1,-1],warmdata[[2]][1,-1] )
-      K0.21dataw <-  cbind(warmdata[[3]][1,-1],warmdata[[4]][1,-1] )
-      K0.42dataw <-  cbind(warmdata[[5]][1,-1],warmdata[[6]][1,-1] )
-      K0.83dataw <-  cbind(warmdata[[7]][1,-1],warmdata[[8]][1,-1] )
       
-      K0.08datac <-  cbind(cooldata[[1]][1,-1],cooldata[[2]][1,-1] )
-      K0.21datac <-  cbind(cooldata[[3]][1,-1],cooldata[[4]][1,-1] )
-      K0.42datac <-  cbind(cooldata[[5]][1,-1],cooldata[[6]][1,-1] )
-      K0.83datac <-  cbind(cooldata[[7]][1,-1],cooldata[[8]][1,-1] )
-      
-      
-       matplot(t(K0.08dataw), type="l", main=substr(warmfilenames[1:2], 1, 9), col="red", lwd=1.75, lty=c(1, 2),  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, Tmax*12), xlab= "Age (years)", xaxt="n")
+       plot(time, t(datawcons), type="l", col="red", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, Tmax*12), xlab= "Age (years)", xaxt="n")
        axis(1, at = seq(0, (Tmax)*12, by=12), labels = (seq(1, Tmax+1, by=1)))
-       matlines(t(K0.08datac), col="blue", lwd=1.75, lty=c(1,2))
+      title(substr(warmfilenames[[i]], 1, 9))
+       lines(t(datawseas), col="red", lwd=1.75, lty=2)
+       lines(t(dataccons), col="blue", lwd=1.75, lty=1)
+       lines(t(datacseas), col="blue", lwd=1.75, lty=2)
+      #print(datawcons)
        
+        }
+     
      }
 	   
 plot_length(warm_length_data, warm_filenames, cool_length_data, cool_filenames)
