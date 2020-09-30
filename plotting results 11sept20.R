@@ -1,6 +1,6 @@
  
  
-setwd("~/Documents/tuna_theory_paper/Jeremy_machine_run_results/Temp290/seasonal/size_costs_threshold7")
+setwd("~/Documents/tuna_theory_paper/Jeremy_machine_run_results/Temp295/seasonal/size_costs_threshold7")
  
 data_files <- list.files(pattern = "\\.csv$")
 
@@ -52,7 +52,7 @@ plot_length <- function(data, filenames) {
  quartz()
    par(mfrow=windowframe)
   plot_repro <- function(repro_data, length_data, repro_filenames) {
-	       matplot(t(repro_data[,-1]), type="l", main= substr(repro_filenames, 8, 23), col="darkgray", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 5.5e+08), xlim=c(0.5, Tmax*12))
+	       matplot(t(repro_data[,-1]), type="l", main= substr(repro_filenames, 8, 23), col="red", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 5.5e+08), xlim=c(0.5, Tmax*12))
      axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))
      
      maxsize <- (min(which(as.numeric(repro_data[1, -1]) == max(as.numeric(repro_data[1, -1]), na.rm=TRUE)))) + 1 
