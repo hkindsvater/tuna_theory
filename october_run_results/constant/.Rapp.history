@@ -1,0 +1,2641 @@
+damsels
+?species_list
+damsels <- species_list(Family = "Pomocanthidae")#
+angels <- species_list(Family = "Pomocentridae")
+damsels
+angels
+damsels <- species_list(Family = "Pomacanthidae")#
+angels <- species_list(Family = "Pomacentridae")
+damsels
+angels
+?maturity
+maturity(damsels)
+angels <- species_list(Family = "Pomacanthidae")#
+damsels <- species_list(Family = "Pomacentridae")
+maturity(angels)
+warnings()
+maturity(damsels)
+warnings()
+length(damsels)
+fecundity(damsels)
+warnings()
+fecundity(angels)
+x<-maturity(angels)
+x
+x$sciname
+x<-maturity(damsels)
+x$sciname
+x=c(1:3)
+y=c(4:7)
+x*y
+y=c(4:6)
+x*y
+# matplot( ((1:Smax)), t( (MTcosts)), type = "l", lty=1, lwd=2,   xlab=" (Mass (kg))", ylab=" (Metabolic rate) in J/season", col=c(4, 3, "orange", 2))  ##this version of
+(0.5:4)/10
+seq(0.5, 4, by=.25)
+seq(0.5, 4, by=.3)
+seq(0.5, 4.1, by=.3)
+seq(0.5, 4.1, by=.28)
+seq(0.5, 4, by=.5)
+seq(0.5, 4, by=.45)
+seq(0.5, 4, by=.4)
+seq(0.5, 4, by=.35)
+length(seq(0.5, 4, by=.35)
+)
+length(seq(0.5, 4, by=.38)
+)
+####in Feb 8 results, kappa (environment richness) and costs of spawning (c1) vary and overall very steep for individuals < 50#
+####in Feb 11 results, kappa (environemnt richness) and temperature vary and c0 = 0.1, c1 is 0.25, so spawning costs are VERY steep for small individuals#
+### in Feb 13 results, kappa and temperature vary, but there are no spawning costs (c2 = 0.1, c1=0)#
+### in Feb 19 results, kappa and temperature vary, but c0 is 0.05 (and c1 is 0.15), so spawning costs are severe for individuals < 80 cm - not that interersting#
+####in Feb 20 the metabolic costs get a lot steeper in warm envieonments, but there are no CoR#
+###in Feb 20.2 the maximum lifespan is much longer#
+###Feb 21 maximum lifespan is the same as Feb 20.2, kappa inclueds 4; max state is greater (375); also rep limit is 2#
+##March 11: same as feb 21 except variance in food is zero and max lifespan is shorter (16 years)#
+setwd("~/Documents/model_output/")#
+data_files <- list.files(pattern = "\\.csv$")#
+#
+repro_filenames <- data_files[((length(data_files)/3)+1):(2*(length(data_files)/3))]   #
+state_filenames <- data_files[(2*(length(data_files)/3)+1):(3*(length(data_files)/3))]#
+length_filenames <- data_files[1:(length(data_files)/3)]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+ quartz()#
+  par(mfrow=c(3, 4))#
+plot_length <- function(data, filenames) {#
+	  #data[is.na(data)] <- 0#
+     matplot(t(data[,-1]), type="l", main=c(substr(filenames, 9, 15), substr(filenames, 19, 24)), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, 60, by=4), labels = (seq(1, 16, by=1)))#
+     }#
+ mapply(plot_length, length_data, length_filenames)
+warnings()
+setwd("~/Documents/tuna_theory/model_output/")#
+data_files <- list.files(pattern = "\\.csv$")#
+#
+repro_filenames <- data_files[((length(data_files)/3)+1):(2*(length(data_files)/3))]   #
+state_filenames <- data_files[(2*(length(data_files)/3)+1):(3*(length(data_files)/3))]#
+length_filenames <- data_files[1:(length(data_files)/3)]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+ quartz()#
+  par(mfrow=c(2, 3))#
+plot_length <- function(data, filenames) {#
+	  #data[is.na(data)] <- 0#
+     matplot(t(data[,-1]), type="l", main=c(substr(filenames, 9, 15), substr(filenames, 16, 21)), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, 48), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, 64, by=4), labels = (seq(1, 17, by=1)))#
+     }#
+ mapply(plot_length, length_data, length_filenames)
+#!/usr/bin/env Rscript --vanilla#
+#install.packages("fields")#
+# library(fields)#
+ setwd("/Users/hollykindsvater/Documents/tuna_theory/")#
+#
+set.seed(1001)#
+timebin <- 4#
+  # args <-  commandArgs(trailingOnly = TRUE)#
+  # counter <- as.numeric(args[1]) #
+  #  c1 = as.numeric(args[2])#
+  #  Kappa = as.numeric(args[3])#
+  #  Temp = as.numeric(args[4])#
+      Kappa = 1#
+       Temp = 293 #
+       c1=0#
+       counter=1#
+Tmax = 16*timebin  #seasonal time steps, maximum lifespan is 16 years#
+#
+#describe temperature dependent costs#
+k=1.3e-23#
+E = 1.04e-19#
+theta=0.66#
+coef1  = 5e+16 ##normalization constant puts tuna SMR in the same ballpark as the costs Kitchell et al. (1978) Bioenergetic spectra of skipjack and yellowfin tunas, #
+# pp 359 IN Sharp G.D. and Dizon A.E. eds. The Physiological Ecology of Tunas, Academic press, and 5 degrees of warming doubles costs at 1000kg.  #
+#
+#physiological parameters#
+a <- 1e-5 #from ICCAT 2015 BFT length-weight relationship#
+scale <-  4.2e+6 #J/kg #from Chapman et al. 2011#
+b=1.8#
+d = 2.4#
+#STATE VARIABLES#
+phi=1 # only 1 environment#
+Lmax=375  #maximum size of 4 meters#
+Lmin = 1 #
+Estoresmax=200 #maximum stores in loop  #
+storelimit= 1 #proportion of structural mass that inidivduals can devote to energy storage#
+ storemin = 0.1#
+reprolimit = 2#
+####################################################################################################################################################################################################
+###Lookup Tables - look up costs and food functions so they are not calculated every time#
+     ###Sizespectra allow us to descripbe prey preference, encounter, consumption to predict prey availability and mass-specific mortality:#
+ Smax <- 1500  #total mass maximum in kg#
+##Prey availability   #
+phi_a <- 3 #from table 2.2 in Andersen book#
+ K_c <- 10 #from table 2.2, this is averaged over "all" - so PP in stomach of all preds and preys have a MR of 1224 independently of body size - but htis is something that changes with ecosystem according to KAPPA, eg less in deep sea, more in upwelling#
+ lam <- 1.95 #
+  #Kappa=3#
+ Mass <- 1:Smax#
+Income =  scale*Kappa*phi_a*K_c*Mass^(2-lam) #this describes the scaling with size and ecostystem richness#
+ # plot(Income)#
+SDfood=0#
+minI = Income - SDfood * 2#
+maxI = Income + SDfood * 2#
+bins = 20#
+foodmatrix=matrix(ncol=bins, nrow=length(Mass))#
+weightmatrix=matrix(ncol=bins, nrow=length(Mass))#
+for(p in 1:length(Mass)) { #
+#
+  binEdges = seq(minI[p], maxI[p], length.out=bins+1)#
+  binMids = (binEdges[-1] + binEdges[-(bins+1)])/2#
+  binWeights = pnorm(binEdges[-1], Income[p], SDfood[p]) - pnorm(binEdges[-(bins+1)], Income[p], SDfood[p])#
+  foodmatrix[p, ] <- binMids#
+  }#
+binWeights <- binWeights / sum(binWeights)#
+binWeights = ifelse(is.na(binWeights) == TRUE, 1/bins, binWeights)#
+#
+sto.food <- function (i) {#
+  sample(foodmatrix[i, ], size=1, prob=binWeights)#
+}
+Wtotal=1:100
+Food<-sapply(ceiling(Wtotal), sto.food) #calculates stochastic food quantity for every index individual
+Food
+Food/scale
+Income[1:100]
+Income[1:100]/scale
+Kappa = 0.1#
+       Temp = 293 #
+       c1=0#
+       counter=1#
+Tmax = 16*timebin  #seasonal time steps, maximum lifespan is 16 years#
+#
+#describe temperature dependent costs#
+k=1.3e-23#
+E = 1.04e-19#
+theta=0.66#
+coef1  = 5e+16 ##normalization constant puts tuna SMR in the same ballpark as the costs Kitchell et al. (1978) Bioenergetic spectra of skipjack and yellowfin tunas, #
+# pp 359 IN Sharp G.D. and Dizon A.E. eds. The Physiological Ecology of Tunas, Academic press, and 5 degrees of warming doubles costs at 1000kg.  #
+#
+#physiological parameters#
+a <- 1e-5 #from ICCAT 2015 BFT length-weight relationship#
+scale <-  4.2e+6 #J/kg #from Chapman et al. 2011#
+b=1.8#
+d = 2.4#
+#STATE VARIABLES#
+phi=1 # only 1 environment#
+Lmax=375  #maximum size of 4 meters#
+Lmin = 1 #
+Estoresmax=200 #maximum stores in loop  #
+storelimit= 1 #proportion of structural mass that inidivduals can devote to energy storage#
+ storemin = 0.1#
+reprolimit = 2#
+####################################################################################################################################################################################################
+###Lookup Tables - look up costs and food functions so they are not calculated every time#
+     ###Sizespectra allow us to descripbe prey preference, encounter, consumption to predict prey availability and mass-specific mortality:#
+ Smax <- 1500  #total mass maximum in kg#
+##Prey availability   #
+phi_a <- 3 #from table 2.2 in Andersen book#
+ K_c <- 10 #from table 2.2, this is averaged over "all" - so PP in stomach of all preds and preys have a MR of 1224 independently of body size - but htis is something that changes with ecosystem according to KAPPA, eg less in deep sea, more in upwelling#
+ lam <- 1.95 #
+  #Kappa=3#
+ Mass <- 1:Smax#
+Income =  scale*Kappa*phi_a*K_c*Mass^(2-lam) #this describes the scaling with size and ecostystem richness#
+ # plot(Income)#
+SDfood=0
+Income/scale
+plot(Income)
+foodmatrix[ceiling(Wtotal), ]
+foodmatrix[ceiling(Wtotal), ]/scale
+foodmatrix[ceiling(Wtotal), ] - MTcosts[ceiling(Wtotal)]
+##mass dependent mortality#
+ phi_p <- 0.07 #from table 2.2 in Andersen book#
+ f_0 <- 0.6 #somewhere between 0 and 1, but predators rarely caught with totally full stomach#
+ hprime <- 17.2 #coefficient on the consumption rate from table 2.2#
+ met_mort <- -0.25 #the argument in Andersen book is that mass-specific rates such as mortality scales with the metabolic esp of 3/4 (Brown et al. 2004). #
+   mu<- phi_p*f_0*hprime*Mass^met_mort #note we are excluding "background" mortality that is independent of size.... #
+      ###COST FUNCTION  - assume metabolic requirements scale with body size and temperature#
+  MTcosts <- coef1*(1:Smax)^theta*exp(-E/(k*Temp))  #costs in J
+foodmatrix[ceiling(Wtotal), ] - MTcosts[ceiling(Wtotal)]
+(foodmatrix[ceiling(Wtotal), ] - MTcosts[ceiling(Wtotal)])/scale
+#DYNAMIC MODEL: life history in a single environment#
+#
+  #dynamic behaviors#
+u <-  seq(0, 1, by = 0.1) #fraction stored (rest allocated to structure)#
+#
+r<-  seq(0, 1, by = 0.1) #fraction allocated to reproduction (rest is saved)
+Y <- 1
+L <- Lmin
+p <- 1
+i <- Tmax-1
+g <- 1
+growth = u[g] #Convert in
+h <- 1
+reprod = r[h]  #Conve
+L=1:100
+Wstructure<-a*L^3 #  structural mass in kg
+Wstructure
+EstoresmaxL <-Wstructure*storelimit*scale #modified from Chapman et al.  #
+         #Energy stores are capped to be a fraction if TOTAL body mass#
+      EcritL <- Wstructure*storemin*scale
+EstoresmaxL
+EstoresmaxL/scale
+EstoresmaxL/scale-MTcosts[ceiling(Wstructure)]
+EstoresmaxL-MTcosts[ceiling(Wstructure)]
+Income[ceiling(Wstructure)]-MTcosts[ceiling(Wstructure)]
+Income[ceiling(Wstructure)]-MTcosts[ceiling(Wstructure)]/scale
+(Income[ceiling(Wstructure)]-MTcosts[ceiling(Wstructure)])/scale
+if (Y*scale < EstoresmaxL)  Estores<- Y*scale  else #
+      		Estores=EstoresmaxL	#stored energy capped at a certain body size#
+	  Wstores<-Estores/(scale) #stores mass in kG#
+	  Wtotal <- Wstores+Wstructure  #body mass in KG
+Wtotal
+L=50
+Wstructure<-a*L^3 #  structural mass in kg#
+      EstoresmaxL <-Wstructure*storelimit*scale #modified from Chapman et al.  #
+         #Energy stores are capped to be a fraction if TOTAL body mass#
+      EcritL <- Wstructure*storemin*scale#
+      if (Y*scale < EstoresmaxL)  Estores<- Y*scale  else #
+      		Estores=EstoresmaxL	#stored energy capped at a certain body size#
+	  Wstores<-Estores/(scale) #stores mass in kG#
+	  Wtotal <- Wstores+Wstructure  #body mass in KG#
+	  Estructure <- Wstructure*scale#
+       Rlimit <- Estructure*reprolimit
+Wstores
+Wtotal
+MTcosts[ceiling(Wtotal)]
+Income[ceiling(Wtotal)]-MTcosts[ceiling(Wtotal)]
+Income[ceiling(Wtotal)]-MTcosts[ceiling(Wtotal)]/scale
+(Income[ceiling(Wtotal)]-MTcosts[ceiling(Wtotal)])/scale
+EstoresP <- Estores*(1-reprod-growth) +foodmatrix[ceiling(Wtotal), ] - MTcosts[ceiling(Wtotal)] #combines mass-dependent food intake and mass-dependent metabolic costs#
+	  EstructureP <- Estructure + growth*Estores#
+	  WstructureP <- EstructureP/scale #
+	  LengthP <-(WstructureP/a) ^(1/3)#
+	  EstoresmaxLP <- EstructureP*storelimit #
+	  EcritLP <- EstructureP*storemin #
+	  EstoresP <- ifelse(EstoresP > EstoresmaxLP, EstoresmaxLP, EstoresP) # this statement caps stores max storage allowed for that size#
+	  EstoresP <- ifelse(EstoresP < 0, 0, EstoresP)	 #if Estores is negative, it is cut off at zero.
+EstoresP
+EstoresP/scale
+reprod-growth
+Estores*(1-reprod-growth) +foodmatrix[ceiling(Wtotal), ]
+(Estores*(1-reprod-growth) +foodmatrix[ceiling(Wtotal), ])/scale
+EstoresP <- Estores*(1-reprod-growth) +foodmatrix[ceiling(Wtotal), ] - MTcosts[ceiling(Wtotal)] #combines mass-dependent food intake
+Estores
+Income[ceiling(Wtotal)]
+MTcosts[ceiling(Wtotal)]
+420+1330-12
+foodmatrix[(]ceiling(Wtotal),]
+foodmatrix[ceiling(Wtotal),]
+Estores
+EstoresP
+EstructureP <- Estructure + growth*Estores#
+	  WstructureP <- EstructureP/scale #
+	  LengthP <-(WstructureP/a) ^(1/3)
+LengthP
+EstoresmaxLP <- EstructureP*storelimit #
+	  EcritLP <- EstructureP*storemin #
+	  EstoresP <- ifelse(EstoresP > EstoresmaxLP, EstoresmaxLP, EstoresP) # this statement caps stores max storage allowed for that size
+EstoresP
+dx <- EstoresP/scale - floor(EstoresP/scale)#
+	  Yindex <- floor(EstoresP/scale)
+Yindex
+dx
+Yindex <- ifelse(Yindex >= Estoresmax,  Estoresmax - 1, Yindex)
+Estoresmax
+if(Estores >= EcritL)  currentR <- min(reprod*Estores, Rlimit) else#
+	   currentR <- 0
+currentR
+Estores
+EcritL
+Rlimit
+Estores >= EcritL
+reprod*Estores
+reprod
+g
+h
+FutureFitness
+mean(Wtfood)
+Wtfood<-foodfit*binWeights
+Yindex[f]
+Yindex
+Wstructure<-a*L^3 #  structural mass in kg#
+      EstoresmaxL <-Wstructure*storelimit*scale #modified from Chapman et al.  #
+         #Energy stores are capped to be a fraction if TOTAL body mass#
+      EcritL <- Wstructure*storemin*scale#
+      if (Y*scale < EstoresmaxL)  Estores<- Y*scale  else #
+      		Estores=EstoresmaxL	#stored energy capped at a certain body size#
+	  Wstores<-Estores/(scale) #stores mass in kG#
+	  Wtotal <- Wstores+Wstructure  #body mass in KG#
+	  Estructure <- Wstructure*scale#
+       Rlimit <- Estructure*reprolimit#
+	   	  #state dynamics
+Rlimit
+EstoresP <- Estores*(1-reprod-growth) +foodmatrix[ceiling(Wtotal), ] - MTcosts[ceiling(Wtotal)] #combines mass-dependent food intake and mass-dependent metabolic costs#
+	  EstructureP <- Estructure + growth*Estores#
+	  WstructureP <- EstructureP/scale #
+	  LengthP <-(WstructureP/a) ^(1/3)#
+	  EstoresmaxLP <- EstructureP*storelimit #
+	  EcritLP <- EstructureP*storemin #
+	  EstoresP <- ifelse(EstoresP > EstoresmaxLP, EstoresmaxLP, EstoresP) # this statement caps stores max storage allowed for that size#
+	  EstoresP <- ifelse(EstoresP < 0, 0, EstoresP)	 #if Estores is negative, it is cut off at zero.
+EstoresP
+L
+dx <- EstoresP/scale - floor(EstoresP/scale)#
+	  Yindex <- floor(EstoresP/scale)#
+	  #make sure the state index does not exceed MAX possible state (AT HIGH END OF STATE RANGE)#
+	  Yindex <- ifelse(Yindex >= Estoresmax,  Estoresmax - 1, Yindex)#
+	   if (ceiling(LengthP) > Lmax) Lindex <- Lmax else#
+	    Lindex <- round(LengthP)
+Lindex
+Yindex
+foodfit = rep(0, length(EstoresP))#
+             for (f in 1:length(EstoresP)) {#
+               if(Estores >= EcritL &   EstoresP[f] >= EcritLP) {#
+              	if (Yindex[f] > 0 )  foodfit[f] <- dx[f]*MaxF[Yindex[f],Lindex,p,i+1] + (1-dx[f])*MaxF[Yindex[f]+1, Lindex, p, i+1] else foodfit[f] <- (1-dx[f])*MaxF[Yindex[f]+1, Lindex, p, i+1]#
+              	} else  foodfit[f] <- 0#
+                      }#end f loop#
+	              Wtfood<-foodfit*binWeights#
+              	FutureFitness = mean(Wtfood)#
+	   #####if current state is greater than EcritL you get current fitness    	 #
+	   if(Estores >= EcritL)  currentR <- min(reprod*Estores, Rlimit) else#
+	   currentR <- 0
+MaxF=array(dim=c(Estoresmax, Lmax, phi, Tmax),data=-1) #this will store the max fitness for every combination of state and times#
+MaxF[,,,Tmax]=0
+i=Tmax-1
+foodfit = rep(0, length(EstoresP))#
+             for (f in 1:length(EstoresP)) {#
+               if(Estores >= EcritL &   EstoresP[f] >= EcritLP) {#
+              	if (Yindex[f] > 0 )  foodfit[f] <- dx[f]*MaxF[Yindex[f],Lindex,p,i+1] + (1-dx[f])*MaxF[Yindex[f]+1, Lindex, p, i+1] else foodfit[f] <- (1-dx[f])*MaxF[Yindex[f]+1, Lindex, p, i+1]#
+              	} else  foodfit[f] <- 0#
+                      }#end f loop#
+	              Wtfood<-foodfit*binWeights#
+              	FutureFitness = mean(Wtfood)#
+	   #####if current state is greater than EcritL you get current fitness    	 #
+	   if(Estores >= EcritL)  currentR <- min(reprod*Estores, Rlimit) else#
+	   currentR <- 0
+currentR
+Wtfood
+foodfit
+binWeights
+set.seed(2001)#
+    nindiv=20000   #
+   Ngroups=1#
+   group=1#
+ 	initialsize <- as.integer(rnorm(nindiv, mean=50, sd=2.5))#
+ 	alive=matrix(ncol = Tmax, nrow= Ngroups, data=0)#
+#
+idist=matrix(data=NA, nrow=nindiv, ncol=Tmax) #keeps track of energetic state over time#
+sizedist=matrix(data=NA, nrow=nindiv, ncol=Tmax)#
+g_allo= array(dim=c(nindiv, Tmax), data = 0 )#
+repro= array(dim=c(nindiv, Tmax), data = 0 ) #
+income=array(dim=c(nindiv, Tmax), data = 0 )#
+#these will give storage fraction and reproduction for each individual, given its two states at each time#
+#
+ z=rnorm(nindiv, mean=scale*a*initialsize^3*(storelimit - 0.05), sd=.0005*scale) ## Generate a population (z) of indivdiuals, condition based on weight  (95% of max for size, with some variation)
+idist[,1]=ceiling(z) #this rounds every z up to the nearest integer for the first time step  #
+#idist[,1] is the initial state -- better to use ceiling() than floor()#
+sizedist[,1]<- initialsize   #
+#stores number of survivors at each time#
+#
+reproduction=matrix(0, nindiv, Tmax) #stores how much they reproduce at each time. #
+ #draw random numbers for every individual's survival chance at every time (above or below exp(-mu))  #
+randraw=matrix(runif(nindiv*(Tmax), max=1, min=0), nrow=nindiv, ncol=Tmax)#
+ randraw2=matrix(runif(nindiv*(Tmax), max=1, min=0), nrow=nindiv, ncol=Tmax)
+i=1
+state <- idist[,i] #
+   size <- round(sizedist[,i])  #
+     EstoresmaxL <-scale*a*size^3*storelimit #adjusts stores to the max allowed for the mass at that length#
+     EcritL <-  scale*a*size^3*storemin   #
+        index <- which(state >= EcritL) #which individuals are still alive (didn't starve)
+Ilo <- floor(state[index]/scale)#
+  #these ifelse statemnts deal with the upper boundary on Estores (energetic state):#
+#find the allocation strategies of individuals of these states and age, regardless of   whether they survive  (since they behave first) #
+   Ilo <- ifelse(Ilo >= Estoresmax, Estoresmax-1, Ilo)   #
+   dx <- ifelse(Ilo >= Estoresmax, 1, state[index]/scale - Ilo) #
+      ##NOW WE NEED TO LOOK UP THE OPTIMAL BEHAVIORS FROM THE BACKWARD SOLUTION#
+      #CAREFULLY DEALING WITH THE CASE OF LOW STATE #
+      condind <- Ilo == 0
+g_allo[, i] <- 0
+repro[, i] <- 0
+Wstructure<- a*size[index]^3 #
+    Estructure <- Wstructure*scale#
+    Replim <- Estructure*reprolimit       #
+	Wstores<-state[index]/(scale)#
+	Wtotal <-  Wstores+Wstructure   #body mass
+reproduction[index, i]<- ifelse(repro[index, i]*state[index] < Replim, repro[index, i]*state[index], Replim)    #
+  nextsize <-   ((Wstructure +  g_allo[index,i]*Wstores)/a)^(1/3)#
+	survival <- randraw[index,i] <= exp(-mu[size[index]])   #
+	  critstores <- a*nextsize^3*storemin*scale
+Food<-sapply(ceiling(Wtotal), sto.food) #calculates stochastic food quantity for every index individual#
+ #####future state calculation:#
+	  survival2<- ifelse(((1-repro[index, i]-g_allo[index,i])*state[index] + Food - MTcosts[ceiling(Wtotal)])  > critstores, 1, 0) #check that future state will be greater than current EcritL #
+     idist[index,i+1] <- ifelse(survival+survival2==2, ((1-repro[index, i]-g_allo[index,i])*state[index] + Food - MTcosts[ceiling(Wtotal)]),  NA)#
+  sizedist[index, i+1] <- ifelse(survival+survival2==2,  nextsize, NA)   #
+  alive[group, i+1]=sum(idist[,i+1] > 0, na.rm=TRUE) #number of survivors#
+  income[, i] = Food
+Fod
+Food
+Food<-sapply(ceiling(Wtotal), sto.food) #calculates stochastic food quantity for every index individual#
+ #####future state calculation:#
+	  survival2<- ifelse(((1-repro[index, i]-g_allo[index,i])*state[index] + Food - MTcosts[ceiling(Wtotal)])  > critstores, 1, 0) #check that future state will be greater than current EcritL #
+     idist[index,i+1] <- ifelse(survival+survival2==2, ((1-repro[index, i]-g_allo[index,i])*state[index] + Food - MTcosts[ceiling(Wtotal)]),  NA)#
+  sizedist[index, i+1] <- ifelse(survival+survival2==2,  nextsize, NA)   #
+  alive[group, i+1]=sum(idist[,i+1] > 0, na.rm=TRUE) #number of survivors#
+  income[, i] = Food
+Food/scale
+setwd("~/Documents/tuna_theory_paper/October_run_results/Seasonal")#
+data_files <- list.files(pattern = "\\.csv$")#
+#
+repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
+state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
+length_filenames <- data_files[1:(length(data_files)/4)]#
+surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+surv_filenames <- unique(surv_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+surv_data <- lapply(surv_filenames, read.csv)#
+ Tmax=18#
+ time=1:(Tmax*12)#
+ windowframe=c(2,2)#
+  quartz()#
+   par(mfrow=windowframe)#
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 38), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, Tmax*12), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, (Tmax)*12, by=12), labels = (seq(1, Tmax+1, by=1)))#
+     maxsize <- (min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))) + 1 #
+     age_m <- min(which(as.numeric(data[1, -1]) >= 0.5*as.numeric(data[1, maxsize])))/12 #
+     legend("topleft", legend=paste0("Lmax is ", round(data[1, maxsize]), " cm"), bty="n")#
+          }#
+      mapply(plot_length, length_data, length_filenames)    #
+  # plot_hist <- function(data, filenames) {#
+    # hist(data[, 12], breaks=50, xlim=c(50, 350), main=substr(filenames, 13, 49))#
+  # }#
+  # mapply(plot_hist, length_data, length_filenames)#
+# #   #
+ quartz()#
+   par(mfrow=windowframe)#
+  plot_repro <- function(repro_data, length_data, repro_filenames) {#
+	       matplot(t(repro_data[,-1]), type="l", main= substr(repro_filenames, 8, 23), col="red", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 5.5e+08), xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))#
+     maxsize <- (min(which(as.numeric(repro_data[1, -1]) == max(as.numeric(repro_data[1, -1]), na.rm=TRUE)))) + 1 #
+     #print(maxsize)#
+      age_m <- min(which(as.numeric(repro_data[1, -1]) >= 0.5*as.numeric(repro_data[1, maxsize])), na.rm=TRUE)/12 #
+      size_m <- length_data[1, round(age_m*12)]#
+      #print(size_m)#
+    legend("topleft", legend=c(paste0("Amat_50 is ", round(age_m+1, 2), " years"), paste0("Lmat50 is ", round(size_m), " cm")), bty="n")#
+   # print(round(age_m*12) )#
+     }#
+#
+mapply(plot_repro, repro_data, length_data, repro_filenames)#
+#
+  # quartz()#
+   # par(mfrow=windowframe)#
+  # plot_state <- function(state_data, state_filenames) {#
+     # matplot(t(state_data[,-1]), type="l", main= substr(state_filenames, 8, 23), col="darkgray", lwd=1.75, lty=1,   ylab="State (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 6e+08), xlim=c(0.5, Tmax*12))#
+     # axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))#
+     # }#
+#
+# mapply(plot_state, state_data, state_filenames)#
+#
+#quartz()#
+  # par(mfrow=windowframe) #
+#
+fec.exp <-function(ldata1, rdata2, filenames) {#
+ 	data1 <- as.numeric(ldata1[1,-1])#
+ 	data2 <- as.numeric(rdata2[1, -1])#
+ 	  	matplot(t(log(data1[-216])), t(log(data2[-216])), type="p", col="darkgray", pch=20,   main= substr(filenames, 9, 30),  xlab="ln(Length) ", ylim=c(0, 25), xlim=c(0, 7), ylab="ln(Reproduction) ")#
+ 	 	  max.rep.age = as.numeric(which.max(data2))#
+ 	  print(max.rep.age)#
+ 	  min.rep.age = as.numeric(which.min(data2[-216])) #
+ 	  print(min.rep.age)#
+ 	   m1<-lm(log(data2[c(min.rep.age:max.rep.age)])~log(data1[c(min.rep.age:max.rep.age)]))#
+ 	   b= (log(data2[max.rep.age])-log(data2[min.rep.age])) / (log(data1[max.rep.age]) - log(data1[min.rep.age]) )#
+ 	    a=0#
+ 	  if(is.na(coef(m1)[2])==FALSE) abline(m1)#
+ 	 #abline(a, b)#
+ 	 #print(coef(m1)[2])#
+ 	#val<-paste0("Env is ", substr(filenames, 9, 23),", Slope is ", round(as.numeric(coef(m1)[2]), 3))#
+    legend("topleft",   legend=paste0("slope is ", round(b, 3)), bty="n") #round(as.numeric(coef(m1)[2]), 3)), bty="n")#
+ 	   	} #
+#
+# mapply(fec.exp, length_data, repro_data, length_filenames)#
+quartz()#
+  par(mfrow=windowframe)#
+ surv <- function(data, filenames) {#
+ 	matplot(data[,-1], type="l", main= substr(filenames, 6, 25), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1),xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))#
+ }#
+ 	mapply(surv, surv_data, surv_filenames)#
+    lnsurv <- function(data, filenames) {#
+ 	data1<-as.numeric(data[,2])#
+ 	print(dim(data1))#
+ 	matplot(log(data1[-1]), type="l", main= substr(filenames, 7, 30), col="darkgray", xlab="Age (years)", ylab="ln(Survival)", xaxt="n",  ylim=c(-10, 0), xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1))) #
+   m2<-lm(log(data1[-1])~time[-length(time)])#
+   abline(m2)#
+   print(paste0("Slope is ", round(as.numeric(coef(m2)[2]), 3)))#
+   legend("bottomleft",   legend=paste0("slope is ",round(as.numeric(coef(m2)[2])*12, 3)), bty="n")#
+ }#
+ mapply(lnsurv, surv_data, surv_filenames)
+setwd("~/Documents/tuna_theory_paper/October_run_results/Seasonal")#
+data_files <- list.files(pattern = "\\.csv$")#
+#
+repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
+state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
+length_filenames <- data_files[1:(length(data_files)/4)]#
+surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+surv_filenames <- unique(surv_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+surv_data <- lapply(surv_filenames, read.csv)#
+ Tmax=18#
+ time=1:(Tmax*12)#
+ windowframe=c(3,2)#
+  quartz()#
+   par(mfrow=windowframe)#
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 38), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, Tmax*12), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, (Tmax)*12, by=12), labels = (seq(1, Tmax+1, by=1)))#
+     maxsize <- (min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))) + 1 #
+     age_m <- min(which(as.numeric(data[1, -1]) >= 0.5*as.numeric(data[1, maxsize])))/12 #
+     legend("topleft", legend=paste0("Lmax is ", round(data[1, maxsize]), " cm"), bty="n")#
+          }#
+      mapply(plot_length, length_data, length_filenames)    #
+  # plot_hist <- function(data, filenames) {#
+    # hist(data[, 12], breaks=50, xlim=c(50, 350), main=substr(filenames, 13, 49))#
+  # }#
+  # mapply(plot_hist, length_data, length_filenames)#
+# #   #
+ quartz()#
+   par(mfrow=windowframe)#
+  plot_repro <- function(repro_data, length_data, repro_filenames) {#
+	       matplot(t(repro_data[,-1]), type="l", main= substr(repro_filenames, 8, 23), col="red", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 5.5e+08), xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))#
+     maxsize <- (min(which(as.numeric(repro_data[1, -1]) == max(as.numeric(repro_data[1, -1]), na.rm=TRUE)))) + 1 #
+     #print(maxsize)#
+      age_m <- min(which(as.numeric(repro_data[1, -1]) >= 0.5*as.numeric(repro_data[1, maxsize])), na.rm=TRUE)/12 #
+      size_m <- length_data[1, round(age_m*12)]#
+      #print(size_m)#
+    legend("topleft", legend=c(paste0("Amat_50 is ", round(age_m+1, 2), " years"), paste0("Lmat50 is ", round(size_m), " cm")), bty="n")#
+   # print(round(age_m*12) )#
+     }#
+#
+mapply(plot_repro, repro_data, length_data, repro_filenames)#
+#
+  # quartz()#
+   # par(mfrow=windowframe)#
+  # plot_state <- function(state_data, state_filenames) {#
+     # matplot(t(state_data[,-1]), type="l", main= substr(state_filenames, 8, 23), col="darkgray", lwd=1.75, lty=1,   ylab="State (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 6e+08), xlim=c(0.5, Tmax*12))#
+     # axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))#
+     # }#
+#
+# mapply(plot_state, state_data, state_filenames)#
+#
+#quartz()#
+  # par(mfrow=windowframe) #
+#
+fec.exp <-function(ldata1, rdata2, filenames) {#
+ 	data1 <- as.numeric(ldata1[1,-1])#
+ 	data2 <- as.numeric(rdata2[1, -1])#
+ 	  	matplot(t(log(data1[-216])), t(log(data2[-216])), type="p", col="darkgray", pch=20,   main= substr(filenames, 9, 30),  xlab="ln(Length) ", ylim=c(0, 25), xlim=c(0, 7), ylab="ln(Reproduction) ")#
+ 	 	  max.rep.age = as.numeric(which.max(data2))#
+ 	  print(max.rep.age)#
+ 	  min.rep.age = as.numeric(which.min(data2[-216])) #
+ 	  print(min.rep.age)#
+ 	   m1<-lm(log(data2[c(min.rep.age:max.rep.age)])~log(data1[c(min.rep.age:max.rep.age)]))#
+ 	   b= (log(data2[max.rep.age])-log(data2[min.rep.age])) / (log(data1[max.rep.age]) - log(data1[min.rep.age]) )#
+ 	    a=0#
+ 	  if(is.na(coef(m1)[2])==FALSE) abline(m1)#
+ 	 #abline(a, b)#
+ 	 #print(coef(m1)[2])#
+ 	#val<-paste0("Env is ", substr(filenames, 9, 23),", Slope is ", round(as.numeric(coef(m1)[2]), 3))#
+    legend("topleft",   legend=paste0("slope is ", round(b, 3)), bty="n") #round(as.numeric(coef(m1)[2]), 3)), bty="n")#
+ 	   	} #
+#
+# mapply(fec.exp, length_data, repro_data, length_filenames)#
+quartz()#
+  par(mfrow=windowframe)#
+ surv <- function(data, filenames) {#
+ 	matplot(data[,-1], type="l", main= substr(filenames, 6, 25), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1),xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))#
+ }#
+ 	mapply(surv, surv_data, surv_filenames)#
+    lnsurv <- function(data, filenames) {#
+ 	data1<-as.numeric(data[,2])#
+ 	print(dim(data1))#
+ 	matplot(log(data1[-1]), type="l", main= substr(filenames, 7, 30), col="darkgray", xlab="Age (years)", ylab="ln(Survival)", xaxt="n",  ylim=c(-10, 0), xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1))) #
+   m2<-lm(log(data1[-1])~time[-length(time)])#
+   abline(m2)#
+   print(paste0("Slope is ", round(as.numeric(coef(m2)[2]), 3)))#
+   legend("bottomleft",   legend=paste0("slope is ",round(as.numeric(coef(m2)[2])*12, 3)), bty="n")#
+ }#
+ mapply(lnsurv, surv_data, surv_filenames)
+setwd("~/Documents/tuna_theory_paper/October_run_results/Length_data	")#
+data_files <- list.files(pattern = "\\.csv$")#
+#
+repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
+state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
+length_filenames <- data_files[1:(length(data_files)/4)]#
+surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+surv_filenames <- unique(surv_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+surv_data <- lapply(surv_filenames, read.csv)#
+ Tmax=18#
+ time=1:(Tmax*12)#
+ windowframe=c(3,2)#
+  quartz()#
+   par(mfrow=windowframe)#
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 38), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, Tmax*12), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, (Tmax)*12, by=12), labels = (seq(1, Tmax+1, by=1)))#
+     maxsize <- (min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))) + 1 #
+     age_m <- min(which(as.numeric(data[1, -1]) >= 0.5*as.numeric(data[1, maxsize])))/12 #
+     legend("topleft", legend=paste0("Lmax is ", round(data[1, maxsize]), " cm"), bty="n")#
+          }#
+      mapply(plot_length, length_data, length_filenames)
+length_filenames
+rm(ls(all=TRUE))
+setwd("~/Documents/tuna_theory_paper/October_run_results/Length_data")#
+data_files <- list.files(pattern = "\\.csv$")#
+#
+repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
+state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
+length_filenames <- data_files[1:(length(data_files)/4)]#
+surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+surv_filenames <- unique(surv_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+surv_data <- lapply(surv_filenames, read.csv)#
+ Tmax=18#
+ time=1:(Tmax*12)#
+ windowframe=c(3,2)#
+  quartz()#
+   par(mfrow=windowframe)#
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 38), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, Tmax*12), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, (Tmax)*12, by=12), labels = (seq(1, Tmax+1, by=1)))#
+     maxsize <- (min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))) + 1 #
+     age_m <- min(which(as.numeric(data[1, -1]) >= 0.5*as.numeric(data[1, maxsize])))/12 #
+     legend("topleft", legend=paste0("Lmax is ", round(data[1, maxsize]), " cm"), bty="n")#
+          }#
+      mapply(plot_length, length_data, length_filenames)
+setwd("~/Documents/tuna_theory_paper/October_run_results/Length_data")#
+data_files <- list.files(pattern = "\\.csv$")#
+#
+repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
+state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
+length_filenames <- data_files[1:(length(data_files)/4)]#
+surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+surv_filenames <- unique(surv_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+surv_data <- lapply(surv_filenames, read.csv)#
+ Tmax=18#
+ time=1:(Tmax*12)#
+ windowframe=c(3,2)#
+  quartz()#
+   par(mfrow=windowframe)#
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 38), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, Tmax*12), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, (Tmax)*12, by=12), labels = (seq(1, Tmax+1, by=1)))#
+     maxsize <- (min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))) + 1 #
+     age_m <- min(which(as.numeric(data[1, -1]) >= 0.5*as.numeric(data[1, maxsize])))/12 #
+     legend("topleft", legend=paste0("Lmax is ", round(data[1, maxsize]), " cm"), bty="n")#
+          }#
+      mapply(plot_length, length_data, length_filenames)
+quartz()#
+   par(mfrow=windowframe)#
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 38), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, Tmax*12), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, (Tmax)*12, by=12), labels = (seq(1, Tmax+1, by=1)))#
+     maxsize <- (min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))) + 1 #
+     age_m <- min(which(as.numeric(data[1, -1]) >= 0.5*as.numeric(data[1, maxsize])))/12 #
+     legend("topleft", legend=paste0("Lmax is ", round(data[1, maxsize]), " cm"), bty="n")#
+          }#
+      mapply(plot_length, length_data, length_filenames)
+length_filenames
+setwd("~/Documents/tuna_theory_paper/October_run_results/Length_data")#
+data_files <- list.files(pattern = "\\.csv$")#
+#
+repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
+state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
+length_filenames <- data_files[1:(length(data_files))]#
+surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+surv_filenames <- unique(surv_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+surv_data <- lapply(surv_filenames, read.csv)#
+ Tmax=18#
+ time=1:(Tmax*12)#
+ windowframe=c(3,2)#
+  quartz()#
+   par(mfrow=windowframe)#
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 38), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, Tmax*12), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, (Tmax)*12, by=12), labels = (seq(1, Tmax+1, by=1)))#
+     maxsize <- (min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))) + 1 #
+     age_m <- min(which(as.numeric(data[1, -1]) >= 0.5*as.numeric(data[1, maxsize])))/12 #
+     legend("topleft", legend=paste0("Lmax is ", round(data[1, maxsize]), " cm"), bty="n")#
+          }#
+      mapply(plot_length, length_data, length_filenames)
+matplot(t(data[,-1]), type="l", main=substr(filenames, 2, 38), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, Tmax*12), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, (Tmax)*12, by=12), labels = (seq(1, Tmax+1, by=1)))#
+     maxsize <- (min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))) + 1 #
+     age_m <- min(which(as.numeric(data[1, -1]) >= 0.5*as.numeric(data[1, maxsize])))/12 #
+     legend("topleft", legend=paste0("Lmax is ", round(data[1, maxsize]), " cm"), bty="n")#
+          }#
+      mapply(plot_length, length_data, length_filenames)
+setwd("~/Documents/tuna_theory_paper/October_run_results/Length_data")#
+data_files <- list.files(pattern = "\\.csv$")#
+#
+repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
+state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
+length_filenames <- data_files[1:(length(data_files))]#
+surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+surv_filenames <- unique(surv_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+surv_data <- lapply(surv_filenames, read.csv)#
+ Tmax=18#
+ time=1:(Tmax*12)#
+ windowframe=c(3,2)
+setwd("~/Documents/tuna_theory_paper/October_run_results/seasonal/295")#
+data_files <- list.files(pattern = "\\.csv$")#
+#
+repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
+state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
+length_filenames <- data_files[1:(length(data_files))/4]#
+surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+surv_filenames <- unique(surv_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+surv_data <- lapply(surv_filenames, read.csv)#
+ Tmax=18#
+ time=1:(Tmax*12)#
+ windowframe=c(3,1)#
+  quartz()#
+   par(mfrow=windowframe)#
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 2, 38), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, Tmax*12), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, (Tmax)*12, by=12), labels = (seq(1, Tmax+1, by=1)))#
+     maxsize <- (min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))) + 1 #
+     age_m <- min(which(as.numeric(data[1, -1]) >= 0.5*as.numeric(data[1, maxsize])))/12 #
+     legend("topleft", legend=paste0("Lmax is ", round(data[1, maxsize]), " cm"), bty="n")#
+          }#
+      mapply(plot_length, length_data, length_filenames)    #
+  # plot_hist <- function(data, filenames) {#
+    # hist(data[, 12], breaks=50, xlim=c(50, 350), main=substr(filenames, 13, 49))#
+  # }#
+  # mapply(plot_hist, length_data, length_filenames)#
+# #   #
+ quartz()#
+   par(mfrow=windowframe)#
+  plot_repro <- function(repro_data, length_data, repro_filenames) {#
+	       matplot(t(repro_data[,-1]), type="l", main= substr(repro_filenames, 8, 23), col="red", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 5.5e+08), xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))#
+     maxsize <- (min(which(as.numeric(repro_data[1, -1]) == max(as.numeric(repro_data[1, -1]), na.rm=TRUE)))) + 1 #
+     #print(maxsize)#
+      age_m <- min(which(as.numeric(repro_data[1, -1]) >= 0.5*as.numeric(repro_data[1, maxsize])), na.rm=TRUE)/12 #
+      size_m <- length_data[1, round(age_m*12)]#
+      #print(size_m)#
+    legend("topleft", legend=c(paste0("Amat_50 is ", round(age_m+1, 2), " years"), paste0("Lmat50 is ", round(size_m), " cm")), bty="n")#
+   # print(round(age_m*12) )#
+     }#
+#
+mapply(plot_repro, repro_data, length_data, repro_filenames)#
+#
+  # quartz()#
+   # par(mfrow=windowframe)#
+  # plot_state <- function(state_data, state_filenames) {#
+     # matplot(t(state_data[,-1]), type="l", main= substr(state_filenames, 8, 23), col="darkgray", lwd=1.75, lty=1,   ylab="State (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 6e+08), xlim=c(0.5, Tmax*12))#
+     # axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))#
+     # }#
+#
+# mapply(plot_state, state_data, state_filenames)#
+#
+#quartz()#
+  # par(mfrow=windowframe) #
+#
+fec.exp <-function(ldata1, rdata2, filenames) {#
+ 	data1 <- as.numeric(ldata1[1,-1])#
+ 	data2 <- as.numeric(rdata2[1, -1])#
+ 	  	matplot(t(log(data1[-216])), t(log(data2[-216])), type="p", col="darkgray", pch=20,   main= substr(filenames, 9, 30),  xlab="ln(Length) ", ylim=c(0, 25), xlim=c(0, 7), ylab="ln(Reproduction) ")#
+ 	 	  max.rep.age = as.numeric(which.max(data2))#
+ 	  print(max.rep.age)#
+ 	  min.rep.age = as.numeric(which.min(data2[-216])) #
+ 	  print(min.rep.age)#
+ 	   m1<-lm(log(data2[c(min.rep.age:max.rep.age)])~log(data1[c(min.rep.age:max.rep.age)]))#
+ 	   b= (log(data2[max.rep.age])-log(data2[min.rep.age])) / (log(data1[max.rep.age]) - log(data1[min.rep.age]) )#
+ 	    a=0#
+ 	  if(is.na(coef(m1)[2])==FALSE) abline(m1)#
+ 	 #abline(a, b)#
+ 	 #print(coef(m1)[2])#
+ 	#val<-paste0("Env is ", substr(filenames, 9, 23),", Slope is ", round(as.numeric(coef(m1)[2]), 3))#
+    legend("topleft",   legend=paste0("slope is ", round(b, 3)), bty="n") #round(as.numeric(coef(m1)[2]), 3)), bty="n")#
+ 	   	} #
+#
+# mapply(fec.exp, length_data, repro_data, length_filenames)#
+quartz()#
+  par(mfrow=windowframe)#
+ surv <- function(data, filenames) {#
+ 	matplot(data[,-1], type="l", main= substr(filenames, 6, 25), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1),xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))#
+ }#
+ 	mapply(surv, surv_data, surv_filenames)#
+    lnsurv <- function(data, filenames) {#
+ 	data1<-as.numeric(data[,2])#
+ 	print(dim(data1))#
+ 	matplot(log(data1[-1]), type="l", main= substr(filenames, 7, 30), col="darkgray", xlab="Age (years)", ylab="ln(Survival)", xaxt="n",  ylim=c(-10, 0), xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1))) #
+   m2<-lm(log(data1[-1])~time[-length(time)])#
+   abline(m2)#
+   print(paste0("Slope is ", round(as.numeric(coef(m2)[2]), 3)))#
+   legend("bottomleft",   legend=paste0("slope is ",round(as.numeric(coef(m2)[2])*12, 3)), bty="n")#
+ }#
+ mapply(lnsurv, surv_data, surv_filenames)
+setwd("~/Documents/tuna_theory_paper/October_run_results/seasonal/Temp295")#
+data_files <- list.files(pattern = "\\.csv$")#
+#
+repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
+state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
+length_filenames <- data_files[1:(length(data_files))/4]#
+surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+surv_filenames <- unique(surv_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+surv_data <- lapply(surv_filenames, read.csv)#
+ Tmax=18#
+ time=1:(Tmax*12)#
+ windowframe=c(3,1)#
+  quartz()#
+   par(mfrow=windowframe)#
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 2, 38), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, Tmax*12), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, (Tmax)*12, by=12), labels = (seq(1, Tmax+1, by=1)))#
+     maxsize <- (min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))) + 1 #
+     age_m <- min(which(as.numeric(data[1, -1]) >= 0.5*as.numeric(data[1, maxsize])))/12 #
+     legend("topleft", legend=paste0("Lmax is ", round(data[1, maxsize]), " cm"), bty="n")#
+          }#
+      mapply(plot_length, length_data, length_filenames)    #
+  # plot_hist <- function(data, filenames) {#
+    # hist(data[, 12], breaks=50, xlim=c(50, 350), main=substr(filenames, 13, 49))#
+  # }#
+  # mapply(plot_hist, length_data, length_filenames)#
+# #   #
+ quartz()#
+   par(mfrow=windowframe)#
+  plot_repro <- function(repro_data, length_data, repro_filenames) {#
+	       matplot(t(repro_data[,-1]), type="l", main= substr(repro_filenames, 8, 23), col="red", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 5.5e+08), xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))#
+     maxsize <- (min(which(as.numeric(repro_data[1, -1]) == max(as.numeric(repro_data[1, -1]), na.rm=TRUE)))) + 1 #
+     #print(maxsize)#
+      age_m <- min(which(as.numeric(repro_data[1, -1]) >= 0.5*as.numeric(repro_data[1, maxsize])), na.rm=TRUE)/12 #
+      size_m <- length_data[1, round(age_m*12)]#
+      #print(size_m)#
+    legend("topleft", legend=c(paste0("Amat_50 is ", round(age_m+1, 2), " years"), paste0("Lmat50 is ", round(size_m), " cm")), bty="n")#
+   # print(round(age_m*12) )#
+     }#
+#
+mapply(plot_repro, repro_data, length_data, repro_filenames)#
+#
+  # quartz()#
+   # par(mfrow=windowframe)#
+  # plot_state <- function(state_data, state_filenames) {#
+     # matplot(t(state_data[,-1]), type="l", main= substr(state_filenames, 8, 23), col="darkgray", lwd=1.75, lty=1,   ylab="State (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 6e+08), xlim=c(0.5, Tmax*12))#
+     # axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))#
+     # }#
+#
+# mapply(plot_state, state_data, state_filenames)#
+#
+#quartz()#
+  # par(mfrow=windowframe) #
+#
+fec.exp <-function(ldata1, rdata2, filenames) {#
+ 	data1 <- as.numeric(ldata1[1,-1])#
+ 	data2 <- as.numeric(rdata2[1, -1])#
+ 	  	matplot(t(log(data1[-216])), t(log(data2[-216])), type="p", col="darkgray", pch=20,   main= substr(filenames, 9, 30),  xlab="ln(Length) ", ylim=c(0, 25), xlim=c(0, 7), ylab="ln(Reproduction) ")#
+ 	 	  max.rep.age = as.numeric(which.max(data2))#
+ 	  print(max.rep.age)#
+ 	  min.rep.age = as.numeric(which.min(data2[-216])) #
+ 	  print(min.rep.age)#
+ 	   m1<-lm(log(data2[c(min.rep.age:max.rep.age)])~log(data1[c(min.rep.age:max.rep.age)]))#
+ 	   b= (log(data2[max.rep.age])-log(data2[min.rep.age])) / (log(data1[max.rep.age]) - log(data1[min.rep.age]) )#
+ 	    a=0#
+ 	  if(is.na(coef(m1)[2])==FALSE) abline(m1)#
+ 	 #abline(a, b)#
+ 	 #print(coef(m1)[2])#
+ 	#val<-paste0("Env is ", substr(filenames, 9, 23),", Slope is ", round(as.numeric(coef(m1)[2]), 3))#
+    legend("topleft",   legend=paste0("slope is ", round(b, 3)), bty="n") #round(as.numeric(coef(m1)[2]), 3)), bty="n")#
+ 	   	} #
+#
+# mapply(fec.exp, length_data, repro_data, length_filenames)#
+quartz()#
+  par(mfrow=windowframe)#
+ surv <- function(data, filenames) {#
+ 	matplot(data[,-1], type="l", main= substr(filenames, 6, 25), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1),xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))#
+ }#
+ 	mapply(surv, surv_data, surv_filenames)#
+    lnsurv <- function(data, filenames) {#
+ 	data1<-as.numeric(data[,2])#
+ 	print(dim(data1))#
+ 	matplot(log(data1[-1]), type="l", main= substr(filenames, 7, 30), col="darkgray", xlab="Age (years)", ylab="ln(Survival)", xaxt="n",  ylim=c(-10, 0), xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1))) #
+   m2<-lm(log(data1[-1])~time[-length(time)])#
+   abline(m2)#
+   print(paste0("Slope is ", round(as.numeric(coef(m2)[2]), 3)))#
+   legend("bottomleft",   legend=paste0("slope is ",round(as.numeric(coef(m2)[2])*12, 3)), bty="n")#
+ }#
+ mapply(lnsurv, surv_data, surv_filenames)
+plot_length <- function(data, filenames) {
+matplot(t(data[,-1]), type="l", main=substr(filenames, 2, 38), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, Tmax*12), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, (Tmax)*12, by=12), labels = (seq(1, Tmax+1, by=1)))#
+     maxsize <- (min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))) + 1 #
+     age_m <- min(which(as.numeric(data[1, -1]) >= 0.5*as.numeric(data[1, maxsize])))/12 #
+     legend("topleft", legend=paste0("Lmax is ", round(data[1, maxsize]), " cm"), bty="n")#
+          }#
+      mapply(plot_length, length_data, length_filenames)
+# #   #
+ quartz()#
+   par(mfrow=windowframe)#
+  plot_repro <- function(repro_data, length_data, repro_filenames) {#
+	       matplot(t(repro_data[,-1]), type="l", main= substr(repro_filenames, 8, 23), col="red", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 5.5e+08), xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))#
+     maxsize <- (min(which(as.numeric(repro_data[1, -1]) == max(as.numeric(repro_data[1, -1]), na.rm=TRUE)))) + 1 #
+     #print(maxsize)#
+      age_m <- min(which(as.numeric(repro_data[1, -1]) >= 0.5*as.numeric(repro_data[1, maxsize])), na.rm=TRUE)/12 #
+      size_m <- length_data[1, round(age_m*12)]#
+      #print(size_m)#
+    legend("topleft", legend=c(paste0("Amat_50 is ", round(age_m+1, 2), " years"), paste0("Lmat50 is ", round(size_m), " cm")), bty="n")#
+   # print(round(age_m*12) )#
+     }
+mapply(plot_repro, repro_data, length_data, repro_filenames)
+quartz()#
+   par(mfrow=windowframe)#
+  plot_repro <- function(repro_data, length_data, repro_filenames) {#
+	       matplot(t(repro_data[,-1]), type="l", main= substr(repro_filenames, 8, 23), col="red", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n",  xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))#
+     maxsize <- (min(which(as.numeric(repro_data[1, -1]) == max(as.numeric(repro_data[1, -1]), na.rm=TRUE)))) + 1 #
+     #print(maxsize)#
+      age_m <- min(which(as.numeric(repro_data[1, -1]) >= 0.5*as.numeric(repro_data[1, maxsize])), na.rm=TRUE)/12 #
+      size_m <- length_data[1, round(age_m*12)]#
+      #print(size_m)#
+    legend("topleft", legend=c(paste0("Amat_50 is ", round(age_m+1, 2), " years"), paste0("Lmat50 is ", round(size_m), " cm")), bty="n")#
+   # print(round(age_m*12) )#
+     }#
+#
+mapply(plot_repro, repro_data, length_data, repro_filenames)#
+#
+  # quartz()#
+   # par(mfrow=windowframe)#
+  # plot_state <- function(state_data, state_filenames) {#
+     # matplot(t(state_data[,-1]), type="l", main= substr(state_filenames, 8, 23), col="darkgray", lwd=1.75, lty=1,   ylab="State (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 6e+08), xlim=c(0.5, Tmax*12))#
+     # axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))#
+     # }#
+#
+# mapply(plot_state, state_data, state_filenames)#
+#
+#quartz()#
+  # par(mfrow=windowframe) #
+#
+fec.exp <-function(ldata1, rdata2, filenames) {#
+ 	data1 <- as.numeric(ldata1[1,-1])#
+ 	data2 <- as.numeric(rdata2[1, -1])#
+ 	  	matplot(t(log(data1[-216])), t(log(data2[-216])), type="p", col="darkgray", pch=20,   main= substr(filenames, 9, 30),  xlab="ln(Length) ", ylim=c(0, 25), xlim=c(0, 7), ylab="ln(Reproduction) ")#
+ 	 	  max.rep.age = as.numeric(which.max(data2))#
+ 	  print(max.rep.age)#
+ 	  min.rep.age = as.numeric(which.min(data2[-216])) #
+ 	  print(min.rep.age)#
+ 	   m1<-lm(log(data2[c(min.rep.age:max.rep.age)])~log(data1[c(min.rep.age:max.rep.age)]))#
+ 	   b= (log(data2[max.rep.age])-log(data2[min.rep.age])) / (log(data1[max.rep.age]) - log(data1[min.rep.age]) )#
+ 	    a=0#
+ 	  if(is.na(coef(m1)[2])==FALSE) abline(m1)#
+ 	 #abline(a, b)#
+ 	 #print(coef(m1)[2])#
+ 	#val<-paste0("Env is ", substr(filenames, 9, 23),", Slope is ", round(as.numeric(coef(m1)[2]), 3))#
+    legend("topleft",   legend=paste0("slope is ", round(b, 3)), bty="n") #round(as.numeric(coef(m1)[2]), 3)), bty="n")#
+ 	   	} #
+#
+# mapply(fec.exp, length_data, repro_data, length_filenames)#
+quartz()#
+  par(mfrow=windowframe)#
+ surv <- function(data, filenames) {#
+ 	matplot(data[,-1], type="l", main= substr(filenames, 6, 25), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1),xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))#
+ }#
+ 	mapply(surv, surv_data, surv_filenames)#
+    lnsurv <- function(data, filenames) {#
+ 	data1<-as.numeric(data[,2])#
+ 	print(dim(data1))#
+ 	matplot(log(data1[-1]), type="l", main= substr(filenames, 7, 30), col="darkgray", xlab="Age (years)", ylab="ln(Survival)", xaxt="n",  ylim=c(-10, 0), xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1))) #
+   m2<-lm(log(data1[-1])~time[-length(time)])#
+   abline(m2)#
+   print(paste0("Slope is ", round(as.numeric(coef(m2)[2]), 3)))#
+   legend("bottomleft",   legend=paste0("slope is ",round(as.numeric(coef(m2)[2])*12, 3)), bty="n")#
+ }#
+ mapply(lnsurv, surv_data, surv_filenames)
+mapply(plot_length, length_data, length_filenames)
+setwd("~/Documents/tuna_theory_paper/October_run_results/seasonal/Temp290")#
+data_files <- list.files(pattern = "\\.csv$")#
+#
+repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
+state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
+length_filenames <- data_files[1:(length(data_files))/4]#
+surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+surv_filenames <- unique(surv_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+surv_data <- lapply(surv_filenames, read.csv)#
+ Tmax=18#
+ time=1:(Tmax*12)#
+ windowframe=c(3,1)#
+  quartz()#
+   par(mfrow=windowframe)#
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 2, 38), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, Tmax*12), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, (Tmax)*12, by=12), labels = (seq(1, Tmax+1, by=1)))#
+     maxsize <- (min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))) + 1 #
+     age_m <- min(which(as.numeric(data[1, -1]) >= 0.5*as.numeric(data[1, maxsize])))/12 #
+     legend("topleft", legend=paste0("Lmax is ", round(data[1, maxsize]), " cm"), bty="n")#
+          }#
+      mapply(plot_length, length_data, length_filenames)    #
+  # plot_hist <- function(data, filenames) {#
+    # hist(data[, 12], breaks=50, xlim=c(50, 350), main=substr(filenames, 13, 49))#
+  # }#
+  # mapply(plot_hist, length_data, length_filenames)#
+# #   #
+ quartz()#
+   par(mfrow=windowframe)#
+  plot_repro <- function(repro_data, length_data, repro_filenames) {#
+	       matplot(t(repro_data[,-1]), type="l", main= substr(repro_filenames, 8, 23), col="red", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n",  xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))#
+     maxsize <- (min(which(as.numeric(repro_data[1, -1]) == max(as.numeric(repro_data[1, -1]), na.rm=TRUE)))) + 1 #
+     #print(maxsize)#
+      age_m <- min(which(as.numeric(repro_data[1, -1]) >= 0.5*as.numeric(repro_data[1, maxsize])), na.rm=TRUE)/12 #
+      size_m <- length_data[1, round(age_m*12)]#
+      #print(size_m)#
+    legend("topleft", legend=c(paste0("Amat_50 is ", round(age_m+1, 2), " years"), paste0("Lmat50 is ", round(size_m), " cm")), bty="n")#
+   # print(round(age_m*12) )#
+     }#
+#
+mapply(plot_repro, repro_data, length_data, repro_filenames)#
+#
+  # quartz()#
+   # par(mfrow=windowframe)#
+  # plot_state <- function(state_data, state_filenames) {#
+     # matplot(t(state_data[,-1]), type="l", main= substr(state_filenames, 8, 23), col="darkgray", lwd=1.75, lty=1,   ylab="State (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 6e+08), xlim=c(0.5, Tmax*12))#
+     # axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))#
+     # }#
+#
+# mapply(plot_state, state_data, state_filenames)#
+#
+#quartz()#
+  # par(mfrow=windowframe) #
+#
+fec.exp <-function(ldata1, rdata2, filenames) {#
+ 	data1 <- as.numeric(ldata1[1,-1])#
+ 	data2 <- as.numeric(rdata2[1, -1])#
+ 	  	matplot(t(log(data1[-216])), t(log(data2[-216])), type="p", col="darkgray", pch=20,   main= substr(filenames, 9, 30),  xlab="ln(Length) ", ylim=c(0, 25), xlim=c(0, 7), ylab="ln(Reproduction) ")#
+ 	 	  max.rep.age = as.numeric(which.max(data2))#
+ 	  print(max.rep.age)#
+ 	  min.rep.age = as.numeric(which.min(data2[-216])) #
+ 	  print(min.rep.age)#
+ 	   m1<-lm(log(data2[c(min.rep.age:max.rep.age)])~log(data1[c(min.rep.age:max.rep.age)]))#
+ 	   b= (log(data2[max.rep.age])-log(data2[min.rep.age])) / (log(data1[max.rep.age]) - log(data1[min.rep.age]) )#
+ 	    a=0#
+ 	  if(is.na(coef(m1)[2])==FALSE) abline(m1)#
+ 	 #abline(a, b)#
+ 	 #print(coef(m1)[2])#
+ 	#val<-paste0("Env is ", substr(filenames, 9, 23),", Slope is ", round(as.numeric(coef(m1)[2]), 3))#
+    legend("topleft",   legend=paste0("slope is ", round(b, 3)), bty="n") #round(as.numeric(coef(m1)[2]), 3)), bty="n")#
+ 	   	} #
+#
+# mapply(fec.exp, length_data, repro_data, length_filenames)#
+quartz()#
+  par(mfrow=windowframe)#
+ surv <- function(data, filenames) {#
+ 	matplot(data[,-1], type="l", main= substr(filenames, 6, 25), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1),xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))#
+ }#
+ 	mapply(surv, surv_data, surv_filenames)#
+    lnsurv <- function(data, filenames) {#
+ 	data1<-as.numeric(data[,2])#
+ 	print(dim(data1))#
+ 	matplot(log(data1[-1]), type="l", main= substr(filenames, 7, 30), col="darkgray", xlab="Age (years)", ylab="ln(Survival)", xaxt="n",  ylim=c(-10, 0), xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1))) #
+   m2<-lm(log(data1[-1])~time[-length(time)])#
+   abline(m2)#
+   print(paste0("Slope is ", round(as.numeric(coef(m2)[2]), 3)))#
+   legend("bottomleft",   legend=paste0("slope is ",round(as.numeric(coef(m2)[2])*12, 3)), bty="n")#
+ }#
+ mapply(lnsurv, surv_data, surv_filenames)
+quartz()#
+   par(mfrow=windowframe)#
+  plot_repro <- function(repro_data, length_data, repro_filenames) {#
+	       matplot(t(repro_data[,-1]), type="l", main= substr(repro_filenames, 8, 23), col="red", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n",  xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))#
+     maxsize <- (min(which(as.numeric(repro_data[1, -1]) == max(as.numeric(repro_data[1, -1]), na.rm=TRUE)))) + 1 #
+     #print(maxsize)#
+      age_m <- 13#min(which(as.numeric(repro_data[1, -1]) >= 0.5*as.numeric(repro_data[1, maxsize])), na.rm=TRUE)/12 #
+      size_m <- 13#length_data[1, round(age_m*12)]#
+      #print(size_m)#
+    legend("topleft", legend=c(paste0("Amat_50 is ", round(age_m+1, 2), " years"), paste0("Lmat50 is ", round(size_m), " cm")), bty="n")#
+   # print(round(age_m*12) )#
+     }#
+#
+mapply(plot_repro, repro_data, length_data, repro_filenames)
+quartz()#
+   par(mfrow=windowframe)#
+  plot_repro <- function(repro_data, length_data, repro_filenames) {#
+	       matplot(t(repro_data[,-1]), type="l", main= substr(repro_filenames, 8, 23), col="red", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n",  xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))#
+     maxsize <- (min(which(as.numeric(repro_data[1, -1]) == max(as.numeric(repro_data[1, -1]), na.rm=TRUE)))) + 1 #
+     #print(maxsize)#
+      age_m <- 12#min(which(as.numeric(repro_data[1, -1]) >= 0.5*as.numeric(repro_data[1, maxsize])), na.rm=TRUE)/12 #
+      size_m <- length_data[1, round(age_m*12)]#
+      #print(size_m)#
+    legend("topleft", legend=c(paste0("Amat_50 is ", round(age_m+1, 2), " years"), paste0("Lmat50 is ", round(size_m), " cm")), bty="n")#
+   # print(round(age_m*12) )#
+     }#
+#
+mapply(plot_repro, repro_data, length_data, repro_filenames)
+setwd("~/Documents/tuna_theory_paper/October_run_results/seasonal/Temp295")#
+data_files <- list.files(pattern = "\\.csv$")#
+#
+repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
+state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
+length_filenames <- data_files[1:(length(data_files))/4]#
+surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+surv_filenames <- unique(surv_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+surv_data <- lapply(surv_filenames, read.csv)#
+ Tmax=18#
+ time=1:(Tmax*12)#
+ windowframe=c(3,1)#
+  quartz()#
+   par(mfrow=windowframe)#
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 2, 38), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, Tmax*12), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, (Tmax)*12, by=12), labels = (seq(1, Tmax+1, by=1)))#
+     maxsize <- (min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))) + 1 #
+     age_m <- min(which(as.numeric(data[1, -1]) >= 0.5*as.numeric(data[1, maxsize])))/12 #
+     legend("topleft", legend=paste0("Lmax is ", round(data[1, maxsize]), " cm"), bty="n")#
+          }#
+      mapply(plot_length, length_data, length_filenames)    #
+  # plot_hist <- function(data, filenames) {#
+    # hist(data[, 12], breaks=50, xlim=c(50, 350), main=substr(filenames, 13, 49))#
+  # }#
+  # mapply(plot_hist, length_data, length_filenames)#
+# #   #
+ quartz()#
+   par(mfrow=windowframe)#
+  plot_repro <- function(repro_data, length_data, repro_filenames) {#
+	       matplot(t(repro_data[,-1]), type="l", main= substr(repro_filenames, 8, 23), col="red", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n",  xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))#
+     maxsize <- (min(which(as.numeric(repro_data[1, -1]) == max(as.numeric(repro_data[1, -1]), na.rm=TRUE)))) + 1 #
+     #print(maxsize)#
+      age_m <- 12#min(which(as.numeric(repro_data[1, -1]) >= 0.5*as.numeric(repro_data[1, maxsize])), na.rm=TRUE)/12 #
+      size_m <- length_data[1, round(age_m*12)]#
+      #print(size_m)#
+    legend("topleft", legend=c(paste0("Amat_50 is ", round(age_m+1, 2), " years"), paste0("Lmat50 is ", round(size_m), " cm")), bty="n")#
+   # print(round(age_m*12) )#
+     }#
+#
+mapply(plot_repro, repro_data, length_data, repro_filenames)#
+#
+  # quartz()#
+   # par(mfrow=windowframe)#
+  # plot_state <- function(state_data, state_filenames) {#
+     # matplot(t(state_data[,-1]), type="l", main= substr(state_filenames, 8, 23), col="darkgray", lwd=1.75, lty=1,   ylab="State (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 6e+08), xlim=c(0.5, Tmax*12))#
+     # axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))#
+     # }#
+#
+# mapply(plot_state, state_data, state_filenames)#
+#
+#quartz()#
+  # par(mfrow=windowframe) #
+#
+fec.exp <-function(ldata1, rdata2, filenames) {#
+ 	data1 <- as.numeric(ldata1[1,-1])#
+ 	data2 <- as.numeric(rdata2[1, -1])#
+ 	  	matplot(t(log(data1[-216])), t(log(data2[-216])), type="p", col="darkgray", pch=20,   main= substr(filenames, 9, 30),  xlab="ln(Length) ", ylim=c(0, 25), xlim=c(0, 7), ylab="ln(Reproduction) ")#
+ 	 	  max.rep.age = as.numeric(which.max(data2))#
+ 	  print(max.rep.age)#
+ 	  min.rep.age = as.numeric(which.min(data2[-216])) #
+ 	  print(min.rep.age)#
+ 	   m1<-lm(log(data2[c(min.rep.age:max.rep.age)])~log(data1[c(min.rep.age:max.rep.age)]))#
+ 	   b= (log(data2[max.rep.age])-log(data2[min.rep.age])) / (log(data1[max.rep.age]) - log(data1[min.rep.age]) )#
+ 	    a=0#
+ 	  if(is.na(coef(m1)[2])==FALSE) abline(m1)#
+ 	 #abline(a, b)#
+ 	 #print(coef(m1)[2])#
+ 	#val<-paste0("Env is ", substr(filenames, 9, 23),", Slope is ", round(as.numeric(coef(m1)[2]), 3))#
+    legend("topleft",   legend=paste0("slope is ", round(b, 3)), bty="n") #round(as.numeric(coef(m1)[2]), 3)), bty="n")#
+ 	   	} #
+#
+# mapply(fec.exp, length_data, repro_data, length_filenames)#
+quartz()#
+  par(mfrow=windowframe)#
+ surv <- function(data, filenames) {#
+ 	matplot(data[,-1], type="l", main= substr(filenames, 6, 25), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1),xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))#
+ }#
+ 	mapply(surv, surv_data, surv_filenames)#
+    lnsurv <- function(data, filenames) {#
+ 	data1<-as.numeric(data[,2])#
+ 	print(dim(data1))#
+ 	matplot(log(data1[-1]), type="l", main= substr(filenames, 7, 30), col="darkgray", xlab="Age (years)", ylab="ln(Survival)", xaxt="n",  ylim=c(-10, 0), xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1))) #
+   m2<-lm(log(data1[-1])~time[-length(time)])#
+   abline(m2)#
+   print(paste0("Slope is ", round(as.numeric(coef(m2)[2]), 3)))#
+   legend("bottomleft",   legend=paste0("slope is ",round(as.numeric(coef(m2)[2])*12, 3)), bty="n")#
+ }#
+ mapply(lnsurv, surv_data, surv_filenames)
+install.packages("readr")#
+install.packages("ggplot2")#
+install.packages("tidyverse")#
+library(readr)#
+library(ggplot2)#
+library(tidyverse)#
+mort <- 0.67#
+rate_dat<-read_csv("data_summary_Sept11_2020.csv") #bring in the summary spreadsheet I made of trait data#
+ a <- ggplot(rate_dat %>% #
+               filter(F_H==mort),#
+    aes(x=Kappa, y=Amat) #
+    ) + #
+   # geom_point(size = 2, shape = factor(Temp)) +#
+	geom_point(aes(colour = factor(Temp), shape=factor(Temp)), size = 4) +#
+  scale_shape_manual(values=c(8, 16)) +#
+    scale_color_manual(values = c("blue", "red")) +#
+   labs(y="Age at 50% Maturity (years)")  +#
+   # #
+ facet_wrap(~Seasonality) #
+quartz()#
+a +theme_bw()#
+c <- ggplot(rate_dat %>% #
+            filter(F_H==mort),#
+            aes(x=Kappa, y=Mu_annual) #
+) + #
+  # geom_point(size = 2, shape = factor(Temp)) +#
+  geom_point(aes(colour = factor(Temp), shape=factor(Temp)), size = 4) +#
+  scale_shape_manual(values=c(8, 16)) +#
+  scale_color_manual(values = c("blue", "red")) +#
+   labs(y="Annual mortality rate (M)")+#
+facet_wrap(~Seasonality) #
+quartz()#
+c +theme_bw()#
+d <- ggplot(rate_dat %>%#
+              filter(F_H==mort),#
+            aes(x=Kappa, y=alive_at_15) #
+) + #
+  # geom_point(size = 2, shape = factor(Temp)) +#
+  geom_point(aes(colour = factor(Temp), shape=factor(Temp)), size = 4) +#
+  scale_shape_manual(values=c(8, 16)) +#
+  scale_color_manual(values = c("blue", "red")) +#
+  labs(y="Survivors at age 15")+#
+  facet_wrap(~Seasonality) #
+quartz()#
+ d +theme_bw()#
+E <- ggplot(rate_dat %>%#
+              filter(F_H==mort),#
+            aes(x=Kappa, y=Sizemat) #
+) + #
+  # geom_point(size = 2, shape = factor(Temp)) +#
+  geom_point(aes(colour = factor(Temp), shape=factor(Temp)), size = 4) +#
+  scale_shape_manual(values=c(8, 16)) +#
+  scale_color_manual(values = c("blue", "red")) +#
+  labs(y="Size at maturity (cm)")+#
+  facet_wrap(~Seasonality) #
+quartz()#
+E +theme_bw()#
+ff <- ggplot(rate_dat %>%#
+              filter(F_H==mort),#
+            aes(x=Kappa, y=bodysize) #
+) + #
+  # geom_point(size = 2, shape = factor(Temp)) +#
+  geom_point(aes(colour = factor(Temp), shape=factor(Temp)), size = 4) +#
+  scale_shape_manual(values=c(8, 16)) +#
+  scale_color_manual(values = c("blue", "red")) +#
+  labs(y="Body Length (cm)")+#
+  facet_wrap(~Seasonality) #
+quartz()#
+ff +theme_bw()
+install.packages("readr")#
+install.packages("ggplot2")#
+install.packages("tidyverse")#
+library(readr)#
+library(ggplot2)#
+library(tidyverse)#
+mort <- 0.67#
+rate_dat<-read_csv("october_prelim_results".csv") #bring in the summary spreadsheet I made of trait data#
+ a <- ggplot(rate_dat %>% #
+               filter(F_H==mort),#
+    aes(x=Kappa, y=Amat) #
+    ) + #
+   # geom_point(size = 2, shape = factor(Temp)) +#
+	geom_point(aes(colour = factor(Temp), shape=factor(Temp)), size = 4) +#
+  scale_shape_manual(values=c(8, 16)) +#
+    scale_color_manual(values = c("blue", "red")) +#
+   labs(y="Age at 50% Maturity (years)")  +#
+   # #
+ facet_wrap(~Seasonality) #
+quartz()#
+a +theme_bw()#
+c <- ggplot(rate_dat %>% #
+            filter(F_H==mort),#
+            aes(x=Kappa, y=Mu_annual) #
+) + #
+  # geom_point(size = 2, shape = factor(Temp)) +#
+  geom_point(aes(colour = factor(Temp), shape=factor(Temp)), size = 4) +#
+  scale_shape_manual(values=c(8, 16)) +#
+  scale_color_manual(values = c("blue", "red")) +#
+   labs(y="Annual mortality rate (M)")+#
+facet_wrap(~Seasonality) #
+quartz()#
+c +theme_bw()#
+d <- ggplot(rate_dat %>%#
+              filter(F_H==mort),#
+            aes(x=Kappa, y=alive_at_15) #
+) + #
+  # geom_point(size = 2, shape = factor(Temp)) +#
+  geom_point(aes(colour = factor(Temp), shape=factor(Temp)), size = 4) +#
+  scale_shape_manual(values=c(8, 16)) +#
+  scale_color_manual(values = c("blue", "red")) +#
+  labs(y="Survivors at age 15")+#
+  facet_wrap(~Seasonality) #
+quartz()#
+ d +theme_bw()#
+E <- ggplot(rate_dat %>%#
+              filter(F_H==mort),#
+            aes(x=Kappa, y=Sizemat) #
+) + #
+  # geom_point(size = 2, shape = factor(Temp)) +#
+  geom_point(aes(colour = factor(Temp), shape=factor(Temp)), size = 4) +#
+  scale_shape_manual(values=c(8, 16)) +#
+  scale_color_manual(values = c("blue", "red")) +#
+  labs(y="Size at maturity (cm)")+#
+  facet_wrap(~Seasonality) #
+quartz()#
+E +theme_bw()#
+ff <- ggplot(rate_dat %>%#
+              filter(F_H==mort),#
+            aes(x=Kappa, y=bodysize) #
+) + #
+  # geom_point(size = 2, shape = factor(Temp)) +#
+  geom_point(aes(colour = factor(Temp), shape=factor(Temp)), size = 4) +#
+  scale_shape_manual(values=c(8, 16)) +#
+  scale_color_manual(values = c("blue", "red")) +#
+  labs(y="Body Length (cm)")+#
+  facet_wrap(~Seasonality) #
+quartz()#
+ff +theme_bw()
+install.packages("readr")#
+install.packages("ggplot2")#
+install.packages("tidyverse")#
+library(readr)#
+library(ggplot2)#
+library(tidyverse)#
+mort <- 0.67#
+rate_dat<-read_csv("october_prelim_results.csv") #bring in the summary spreadsheet I made of trait data#
+ a <- ggplot(rate_dat %>% #
+               filter(F_H==mort),#
+    aes(x=Kappa, y=Amat) #
+    ) + #
+   # geom_point(size = 2, shape = factor(Temp)) +#
+	geom_point(aes(colour = factor(Temp), shape=factor(Temp)), size = 4) +#
+  scale_shape_manual(values=c(8, 16)) +#
+    scale_color_manual(values = c("blue", "red")) +#
+   labs(y="Age at 50% Maturity (years)")  +#
+   # #
+ facet_wrap(~Seasonality) #
+quartz()#
+a +theme_bw()#
+c <- ggplot(rate_dat %>% #
+            filter(F_H==mort),#
+            aes(x=Kappa, y=Mu_annual) #
+) + #
+  # geom_point(size = 2, shape = factor(Temp)) +#
+  geom_point(aes(colour = factor(Temp), shape=factor(Temp)), size = 4) +#
+  scale_shape_manual(values=c(8, 16)) +#
+  scale_color_manual(values = c("blue", "red")) +#
+   labs(y="Annual mortality rate (M)")+#
+facet_wrap(~Seasonality) #
+quartz()#
+c +theme_bw()#
+d <- ggplot(rate_dat %>%#
+              filter(F_H==mort),#
+            aes(x=Kappa, y=alive_at_15) #
+) + #
+  # geom_point(size = 2, shape = factor(Temp)) +#
+  geom_point(aes(colour = factor(Temp), shape=factor(Temp)), size = 4) +#
+  scale_shape_manual(values=c(8, 16)) +#
+  scale_color_manual(values = c("blue", "red")) +#
+  labs(y="Survivors at age 15")+#
+  facet_wrap(~Seasonality) #
+quartz()#
+ d +theme_bw()#
+E <- ggplot(rate_dat %>%#
+              filter(F_H==mort),#
+            aes(x=Kappa, y=Sizemat) #
+) + #
+  # geom_point(size = 2, shape = factor(Temp)) +#
+  geom_point(aes(colour = factor(Temp), shape=factor(Temp)), size = 4) +#
+  scale_shape_manual(values=c(8, 16)) +#
+  scale_color_manual(values = c("blue", "red")) +#
+  labs(y="Size at maturity (cm)")+#
+  facet_wrap(~Seasonality) #
+quartz()#
+E +theme_bw()#
+ff <- ggplot(rate_dat %>%#
+              filter(F_H==mort),#
+            aes(x=Kappa, y=bodysize) #
+) + #
+  # geom_point(size = 2, shape = factor(Temp)) +#
+  geom_point(aes(colour = factor(Temp), shape=factor(Temp)), size = 4) +#
+  scale_shape_manual(values=c(8, 16)) +#
+  scale_color_manual(values = c("blue", "red")) +#
+  labs(y="Body Length (cm)")+#
+  facet_wrap(~Seasonality) #
+quartz()#
+ff +theme_bw()
+library(readr)#
+library(ggplot2)#
+library(tidyverse)#
+mort <- 0.67#
+rate_dat<-read_csv("/Users/hollykindsvater/Documents/tuna_theory_paper/october_run_results/october_prelim_results.csv") #bring in the summary spreadsheet I made of trait data#
+ a <- ggplot(rate_dat %>% #
+               filter(F_H==mort),#
+    aes(x=Kappa, y=Amat) #
+    ) + #
+   # geom_point(size = 2, shape = factor(Temp)) +#
+	geom_point(aes(colour = factor(Temp), shape=factor(Temp)), size = 4) +#
+  scale_shape_manual(values=c(8, 16)) +#
+    scale_color_manual(values = c("blue", "red")) +#
+   labs(y="Age at 50% Maturity (years)")  +#
+   # #
+ facet_wrap(~Seasonality) #
+quartz()#
+a +theme_bw()#
+c <- ggplot(rate_dat %>% #
+            filter(F_H==mort),#
+            aes(x=Kappa, y=Mu_annual) #
+) + #
+  # geom_point(size = 2, shape = factor(Temp)) +#
+  geom_point(aes(colour = factor(Temp), shape=factor(Temp)), size = 4) +#
+  scale_shape_manual(values=c(8, 16)) +#
+  scale_color_manual(values = c("blue", "red")) +#
+   labs(y="Annual mortality rate (M)")+#
+facet_wrap(~Seasonality) #
+quartz()#
+c +theme_bw()#
+d <- ggplot(rate_dat %>%#
+              filter(F_H==mort),#
+            aes(x=Kappa, y=alive_at_15) #
+) + #
+  # geom_point(size = 2, shape = factor(Temp)) +#
+  geom_point(aes(colour = factor(Temp), shape=factor(Temp)), size = 4) +#
+  scale_shape_manual(values=c(8, 16)) +#
+  scale_color_manual(values = c("blue", "red")) +#
+  labs(y="Survivors at age 15")+#
+  facet_wrap(~Seasonality) #
+quartz()#
+ d +theme_bw()#
+E <- ggplot(rate_dat %>%#
+              filter(F_H==mort),#
+            aes(x=Kappa, y=Sizemat) #
+) + #
+  # geom_point(size = 2, shape = factor(Temp)) +#
+  geom_point(aes(colour = factor(Temp), shape=factor(Temp)), size = 4) +#
+  scale_shape_manual(values=c(8, 16)) +#
+  scale_color_manual(values = c("blue", "red")) +#
+  labs(y="Size at maturity (cm)")+#
+  facet_wrap(~Seasonality) #
+quartz()#
+E +theme_bw()#
+ff <- ggplot(rate_dat %>%#
+              filter(F_H==mort),#
+            aes(x=Kappa, y=bodysize) #
+) + #
+  # geom_point(size = 2, shape = factor(Temp)) +#
+  geom_point(aes(colour = factor(Temp), shape=factor(Temp)), size = 4) +#
+  scale_shape_manual(values=c(8, 16)) +#
+  scale_color_manual(values = c("blue", "red")) +#
+  labs(y="Body Length (cm)")+#
+  facet_wrap(~Seasonality) #
+quartz()#
+ff +theme_bw()
+d <- ggplot(rate_dat %>%#
+              filter(F_H==mort),#
+            aes(x=Kappa, y=alive_at_15) #
+) + #
+  # geom_point(size = 2, shape = factor(Temp)) +#
+  geom_point(aes(colour = factor(Temp), shape=factor(Temp)), size = 4) +#
+  scale_shape_manual(values=c(8, 16)) +#
+  scale_color_manual(values = c("blue", "red")) +#
+  labs(y="Survivors at age 15")+#
+  #facet_wrap(~Seasonality) #
+quartz()#
+ d +theme_bw()
+c <- ggplot(rate_dat %>% #
+            filter(F_H==mort),#
+            aes(x=Kappa, y=Mu_annual) #
+) + #
+  # geom_point(size = 2, shape = factor(Temp)) +#
+  geom_point(aes(colour = factor(Temp), shape=factor(Temp)), size = 4) +#
+  scale_shape_manual(values=c(8, 16)) +#
+  scale_color_manual(values = c("blue", "red")) +#
+   labs(y="Annual mortality rate (M)")+#
+#facet_wrap(~Seasonality) #
+quartz()#
+c +theme_bw()
+a <- ggplot(rate_dat %>% #
+              # filter(F_H==mort),#
+    aes(x=Kappa, y=Amat) #
+    ) + #
+   # geom_point(size = 2, shape = factor(Temp)) +#
+	geom_point(aes(colour = factor(Temp), shape=factor(Temp)), size = 4) +#
+  scale_shape_manual(values=c(8, 16)) +#
+    scale_color_manual(values = c("blue", "red")) +#
+   labs(y="Age at 50% Maturity (years)")  +#
+   # #
+ #facet_wrap(~Seasonality) #
+quartz()#
+a +theme_bw()
+class(rate_dat)
+rate_dat
+mort <- 0.33#
+rate_dat<-read_csv("/Users/hollykindsvater/Documents/tuna_theory_paper/october_run_results/october_prelim_results.csv") #bring in the summary spreadsheet I made of trait data#
+ a <- ggplot(rate_dat %>% #
+                filter(F_H==mort),#
+    aes(x=Kappa, y=Amat) #
+    ) + #
+   # geom_point(size = 2, shape = factor(Temp)) +#
+	geom_point(aes(colour = factor(Temp), shape=factor(Temp)), size = 4) +#
+  scale_shape_manual(values=c(8, 16)) +#
+    scale_color_manual(values = c("blue", "red")) +#
+   labs(y="Age at 50% Maturity (years)")  +#
+   # #
+ #facet_wrap(~Seasonality) #
+quartz()#
+a +theme_bw()
+c <- ggplot(rate_dat %>% #
+            filter(F_H==mort),#
+            aes(x=Kappa, y=Mu_annual) #
+) + #
+  # geom_point(size = 2, shape = factor(Temp)) +#
+  geom_point(aes(colour = factor(Temp), shape=factor(Temp)), size = 4) +#
+  scale_shape_manual(values=c(8, 16)) +#
+  scale_color_manual(values = c("blue", "red")) +#
+   labs(y="Annual mortality rate (M)")+#
+#facet_wrap(~Seasonality) #
+quartz()#
+c +theme_bw()
+E <- ggplot(rate_dat %>%#
+              filter(F_H==mort),#
+            aes(x=Kappa, y=Sizemat) #
+) + #
+  # geom_point(size = 2, shape = factor(Temp)) +#
+  geom_point(aes(colour = factor(Temp), shape=factor(Temp)), size = 4) +#
+  scale_shape_manual(values=c(8, 16)) +#
+  scale_color_manual(values = c("blue", "red")) +#
+  labs(y="Size at maturity (cm)")+#
+ # facet_wrap(~Seasonality) #
+quartz()#
+E +theme_bw()
+# facet_wrap(~Seasonality) #
+quartz()#
+ff +theme_bw()
+quartz()#
+E +theme_bw()#
+ff <- ggplot(rate_dat %>%#
+              filter(F_H==mort),#
+            aes(x=Kappa, y=bodysize) #
+) + #
+  # geom_point(size = 2, shape = factor(Temp)) +#
+  geom_point(aes(colour = factor(Temp), shape=factor(Temp)), size = 4) +#
+  scale_shape_manual(values=c(8, 16)) +#
+  scale_color_manual(values = c("blue", "red")) +#
+  labs(y="Body Length (cm)")+#
+ # facet_wrap(~Seasonality) #
+quartz()#
+ff +theme_bw()
+setwd("~/Documents/tuna_theory_paper/October_run_results/Length_data")#
+data_files <- list.files(pattern = "\\.csv$")#
+#
+repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
+state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
+length_filenames <- data_files[1:(length(data_files))]#
+surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+surv_filenames <- unique(surv_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+surv_data <- lapply(surv_filenames, read.csv)#
+ Tmax=18#
+ time=1:(Tmax*12)#
+ windowframe=c(3,1)#
+  quartz()#
+   par(mfrow=windowframe)#
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 2, 38), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, Tmax*12), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, (Tmax)*12, by=12), labels = (seq(1, Tmax+1, by=1)))#
+     maxsize <- (min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))) + 1 #
+     age_m <- min(which(as.numeric(data[1, -1]) >= 0.5*as.numeric(data[1, maxsize])))/12 #
+     legend("topleft", legend=paste0("Lmax is ", round(data[1, maxsize]), " cm"), bty="n")#
+          }#
+      mapply(plot_length, length_data, length_filenames)    #
+  # plot_hist <- function(data, filenames) {#
+    # hist(data[, 12], breaks=50, xlim=c(50, 350), main=substr(filenames, 13, 49))#
+  # }#
+  # mapply(plot_hist, length_data, length_filenames)#
+# #   #
+ quartz()#
+   par(mfrow=windowframe)#
+  plot_repro <- function(repro_data, length_data, repro_filenames) {#
+	       matplot(t(repro_data[,-1]), type="l", main= substr(repro_filenames, 8, 23), col="red", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n",  xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))#
+     maxsize <- (min(which(as.numeric(repro_data[1, -1]) == max(as.numeric(repro_data[1, -1]), na.rm=TRUE)))) + 1 #
+     #print(maxsize)#
+      age_m <- min(which(as.numeric(repro_data[1, -1]) >= 0.5*as.numeric(repro_data[1, maxsize])), na.rm=TRUE)/12 #
+      size_m <- length_data[1, round(age_m*12)]#
+      #print(size_m)#
+    legend("topleft", legend=c(paste0("Amat_50 is ", round(age_m+1, 2), " years"), paste0("Lmat50 is ", round(size_m), " cm")), bty="n")#
+   # print(round(age_m*12) )#
+     }#
+#
+mapply(plot_repro, repro_data, length_data, repro_filenames)#
+#
+  # quartz()#
+   # par(mfrow=windowframe)#
+  # plot_state <- function(state_data, state_filenames) {#
+     # matplot(t(state_data[,-1]), type="l", main= substr(state_filenames, 8, 23), col="darkgray", lwd=1.75, lty=1,   ylab="State (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 6e+08), xlim=c(0.5, Tmax*12))#
+     # axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))#
+     # }#
+#
+# mapply(plot_state, state_data, state_filenames)#
+#
+#quartz()#
+  # par(mfrow=windowframe) #
+#
+fec.exp <-function(ldata1, rdata2, filenames) {#
+ 	data1 <- as.numeric(ldata1[1,-1])#
+ 	data2 <- as.numeric(rdata2[1, -1])#
+ 	  	matplot(t(log(data1[-216])), t(log(data2[-216])), type="p", col="darkgray", pch=20,   main= substr(filenames, 9, 30),  xlab="ln(Length) ", ylim=c(0, 25), xlim=c(0, 7), ylab="ln(Reproduction) ")#
+ 	 	  max.rep.age = as.numeric(which.max(data2))#
+ 	  print(max.rep.age)#
+ 	  min.rep.age = as.numeric(which.min(data2[-216])) #
+ 	  print(min.rep.age)#
+ 	   m1<-lm(log(data2[c(min.rep.age:max.rep.age)])~log(data1[c(min.rep.age:max.rep.age)]))#
+ 	   b= (log(data2[max.rep.age])-log(data2[min.rep.age])) / (log(data1[max.rep.age]) - log(data1[min.rep.age]) )#
+ 	    a=0#
+ 	  if(is.na(coef(m1)[2])==FALSE) abline(m1)#
+ 	 #abline(a, b)#
+ 	 #print(coef(m1)[2])#
+ 	#val<-paste0("Env is ", substr(filenames, 9, 23),", Slope is ", round(as.numeric(coef(m1)[2]), 3))#
+    legend("topleft",   legend=paste0("slope is ", round(b, 3)), bty="n") #round(as.numeric(coef(m1)[2]), 3)), bty="n")#
+ 	   	} #
+#
+# mapply(fec.exp, length_data, repro_data, length_filenames)#
+quartz()#
+  par(mfrow=windowframe)#
+ surv <- function(data, filenames) {#
+ 	matplot(data[,-1], type="l", main= substr(filenames, 6, 25), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1),xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))#
+ }#
+ 	mapply(surv, surv_data, surv_filenames)#
+    lnsurv <- function(data, filenames) {#
+ 	data1<-as.numeric(data[,2])#
+ 	print(dim(data1))#
+ 	matplot(log(data1[-1]), type="l", main= substr(filenames, 7, 30), col="darkgray", xlab="Age (years)", ylab="ln(Survival)", xaxt="n",  ylim=c(-10, 0), xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1))) #
+   m2<-lm(log(data1[-1])~time[-length(time)])#
+   abline(m2)#
+   print(paste0("Slope is ", round(as.numeric(coef(m2)[2]), 3)))#
+   legend("bottomleft",   legend=paste0("slope is ",round(as.numeric(coef(m2)[2])*12, 3)), bty="n")#
+ }#
+ mapply(lnsurv, surv_data, surv_filenames)
+length_data[[1]]
+length_data[[2]]
+cbind(length_data[[1]][1,], length_data[[2]][1,])
+matplot(cbind(as.numeric(length_data[[1]][1,], as.numeric(length_data[[2]][1,]))), type="l", col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, Tmax*12), xlab= "Age (years)", xaxt="n")
+cbind(as.numeric(length_data[[1]][1,], as.numeric(length_data[[2]][1,])))
+as.numeric(length_data[[2]][1,])
+matplot(cbind(as.numeric(length_data[[1]][1,]), as.numeric(length_data[[2]][1,]))), type="l", col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, Tmax*12), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, (Tmax)*12, by=12), labels = (seq(1, Tmax+1, by=1)))
+as.numeric(length_data[[1]][1,])
+cbind(as.numeric(length_data[[1]][1,]), as.numeric(length_data[[2]][1,]))
+matplot(cbind(as.numeric(length_data[[1]][1,]), as.numeric(length_data[[2]][1,])), type="l", col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, Tmax*12), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, (Tmax)*12, by=12), labels = (seq(1, Tmax+1, by=1)))
+windowframe=c(3,1)#
+  quartz()#
+   par(mfrow=windowframe)
+matplot(cbind(as.numeric(length_data[[1]][1,]), as.numeric(length_data[[2]][1,])), type="l", col=c(2, 3), lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, Tmax*12), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, (Tmax)*12, by=12), labels = (seq(1, Tmax+1, by=1)))
+matplot(cbind(as.numeric(length_data[[1]][1,]), as.numeric(length_data[[2]][1,])), type="l", col=c(4, 2), lwd=3, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, Tmax*12), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, (Tmax)*12, by=12), labels = (seq(1, Tmax+1, by=1)))
+length_filenames
+windowframe=c(3,1)#
+  quartz()#
+   par(mfrow=windowframe)#
+#
+setwd("~/Documents/tuna_theory_paper/October_run_results/Length_data/lo_kappa")#
+data_files <- list.files(pattern = "\\.csv$")#
+length_filenames <- data_files[1:(length(data_files))]#
+length_data <- lapply(length_filenames, read.csv)#
+  Tmax=18#
+ time=1:(Tmax*12)#
+     matplot(cbind(as.numeric(length_data[[1]][1,]), as.numeric(length_data[[2]][1,])), type="l", col=c(4, 2), lwd=3, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, Tmax*12), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, (Tmax)*12, by=12), labels = (seq(1, Tmax+1, by=1)))#
+     maxsize <- (min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))) + 1 #
+     age_m <- min(which(as.numeric(data[1, -1]) >= 0.5*as.numeric(data[1, maxsize])))/12 #
+     legend("topleft", legend=paste0("Lmax is ", round(data[1, maxsize]), " cm"), bty="n")#
+          }#
+  # plot_hist <- function(data, filenames) {#
+    # hist(data[, 12], breaks=50, xlim=c(50, 350), main=substr(filenames, 13, 49))#
+  # }#
+  # mapply(plot_hist, length_data, length_filenames)
+windowframe=c(3,1)#
+  # quartz()#
+   # par(mfrow=windowframe)#
+#
+setwd("~/Documents/tuna_theory_paper/October_run_results/Length_data/med_kappa")#
+data_files <- list.files(pattern = "\\.csv$")#
+length_filenames <- data_files[1:(length(data_files))]#
+length_data <- lapply(length_filenames, read.csv)#
+  Tmax=18#
+ time=1:(Tmax*12)#
+     matplot(cbind(as.numeric(length_data[[1]][1,]), as.numeric(length_data[[2]][1,])), type="l", col=c(4, 2), lwd=3, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, Tmax*12), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, (Tmax)*12, by=12), labels = (seq(1, Tmax+1, by=1)))#
+     maxsize <- (min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))) + 1 #
+     age_m <- min(which(as.numeric(data[1, -1]) >= 0.5*as.numeric(data[1, maxsize])))/12 #
+     legend("topleft", legend=paste0("Lmax is ", round(data[1, maxsize]), " cm"), bty="n")#
+          }#
+  # plot_hist <- function(data, filenames) {#
+    # hist(data[, 12], breaks=50, xlim=c(50, 350), main=substr(filenames, 13, 49))#
+  # }#
+  # mapply(plot_hist, length_data, length_filenames)
+windowframe=c(3,1)#
+  # quartz()#
+   # par(mfrow=windowframe)#
+#
+setwd("~/Documents/tuna_theory_paper/October_run_results/Length_data/hi_kappa")#
+data_files <- list.files(pattern = "\\.csv$")
+length_filenames <- data_files[1:(length(data_files))]#
+length_data <- lapply(length_filenames, read.csv)#
+  Tmax=18#
+ time=1:(Tmax*12)#
+     matplot(cbind(as.numeric(length_data[[1]][1,]), as.numeric(length_data[[2]][1,])), type="l", col=c(4, 2), lwd=3, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, Tmax*12), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, (Tmax)*12, by=12), labels = (seq(1, Tmax+1, by=1)))#
+     maxsize <- (min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))) + 1 #
+     age_m <- min(which(as.numeric(data[1, -1]) >= 0.5*as.numeric(data[1, maxsize])))/12 #
+     legend("topleft", legend=paste0("Lmax is ", round(data[1, maxsize]), " cm"), bty="n")#
+          }#
+  # plot_hist <- function(data, filenames) {#
+    # hist(data[, 12], breaks=50, xlim=c(50, 350), main=substr(filenames, 13, 49))#
+  # }#
+  # mapply(plot_hist, length_data, length_filenames)
+windowframe=c(3,1)#
+  # quartz()#
+   # par(mfrow=windowframe)#
+#
+setwd("~/Documents/tuna_theory_paper/October_run_results/Length_data/low_kappa")#
+data_files <- list.files(pattern = "\\.csv$")#
+length_filenames <- data_files[1:(length(data_files))]#
+length_data <- lapply(length_filenames, read.csv)#
+  Tmax=18#
+ time=1:(Tmax*12)#
+     matplot(cbind(as.numeric(length_data[[1]][1,]), as.numeric(length_data[[2]][1,])), type="l", col=c(4, 2), lwd=3, lty=1,  ylab="Length (cm)", ylim=c(0, 300), xlim=c(0.5, Tmax*12), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, (Tmax)*12, by=12), labels = (seq(1, Tmax+1, by=1)))#
+     legend("topleft", legend=paste0("Lmax is ", round(data[1, maxsize]), " cm"), bty="n")#
+          }#
+  # plot_hist <- function(data, filenames) {#
+    # hist(data[, 12], breaks=50, xlim=c(50, 350), main=substr(filenames, 13, 49))#
+  # }#
+  # mapply(plot_hist, length_data, length_filenames)
+windowframe=c(3,1)#
+  # quartz()#
+   # par(mfrow=windowframe)#
+#
+setwd("~/Documents/tuna_theory_paper/October_run_results/Length_data/lo_kappa")#
+data_files <- list.files(pattern = "\\.csv$")#
+length_filenames <- data_files[1:(length(data_files))]#
+length_data <- lapply(length_filenames, read.csv)#
+  Tmax=18#
+ time=1:(Tmax*12)#
+     matplot(cbind(as.numeric(length_data[[1]][1,]), as.numeric(length_data[[2]][1,])), type="l", col=c(4, 2), lwd=3, lty=1,  ylab="Length (cm)", ylim=c(0, 300), xlim=c(0.5, Tmax*12), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, (Tmax)*12, by=12), labels = (seq(1, Tmax+1, by=1)))#
+     legend("topleft", legend=paste0("Lmax is ", round(data[1, maxsize]), " cm"), bty="n")#
+          }#
+  # plot_hist <- function(data, filenames) {#
+    # hist(data[, 12], breaks=50, xlim=c(50, 350), main=substr(filenames, 13, 49))#
+  # }#
+  # mapply(plot_hist, length_data, length_filenames)
+windowframe=c(3,1)#
+  # quartz()#
+   # par(mfrow=windowframe)#
+#
+setwd("~/Documents/tuna_theory_paper/October_run_results/Length_data/med_kappa")#
+data_files <- list.files(pattern = "\\.csv$")#
+length_filenames <- data_files[1:(length(data_files))]#
+length_data <- lapply(length_filenames, read.csv)#
+  Tmax=18#
+ time=1:(Tmax*12)#
+     matplot(cbind(as.numeric(length_data[[1]][1,]), as.numeric(length_data[[2]][1,])), type="l", col=c(4, 2), lwd=3, lty=1,  ylab="Length (cm)", ylim=c(0, 300), xlim=c(0.5, Tmax*12), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, (Tmax)*12, by=12), labels = (seq(1, Tmax+1, by=1)))#
+     legend("topleft", legend=paste0("Lmax is ", round(data[1, maxsize]), " cm"), bty="n")#
+          }#
+  # plot_hist <- function(data, filenames) {#
+    # hist(data[, 12], breaks=50, xlim=c(50, 350), main=substr(filenames, 13, 49))#
+  # }#
+  # mapply(plot_hist, length_data, length_filenames)
+windowframe=c(3,1)#
+  # quartz()#
+   # par(mfrow=windowframe)#
+#
+setwd("~/Documents/tuna_theory_paper/October_run_results/Length_data/hi_kappa")#
+data_files <- list.files(pattern = "\\.csv$")#
+length_filenames <- data_files[1:(length(data_files))]#
+length_data <- lapply(length_filenames, read.csv)#
+  Tmax=18#
+ time=1:(Tmax*12)#
+     matplot(cbind(as.numeric(length_data[[1]][1,]), as.numeric(length_data[[2]][1,])), type="l", col=c(4, 2), lwd=3, lty=1,  ylab="Length (cm)", ylim=c(0, 300), xlim=c(0.5, Tmax*12), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, (Tmax)*12, by=12), labels = (seq(1, Tmax+1, by=1)))#
+     legend("topleft", legend=paste0("Lmax is ", round(data[1, maxsize]), " cm"), bty="n")#
+          }#
+  # plot_hist <- function(data, filenames) {#
+    # hist(data[, 12], breaks=50, xlim=c(50, 350), main=substr(filenames, 13, 49))#
+  # }#
+  # mapply(plot_hist, length_data, length_filenames)
+matplot(cbind(as.numeric(length_data[[1]][1,]), as.numeric(length_data[[2]][1,])), type="l", col=c(4, 4, 2, 2), lwd=3, lty=c(1, 3, 1, 3),  ylab="Length (cm)", ylim=c(0, 300), xlim=c(0.5, Tmax*12), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, (Tmax)*12, by=12), labels = (seq(1, Tmax+1, by=1)))#
+     legend("topleft", legend=paste0("Lmax is ", round(data[1, maxsize]), " cm"), bty="n")#
+          }#
+  # plot_hist <- function(data, filenames) {#
+    # hist(data[, 12], breaks=50, xlim=c(50, 350), main=substr(filenames, 13, 49))#
+  # }
+setwd("~/Documents/tuna_theory_paper/October_run_results/Length_data/lo_kappa")#
+data_files <- list.files(pattern = "\\.csv$")#
+length_filenames <- data_files[1:(length(data_files))]#
+length_data <- lapply(length_filenames, read.csv)#
+  Tmax=18#
+ time=1:(Tmax*12)#
+     matplot(cbind(as.numeric(length_data[[1]][1,]), as.numeric(length_data[[2]][1,])), type="l", col=c(4, 4, 2, 2), lwd=3, lty=c(1, 3, 1, 3),  ylab="Length (cm)", ylim=c(0, 300), xlim=c(0.5, Tmax*12), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, (Tmax)*12, by=12), labels = (seq(1, Tmax+1, by=1)))#
+     legend("topleft", legend=paste0("Lmax is ", round(data[1, maxsize]), " cm"), bty="n")#
+          }#
+  # plot_hist <- function(data, filenames) {#
+    # hist(data[, 12], breaks=50, xlim=c(50, 350), main=substr(filenames, 13, 49))#
+  # }
+matplot(cbind(as.numeric(length_data[[1]][1,]), as.numeric(length_data[[2]][1,])), type="l", col=c(4, 4, 2, 2), lwd=3, lty=c(1, 3, 1, 3),  ylab="Length (cm)", ylim=c(0, 300), xlim=c(0.5, Tmax*12), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, (Tmax)*12, by=12), labels = (seq(1, Tmax+1, by=1)))#
+     legend("topleft", legend=paste0("Lmax is ", round(data[1, maxsize]), " cm"), bty="n")#
+          }#
+  # plot_hist <- function(data, filenames) {
+matplot(cbind(as.numeric(length_data[[1]][1,]), as.numeric(length_data[[2]][1,]),as.numeric(length_data[[3]][1,])),as.numeric(length_data[[4]][1,]), type="l", col=c(4, 4, 2, 2), lwd=3, lty=c(1, 3, 1, 3),  ylab="Length (cm)", ylim=c(0, 300), xlim=c(0.5, Tmax*12), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, (Tmax)*12, by=12), labels = (seq(1, Tmax+1, by=1)))
+cbind(as.numeric(length_data[[1]][1,]), as.numeric(length_data[[2]][1,]),as.numeric(length_data[[3]][1,])),as.numeric(length_data[[4]][1,])
+matplot(cbind(as.numeric(length_data[[1]][1,]), as.numeric(length_data[[2]][1,]), as.numeric(length_data[[3]][1,]), as.numeric(length_data[[4]][1,]), type="l", col=c(4, 4, 2, 2), lwd=3, lty=c(1, 3, 1, 3),  ylab="Length (cm)", ylim=c(0, 300), xlim=c(0.5, Tmax*12), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, (Tmax)*12, by=12), labels = (seq(1, Tmax+1, by=1)))
+matplot(cbind(as.numeric(length_data[[1]][1,]), as.numeric(length_data[[2]][1,]), as.numeric(length_data[[3]][1,]), as.numeric(length_data[[4]][1,]), type="l", col=c(4, 4, 2, 2), lwd=3, lty=c(1, 3, 1, 3),  ylab="Length (cm)", ylim=c(0, 300), xlim=c(0.5, Tmax*12), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, (Tmax)*12, by=12), labels = (seq(1, Tmax+1, by=1)))
+matplot(cbind(as.numeric(length_data[[1]][1,]), as.numeric(length_data[[2]][1,]), as.numeric(length_data[[3]][1,]), as.numeric(length_data[[4]][1,])), type="l", col=c(4, 4, 2, 2), lwd=3, lty=c(1, 3, 1, 3),  ylab="Length (cm)", ylim=c(0, 300), xlim=c(0.5, Tmax*12), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, (Tmax)*12, by=12), labels = (seq(1, Tmax+1, by=1)))
+windowframe=c(3,1)#
+  # quartz()#
+   # par(mfrow=windowframe)#
+#
+setwd("~/Documents/tuna_theory_paper/October_run_results/Length_data/med_kappa")#
+data_files <- list.files(pattern = "\\.csv$")#
+length_filenames <- data_files[1:(length(data_files))]#
+length_data <- lapply(length_filenames, read.csv)#
+  Tmax=18#
+ time=1:(Tmax*12)#
+     matplot(cbind(as.numeric(length_data[[1]][1,]), as.numeric(length_data[[2]][1,]), as.numeric(length_data[[3]][1,]), as.numeric(length_data[[4]][1,])), type="l", col=c(4, 4, 2, 2), lwd=3, lty=c(1, 3, 1, 3),  ylab="Length (cm)", ylim=c(0, 300), xlim=c(0.5, Tmax*12), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, (Tmax)*12, by=12), labels = (seq(1, Tmax+1, by=1)))#
+  # plot_hist <- function(data, filenames) {#
+    # hist(data[, 12], breaks=50, xlim=c(50, 350), main=substr(filenames, 13, 49))#
+  # }#
+  # mapply(plot_hist, length_data, length_filenames)
+windowframe=c(3,1)#
+  # quartz()#
+   # par(mfrow=windowframe)#
+#
+setwd("~/Documents/tuna_theory_paper/October_run_results/Length_data/hi_kappa")#
+data_files <- list.files(pattern = "\\.csv$")#
+length_filenames <- data_files[1:(length(data_files))]#
+length_data <- lapply(length_filenames, read.csv)#
+  Tmax=18#
+ time=1:(Tmax*12)#
+     matplot(cbind(as.numeric(length_data[[1]][1,]), as.numeric(length_data[[2]][1,]), as.numeric(length_data[[3]][1,]), as.numeric(length_data[[4]][1,])), type="l", col=c(4, 4, 2, 2), lwd=3, lty=c(1, 3, 1, 3),  ylab="Length (cm)", ylim=c(0, 300), xlim=c(0.5, Tmax*12), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, (Tmax)*12, by=12), labels = (seq(1, Tmax+1, by=1)))#
+  # plot_hist <- function(data, filenames) {#
+    # hist(data[, 12], breaks=50, xlim=c(50, 350), main=substr(filenames, 13, 49))#
+  # }#
+  # mapply(plot_hist, length_data, length_filenames)
+setwd("~/Documents/tuna_theory_paper/October_run_results/constant")#
+data_files <- list.files(pattern = "\\.csv$")#
+#
+repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
+state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
+length_filenames <- data_files[1:(length(data_files))/4]#
+surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+surv_filenames <- unique(surv_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+surv_data <- lapply(surv_filenames, read.csv)#
+ Tmax=18#
+ time=1:(Tmax*12)#
+ windowframe=c(6,2)#
+  quartz()#
+   par(mfrow=windowframe)#
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 2, 38), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, Tmax*12), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, (Tmax)*12, by=12), labels = (seq(1, Tmax+1, by=1)))#
+     maxsize <- (min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))) + 1 #
+     age_m <- min(which(as.numeric(data[1, -1]) >= 0.5*as.numeric(data[1, maxsize])))/12 #
+     legend("topleft", legend=paste0("Lmax is ", round(data[1, maxsize]), " cm"), bty="n")#
+          }#
+      mapply(plot_length, length_data, length_filenames)    #
+  # plot_hist <- function(data, filenames) {#
+    # hist(data[, 12], breaks=50, xlim=c(50, 350), main=substr(filenames, 13, 49))#
+  # }#
+  # mapply(plot_hist, length_data, length_filenames)#
+# #   #
+ quartz()#
+   par(mfrow=windowframe)#
+  plot_repro <- function(repro_data, length_data, repro_filenames) {#
+	       matplot(t(repro_data[,-1]), type="l", main= substr(repro_filenames, 8, 23), col="red", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n",  xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))#
+     maxsize <- (min(which(as.numeric(repro_data[1, -1]) == max(as.numeric(repro_data[1, -1]), na.rm=TRUE)))) + 1 #
+     #print(maxsize)#
+      age_m <- min(which(as.numeric(repro_data[1, -1]) >= 0.5*as.numeric(repro_data[1, maxsize])), na.rm=TRUE)/12 #
+      size_m <- length_data[1, round(age_m*12)]#
+      #print(size_m)#
+    legend("topleft", legend=c(paste0("Amat_50 is ", round(age_m+1, 2), " years"), paste0("Lmat50 is ", round(size_m), " cm")), bty="n")#
+   # print(round(age_m*12) )#
+     }#
+#
+mapply(plot_repro, repro_data, length_data, repro_filenames)#
+#
+  # quartz()#
+   # par(mfrow=windowframe)#
+  # plot_state <- function(state_data, state_filenames) {#
+     # matplot(t(state_data[,-1]), type="l", main= substr(state_filenames, 8, 23), col="darkgray", lwd=1.75, lty=1,   ylab="State (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 6e+08), xlim=c(0.5, Tmax*12))#
+     # axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))#
+     # }#
+#
+# mapply(plot_state, state_data, state_filenames)#
+#
+#quartz()#
+  # par(mfrow=windowframe) #
+#
+fec.exp <-function(ldata1, rdata2, filenames) {#
+ 	data1 <- as.numeric(ldata1[1,-1])#
+ 	data2 <- as.numeric(rdata2[1, -1])#
+ 	  	matplot(t(log(data1[-216])), t(log(data2[-216])), type="p", col="darkgray", pch=20,   main= substr(filenames, 9, 30),  xlab="ln(Length) ", ylim=c(0, 25), xlim=c(0, 7), ylab="ln(Reproduction) ")#
+ 	 	  max.rep.age = as.numeric(which.max(data2))#
+ 	  print(max.rep.age)#
+ 	  min.rep.age = as.numeric(which.min(data2[-216])) #
+ 	  print(min.rep.age)#
+ 	   m1<-lm(log(data2[c(min.rep.age:max.rep.age)])~log(data1[c(min.rep.age:max.rep.age)]))#
+ 	   b= (log(data2[max.rep.age])-log(data2[min.rep.age])) / (log(data1[max.rep.age]) - log(data1[min.rep.age]) )#
+ 	    a=0#
+ 	  if(is.na(coef(m1)[2])==FALSE) abline(m1)#
+ 	 #abline(a, b)#
+ 	 #print(coef(m1)[2])#
+ 	#val<-paste0("Env is ", substr(filenames, 9, 23),", Slope is ", round(as.numeric(coef(m1)[2]), 3))#
+    legend("topleft",   legend=paste0("slope is ", round(b, 3)), bty="n") #round(as.numeric(coef(m1)[2]), 3)), bty="n")#
+ 	   	} #
+#
+# mapply(fec.exp, length_data, repro_data, length_filenames)#
+quartz()#
+  par(mfrow=windowframe)#
+ surv <- function(data, filenames) {#
+ 	matplot(data[,-1], type="l", main= substr(filenames, 6, 25), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1),xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))#
+ }#
+ 	mapply(surv, surv_data, surv_filenames)#
+    lnsurv <- function(data, filenames) {#
+ 	data1<-as.numeric(data[,2])#
+ 	print(dim(data1))#
+ 	matplot(log(data1[-1]), type="l", main= substr(filenames, 7, 30), col="darkgray", xlab="Age (years)", ylab="ln(Survival)", xaxt="n",  ylim=c(-10, 0), xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1))) #
+   m2<-lm(log(data1[-1])~time[-length(time)])#
+   abline(m2)#
+   print(paste0("Slope is ", round(as.numeric(coef(m2)[2]), 3)))#
+   legend("bottomleft",   legend=paste0("slope is ",round(as.numeric(coef(m2)[2])*12, 3)), bty="n")#
+ }#
+ mapply(lnsurv, surv_data, surv_filenames)
+setwd("~/Documents/tuna_theory_paper/October_run_results/constant")#
+data_files <- list.files(pattern = "\\.csv$")#
+#
+repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
+state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
+length_filenames <- data_files[1:(length(data_files))/4]#
+surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+surv_filenames <- unique(surv_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+surv_data <- lapply(surv_filenames, read.csv)#
+ Tmax=18#
+ time=1:(Tmax*12)#
+ windowframe=c(4,2)#
+  quartz()#
+   par(mfrow=windowframe)#
+plot_length <- function(data, filenames) {#
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 2, 38), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, Tmax*12), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, (Tmax)*12, by=12), labels = (seq(1, Tmax+1, by=1)))#
+     maxsize <- (min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))) + 1 #
+     age_m <- min(which(as.numeric(data[1, -1]) >= 0.5*as.numeric(data[1, maxsize])))/12 #
+     legend("topleft", legend=paste0("Lmax is ", round(data[1, maxsize]), " cm"), bty="n")#
+          }#
+      mapply(plot_length, length_data, length_filenames)    #
+  # plot_hist <- function(data, filenames) {#
+    # hist(data[, 12], breaks=50, xlim=c(50, 350), main=substr(filenames, 13, 49))#
+  # }#
+  # mapply(plot_hist, length_data, length_filenames)#
+# #   #
+ quartz()#
+   par(mfrow=windowframe)#
+  plot_repro <- function(repro_data, length_data, repro_filenames) {#
+	       matplot(t(repro_data[,-1]), type="l", main= substr(repro_filenames, 8, 23), col="red", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n",  xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))#
+     maxsize <- (min(which(as.numeric(repro_data[1, -1]) == max(as.numeric(repro_data[1, -1]), na.rm=TRUE)))) + 1 #
+     #print(maxsize)#
+      age_m <- min(which(as.numeric(repro_data[1, -1]) >= 0.5*as.numeric(repro_data[1, maxsize])), na.rm=TRUE)/12 #
+      size_m <- length_data[1, round(age_m*12)]#
+      #print(size_m)#
+    legend("topleft", legend=c(paste0("Amat_50 is ", round(age_m+1, 2), " years"), paste0("Lmat50 is ", round(size_m), " cm")), bty="n")#
+   # print(round(age_m*12) )#
+     }#
+#
+mapply(plot_repro, repro_data, length_data, repro_filenames)#
+#
+  # quartz()#
+   # par(mfrow=windowframe)#
+  # plot_state <- function(state_data, state_filenames) {#
+     # matplot(t(state_data[,-1]), type="l", main= substr(state_filenames, 8, 23), col="darkgray", lwd=1.75, lty=1,   ylab="State (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 6e+08), xlim=c(0.5, Tmax*12))#
+     # axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))#
+     # }#
+#
+# mapply(plot_state, state_data, state_filenames)#
+#
+#quartz()#
+  # par(mfrow=windowframe) #
+#
+fec.exp <-function(ldata1, rdata2, filenames) {#
+ 	data1 <- as.numeric(ldata1[1,-1])#
+ 	data2 <- as.numeric(rdata2[1, -1])#
+ 	  	matplot(t(log(data1[-216])), t(log(data2[-216])), type="p", col="darkgray", pch=20,   main= substr(filenames, 9, 30),  xlab="ln(Length) ", ylim=c(0, 25), xlim=c(0, 7), ylab="ln(Reproduction) ")#
+ 	 	  max.rep.age = as.numeric(which.max(data2))#
+ 	  print(max.rep.age)#
+ 	  min.rep.age = as.numeric(which.min(data2[-216])) #
+ 	  print(min.rep.age)#
+ 	   m1<-lm(log(data2[c(min.rep.age:max.rep.age)])~log(data1[c(min.rep.age:max.rep.age)]))#
+ 	   b= (log(data2[max.rep.age])-log(data2[min.rep.age])) / (log(data1[max.rep.age]) - log(data1[min.rep.age]) )#
+ 	    a=0#
+ 	  if(is.na(coef(m1)[2])==FALSE) abline(m1)#
+ 	 #abline(a, b)#
+ 	 #print(coef(m1)[2])#
+ 	#val<-paste0("Env is ", substr(filenames, 9, 23),", Slope is ", round(as.numeric(coef(m1)[2]), 3))#
+    legend("topleft",   legend=paste0("slope is ", round(b, 3)), bty="n") #round(as.numeric(coef(m1)[2]), 3)), bty="n")#
+ 	   	} #
+#
+# mapply(fec.exp, length_data, repro_data, length_filenames)#
+quartz()#
+  par(mfrow=windowframe)#
+ surv <- function(data, filenames) {#
+ 	matplot(data[,-1], type="l", main= substr(filenames, 6, 25), col="darkgray", xlab="Age (years)", ylab="Survival", xaxt="n", ylim=c(0, 1.1),xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))#
+ }#
+ 	mapply(surv, surv_data, surv_filenames)#
+    lnsurv <- function(data, filenames) {#
+ 	data1<-as.numeric(data[,2])#
+ 	print(dim(data1))#
+ 	matplot(log(data1[-1]), type="l", main= substr(filenames, 7, 30), col="darkgray", xlab="Age (years)", ylab="ln(Survival)", xaxt="n",  ylim=c(-10, 0), xlim=c(0.5, Tmax*12))#
+     axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1))) #
+   m2<-lm(log(data1[-1])~time[-length(time)])#
+   abline(m2)#
+   print(paste0("Slope is ", round(as.numeric(coef(m2)[2]), 3)))#
+   legend("bottomleft",   legend=paste0("slope is ",round(as.numeric(coef(m2)[2])*12, 3)), bty="n")#
+ }#
+ mapply(lnsurv, surv_data, surv_filenames)
+install.packages("readr")#
+install.packages("ggplot2")#
+install.packages("tidyverse")#
+library(readr)#
+library(ggplot2)#
+library(tidyverse)#
+mort <- 0.33#
+rate_dat<-read_csv("/Users/hollykindsvater/Documents/tuna_theory_paper/october_run_results/october_prelim_results.csv") #bring in the summary spreadsheet I made of trait data#
+ a <- ggplot(rate_dat %>% #
+                filter(F_H==mort),#
+    aes(x=Kappa, y=Amat) #
+    ) + #
+   # geom_point(size = 2, shape = factor(Temp)) +#
+	geom_point(aes(colour = factor(Temp), shape=factor(Temp)), size = 4) +#
+  scale_shape_manual(values=c(8, 16)) +#
+    scale_color_manual(values = c("blue", "red")) +#
+   labs(y="Age at 50% Maturity (years)")  +#
+   # #
+  facet_wrap(~Seasonality) #
+quartz()#
+a +theme_bw()#
+c <- ggplot(rate_dat %>% #
+            filter(F_H==mort),#
+            aes(x=Kappa, y=Mu_annual) #
+) + #
+  # geom_point(size = 2, shape = factor(Temp)) +#
+  geom_point(aes(colour = factor(Temp), shape=factor(Temp)), size = 4) +#
+  scale_shape_manual(values=c(8, 16)) +#
+  scale_color_manual(values = c("blue", "red")) +#
+   labs(y="Annual mortality rate (M)")+#
+ facet_wrap(~Seasonality) #
+quartz()#
+c +theme_bw()#
+d <- ggplot(rate_dat %>%#
+              filter(F_H==mort),#
+            aes(x=Kappa, y=alive_at_15) #
+) + #
+  # geom_point(size = 2, shape = factor(Temp)) +#
+  geom_point(aes(colour = factor(Temp), shape=factor(Temp)), size = 4) +#
+  scale_shape_manual(values=c(8, 16)) +#
+  scale_color_manual(values = c("blue", "red")) +#
+  labs(y="Survivors at age 15")+#
+  facet_wrap(~Seasonality) #
+quartz()#
+ d +theme_bw()#
+E <- ggplot(rate_dat %>%#
+              filter(F_H==mort),#
+            aes(x=Kappa, y=Sizemat) #
+) + #
+  # geom_point(size = 2, shape = factor(Temp)) +#
+  geom_point(aes(colour = factor(Temp), shape=factor(Temp)), size = 4) +#
+  scale_shape_manual(values=c(8, 16)) +#
+  scale_color_manual(values = c("blue", "red")) +#
+  labs(y="Size at maturity (cm)")+#
+   facet_wrap(~Seasonality) #
+quartz()#
+E +theme_bw()#
+ff <- ggplot(rate_dat %>%#
+              filter(F_H==mort),#
+            aes(x=Kappa, y=bodysize) #
+) + #
+  # geom_point(size = 2, shape = factor(Temp)) +#
+  geom_point(aes(colour = factor(Temp), shape=factor(Temp)), size = 4) +#
+  scale_shape_manual(values=c(8, 16)) +#
+  scale_color_manual(values = c("blue", "red")) +#
+  labs(y="Body Length (cm)")+#
+   facet_wrap(~Seasonality) #
+quartz()#
+ff +theme_bw()
+install.packages("readr")#
+install.packages("ggplot2")#
+install.packages("tidyverse")#
+library(readr)#
+library(ggplot2)#
+library(tidyverse)#
+mort <- 0.33#
+rate_dat<-read_csv("/Users/hollykindsvater/Documents/tuna_theory_paper/october_run_results/october_prelim_results.csv") #bring in the summary spreadsheet I made of trait data#
+ a <- ggplot(rate_dat %>% #
+                filter(F_H==mort),#
+    aes(x=Kappa, y=Amat) #
+    ) + #
+   # geom_point(size = 2, shape = factor(Temp)) +#
+	geom_point(aes(colour = factor(Temp), shape=factor(Temp)), size = 4) +#
+  scale_shape_manual(values=c(8, 16)) +#
+    scale_color_manual(values = c("blue", "red")) +#
+   labs(y="Age at 50% Maturity (years)")  +#
+   # #
+  facet_wrap(~Seasonality) #
+quartz()#
+a +theme_bw()#
+c <- ggplot(rate_dat %>% #
+            filter(F_H==mort),#
+            aes(x=Kappa, y=Mu_annual) #
+) + #
+  # geom_point(size = 2, shape = factor(Temp)) +#
+  geom_point(aes(colour = factor(Temp), shape=factor(Temp)), size = 4) +#
+  scale_shape_manual(values=c(8, 16)) +#
+  scale_color_manual(values = c("blue", "red")) +#
+   labs(y="Annual mortality rate (M)")+#
+ facet_wrap(~Seasonality) #
+quartz()#
+c +theme_bw()#
+d <- ggplot(rate_dat %>%#
+              filter(F_H==mort),#
+            aes(x=Kappa, y=alive_at_15) #
+) + #
+  # geom_point(size = 2, shape = factor(Temp)) +#
+  geom_point(aes(colour = factor(Temp), shape=factor(Temp)), size = 4) +#
+  scale_shape_manual(values=c(8, 16)) +#
+  scale_color_manual(values = c("blue", "red")) +#
+  labs(y="Survivors at age 15")+#
+  facet_wrap(~Seasonality) #
+quartz()#
+ d +theme_bw()#
+E <- ggplot(rate_dat %>%#
+              filter(F_H==mort),#
+            aes(x=Kappa, y=Sizemat) #
+) + #
+  # geom_point(size = 2, shape = factor(Temp)) +#
+  geom_point(aes(colour = factor(Temp), shape=factor(Temp)), size = 4) +#
+  scale_shape_manual(values=c(8, 16)) +#
+  scale_color_manual(values = c("blue", "red")) +#
+  labs(y="Size at maturity (cm)")+#
+   facet_wrap(~Seasonality) #
+quartz()#
+E +theme_bw()#
+ff <- ggplot(rate_dat %>%#
+              filter(F_H==mort),#
+            aes(x=Kappa, y=bodysize) #
+) + #
+  # geom_point(size = 2, shape = factor(Temp)) +#
+  geom_point(aes(colour = factor(Temp), shape=factor(Temp)), size = 4) +#
+  scale_shape_manual(values=c(8, 16)) +#
+  scale_color_manual(values = c("blue", "red")) +#
+  labs(y="Body Length (cm)")+#
+   facet_wrap(~Seasonality) #
+quartz()#
+ff +theme_bw()
+rate_dat<-read_csv("/Users/hollykindsvater/Documents/tuna_theory_paper/october_run_results/october results.csv") #bring in the summary spreadsheet I made of trait data
+install.packages("readr")#
+install.packages("ggplot2")#
+install.packages("tidyverse")#
+library(readr)#
+library(ggplot2)#
+library(tidyverse)#
+mort <- 0.33#
+rate_dat<-read_csv("/Users/hollykindsvater/Documents/tuna_theory_paper/october_run_results/october_results.csv") #bring in the summary spreadsheet I made of trait data#
+ a <- ggplot(rate_dat %>% #
+                filter(F_H==mort),#
+    aes(x=Kappa, y=Amat) #
+    ) + #
+   # geom_point(size = 2, shape = factor(Temp)) +#
+	geom_point(aes(colour = factor(Temp), shape=factor(Temp)), size = 4) +#
+  scale_shape_manual(values=c(8, 16)) +#
+    scale_color_manual(values = c("blue", "red")) +#
+   labs(y="Age at 50% Maturity (years)")  +#
+   # #
+  facet_wrap(~Seasonality) #
+quartz()#
+a +theme_bw()#
+c <- ggplot(rate_dat %>% #
+            filter(F_H==mort),#
+            aes(x=Kappa, y=Mu_annual) #
+) + #
+  # geom_point(size = 2, shape = factor(Temp)) +#
+  geom_point(aes(colour = factor(Temp), shape=factor(Temp)), size = 4) +#
+  scale_shape_manual(values=c(8, 16)) +#
+  scale_color_manual(values = c("blue", "red")) +#
+   labs(y="Annual mortality rate (M)")+#
+ facet_wrap(~Seasonality) #
+quartz()#
+c +theme_bw()#
+d <- ggplot(rate_dat %>%#
+              filter(F_H==mort),#
+            aes(x=Kappa, y=alive_at_15) #
+) + #
+  # geom_point(size = 2, shape = factor(Temp)) +#
+  geom_point(aes(colour = factor(Temp), shape=factor(Temp)), size = 4) +#
+  scale_shape_manual(values=c(8, 16)) +#
+  scale_color_manual(values = c("blue", "red")) +#
+  labs(y="Survivors at age 15")+#
+  facet_wrap(~Seasonality) #
+quartz()#
+ d +theme_bw()#
+E <- ggplot(rate_dat %>%#
+              filter(F_H==mort),#
+            aes(x=Kappa, y=Sizemat) #
+) + #
+  # geom_point(size = 2, shape = factor(Temp)) +#
+  geom_point(aes(colour = factor(Temp), shape=factor(Temp)), size = 4) +#
+  scale_shape_manual(values=c(8, 16)) +#
+  scale_color_manual(values = c("blue", "red")) +#
+  labs(y="Size at maturity (cm)")+#
+   facet_wrap(~Seasonality) #
+quartz()#
+E +theme_bw()#
+ff <- ggplot(rate_dat %>%#
+              filter(F_H==mort),#
+            aes(x=Kappa, y=bodysize) #
+) + #
+  # geom_point(size = 2, shape = factor(Temp)) +#
+  geom_point(aes(colour = factor(Temp), shape=factor(Temp)), size = 4) +#
+  scale_shape_manual(values=c(8, 16)) +#
+  scale_color_manual(values = c("blue", "red")) +#
+  labs(y="Body Length (cm)")+#
+   facet_wrap(~Seasonality) #
+quartz()#
+ff +theme_bw()
+install.packages("readr")#
+install.packages("ggplot2")#
+install.packages("tidyverse")#
+library(readr)#
+library(ggplot2)#
+library(tidyverse)#
+mort <- 0.33#
+rate_dat<-read_csv("/Users/hollykindsvater/Documents/tuna_theory_paper/october_run_results/october_results.csv") #bring in the summary spreadsheet I made of trait data#
+ a <- ggplot(rate_dat %>% #
+                filter(F_H==mort),#
+    aes(x=Kappa, y=Amat) #
+    ) + #
+   # geom_point(size = 2, shape = factor(Temp)) +#
+	geom_point(aes(colour = factor(Temp), shape=factor(Temp)), size = 4) +#
+  scale_shape_manual(values=c(8, 16)) +#
+    scale_color_manual(values = c("blue", "red")) +#
+   labs(y="Age at 50% Maturity (years)")  +#
+   # #
+  facet_wrap(~Seasonality) #
+quartz()#
+a +theme_bw()#
+c <- ggplot(rate_dat %>% #
+            filter(F_H==mort),#
+            aes(x=Kappa, y=Mu_annual) #
+) + #
+  # geom_point(size = 2, shape = factor(Temp)) +#
+  geom_point(aes(colour = factor(Temp), shape=factor(Temp)), size = 4) +#
+  scale_shape_manual(values=c(8, 16)) +#
+  scale_color_manual(values = c("blue", "red")) +#
+   labs(y="Annual mortality rate (M)")+#
+ facet_wrap(~Seasonality) #
+quartz()#
+c +theme_bw()#
+d <- ggplot(rate_dat %>%#
+              filter(F_H==mort),#
+            aes(x=Kappa, y=alive_at_15) #
+) + #
+  # geom_point(size = 2, shape = factor(Temp)) +#
+  geom_point(aes(colour = factor(Temp), shape=factor(Temp)), size = 4) +#
+  scale_shape_manual(values=c(8, 16)) +#
+  scale_color_manual(values = c("blue", "red")) +#
+  labs(y="Survivors at age 15")+#
+  facet_wrap(~Seasonality) #
+quartz()#
+ d +theme_bw()#
+E <- ggplot(rate_dat %>%#
+              filter(F_H==mort),#
+            aes(x=Kappa, y=Sizemat) #
+) + #
+  # geom_point(size = 2, shape = factor(Temp)) +#
+  geom_point(aes(colour = factor(Temp), shape=factor(Temp)), size = 4) +#
+  scale_shape_manual(values=c(8, 16)) +#
+  scale_color_manual(values = c("blue", "red")) +#
+  labs(y="Size at maturity (cm)")+#
+   facet_wrap(~Seasonality) #
+quartz()#
+E +theme_bw()#
+ff <- ggplot(rate_dat %>%#
+              filter(F_H==mort),#
+            aes(x=Kappa, y=bodysize) #
+) + #
+  # geom_point(size = 2, shape = factor(Temp)) +#
+  geom_point(aes(colour = factor(Temp), shape=factor(Temp)), size = 4) +#
+  scale_shape_manual(values=c(8, 16)) +#
+  scale_color_manual(values = c("blue", "red")) +#
+  labs(y="Body Length (cm)")+#
+   facet_wrap(~Seasonality) #
+quartz()#
+ff +theme_bw()
+c <- ggplot(rate_dat %>% #
+            filter(F_H==mort),#
+            aes(x=Kappa, y=exp(Mu_annual) )#
+) + #
+  # geom_point(size = 2, shape = factor(Temp)) +#
+  geom_point(aes(colour = factor(Temp), shape=factor(Temp)), size = 4) +#
+  scale_shape_manual(values=c(8, 16)) +#
+  scale_color_manual(values = c("blue", "red")) +#
+   labs(y="Annual survival")+#
+ facet_wrap(~Seasonality) #
+quartz()#
+c +theme_bw()
+surv_annual <- exp(rate_dat$Mu_annual)
+c <- ggplot(rate_dat %>% #
+            filter(F_H==mort),#
+            aes(x=Kappa, y=surv_annual) #
+) + #
+  # geom_point(size = 2, shape = factor(Temp)) +#
+  geom_point(aes(colour = factor(Temp), shape=factor(Temp)), size = 4) +#
+  scale_shape_manual(values=c(8, 16)) +#
+  scale_color_manual(values = c("blue", "red")) +#
+   labs(y="Annual survival")+#
+ facet_wrap(~Seasonality) #
+quartz()#
+c +theme_bw()
+rate_dat$surv_annual <- exp(rate_dat$Mu_annual)
+c <- ggplot(rate_dat %>% #
+            filter(F_H==mort),#
+            aes(x=Kappa, y=surv_annual) #
+) + #
+  # geom_point(size = 2, shape = factor(Temp)) +#
+  geom_point(aes(colour = factor(Temp), shape=factor(Temp)), size = 4) +#
+  scale_shape_manual(values=c(8, 16)) +#
+  scale_color_manual(values = c("blue", "red")) +#
+   labs(y="Annual survival")+#
+ facet_wrap(~Seasonality) #
+quartz()#
+c +theme_bw()
+names(rate_dat)
+c <- ggplot(rate_dat %>% #
+            filter(F_H==mort),#
+            aes(x=Kappa, y=survival) #
+) + #
+  # geom_point(size = 2, shape = factor(Temp)) +#
+  geom_point(aes(colour = factor(Temp), shape=factor(Temp)), size = 4) +#
+  scale_shape_manual(values=c(8, 16)) +#
+  scale_color_manual(values = c("blue", "red")) +#
+   labs(y="Annual survival")+#
+ facet_wrap(~Seasonality) #
+quartz()#
+c +theme_bw()
+c <- ggplot(rate_dat %>% #
+            filter(F_H==mort),#
+            aes(x=Kappa, y=survival) #
+) + #
+  # geom_point(size = 2, shape = factor(Temp)) +#
+  geom_point(aes(colour = factor(Temp), shape=factor(Temp)), size = 4) +#
+  scale_shape_manual(values=c(8, 16)) +#
+  scale_color_manual(values = c("blue", "red")) +#
+   labs(y="Annual survival")+#
+ facet_wrap(~Seasonality) #
+quartz()#
+c +theme_bw()
+install.packages("readr")#
+install.packages("ggplot2")#
+install.packages("tidyverse")#
+library(readr)#
+library(ggplot2)#
+library(tidyverse)#
+mort <- 0.33#
+rate_dat<-read_csv("/Users/hollykindsvater/Documents/tuna_theory_paper/october_run_results/october_results.csv") #bring in the summary spreadsheet I made of trait data#
+ a <- ggplot(rate_dat %>% #
+                filter(F_H==mort),#
+    aes(x=Kappa, y=Amat) #
+    ) + #
+   # geom_point(size = 2, shape = factor(Temp)) +#
+	geom_point(aes(colour = factor(Temp), shape=factor(Temp)), size = 4) +#
+  scale_shape_manual(values=c(8, 16)) +#
+    scale_color_manual(values = c("blue", "red")) +#
+   labs(y="Age at 50% Maturity (years)")  +#
+   # #
+  facet_wrap(~Seasonality) #
+quartz()#
+a +theme_bw()#
+c <- ggplot(rate_dat %>% #
+            filter(F_H==mort),#
+            aes(x=Kappa, y=survival) #
+) + #
+  # geom_point(size = 2, shape = factor(Temp)) +#
+  geom_point(aes(colour = factor(Temp), shape=factor(Temp)), size = 4) +#
+  scale_shape_manual(values=c(8, 16)) +#
+  scale_color_manual(values = c("blue", "red")) +#
+   labs(y="Annual survival")+#
+ facet_wrap(~Seasonality) #
+quartz()#
+c +theme_bw()#
+d <- ggplot(rate_dat %>%#
+              filter(F_H==mort),#
+            aes(x=Kappa, y=alive_at_15) #
+) + #
+  # geom_point(size = 2, shape = factor(Temp)) +#
+  geom_point(aes(colour = factor(Temp), shape=factor(Temp)), size = 4) +#
+  scale_shape_manual(values=c(8, 16)) +#
+  scale_color_manual(values = c("blue", "red")) +#
+  labs(y="Survivors at age 15")+#
+  facet_wrap(~Seasonality) #
+quartz()#
+ d +theme_bw()#
+E <- ggplot(rate_dat %>%#
+              filter(F_H==mort),#
+            aes(x=Kappa, y=Sizemat) #
+) + #
+  # geom_point(size = 2, shape = factor(Temp)) +#
+  geom_point(aes(colour = factor(Temp), shape=factor(Temp)), size = 4) +#
+  scale_shape_manual(values=c(8, 16)) +#
+  scale_color_manual(values = c("blue", "red")) +#
+  labs(y="Size at maturity (cm)")+#
+   facet_wrap(~Seasonality) #
+quartz()#
+E +theme_bw()#
+ff <- ggplot(rate_dat %>%#
+              filter(F_H==mort),#
+            aes(x=Kappa, y=bodysize) #
+) + #
+  # geom_point(size = 2, shape = factor(Temp)) +#
+  geom_point(aes(colour = factor(Temp), shape=factor(Temp)), size = 4) +#
+  scale_shape_manual(values=c(8, 16)) +#
+  scale_color_manual(values = c("blue", "red")) +#
+  labs(y="Body Length (cm)")+#
+   facet_wrap(~Seasonality) #
+quartz()#
+ff +theme_bw()
+E <- ggplot(rate_dat %>%#
+              filter(F_H==mort),#
+            aes(x=Kappa, y=Sizemat) #
+) + #
+  # geom_point(size = 2, shape = factor(Temp)) +#
+  geom_point(aes(colour = factor(Temp), shape=factor(Temp)), size = 4) +#
+  scale_shape_manual(values=c(8, 16)) +#
+  scale_color_manual(values = c("blue", "red")) +#
+  labs(y="Size at maturity (cm)")+#
+   facet_wrap(~Seasonality) #
+quartz()#
+E +theme_bw()
+E +theme_bw()

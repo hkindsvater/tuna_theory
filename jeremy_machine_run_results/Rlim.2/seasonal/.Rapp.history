@@ -1,0 +1,2498 @@
+i=1
+state <- idist[,i] #
+   size <- round(sizedist[,i])  #
+     EstoresmaxL <-scale*a*size^3*storelimit #adjusts stores to the max allowed for the mass at that length#
+     EcritL <-  scale*a*size^3*storemin   #
+        index <- which(state >= EcritL) #which individuals are still alive (didn't starve)
+Ilo <- floor(state[index]/scale)#
+  #these ifelse statemnts deal with the upper boundary on Estores (energetic state):#
+#find the allocation strategies of individuals of these states and age, regardless of   whether they survive  (since they behave first) #
+   Ilo <- ifelse(Ilo >= Estoresmax, Estoresmax-1, Ilo)   #
+   dx <- ifelse(Ilo >= Estoresmax, 1, state[index]/scale - Ilo) #
+      ##NOW WE NEED TO LOOK UP THE OPTIMAL BEHAVIORS FROM THE BACKWARD SOLUTION#
+      #CAREFULLY DEALING WITH THE CASE OF LOW STATE #
+      condind <- Ilo == 0
+g_allo[, i] <- 0
+repro[, i] <- 0
+Wstructure<- a*size[index]^3 #
+    Estructure <- Wstructure*scale#
+    Replim <- Estructure*reprolimit       #
+	Wstores<-state[index]/(scale)#
+	Wtotal <-  Wstores+Wstructure   #body mass
+reproduction[index, i]<- ifelse(repro[index, i]*state[index] < Replim, repro[index, i]*state[index], Replim)    #
+  nextsize <-   ((Wstructure +  g_allo[index,i]*Wstores)/a)^(1/3)#
+	survival <- randraw[index,i] <= exp(-mu[size[index]])   #
+	  critstores <- a*nextsize^3*storemin*scale
+Food<-sapply(ceiling(Wtotal), sto.food) #calculates stochastic food quantity for every index individual#
+ #####future state calculation:#
+	  survival2<- ifelse(((1-repro[index, i]-g_allo[index,i])*state[index] + Food - MTcosts[ceiling(Wtotal)])  > critstores, 1, 0) #check that future state will be greater than current EcritL #
+     idist[index,i+1] <- ifelse(survival+survival2==2, ((1-repro[index, i]-g_allo[index,i])*state[index] + Food - MTcosts[ceiling(Wtotal)]),  NA)#
+  sizedist[index, i+1] <- ifelse(survival+survival2==2,  nextsize, NA)   #
+  alive[group, i+1]=sum(idist[,i+1] > 0, na.rm=TRUE) #number of survivors#
+  income[, i] = Food
+Fod
+Food
+Food<-sapply(ceiling(Wtotal), sto.food) #calculates stochastic food quantity for every index individual#
+ #####future state calculation:#
+	  survival2<- ifelse(((1-repro[index, i]-g_allo[index,i])*state[index] + Food - MTcosts[ceiling(Wtotal)])  > critstores, 1, 0) #check that future state will be greater than current EcritL #
+     idist[index,i+1] <- ifelse(survival+survival2==2, ((1-repro[index, i]-g_allo[index,i])*state[index] + Food - MTcosts[ceiling(Wtotal)]),  NA)#
+  sizedist[index, i+1] <- ifelse(survival+survival2==2,  nextsize, NA)   #
+  alive[group, i+1]=sum(idist[,i+1] > 0, na.rm=TRUE) #number of survivors#
+  income[, i] = Food
+Food/scale
+list(wtd_size, coef(fitVB)[1]), coef(fitVB)[2]) )
+290:295
+seq(0.9, 5, by=0.1)
+L2 = seq(0.8, 4, by=0.2)
+length(L2)
+17*3
+install.packages("FSA")#
+install.packages("nlstools")#
+#
+library(FSA)#
+library(nlstools)#
+#
+setwd("~/Documents/tuna_theory_paper/jeremy_machine_run_results/Rlim.2/constant/")#
+Temp =  #
+data_files <- list.files(pattern = "\\.csv$")#
+## read in files#
+#
+repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
+state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
+length_filenames <- data_files[1:(length(data_files)/4)]#
+surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+surv_filenames <- unique(surv_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+surv_data <- lapply(surv_filenames, read.csv)#
+fit_age <- 13:156 #note we are focused only on growth from 1 year to 13 years of age.....
+length_data
+length_data[[1]]
+ldata <- length_data[[1]]
+ldata[1, ]
+x <- ldata[1, ]
+calc_metrics <-  function(sizedata, survdata, filenames) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:145])))#
+	names(data2) <- c("age_m", "len")#
+	data3 <- .data.frame(t(rbind(fit_age, sizedata[1, 2:145])))#
+	names(data3) <- c("survival")#
+	SV <- vbStarts(len~age_m, data <- data2)#
+	SV#
+#
+	von_bert <- len~Linf*(1-exp(-K*(age_m - t0)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2$len*data3$survival#
+#
+ return(c(wtd_size, coef(fitVB)[1], coef(fitVB)[2] ) )#
+ 		}
+calc_metrics <-  function(sizedata, survdata, filenames) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:145])))#
+	names(data2) <- c("age_m", "len")#
+	data3 <- .data.frame(t(rbind(fit_age, sizedata[1, 2:145])))#
+	names(data3) <- c("survival")#
+	SV <- vbStarts(len~age_m, data <- data2)#
+	SV#
+#
+	von_bert <- len~Linf*(1-exp(-K*(age_m - t0)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2$len*data3$survival)#
+#
+ return(c(wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		}
+sdata<- surv_data[[1]]
+sdata[1, ]
+y<-sdata[1, ]
+y
+x
+surv_data
+sdata<- surv_data[[1]]$x
+sdata
+x
+apply(calc_metrics, x, sdata, filenames[[1]])
+sdata
+mapply(calc_metrics, x, sdata, filenames[[1]])
+filenames
+calc_metrics <-  function(sizedata, survdata, lfilenames, sfilenames) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:145])))#
+	names(data2) <- c("age_m", "len")#
+	data3 <- survdata$x#
+	names(data3) <- c("survival")#
+	SV <- vbStarts(len~age_m, data <- data2)#
+	SV#
+#
+	von_bert <- len~Linf*(1-exp(-K*(age_m - t0)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2$len*data3$survival)#
+#
+ return(c(wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		}
+calc_metrics <-  function(sizedata, survdata) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:145])))#
+	names(data2) <- c("age_m", "len")#
+	data3 <- survdata$x#
+	names(data3) <- c("survival")#
+	SV <- vbStarts(len~age_m, data <- data2)#
+	SV#
+#
+	von_bert <- len~Linf*(1-exp(-K*(age_m - t0)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2$len*data3$survival)#
+#
+ return(c(wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+ mapply(calc_metrics, length_data, surv_data)
+calc_metrics <-  function(sizedata, survdata) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:145])))#
+	names(data2) <- c("age_m", "len")#
+	data3 <- survdata$x#
+	names(data3) <- c("survival")#
+	SV <- vbStarts(len~age_m, data <- data2)#
+	SV#
+#
+	von_bert <- len~Linf*(1-exp(-K*(age_m - t0)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(len*survival)#
+#
+ return(c(wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+ mapply(calc_metrics, length_data, surv_data)
+data2
+calc_metrics <-  function(sizedata, survdata) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:145])))#
+	names(data2) <- c("age_m", "len")#
+	data3 <- survdata$x#
+	names(data3) <- c("survival")#
+	SV <- vbStarts(len~age_m, data <- data2)#
+	SV#
+#
+	von_bert <- len~Linf*(1-exp(-K*(age_m - t0)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+#
+ return(c(wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+ mapply(calc_metrics, length_data, surv_data)
+calc_metrics <-  function(sizedata, survdata, fit_age) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:145])))#
+	names(data2) <- c("age_m", "len")#
+	data3 <- survdata$x[1, 2:145]#
+	names(data3) <- c("survival")#
+	SV <- vbStarts(len~age_m, data <- data2)#
+	SV#
+#
+	von_bert <- len~Linf*(1-exp(-K*(age_m - t0)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+#
+ return(c(wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+ mapply(calc_metrics, length_data, surv_data, fit_age)
+calc_metrics <-  function(sizedata, survdata, fit_age) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[2:145])))#
+	names(data2) <- c("age_m", "len")#
+	data3 <- survdata$x[1, 2:145]#
+	names(data3) <- c("survival")#
+	SV <- vbStarts(len~age_m, data <- data2)#
+	SV#
+#
+	von_bert <- len~Linf*(1-exp(-K*(age_m - t0)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+#
+ return(c(wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+ mapply(calc_metrics, length_data, surv_data, fit_age)
+calc_metrics <-  function(sizedata, survdata, fit_age) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[2:145])))#
+	names(data2) <- c("age_m", "len")#
+	data3 <- survdata$x[1, 2:145]#
+	names(data3) <- c("survival")#
+	SV <- vbStarts(len~age_m, data <- data2)#
+	SV#
+#
+	von_bert <- len~Linf*(1-exp(-K*(age_m - t0)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+#
+ return(c(wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+ mapply(calc_metrics, length_data, surv_data, fit_age)
+calc_metrics <-  function(sizedata, survdata, fit_age) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[2:145])))#
+	names(data2) <- c("age_m", "len")#
+	data3 <- survdata$x[1, 2:145]#
+	names(data3) <- c("survival")#
+	SV <- vbStarts(len~age_m, data <- data2)#
+	SV#
+#
+	von_bert <- len~Linf*(1-exp(-K*(age_m - t0)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+#
+ return(c(wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+ mapply(calc_metrics, length_data, surv_data, fit_age)
+calc_metrics <-  function(sizedata, survdata, fit_age) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[2:145])))#
+	names(data2) <- c("age_m", "len")#
+	data3 <- survdata$x[1, 2:145]#
+	names(data3) <- c("survival")#
+	SV <- vbStarts(len~age_m, data <- data2)#
+	SV#
+#
+	von_bert <- len~Linf*(1-exp(-K*(age_m - t0)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+#
+ return(c(wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		}
+mapply(calc_metrics, length_data, surv_data, fit_age)
+calc_metrics <-  function(sizedata, survdata, fit_age) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[2:145])))#
+	names(data2) <- c("age_m", "len")#
+	data3 <- survdata$x[1, 2:145]#
+	names(data3) <- c("survival")#
+	SV <- vbStarts(len~age_m, data <- data2)#
+	SV#
+#
+	von_bert <- len~Linf*(1-exp(-K*(age_m - t0)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+#
+ return(c(wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		}
+calc_metrics
+calc_metrics <-  function(sizedata, survdata, fit_age) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, :145])))#
+	names(data2) <- c("age_m", "len")#
+	data3 <- survdata$x[2:145]#
+	names(data3) <- c("survival")#
+	SV <- vbStarts(len~age_m, data <- data2)#
+	SV#
+#
+	von_bert <- len~Linf*(1-exp(-K*(age_m - t0)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+#
+ return(c(wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+ mapply(calc_metrics, length_data, surv_data, fit_age)
+calc_metrics <-  function(sizedata, survdata, fit_age) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:145])))#
+	names(data2) <- c("age_m", "len")#
+	data3 <- survdata$x[2:145]#
+	names(data3) <- c("survival")#
+	SV <- vbStarts(len~age_m, data <- data2)#
+	SV#
+#
+	von_bert <- len~Linf*(1-exp(-K*(age_m - t0)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+#
+ return(c(wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+ mapply(calc_metrics, length_data, surv_data, fit_age)
+sizedata <- length_data
+survdata<- surv_data
+data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:145])))#
+	names(data2) <- c("age_m", "len")#
+	data3 <- survdata$x[2:145]#
+	names(data3) <- c("survival")
+data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:145])))#
+	names(data2) <- c("age_m", "len")#
+	data3 <- survdata$x[2:145]#
+	#names(data3) <- c("survival")
+SV <- vbStarts(len~age_m, data <- data2)#
+	SV#
+#
+	von_bert <- len~Linf*(1-exp(-K*(age_m - t0)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)
+sizedata
+dim(sizedata)
+as.data.frame(t(rbind(fit_age, sizedata[1, 2:145])))
+sizedata<-length_data[[1]]
+dim(sizedata)
+length(fit_age)
+sizedata[1, 2:145]
+data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:145])))#
+	names(data2) <- c("age_m", "len")#
+	data3 <- survdata$x[2:145]#
+	#names(data3) <- c("survival")
+SV <- vbStarts(len~age_m, data <- data2)#
+	SV
+von_bert <- len~Linf*(1-exp(-K*(age_m - t0)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+#
+ return(c(wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )
+calc_metrics <-  function(sizedata, survdata, fit_age) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:145])))#
+	names(data2) <- c("age_m", "len")#
+	data3 <- survdata$x[2:145]#
+	#names(data3) <- c("survival")#
+	SV <- vbStarts(len~age_m, data <- data2)#
+	SV#
+#
+	von_bert <- len~Linf*(1-exp(-K*(age_m - t0)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+#
+ return(c(wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		}
+mapply(calc_metrics, length_data, surv_data, fit_age)
+length_data
+calc_metrics <-  function(sizedata, survdata) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:145])))#
+	names(data2) <- c("age_m", "len")#
+	data3 <- survdata$x[2:145]#
+	#names(data3) <- c("survival")#
+	SV <- vbStarts(len~age_m, data <- data2)#
+	SV#
+#
+	von_bert <- len~Linf*(1-exp(-K*(age_m - t0)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+#
+ return(c(wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+ mapply(calc_metrics, length_data, surv_data)
+calc_metrics <-  function(sizedata, survdata) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:145])))#
+	names(data2) <- c("age_m", "len")#
+	data3 <- survdata$x[2:145]#
+	#names(data3) <- c("survival")#
+	SV <-  c(Linf<-max(data2), K=0.3) #
+	SV#
+#
+	von_bert <- len~Linf*(1-exp(-K*(age_m - t0)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+#
+ return(c(wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+ mapply(calc_metrics, length_data, surv_data)
+data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:145])))#
+	names(data2) <- c("age_m", "len")#
+	data3 <- survdata$x[2:145]#
+	#names(data3) <- c("survival")#
+	SV <-  c(Linf<-max(data2), K=0.3, t0 = 1) #
+	SV#
+#
+	von_bert <- len~Linf*(1-exp(-K*(age_m - t0)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+#
+ return(c(wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+ mapply(calc_metrics, length_data, surv_data)
+sizedata<- length_data[[1]]
+survdata<- surv_data
+data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:145])))#
+	names(data2) <- c("age_m", "len")#
+	data3 <- survdata$x[2:145]#
+	#names(data3) <- c("survival")
+SV <- vbStarts(len~age_m, data <- data2)#
+	print(SV)
+calc_metrics <-  function(sizedata, survdata) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:145])))#
+	names(data2) <- c("age_m", "len")#
+	data3 <- survdata$x[2:145]#
+	#names(data3) <- c("survival")#
+	 #SV <- vbStarts(len~age_m, data <- data2)#
+	 SV <- c(max(data2), K = 0.2, t0 = 8)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m - t0)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+#
+ return(c(wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+ mapply(calc_metrics, length_data, surv_data, fit_age)
+mapply(calc_metrics, length_data, surv_data)
+max(data2)
+data2
+data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:145])))#
+	names(data2) <- c("age_m", "len")#
+	data3 <- survdata$x[2:145]#
+	#names(data3) <- c("survival")#
+	 #SV <- vbStarts(len~age_m, data <- data2)#
+	 SV <- c(Linf<-max(data2[,2]), K = 0.2, t0 = 8)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m - t0)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+#
+ return(c(wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )
+vbStarts(len~age_m, data <- data2)
+?list
+list(Linf<-max(data2[,2]), K = 0.2, t0 = 8)
+SV <- list(Linf=max(data2[,2]), K = 0.2, t0 = 8)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m - t0)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)
+c(wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )
+c(wtd_size, coef(fitVB)[1], coef(fitVB)[2])
+data2[, 2]*data3
+data2[, 2]
+data3
+survdata$x[2:145]
+survdat
+survdata
+calc_metrics <-  function(sizedata, survdata) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:145])))#
+	names(data2) <- c("age_m", "len")#
+	data3 <- survdata$x[2:145]#
+	#names(data3) <- c("survival")#
+	 SV <- vbStarts(len~age_m, data <- data2)#
+	 SV <- list(Linf=max(data2[,2]), K = 0.2, t0 = 8)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m - t0)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+#
+ return(c(wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+ mapply(calc_metrics, length_data, surv_data)
+calc_metrics <-  function(sizedata, survdata) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:145])))#
+	names(data2) <- c("age_m", "len")#
+	data3 <- survdata$x[2:145]#
+	#names(data3) <- c("survival")#
+	 #SV <- vbStarts(len~age_m, data <- data2)#
+	 SV <- list(Linf=max(data2[,2]), K = 0.2, t0 = 8)#
+	 print(SV)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m - t0)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+#
+ return(c(wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+ mapply(calc_metrics, length_data, surv_data)
+calc_metrics <-  function(sizedata, survdata) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:145])))#
+	names(data2) <- c("age_m", "len")#
+	data3 <- survdata$x[2:145]#
+	#names(data3) <- c("survival")#
+	 #SV <- vbStarts(len~age_m, data <- data2)#
+	 SV <- list(Linf=max(data2[,2]), K = 0.2, t0 = -3)#
+	 print(SV)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m - t0)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+#
+ return(c(wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+ mapply(calc_metrics, length_data, surv_data)
+calc_metrics <-  function(sizedata, survdata) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:145])))#
+	names(data2) <- c("age_m", "len")#
+	data3 <- survdata$x[2:145]#
+	#names(data3) <- c("survival")#
+	 #SV <- vbStarts(len~age_m, data <- data2)#
+	 SV <- list(Linf=max(data2[,2]), K = 0.2, t0 = 0)#
+	 print(SV)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m - t0)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+#
+ return(c(wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+ mapply(calc_metrics, length_data, surv_data)
+SV <- list(Linf=max(data2[,2]), K = 0.2)#
+	 print(SV)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)
+fitVB
+SV
+calc_metrics <-  function(sizedata, survdata) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:145])))#
+	names(data2) <- c("age_m", "len")#
+	data3 <- survdata$x[2:145]#
+	#names(data3) <- c("survival")#
+	 #SV <- vbStarts(len~age_m, data <- data2)#
+	 SV <- list(Linf=max(data2[,2]), K = 0.2)#
+	 print(SV)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+#
+ return(c(wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		}
+mapply(calc_metrics, length_data, surv_data)
+calc_metrics <-  function(sizedata, survdata) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:145])))#
+	names(data2) <- c("age_m", "len")#
+	data3 <- survdata$x[2:145]#
+	#names(data3) <- c("survival")#
+	 #SV <- vbStarts(len~age_m, data <- data2)#
+	 SV <- list(Linf=max(data2[,2]), K = 0.2)#
+	 print(SV)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+#
+ return(c(SV[[1]], wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+ mapply(calc_metrics, length_data, surv_data)
+fit_age <- 1:144 #note we are focused only on growth from 1 year to 13 years of age..... #
+ calc_metrics <-  function(sizedata, survdata) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:145])))#
+	names(data2) <- c("age_m", "len")#
+	data3 <- survdata$x[2:145]#
+	#names(data3) <- c("survival")#
+	 #SV <- vbStarts(len~age_m, data <- data2)#
+	 SV <- list(Linf=max(data2[,2]), K = 0.2)#
+	 print(SV)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+#
+ return(c(SV[[1]], wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+ mapply(calc_metrics, length_data, surv_data)
+fit_age <- 1:144 #note we are focused only on growth from 1 year to 13 years of age..... #
+ calc_metrics <-  function(sizedata, survdata) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:145])))#
+	names(data2) <- c("age_m", "len")#
+	data3 <- survdata$x[2:145]#
+	#names(data3) <- c("survival")#
+	 #SV <- vbStarts(len~age_m, data <- data2)#
+	 SV <- list(Linf=max(data2[,2]), K = 0.2)#
+	 #print(SV)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+#
+ return(c(SV[[1]], wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+ mapply(calc_metrics, length_data, surv_data)
+fit_age <- 1:184 #note we are focused only on growth from 1 year to 13 years of age..... #
+ calc_metrics <-  function(sizedata, survdata) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:185])))#
+	names(data2) <- c("age_m", "len")#
+	data3 <- survdata$x[2:185]#
+	#names(data3) <- c("survival")#
+	 #SV <- vbStarts(len~age_m, data <- data2)#
+	 SV <- list(Linf=max(data2[,2]), K = 0.2)#
+	 #print(SV)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+#
+ return(c(SV[[1]], wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+ mapply(calc_metrics, length_data, surv_data)
+fit_age <- 13:196 #note we are focused only on growth from 1 year to 13 years of age..... #
+ calc_metrics <-  function(sizedata, survdata) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:185])))#
+	names(data2) <- c("age_m", "len")#
+	data3 <- survdata$x[2:185]#
+	#names(data3) <- c("survival")#
+	 #SV <- vbStarts(len~age_m, data <- data2)#
+	 SV <- list(Linf=max(data2[,2]), K = 0.2)#
+	 #print(SV)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+#
+ return(c(SV[[1]], wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+ mapply(calc_metrics, length_data, surv_data)
+15*12
+fit_age <- 13:180 note we are focused only on growth from 1 year to 13 years of age..... #
+ calc_metrics <-  function(sizedata, survdata) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:181])))#
+	names(data2) <- c("age_m", "len")#
+	data3 <- survdata$x[2:181]#
+	#names(data3) <- c("survival")#
+	 #SV <- vbStarts(len~age_m, data <- data2)#
+	 SV <- list(Linf=max(data2[,2]), K = 0.2)#
+	 #print(SV)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+#
+ return(c(SV[[1]], wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+ mapply(calc_metrics, length_data, surv_data)
+data2[, 2]
+data3
+data3
+calc_metrics <-  function(sizedata, survdata) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:181])))#
+	names(data2) <- c("age_m", "len")#
+	data3 <- survdata$x[2:181]#
+	#names(data3) <- c("survival")#
+	 #SV <- vbStarts(len~age_m, data <- data2)#
+	 SV <- list(Linf=max(data2[,2]), K = 0.2)#
+	 #print(SV)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+	print(wtd_size)#
+	print(head(data2[,2]))#
+	print(head(data3))#
+ return(c(SV[[1]], wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+ mapply(calc_metrics, length_data, surv_data)
+surv_data
+surv_filenames
+mapply(colMeans, surv_data)
+calc_metrics <-  function(sizedata, survdata) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:181])))#
+	names(data2) <- c("age_m", "len")#
+	data3_ <- survdata$x[2:181]#
+	#names(data3) <- c("survival")#
+	 #SV <- vbStarts(len~age_m, data <- data2)#
+	 SV <- list(Linf=max(data2[,2]), K = 0.2)#
+	 #print(SV)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+ return(c(SV[[1]], wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+ mapply(calc_metrics, length_data, surv_data)
+fit_age <- 13:180 note we are focused only on growth from 1 year to 13 years of age..... #
+ calc_metrics <-  function(sizedata, survdata) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:181])))#
+	names(data2) <- c("age_m", "len")#
+	data3_ <- survdata$x[2:181]#
+	#names(data3) <- c("survival")#
+	 #SV <- vbStarts(len~age_m, data <- data2)#
+	 SV <- list(Linf=max(data2[,2]), K = 0.2)#
+	 #print(SV)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+ return(c(SV[[1]], wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+ mapply(calc_metrics, length_data, surv_data)
+surv_data <- lapply(surv_filenames, read.csv)#
+fit_age <- 13:180 note we are focused only on growth from 1 year to 13 years of age..... #
+ calc_metrics <-  function(sizedata, survdata) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:181])))#
+	names(data2) <- c("age_m", "len")#
+	data3_ <- survdata$x[2:181]#
+	#names(data3) <- c("survival")#
+	 #SV <- vbStarts(len~age_m, data <- data2)#
+	 SV <- list(Linf=max(data2[,2]), K = 0.2)#
+	 #print(SV)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+ return(c(SV[[1]], wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+ mapply(calc_metrics, length_data, surv_data)
+surv_data <- lapply(surv_filenames, read.csv)#
+fit_age <- 13:180 note we are focused only on growth from 1 year to 13 years of age..... #
+ calc_metrics <-  function(sizedata, survdata) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:181])))#
+	names(data2) <- c("age_m", "len")#
+	data3_ <- survdata$x[2:181]#
+	#names(data3) <- c("survival")#
+	 #SV <- vbStarts(len~age_m, data <- data2)#
+	 SV <- list(Linf=max(data2[,2]), K = 0.2)#
+	 #print(SV)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+ return(c(SV[[1]], wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+ mapply(calc_metrics, length_data, surv_data)
+surv_data <- lapply(surv_filenames, read.csv)#
+fit_age <- 13:180 note we are focused only on growth from 1 year to 13 years of age..... #
+ calc_metrics <-  function(sizedata, survdata) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:181])))#
+	names(data2) <- c("age_m", "len")#
+	data3_ <- survdata$x[2:181]#
+	#names(data3) <- c("survival")#
+	 #SV <- vbStarts(len~age_m, data <- data2)#
+	 SV <- list(Linf=max(data2[,2]), K = 0.2)#
+	 #print(SV)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+ return(c(SV[[1]], wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+ mapply(calc_metrics, length_data, surv_data)
+surv_data <- lapply(surv_filenames, read.csv)#
+fit_age <- 13:180 note we are focused only on growth from 1 year to 13 years of age..... #
+ calc_metrics <-  function(sizedata, survdata) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:181])))#
+	names(data2) <- c("age_m", "len")#
+	data3_ <- survdata$x[2:181]#
+	#names(data3) <- c("survival")#
+	 #SV <- vbStarts(len~age_m, data <- data2)#
+	 SV <- list(Linf=max(data2[,2]), K = 0.2)#
+	 #print(SV)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+ return(c(SV[[1]], wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+ mapply(calc_metrics, length_data, surv_data)
+surv_data <- lapply(surv_filenames, read.csv)#
+fit_age <- 13:180 note we are focused only on growth from 1 year to 13 years of age..... #
+ calc_metrics <-  function(sizedata, survdata) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:181])))#
+	names(data2) <- c("age_m", "len")#
+	data3_ <- survdata$x[2:181]#
+	#names(data3) <- c("survival")#
+	 #SV <- vbStarts(len~age_m, data <- data2)#
+	 SV <- list(Linf=max(data2[,2]), K = 0.2)#
+	 #print(SV)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+ return(c(SV[[1]], wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+ mapply(calc_metrics, length_data, surv_data)
+setwd("~/Documents/tuna_theory_paper/jeremy_machine_run_results/Rlim.2/constant/")#
+Temp =  #
+data_files <- list.files(pattern = "\\.csv$")#
+## read in files#
+#
+repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
+state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
+length_filenames <- data_files[1:(length(data_files)/4)]#
+surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+surv_filenames <- unique(surv_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+surv_data <- lapply(surv_filenames, read.csv)#
+fit_age <- 13:180 note we are focused only on growth from 1 year to 13 years of age..... #
+ calc_metrics <-  function(sizedata, survdata) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:181])))#
+	names(data2) <- c("age_m", "len")#
+	data3_ <- survdata$x[2:181]#
+	#names(data3) <- c("survival")#
+	 #SV <- vbStarts(len~age_m, data <- data2)#
+	 SV <- list(Linf=max(data2[,2]), K = 0.2)#
+	 #print(SV)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+ return(c(SV[[1]], wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+ mapply(calc_metrics, length_data, surv_data)#
+ mapply(colMeans, surv_data)
+fit_age <- 13:193 note we are focused only on growth from 1 year to 13 years of age..... #
+ calc_metrics <-  function(sizedata, survdata) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:181])))#
+	names(data2) <- c("age_m", "len")#
+	data3_ <- survdata$x[2:181]#
+	#names(data3) <- c("survival")#
+	 #SV <- vbStarts(len~age_m, data <- data2)#
+	 SV <- list(Linf=max(data2[,2]), K = 0.2)#
+	 #print(SV)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+ return(c(SV[[1]], wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+ mapply(calc_metrics, length_data, surv_data)
+192/12
+181-13
+length(2:168)
+167/12
+192/12
+2:168
+168/12
+fit_age <- 13:181 note we are focused only on growth from 1 year to 15 years of age..... #
+ calc_metrics <-  function(sizedata, survdata) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:169])))#
+	names(data2) <- c("age_m", "len")#
+	data3_ <- survdata$x[2:169]#
+	#names(data3) <- c("survival")#
+	 #SV <- vbStarts(len~age_m, data <- data2)#
+	 SV <- list(Linf=max(data2[,2]), K = 0.2)#
+	 #print(SV)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+ return(c(SV[[1]], wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+ mapply(calc_metrics, length_data, surv_data)#
+ mapply(colMeans, surv_data)
+181-12
+fit_age <- 13:169 note we are focused only on growth from 1 year to 14 years of age..... #
+ calc_metrics <-  function(sizedata, survdata) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:157])))#
+	names(data2) <- c("age_m", "len")#
+	data3_ <- survdata$x[2:157]#
+	#names(data3) <- c("survival")#
+	 #SV <- vbStarts(len~age_m, data <- data2)#
+	 SV <- list(Linf=max(data2[,2]), K = 0.2)#
+	 #print(SV)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+ return(c(SV[[1]], wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+ mapply(calc_metrics, length_data, surv_data)#
+ mapply(colMeans, surv_data)
+fit_age <- 13:169 note we are focused only on growth from 1 year to 14 years of age..... #
+ calc_metrics <-  function(sizedata, survdata) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:157])))#
+	names(data2) <- c("age_m", "len")#
+	data3_ <- survdata$x#
+	data3 <- data3_[2:157]#
+	#names(data3) <- c("survival")#
+	 #SV <- vbStarts(len~age_m, data <- data2)#
+	 SV <- list(Linf=max(data2[,2]), K = 0.2)#
+	 #print(SV)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+ return(c(SV[[1]], wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+ mapply(calc_metrics, length_data, surv_data)
+24+169
+157+24
+fit_age <- 13:193 note we are focused only on growth from 1 year to 16 years of age..... #
+ calc_metrics <-  function(sizedata, survdata) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:181])))#
+	names(data2) <- c("age_m", "len")#
+	data3_ <- survdata$x#
+	data3 <- data3_[2:181]#
+	#names(data3) <- c("survival")#
+	 #SV <- vbStarts(len~age_m, data <- data2)#
+	 SV <- list(Linf=max(data2[,2]), K = 0.2)#
+	 #print(SV)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+ return(c(SV[[1]], wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+ mapply(calc_metrics, length_data, surv_data)
+length_filenames
+surv_filenames
+fit_age <- 13:193 note we are focused only on growth from 1 year to 16 years of age..... #
+ calc_metrics <-  function(sizedata, survdata, filenames) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:181])))#
+	names(data2) <- c("age_m", "len")#
+	data3_ <- survdata$x#
+	data3 <- data3_[2:181]#
+	#names(data3) <- c("survival")#
+	 #SV <- vbStarts(len~age_m, data <- data2)#
+	 SV <- list(Linf=max(data2[,2]), K = 0.2)#
+	 #print(SV)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+	 params <- substr(filenames, 13, 49))#
+ return(c(params, SV[[1]], wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+ mapply(calc_metrics, length_data, surv_data, length_filenames)#
+ mapply(colMeans, surv_data)
+calc_metrics <-  function(sizedata, survdata, filenames) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:181])))#
+	names(data2) <- c("age_m", "len")#
+	data3_ <- survdata$x#
+	data3 <- data3_[2:181]#
+	#names(data3) <- c("survival")#
+	 #SV <- vbStarts(len~age_m, data <- data2)#
+	 SV <- list(Linf=max(data2[,2]), K = 0.2)#
+	 #print(SV)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+	 params <- substr(filenames, 13, 49)#
+ return(c(params, SV[[1]], wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+ mapply(calc_metrics, length_data, surv_data, length_filenames)#
+ mapply(colMeans, surv_data)
+calc_metrics <-  function(sizedata, survdata, filenames) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:181])))#
+	names(data2) <- c("age_m", "len")#
+	data3_ <- survdata$x#
+	data3 <- data3_[2:181]#
+	#names(data3) <- c("survival")#
+	 #SV <- vbStarts(len~age_m, data <- data2)#
+	 SV <- list(Linf=max(data2[,2]), K = 0.2)#
+	 #print(SV)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+	 params <- substr(filenames, 13, 31)#
+ return(c(params, SV[[1]], wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+ mapply(calc_metrics, length_data, surv_data, length_filenames)
+calc_metrics <-  function(sizedata, survdata, filenames) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:181])))#
+	names(data2) <- c("age_m", "len")#
+	data3_ <- survdata$x#
+	data3 <- data3_[2:181]#
+	#names(data3) <- c("survival")#
+	 #SV <- vbStarts(len~age_m, data <- data2)#
+	 SV <- list(Linf=max(data2[,2]), K = 0.2)#
+	 #print(SV)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+	 params <- substr(filenames, 13, 30)#
+ return(c(params, SV[[1]], wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+ mapply(calc_metrics, length_data, surv_data, length_filenames)
+fit_age <- 13:182 note we are focused only on growth from 1 year to 16 years of age..... #
+ calc_metrics <-  function(sizedata, survdata, filenames) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:169])))#
+	names(data2) <- c("age_m", "len")#
+	data3_ <- survdata$x#
+	data3 <- data3_[2:169]#
+	#names(data3) <- c("survival")#
+	 #SV <- vbStarts(len~age_m, data <- data2)#
+	 SV <- list(Linf=max(data2[,2]), K = 0.2)#
+	 #print(SV)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+	 params <- substr(filenames, 13, 30)#
+ return(c(params, SV[[1]], wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+ mapply(calc_metrics, length_data, surv_data, length_filenames)
+182/12
+fit_age <- 13:182 note we are focused only on growth from 1 year to 15 years of age..... #
+ calc_metrics <-  function(sizedata, survdata, filenames) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:169])))#
+	names(data2) <- c("age_m", "len")#
+	data3_ <- survdata$x#
+	data3 <- data3_[2:169]#
+	#names(data3) <- c("survival")#
+	 #SV <- vbStarts(len~age_m, data <- data2)#
+	 SV <- list(Linf=max(data2[,2]), K = 0.2)#
+	 #print(SV)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+	 params <- substr(filenames, 13, 30)#
+ return(c(params, SV[[1]], wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+results <- mapply(calc_metrics, length_data, surv_data, length_filenames)
+results
+temp_tab <- as.numeric(substr(results[1, ], 1, 3))#
+mort_tab <- as.numeric(substr(results[1, ], 7, 10))
+temp_tab
+mort_tab
+food_tab <- as.numeric(substr(results[1, ], 16, 18))
+food_tab
+calc_metrics <-  function(sizedata, survdata, filenames) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:169])))#
+	names(data2) <- c("age_m", "len")#
+	data3_ <- survdata$x#
+	data3 <- data3_[2:169]#
+	#names(data3) <- c("survival")#
+	 #SV <- vbStarts(len~age_m, data <- data2)#
+	 SV <- list(Linf=max(data2[,2]), K = 0.2)#
+	 #print(SV)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+	 params <- substr(filenames, 13, 33)#
+ return(c(params, SV[[1]], wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+results <- mapply(calc_metrics, length_data, surv_data, length_filenames)
+result
+results
+calc_metrics <-  function(sizedata, survdata, filenames) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:169])))#
+	names(data2) <- c("age_m", "len")#
+	data3_ <- survdata$x#
+	data3 <- data3_[2:169]#
+	#names(data3) <- c("survival")#
+	 #SV <- vbStarts(len~age_m, data <- data2)#
+	 SV <- list(Linf=max(data2[,2]), K = 0.2)#
+	 #print(SV)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+	 params <- substr(filenames, 13, 31)#
+ return(c(params, SV[[1]], wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+results <- mapply(calc_metrics, length_data, surv_data, length_filenames)
+results
+gsub("r", "",results)
+results <- gsub("r", "0",results)
+gsub("r", "",results)
+food_tab <- as.numeric(substr(results[1, ], 16, 18))
+food_tab
+food_tab <- as.numeric(substr(results[1, ], 16, 19))
+food_tab
+tabdata<- cbind(temp_tab, mort_tab, food_tab, round(results[2, ]), round(results[3, ],2), round(results[4, ]), round(results[5, ], 3)#
+ names(tabdata) <- c("Temp", "Predator fullness", "Richness", "Max Length", "Weighted mean length", "Linf", "von Bert K")#
+ tabdata
+tabdata<- cbind(temp_tab, mort_tab, food_tab, round(results[2, ]), round(results[3, ],2), round(results[4, ]), round(results[5, ], 3))#
+ names(tabdata) <- c("Temp", "Predator fullness", "Richness", "Max Length", "Weighted mean length", "Linf", "von Bert K")#
+ tabdata
+tabdata<- cbind(temp_tab, mort_tab, food_tab, round(as.numeric(results[2, ])), round(as.numeric(results[3, ],2)), round(as.numeric(results[4, ])), round(as.numeric(results[5, ], 3)))#
+ names(tabdata) <- c("Temp", "Predator fullness", "Richness", "Max Length", "Weighted mean length", "Linf", "von Bert K")#
+ tabdata
+?colnames
+colnames(tabdata) <- c("Temp", "Predator fullness", "Richness", "Max Length", "Weighted mean length", "Linf", "von Bert K")#
+ tabdata
+tabdata<- cbind(temp_tab, mort_tab, food_tab, round(as.numeric(results[2, ])), round(as.numeric(results[3, ],2)), round(as.numeric(results[4, ])), round(as.numeric(results[5, ], 3)))#
+ colnames(tabdata) <- c("Temp", "Predator fullness", "Richness", "Max Length", "Weighted mean length", "Linf", "von Bert K")#
+ tabdata
+colnames(tabdata) <- c("Temp", "Predator_fullness", "Richness", "Max_length", "Weighted_mean_length", "Linf", "von_Bert_K")#
+ tabdata
+seasonal<- rep(0, 34) #
+temp_tab <- as.numeric(substr(results[1, ], 1, 3))#
+mort_tab <- as.numeric(substr(results[1, ], 7, 10))#
+food_tab <- as.numeric(substr(results[1, ], 16, 19)) #
+ tabdata<- cbind(seasonal, temp_tab, mort_tab, food_tab, round(as.numeric(results[2, ])), round(as.numeric(results[3, ],2)), round(as.numeric(results[4, ])), round(as.numeric(results[5, ], 3)))#
+ colnames(tabdata) <- c("Seasonality", "Temp", "Predator_fullness", "Richness", "Max_length", "Weighted_mean_length", "Linf", "von_Bert_K")#
+ tabdata
+seasonal<- rep(0, 34) #
+temp_tab <- as.numeric(substr(results[1, ], 1, 3))#
+mort_tab <- as.numeric(substr(results[1, ], 7, 10))#
+food_tab <- as.numeric(substr(results[1, ], 16, 19)) #
+ tabdata<- cbind(seasonal, temp_tab, mort_tab, food_tab, round(as.numeric(results[2, ])), round(as.numeric(results[3, ],2)), round(as.numeric(results[4, ])), round(as.numeric(results[5, ], 3)))#
+ colnames(tabdata) <- c("Seasonality", "Temp", "Predator_fullness", "Richness", "Max_length", "Weighted_mean_length", "Linf", "von_Bert_K")#
+ tabdata
+round(as.numeric(results[5, ], 3))
+seasonal<- rep(0, 34) #
+temp_tab <- as.numeric(substr(results[1, ], 1, 3))#
+mort_tab <- as.numeric(substr(results[1, ], 7, 10))#
+food_tab <- as.numeric(substr(results[1, ], 16, 19)) #
+ tabdata<- cbind(seasonal, temp_tab, mort_tab, food_tab, round(as.numeric(results[2, ])), round(as.numeric(results[3, ]),2), round(as.numeric(results[4, ])), round(as.numeric(results[5, ]), 3))#
+ colnames(tabdata) <- c("Seasonality", "Temp", "Predator_fullness", "Richness", "Max_length", "Weighted_mean_length", "Linf", "von_Bert_K")#
+ tabdata
+###now repeat this for seasonal results #
+ setwd("~/Documents/tuna_theory_paper/jeremy_machine_run_results/Rlim.2/seasonal/")#
+data_files <- list.files(pattern = "\\.csv$")#
+## read in files#
+#
+repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
+state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
+length_filenames <- data_files[1:(length(data_files)/4)]#
+surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+surv_filenames <- unique(surv_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+surv_data <- lapply(surv_filenames, read.csv)#
+fit_age <- 13:182 note we are focused only on growth from 1 year to 15 years of age..... #
+ calc_metrics <-  function(sizedata, survdata, filenames) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:169])))#
+	names(data2) <- c("age_m", "len")#
+	data3_ <- survdata$x#
+	data3 <- data3_[2:169]#
+	#names(data3) <- c("survival")#
+	 #SV <- vbStarts(len~age_m, data <- data2)#
+	 SV <- list(Linf=max(data2[,2]), K = 0.2)#
+	 #print(SV)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+	 params <- substr(filenames, 13, 31)#
+ return(c(params, SV[[1]], wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+results <- mapply(calc_metrics, length_data, surv_data, length_filenames)#
+results <- gsub("r", "0",results)#
+#
+seasonal<- rep(1, 34) #
+temp_tab <- as.numeric(substr(results[1, ], 1, 3))#
+mort_tab <- as.numeric(substr(results[1, ], 7, 10))#
+food_tab <- as.numeric(substr(results[1, ], 16, 19)) #
+ tabdata_s<- cbind(seasonal, temp_tab, mort_tab, food_tab, round(as.numeric(results[2, ])), round(as.numeric(results[3, ]),2), round(as.numeric(results[4, ])), round(as.numeric(results[5, ]), 3))#
+ colnames(tabdata_s) <- c("Seasonality", "Temp", "Predator_fullness", "Richness", "Max_length", "Weighted_mean_length", "Linf", "von_Bert_K")#
+ tabdata
+fit_age
+2:169
+length(fit_age)
+setwd("~/Documents/tuna_theory_paper/jeremy_machine_run_results/Rlim.2/constant/")#
+data_files <- list.files(pattern = "\\.csv$")#
+## read in files#
+#
+repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
+state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
+length_filenames <- data_files[1:(length(data_files)/4)]#
+surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+surv_filenames <- unique(surv_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+surv_data <- lapply(surv_filenames, read.csv)#
+fit_age <- 13:182 #note we are focused only on growth from 1 year to 15 years of age..... #
+ calc_metrics <-  function(sizedata, survdata, filenames) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:169])))#
+	names(data2) <- c("age_m", "len")#
+	data3_ <- survdata$x#
+	data3 <- data3_[2:169]#
+	#names(data3) <- c("survival")#
+	 #SV <- vbStarts(len~age_m, data <- data2)#
+	 SV <- list(Linf=max(data2[,2]), K = 0.2)#
+	 #print(SV)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+	 params <- substr(filenames, 13, 31)#
+ return(c(params, SV[[1]], wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+results <- mapply(calc_metrics, length_data, surv_data, length_filenames)#
+results <- gsub("r", "0",results)#
+#
+seasonal<- rep(0, 34) #
+temp_tab <- as.numeric(substr(results[1, ], 1, 3))#
+mort_tab <- as.numeric(substr(results[1, ], 7, 10))#
+food_tab <- as.numeric(substr(results[1, ], 16, 19)) #
+ tabdata<- cbind(seasonal, temp_tab, mort_tab, food_tab, round(as.numeric(results[2, ])), round(as.numeric(results[3, ]),2), round(as.numeric(results[4, ])), round(as.numeric(results[5, ]), 3))#
+ colnames(tabdata) <- c("Seasonality", "Temp", "Predator_fullness", "Richness", "Max_length", "Weighted_mean_length", "Linf", "von_Bert_K")#
+ tabdata#
+ ###now repeat this for seasonal results #
+ setwd("~/Documents/tuna_theory_paper/jeremy_machine_run_results/Rlim.2/seasonal/")#
+data_files <- list.files(pattern = "\\.csv$")#
+## read in files#
+#
+repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
+state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
+length_filenames <- data_files[1:(length(data_files)/4)]#
+surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+surv_filenames <- unique(surv_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+surv_data <- lapply(surv_filenames, read.csv)#
+fit_age <- 13:182 #note we are focused only on growth from 1 year to 15 years of age..... #
+ calc_metrics <-  function(sizedata, survdata, filenames) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:169])))#
+	names(data2) <- c("age_m", "len")#
+	data3_ <- survdata$x#
+	data3 <- data3_[2:169]#
+	#names(data3) <- c("survival")#
+	 #SV <- vbStarts(len~age_m, data <- data2)#
+	 SV <- list(Linf=max(data2[,2]), K = 0.2)#
+	 #print(SV)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+	 params <- substr(filenames, 13, 31)#
+ return(c(params, SV[[1]], wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+results <- mapply(calc_metrics, length_data, surv_data, length_filenames)#
+results <- gsub("r", "0",results)#
+#
+seasonal<- rep(1, 34) #
+temp_tab <- as.numeric(substr(results[1, ], 1, 3))#
+mort_tab <- as.numeric(substr(results[1, ], 7, 10))#
+food_tab <- as.numeric(substr(results[1, ], 16, 19)) #
+ tabdata_s<- cbind(seasonal, temp_tab, mort_tab, food_tab, round(as.numeric(results[2, ])), round(as.numeric(results[3, ]),2), round(as.numeric(results[4, ])), round(as.numeric(results[5, ]), 3))#
+ colnames(tabdata_s) <- c("Seasonality", "Temp", "Predator_fullness", "Richness", "Max_length", "Weighted_mean_length", "Linf", "von_Bert_K")#
+ tabdata
+setwd("~/Documents/tuna_theory_paper/jeremy_machine_run_results/Rlim.2/constant/")#
+data_files <- list.files(pattern = "\\.csv$")#
+## read in files#
+#
+repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
+state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
+length_filenames <- data_files[1:(length(data_files)/4)]#
+surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+surv_filenames <- unique(surv_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+surv_data <- lapply(surv_filenames, read.csv)#
+fit_age <- 13:182 #note we are focused only on growth from 1 year to 15 years of age..... #
+ calc_metrics <-  function(sizedata, survdata, filenames) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:169])))#
+	names(data2) <- c("age_m", "len")#
+	data3_ <- survdata$x#
+	data3 <- data3_[2:169]#
+	#names(data3) <- c("survival")#
+	 #SV <- vbStarts(len~age_m, data <- data2)#
+	 SV <- list(Linf=max(data2[,2]), K = 0.2)#
+	 #print(SV)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+	 params <- substr(filenames, 13, 31)#
+ return(c(params, SV[[1]], wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+results <- mapply(calc_metrics, length_data, surv_data, length_filenames)#
+results <- gsub("r", "0",results)#
+#
+seasonal<- rep(0, 34) #
+temp_tab <- as.numeric(substr(results[1, ], 1, 3))#
+mort_tab <- as.numeric(substr(results[1, ], 7, 10))#
+food_tab <- as.numeric(substr(results[1, ], 16, 19)) #
+ tabdata<- cbind(seasonal, temp_tab, mort_tab, food_tab, round(as.numeric(results[2, ])), round(as.numeric(results[3, ]),2), round(as.numeric(results[4, ])), round(as.numeric(results[5, ]), 3))#
+ colnames(tabdata) <- c("Seasonality", "Temp", "Predator_fullness", "Richness", "Max_length", "Weighted_mean_length", "Linf", "von_Bert_K")#
+ tabdata#
+ ###now repeat this for seasonal results #
+ setwd("~/Documents/tuna_theory_paper/jeremy_machine_run_results/Rlim.2/seasonal/")#
+data_files <- list.files(pattern = "\\.csv$")#
+## read in files#
+#
+repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
+state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
+length_filenames <- data_files[1:(length(data_files)/4)]#
+surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+surv_filenames <- unique(surv_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+surv_data <- lapply(surv_filenames, read.csv)#
+fit_age <- 13:182 #note we are focused only on growth from 1 year to 15 years of age..... #
+ calc_metrics <-  function(sizedata, survdata, filenames) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:169])))#
+	names(data2) <- c("age_m", "len")#
+	data3_ <- survdata$x#
+	data3 <- data3_[2:169]#
+	#names(data3) <- c("survival")#
+	 #SV <- vbStarts(len~age_m, data <- data2)#
+	 SV <- list(Linf=max(data2[,2]), K = 0.2)#
+	 #print(SV)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+	 params <- substr(filenames, 13, 31)#
+ return(c(params, SV[[1]], wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+results <- mapply(calc_metrics, length_data, surv_data, length_filenames)#
+results <- gsub("r", "0",results)#
+#
+seasonal<- rep(1, 34) #
+temp_tab <- as.numeric(substr(results[1, ], 1, 3))#
+mort_tab <- as.numeric(substr(results[1, ], 7, 10))#
+food_tab <- as.numeric(substr(results[1, ], 16, 19)) #
+ tabdata_s<- cbind(seasonal, temp_tab, mort_tab, food_tab, round(as.numeric(results[2, ])), round(as.numeric(results[3, ]),2), round(as.numeric(results[4, ])), round(as.numeric(results[5, ]), 3))#
+ colnames(tabdata_s) <- c("Seasonality", "Temp", "Predator_fullness", "Richness", "Max_length", "Weighted_mean_length", "Linf", "von_Bert_K")#
+ tabdata
+setwd("~/Documents/tuna_theory_paper/jeremy_machine_run_results/Rlim.2/constant/")#
+data_files <- list.files(pattern = "\\.csv$")#
+## read in files#
+#
+repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
+state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
+length_filenames <- data_files[1:(length(data_files)/4)]#
+surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+surv_filenames <- unique(surv_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+surv_data <- lapply(surv_filenames, read.csv)#
+fit_age <- 13:182 #note we are focused only on growth from 1 year to 15 years of age..... #
+ calc_metrics <-  function(sizedata, survdata, filenames) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:169])))#
+	names(data2) <- c("age_m", "len")#
+	data3_ <- survdata$x#
+	data3 <- data3_[2:169]#
+	#names(data3) <- c("survival")#
+	 #SV <- vbStarts(len~age_m, data <- data2)#
+	 SV <- list(Linf=max(data2[,2]), K = 0.2)#
+	 #print(SV)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+	 params <- substr(filenames, 13, 31)#
+ return(c(params, SV[[1]], wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+results <- mapply(calc_metrics, length_data, surv_data, length_filenames)#
+results <- gsub("r", "0",results)#
+#
+seasonal<- rep(0, 34) #
+temp_tab <- as.numeric(substr(results[1, ], 1, 3))#
+mort_tab <- as.numeric(substr(results[1, ], 7, 10))#
+food_tab <- as.numeric(substr(results[1, ], 16, 19)) #
+ tabdata<- cbind(seasonal, temp_tab, mort_tab, food_tab, round(as.numeric(results[2, ])), round(as.numeric(results[3, ]),2), round(as.numeric(results[4, ])), round(as.numeric(results[5, ]), 3))#
+ colnames(tabdata) <- c("Seasonality", "Temp", "Predator_fullness", "Richness", "Max_length", "Weighted_mean_length", "Linf", "von_Bert_K")#
+ tabdata#
+ ###now repeat this for seasonal results #
+ setwd("~/Documents/tuna_theory_paper/jeremy_machine_run_results/Rlim.2/seasonal/")#
+data_files <- list.files(pattern = "\\.csv$")#
+## read in files#
+#
+repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
+state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
+length_filenames <- data_files[1:(length(data_files)/4)]#
+surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+surv_filenames <- unique(surv_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+surv_data <- lapply(surv_filenames, read.csv)#
+fit_age <- 13:182 #note we are focused only on growth from 1 year to 15 years of age..... #
+ calc_metrics <-  function(sizedata, survdata, filenames) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:169])))#
+	names(data2) <- c("age_m", "len")#
+	data3_ <- survdata$x#
+	data3 <- data3_[2:169]#
+	#names(data3) <- c("survival")#
+	 #SV <- vbStarts(len~age_m, data <- data2)#
+	 SV <- list(Linf=max(data2[,2]), K = 0.2)#
+	 #print(SV)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+	 params <- substr(filenames, 13, 31)#
+ return(c(params, SV[[1]], wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+results <- mapply(calc_metrics, length_data, surv_data, length_filenames)#
+results <- gsub("r", "0",results)#
+#
+seasonal<- rep(1, 34) #
+temp_tab <- as.numeric(substr(results[1, ], 1, 3))#
+mort_tab <- as.numeric(substr(results[1, ], 7, 10))#
+food_tab <- as.numeric(substr(results[1, ], 16, 19)) #
+ tabdata_s<- cbind(seasonal, temp_tab, mort_tab, food_tab, round(as.numeric(results[2, ])), round(as.numeric(results[3, ]),2), round(as.numeric(results[4, ])), round(as.numeric(results[5, ]), 3))#
+ colnames(tabdata_s) <- c("Seasonality", "Temp", "Predator_fullness", "Richness", "Max_length", "Weighted_mean_length", "Linf", "von_Bert_K")#
+ tabdata_s
+###now repeat this for seasonal results #
+ setwd("~/Documents/tuna_theory_paper/jeremy_machine_run_results/Rlim.2/seasonal/")#
+data_files <- list.files(pattern = "\\.csv$")#
+## read in files#
+#
+repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
+state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
+length_filenames <- data_files[1:(length(data_files)/4)]#
+surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+surv_filenames <- unique(surv_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+surv_data <- lapply(surv_filenames, read.csv)#
+fit_age <- 13:182 #note we are focused only on growth from 1 year to 15 years of age..... #
+ calc_metrics <-  function(sizedata, survdata, filenames) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:169])))#
+	names(data2) <- c("age_m", "len")#
+	data3_ <- survdata$x#
+	data3 <- data3_[2:169]#
+	#names(data3) <- c("survival")#
+	 #SV <- vbStarts(len~age_m, data <- data2)#
+	 SV <- list(Linf=max(data2[,2]), K = 0.2)#
+	 #print(SV)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+	 params <- substr(filenames, 13, 31)#
+ return(c(params, SV[[1]], wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+results <- mapply(calc_metrics, length_data, surv_data, length_filenames)#
+results <- gsub("r", "0",results)#
+#
+seasonal<- rep(1, 34) #
+temp_tab <- as.numeric(substr(results[1, ], 1, 3))#
+mort_tab <- as.numeric(substr(results[1, ], 7, 10))#
+food_tab <- as.numeric(substr(results[1, ], 16, 19)) #
+ tabdata_s<- cbind(seasonal, temp_tab, mort_tab, food_tab, round(as.numeric(results[2, ])), round(as.numeric(results[3, ]),2), round(as.numeric(results[4, ])), round(as.numeric(results[5, ]), 3))#
+ colnames(tabdata_s) <- c("Seasonality", "Temp", "Predator_fullness", "Richness", "Max_length", "Weighted_mean_length", "Linf", "von_Bert_K")#
+ tabdata
+tabdata_s
+total_data <- cbind(tabdata, tabdata_s)
+is.data.frame(total_data)
+class(total_data)
+total_data
+total_data <- rbind(tabdata, tabdata_s)
+install.packages("reshape2")
+library(reshape2)
+long_data <- melt(total_data)
+long_data
+class(long_data)
+total_data <- as.data.frame(rbind(tabdata, tabdata_s))
+total_data
+install.packages("ggplot2")#
+ library(ggplot2)
+ggplot(data = total_data, aes(Richness, Linf)) +#
+ 	geom_line(color = "steelblue, size = 1") +#
+ 	labs(title = "Asymptotic length", subtitle = "(limited to years 1:15)", y = "Linf", x = "K (Richness of spectra)")
+ggplot(data = total_data, aes(Richness, Linf)) +#
+ 	geom_line(color = "steelblue", size = 1") +#
+ 	labs(title = "Asymptotic length", subtitle = "(limited to years 1:15)", y = "Linf", x = "K (Richness of spectra)")
+ggplot(data = total_data, aes(Richness, Linf)) +#
+ 	geom_line(color = "steelblue", size = 1) +#
+ 	labs(title = "Asymptotic length", subtitle = "(limited to years 1:15)", y = "Linf", x = "K (Richness of spectra)")
+?geom_points
+??geom_point
+ggplot(data = total_data, aes(Richness, Linf)) +#
+ 	geom_point(color = "steelblue", size = 1) +#
+ 	labs(title = "Asymptotic length", subtitle = "(limited to years 1:15)", y = "Linf", x = "K (Richness of spectra)")
+ggplot(data = total_data, aes(Richness, Linf, shape = Seasonality, color = factor(Temp))) +#
+ 	geom_point(color = "steelblue", size = 1) +#
+ 	labs(title = "Asymptotic length", subtitle = "(limited to years 1:15)", y = "Linf", x = "K (Richness of spectra)")
+ggplot(data = total_data, aes(Richness, Linf, shape = factor(Seasonality), color = factor(Temp))) +#
+ 	geom_point(color = "steelblue", size = 1) +#
+ 	labs(title = "Asymptotic length", subtitle = "(limited to years 1:15)", y = "Linf", x = "K (Richness of spectra)")
+ggplot(data = total_data, aes(Richness, Linf, shape = factor(Seasonality), color = factor(Temp))) +#
+ 	geom_point(color = c("steelblue", "brickred"), size = 2) +#
+ 	labs(title = "Asymptotic length", subtitle = "(limited to years 1:15)", y = "Linf", x = "K (Richness of spectra)")
+ggplot(data = total_data, aes(Richness, Linf, shape = factor(Seasonality), color = factor(Temp))) +#
+ 	geom_point( size = 2) +#
+ 	labs(title = "Asymptotic length", subtitle = "(limited to years 1:15)", y = "Linf", x = "K (Richness of spectra)")
+ggplot(data = total_data, aes(Richness, Linf, shape = factor(Seasonality), color = factor(Temp))) +#
+ 	geom_point( size = 3) +#
+ 	labs(title = "Asymptotic length", subtitle = "(limited to years 1:15)", y = "Linf", x = "K (Richness of spectra)")#
+ 	scale_shape_manual(values=c( 20,21))+#
+      scale_colour_manual(values=c("blue", "red", ))
+ggplot(data = total_data, aes(Richness, Linf, shape = factor(Seasonality), color = factor(Temp))) +#
+ 	geom_point( size = 3) +#
+ 	labs(title = "Asymptotic length", subtitle = "(limited to years 1:15)", y = "Linf", x = "K (Richness of spectra)")#
+ 	scale_shape_manual(values=c( 20,21))+#
+      scale_colour_manual(values=c("blue", "red", ))
+ggplot(data = total_data, aes(Richness, Linf, shape = factor(Seasonality), color = factor(Temp))) +#
+ 	geom_point( size = 3) +#
+ 	labs(title = "Asymptotic length", subtitle = "(limited to years 1:15)", y = "Linf", x = "K (Richness of spectra)")#
+ 	scale_shape_manual(values=c( 20,21))+#
+      scale_colour_manual(values=c("blue", "red" ))
+ggplot(data = total_data, aes(Richness, Linf, shape = factor(Seasonality), color = factor(Temp))) +#
+ 	geom_point( size = 3) +#
+ 	labs(title = "Asymptotic length", subtitle = "(limited to years 1:15)", y = "Linf", x = "K (Richness of spectra)") + 	scale_shape_manual(values=c( 20,21))+#
+      scale_colour_manual(values=c("blue", "red" ))
+install.packages("FSA")#
+install.packages("nlstools")#
+#
+library(FSA)#
+library(nlstools)#
+#
+setwd("~/Documents/tuna_theory_paper/jeremy_machine_run_results/Rlim.2/constant/")#
+data_files <- list.files(pattern = "\\.csv$")#
+## read in files#
+#
+repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
+state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
+length_filenames <- data_files[1:(length(data_files)/4)]#
+surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+surv_filenames <- unique(surv_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+surv_data <- lapply(surv_filenames, read.csv)#
+fit_age <- 13:182 #note we are focused only on growth from 1 year to 15 years of age..... #
+ calc_metrics <-  function(sizedata, survdata, filenames) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:169])))#
+	names(data2) <- c("age_m", "len")#
+	data3_ <- survdata$x#
+	data3 <- data3_[2:169]#
+	#names(data3) <- c("survival")#
+	 #SV <- vbStarts(len~age_m, data <- data2)#
+	 SV <- list(Linf=max(data2[,2]), K = 0.2)#
+	 #print(SV)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+	 params <- substr(filenames, 13, 31)#
+ return(c(params, SV[[1]], wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+results <- mapply(calc_metrics, length_data, surv_data, length_filenames)#
+results <- gsub("r", "0",results)#
+#
+seasonal<- rep(0, 34) #
+temp_tab <- as.numeric(substr(results[1, ], 1, 3))#
+mort_tab <- as.numeric(substr(results[1, ], 7, 10))#
+food_tab <- as.numeric(substr(results[1, ], 16, 19)) #
+ tabdata<- cbind(as.factor(seasonal), as.factor(temp_tab), mort_tab, food_tab, round(as.numeric(results[2, ])), round(as.numeric(results[3, ]),2), round(as.numeric(results[4, ])), round(as.numeric(results[5, ]), 3))#
+ colnames(tabdata) <- c("Seasonality", "Temp", "Predator_fullness", "Richness", "Max_length", "Weighted_mean_length", "Linf", "von_Bert_K")#
+ tabdata#
+ ###now repeat this for seasonal results #
+ setwd("~/Documents/tuna_theory_paper/jeremy_machine_run_results/Rlim.2/seasonal/")#
+data_files <- list.files(pattern = "\\.csv$")#
+## read in files#
+#
+repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
+state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
+length_filenames <- data_files[1:(length(data_files)/4)]#
+surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+surv_filenames <- unique(surv_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+surv_data <- lapply(surv_filenames, read.csv)#
+fit_age <- 13:182 #note we are focused only on growth from 1 year to 15 years of age..... #
+ calc_metrics <-  function(sizedata, survdata, filenames) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:169])))#
+	names(data2) <- c("age_m", "len")#
+	data3_ <- survdata$x#
+	data3 <- data3_[2:169]#
+	#names(data3) <- c("survival")#
+	 #SV <- vbStarts(len~age_m, data <- data2)#
+	 SV <- list(Linf=max(data2[,2]), K = 0.2)#
+	 #print(SV)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+	 params <- substr(filenames, 13, 31)#
+ return(c(params, SV[[1]], wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+results <- mapply(calc_metrics, length_data, surv_data, length_filenames)#
+results <- gsub("r", "0",results)#
+#
+seasonal<- rep(1, 34) #
+temp_tab <- as.numeric(substr(results[1, ], 1, 3))#
+mort_tab <- as.numeric(substr(results[1, ], 7, 10))#
+food_tab <- as.numeric(substr(results[1, ], 16, 19)) #
+ tabdata_s<- cbind(as.factor(seasonal), as.factor(temp_tab), mort_tab, food_tab, round(as.numeric(results[2, ])), round(as.numeric(results[3, ]),2), round(as.numeric(results[4, ])), round(as.numeric(results[5, ]), 3))#
+ colnames(tabdata_s) <- c("Seasonality", "Temp", "Predator_fullness", "Richness", "Max_length", "Weighted_mean_length", "Linf", "von_Bert_K")#
+ tabdata_s#
+ total_data <- as.data.frame(rbind(tabdata, tabdata_s)) #
+ install.packages("ggplot2")#
+ library(ggplot2)#
+ ggplot(data = total_data, aes(Richness, Linf, shape = factor(Seasonality), color = factor(Temp))) +#
+ 	geom_point( size = 3) +#
+ 	labs(title = "Asymptotic length", subtitle = "(limited to years 1:15)", y = "Linf", x = "K (Richness of spectra)") + 	scale_shape_manual(values=c( 20,21))+#
+      scale_colour_manual(values=c("blue", "red" ))
+ggplot(data = total_data, aes(Richness, Linf, shape = Seasonality, color = Temp)) +#
+ 	geom_point( size = 3) +#
+ 	labs(title = "Asymptotic length", subtitle = "(limited to years 1:15)", y = "Linf", x = "K (Richness of spectra)") + 	scale_shape_manual(values=c( 20,21))+#
+      scale_colour_manual(values=c("blue", "red" ))
+ggplot(data = total_data, aes(Richness, Linf, shape = Seasonality, color = as.factor(Temp))) +#
+ 	geom_point( size = 3) +#
+ 	labs(title = "Asymptotic length", subtitle = "(limited to years 1:15)", y = "Linf", x = "K (Richness of spectra)") + 	scale_shape_manual(values=c( 20,21))+#
+      scale_colour_manual(values=c("blue", "red" ))
+ggplot(data = total_data, aes(Richness, Linf, shape = factor(Seasonality), color = factor(Temp))) +#
+ 	geom_point( size = 3) +#
+ 	labs(title = "Asymptotic length", subtitle = "(limited to years 1:15)", y = "Linf", x = "K (Richness of spectra)") + 	scale_shape_manual(values=c( 20,21))+#
+      scale_colour_manual(values=c("blue", "red" ))
+ggplot(data = total_data, aes(Richness, Linf, shape = factor(Seasonality), color = factor(Temp))) +#
+ 	geom_point( size = 3) +#
+ 	labs(title = "Asymptotic length", subtitle = "(limited to years 1:15)", y = "Linf", x = "K (Richness of spectra)") + 	scale_shape_manual(values=c( 20,21))+#
+      scale_colour_manual(values=c("blue", "red" ))
+total_data
+results <- mapply(calc_metrics, length_data, surv_data, length_filenames)#
+results <- gsub("r", "0",results)#
+#
+seasonal<- rep(1, 34) #
+temp_tab <- as.numeric(substr(results[1, ], 1, 3))#
+mort_tab <- as.numeric(substr(results[1, ], 7, 10))#
+food_tab <- as.numeric(substr(results[1, ], 16, 19)) #
+ tabdata_s<- cbind(seasonal, temp_tab, mort_tab, food_tab, round(as.numeric(results[2, ])), round(as.numeric(results[3, ]),2), round(as.numeric(results[4, ])), round(as.numeric(results[5, ]), 3))#
+ colnames(tabdata_s) <- c("Seasonality", "Temp", "Predator_fullness", "Richness", "Max_length", "Weighted_mean_length", "Linf", "von_Bert_K")#
+ tabdata_s
+seasonal<- rep(0, 34) #
+temp_tab <- as.numeric(substr(results[1, ], 1, 3))#
+mort_tab <- as.numeric(substr(results[1, ], 7, 10))#
+food_tab <- as.numeric(substr(results[1, ], 16, 19)) #
+ tabdata<- cbind(seasonal, temp_tab, mort_tab, food_tab, round(as.numeric(results[2, ])), round(as.numeric(results[3, ]),2), round(as.numeric(results[4, ])), round(as.numeric(results[5, ]), 3))#
+ colnames(tabdata) <- c("Seasonality", "Temp", "Predator_fullness", "Richness", "Max_length", "Weighted_mean_length", "Linf", "von_Bert_K")#
+ tabdata
+total_data <- as.data.frame(rbind(tabdata, tabdata_s))
+glimpse(total_data)
+??glimpse
+install.packages("tidyverse")
+library(tidyverse)
+glimpse(total_data)
+ggplot(data = total_data, aes(Richness, Linf, shape = factor(Seasonality), color = factor(Temp))) +#
+ 	geom_point( size = 3) +#
+ 	labs(title = "Asymptotic length", subtitle = "(limited to years 1:15)", y = "Linf", x = "K (Richness of spectra)") + 	scale_shape_manual(values=c( 20,21))+#
+      scale_colour_manual(values=c("blue", "red" ))
+install.packages("FSA")#
+install.packages("nlstools")#
+#
+library(FSA)#
+library(nlstools)#
+#
+setwd("~/Documents/tuna_theory_paper/jeremy_machine_run_results/Rlim.2/constant/")#
+data_files <- list.files(pattern = "\\.csv$")#
+## read in files#
+#
+repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
+state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
+length_filenames <- data_files[1:(length(data_files)/4)]#
+surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+surv_filenames <- unique(surv_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+surv_data <- lapply(surv_filenames, read.csv)#
+fit_age <- 13:182 #note we are focused only on growth from 1 year to 15 years of age..... #
+ calc_metrics <-  function(sizedata, survdata, filenames) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:169])))#
+	names(data2) <- c("age_m", "len")#
+	data3_ <- survdata$x#
+	data3 <- data3_[2:169]#
+	#names(data3) <- c("survival")#
+	 #SV <- vbStarts(len~age_m, data <- data2)#
+	 SV <- list(Linf=max(data2[,2]), K = 0.2)#
+	 #print(SV)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+	 params <- substr(filenames, 13, 31)#
+ return(c(params, SV[[1]], wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+results <- mapply(calc_metrics, length_data, surv_data, length_filenames)#
+results <- gsub("r", "0",results)#
+#
+seasonal<- rep(0, 34) #
+temp_tab <- as.numeric(substr(results[1, ], 1, 3))#
+mort_tab <- as.numeric(substr(results[1, ], 7, 10))#
+food_tab <- as.numeric(substr(results[1, ], 16, 19)) #
+ tabdata<- cbind(seasonal, temp_tab, mort_tab, food_tab, round(as.numeric(results[2, ])), round(as.numeric(results[3, ]),2), round(as.numeric(results[4, ])), round(as.numeric(results[5, ]), 3))#
+ colnames(tabdata) <- c("Seasonality", "Temp", "Predator_fullness", "Richness", "Max_length", "Weighted_mean_length", "Linf", "von_Bert_K")#
+ tabdata#
+ ###now repeat this for seasonal results #
+ setwd("~/Documents/tuna_theory_paper/jeremy_machine_run_results/Rlim.2/seasonal/")#
+data_files <- list.files(pattern = "\\.csv$")#
+## read in files#
+#
+repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
+state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
+length_filenames <- data_files[1:(length(data_files)/4)]#
+surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+surv_filenames <- unique(surv_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+surv_data <- lapply(surv_filenames, read.csv)#
+fit_age <- 13:182 #note we are focused only on growth from 1 year to 15 years of age..... #
+ calc_metrics <-  function(sizedata, survdata, filenames) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:169])))#
+	names(data2) <- c("age_m", "len")#
+	data3_ <- survdata$x#
+	data3 <- data3_[2:169]#
+	#names(data3) <- c("survival")#
+	 #SV <- vbStarts(len~age_m, data <- data2)#
+	 SV <- list(Linf=max(data2[,2]), K = 0.2)#
+	 #print(SV)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+	 params <- substr(filenames, 13, 31)#
+ return(c(params, SV[[1]], wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+results <- mapply(calc_metrics, length_data, surv_data, length_filenames)#
+results <- gsub("r", "0",results)#
+#
+seasonal<- rep(1, 34) #
+temp_tab <- as.numeric(substr(results[1, ], 1, 3))#
+mort_tab <- as.numeric(substr(results[1, ], 7, 10))#
+food_tab <- as.numeric(substr(results[1, ], 16, 19)) #
+ tabdata_s<- cbind(seasonal, temp_tab, mort_tab, food_tab, round(as.numeric(results[2, ])), round(as.numeric(results[3, ]),2), round(as.numeric(results[4, ])), round(as.numeric(results[5, ]), 3))#
+ colnames(tabdata_s) <- c("Seasonality", "Temp", "Predator_fullness", "Richness", "Max_length", "Weighted_mean_length", "Linf", "von_Bert_K")#
+ tabdata_s#
+ total_data <- as.data.frame(rbind(tabdata, tabdata_s)) #
+ install.packages("ggplot2")#
+ library(ggplot2)#
+ ggplot(data = total_data, aes(Richness, Linf, shape = factor(Seasonality), color = factor(Temp))) +#
+ 	geom_point( size = 3) +#
+ 	labs(title = "Asymptotic length", subtitle = "(limited to years 1:15)", y = "Linf", x = "K (Richness of spectra)") + 	scale_shape_manual(values=c( 20,21))+#
+      scale_colour_manual(values=c("blue", "red" ))#
+ #for the seasonal results do I shift the average richness of the ecosystem??
+# install.packages("FSA")#
+# install.packages("nlstools")#
+#
+ # install.packages("ggplot2")#
+library(FSA)#
+library(nlstools)#
+#
+setwd("~/Documents/tuna_theory_paper/jeremy_machine_run_results/Rlim.2/constant/")#
+data_files <- list.files(pattern = "\\.csv$")#
+## read in files#
+#
+repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
+state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
+length_filenames <- data_files[1:(length(data_files)/4)]#
+surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+surv_filenames <- unique(surv_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+surv_data <- lapply(surv_filenames, read.csv)#
+fit_age <- 13:182 #note we are focused only on growth from 1 year to 15 years of age..... #
+ calc_metrics <-  function(sizedata, survdata, filenames) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:169])))#
+	names(data2) <- c("age_m", "len")#
+	data3_ <- survdata$x#
+	data3 <- data3_[2:169]#
+	#names(data3) <- c("survival")#
+	 #SV <- vbStarts(len~age_m, data <- data2)#
+	 SV <- list(Linf=max(data2[,2]), K = 0.2)#
+	 #print(SV)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+	 params <- substr(filenames, 13, 31)#
+ return(c(params, SV[[1]], wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+results <- mapply(calc_metrics, length_data, surv_data, length_filenames)#
+results <- gsub("r", "0",results)#
+#
+seasonal<- rep("Constant", 34) #
+temp_tab <- as.numeric(substr(results[1, ], 1, 3))#
+mort_tab <- as.numeric(substr(results[1, ], 7, 10))#
+food_tab <- as.numeric(substr(results[1, ], 16, 19)) #
+ tabdata<- cbind(seasonal, temp_tab, mort_tab, food_tab, round(as.numeric(results[2, ])), round(as.numeric(results[3, ]),2), round(as.numeric(results[4, ])), round(as.numeric(results[5, ]), 3))#
+ colnames(tabdata) <- c("Seasonality", "Temp", "Predator_fullness", "Richness", "Max_length", "Weighted_mean_length", "Linf", "von_Bert_K")#
+ tabdata#
+ ###now repeat this for seasonal results #
+ setwd("~/Documents/tuna_theory_paper/jeremy_machine_run_results/Rlim.2/seasonal/")#
+data_files <- list.files(pattern = "\\.csv$")#
+## read in files#
+#
+repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
+state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
+length_filenames <- data_files[1:(length(data_files)/4)]#
+surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+surv_filenames <- unique(surv_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+surv_data <- lapply(surv_filenames, read.csv)#
+fit_age <- 13:182 #note we are focused only on growth from 1 year to 15 years of age..... #
+ calc_metrics <-  function(sizedata, survdata, filenames) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:169])))#
+	names(data2) <- c("age_m", "len")#
+	data3_ <- survdata$x#
+	data3 <- data3_[2:169]#
+	#names(data3) <- c("survival")#
+	 #SV <- vbStarts(len~age_m, data <- data2)#
+	 SV <- list(Linf=max(data2[,2]), K = 0.2)#
+	 #print(SV)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+	 params <- substr(filenames, 13, 31)#
+ return(c(params, SV[[1]], wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+results <- mapply(calc_metrics, length_data, surv_data, length_filenames)#
+results <- gsub("r", "0",results)#
+#
+seasonal<- rep("Seasonal", 34) #
+temp_tab <- as.numeric(substr(results[1, ], 1, 3))#
+mort_tab <- as.numeric(substr(results[1, ], 7, 10))#
+food_tab <- as.numeric(substr(results[1, ], 16, 19)) #
+ tabdata_s<- cbind(seasonal, temp_tab, mort_tab, food_tab, round(as.numeric(results[2, ])), round(as.numeric(results[3, ]),2), round(as.numeric(results[4, ])), round(as.numeric(results[5, ]), 3))#
+ colnames(tabdata_s) <- c("Seasonality", "Temp", "Predator_fullness", "Richness", "Max_length", "Weighted_mean_length", "Linf", "von_Bert_K")#
+ tabdata_s#
+ total_data <- as.data.frame(rbind(tabdata, tabdata_s)) #
+ library(ggplot2)#
+ ggplot(data = total_data, aes(Richness, Linf, shape = factor(Seasonality), color = factor(Temp))) +#
+ 	geom_point( size = 3) +#
+ 	labs(title = "Asymptotic length", subtitle = "(limited to years 1:15)", y = "Linf", x = "K (Richness of spectra)") + 	scale_shape_manual(values=c( 20,21))+#
+      scale_colour_manual(values=c("blue", "red" ))#
+ #for the seasonal results do I shift the average richness of the ecosystem??
+# install.packages("FSA")#
+# install.packages("nlstools")#
+#
+ # install.packages("ggplot2")#
+library(FSA)#
+library(nlstools)#
+#
+setwd("~/Documents/tuna_theory_paper/jeremy_machine_run_results/Rlim.2/constant/")#
+data_files <- list.files(pattern = "\\.csv$")#
+## read in files#
+#
+repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
+state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
+length_filenames <- data_files[1:(length(data_files)/4)]#
+surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+surv_filenames <- unique(surv_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+surv_data <- lapply(surv_filenames, read.csv)#
+fit_age <- 13:182 #note we are focused only on growth from 1 year to 15 years of age..... #
+ calc_metrics <-  function(sizedata, survdata, filenames) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:169])))#
+	names(data2) <- c("age_m", "len")#
+	data3_ <- survdata$x#
+	data3 <- data3_[2:169]#
+	#names(data3) <- c("survival")#
+	 #SV <- vbStarts(len~age_m, data <- data2)#
+	 SV <- list(Linf=max(data2[,2]), K = 0.2)#
+	 #print(SV)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+	 params <- substr(filenames, 13, 31)#
+ return(c(params, SV[[1]], wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+results <- mapply(calc_metrics, length_data, surv_data, length_filenames)#
+results <- gsub("r", "0",results)#
+#
+seasonal<- rep("Constant", 34) #
+temp_tab <- as.numeric(substr(results[1, ], 1, 3))#
+mort_tab <- as.numeric(substr(results[1, ], 7, 10))#
+food_tab <- as.numeric(substr(results[1, ], 16, 19)) #
+ tabdata<- cbind(seasonal, temp_tab, mort_tab, food_tab, round(as.numeric(results[2, ])), round(as.numeric(results[3, ]),2), round(as.numeric(results[4, ])), round(as.numeric(results[5, ]), 3))#
+ colnames(tabdata) <- c("Seasonality", "Temp", "Predator_fullness", "Richness", "Max_length", "Weighted_mean_length", "Linf", "von_Bert_K")#
+ tabdata#
+ ###now repeat this for seasonal results #
+ setwd("~/Documents/tuna_theory_paper/jeremy_machine_run_results/Rlim.2/seasonal/")#
+data_files <- list.files(pattern = "\\.csv$")#
+## read in files#
+#
+repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
+state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
+length_filenames <- data_files[1:(length(data_files)/4)]#
+surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+surv_filenames <- unique(surv_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+surv_data <- lapply(surv_filenames, read.csv)#
+fit_age <- 13:182 #note we are focused only on growth from 1 year to 15 years of age..... #
+ calc_metrics <-  function(sizedata, survdata, filenames) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:169])))#
+	names(data2) <- c("age_m", "len")#
+	data3_ <- survdata$x#
+	data3 <- data3_[2:169]#
+	#names(data3) <- c("survival")#
+	 #SV <- vbStarts(len~age_m, data <- data2)#
+	 SV <- list(Linf=max(data2[,2]), K = 0.2)#
+	 #print(SV)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+	 params <- substr(filenames, 13, 31)#
+ return(c(params, SV[[1]], wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+results <- mapply(calc_metrics, length_data, surv_data, length_filenames)#
+results <- gsub("r", "0",results)#
+#
+seasonal<- rep("Seasonal", 34) #
+temp_tab <- as.numeric(substr(results[1, ], 1, 3))#
+mort_tab <- as.numeric(substr(results[1, ], 7, 10))#
+food_tab <- as.numeric(substr(results[1, ], 16, 19)) #
+ tabdata_s<- cbind(seasonal, temp_tab, mort_tab, food_tab, round(as.numeric(results[2, ])), round(as.numeric(results[3, ]),2), round(as.numeric(results[4, ])), round(as.numeric(results[5, ]), 3))#
+ colnames(tabdata_s) <- c("Seasonality", "Temp", "Predator_fullness", "Richness", "Max_length", "Weighted_mean_length", "Linf", "von_Bert_K")#
+ tabdata_s#
+ total_data <- as.data.frame(rbind(tabdata, tabdata_s)) #
+ library(ggplot2)#
+ ggplot(data = total_data, aes(Richness, Linf, shape = Seasonality, color = factor(Temp))) +#
+ 	geom_point( size = 3) +#
+ 	labs(title = "Asymptotic length", subtitle = "(limited to years 1:15)", y = "Linf", x = "K (Richness of spectra)") + 	scale_shape_manual(values=c( 20,21))+#
+      scale_colour_manual(values=c("blue", "red" ))#
+ #for the seasonal results do I shift the average richness of the ecosystem??
+# install.packages("FSA")#
+# install.packages("nlstools")#
+#
+ # install.packages("ggplot2")#
+library(FSA)#
+library(nlstools)#
+#
+setwd("~/Documents/tuna_theory_paper/jeremy_machine_run_results/Rlim.2/constant/")#
+data_files <- list.files(pattern = "\\.csv$")#
+## read in files#
+#
+repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
+state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
+length_filenames <- data_files[1:(length(data_files)/4)]#
+surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+surv_filenames <- unique(surv_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+surv_data <- lapply(surv_filenames, read.csv)#
+fit_age <- 13:182 #note we are focused only on growth from 1 year to 15 years of age..... #
+ calc_metrics <-  function(sizedata, survdata, filenames) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:169])))#
+	names(data2) <- c("age_m", "len")#
+	data3_ <- survdata$x#
+	data3 <- data3_[2:169]#
+	#names(data3) <- c("survival")#
+	 #SV <- vbStarts(len~age_m, data <- data2)#
+	 SV <- list(Linf=max(data2[,2]), K = 0.2)#
+	 #print(SV)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+	 params <- substr(filenames, 13, 31)#
+ return(c(params, SV[[1]], wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+results <- mapply(calc_metrics, length_data, surv_data, length_filenames)#
+results <- gsub("r", "0",results)#
+#
+seasonal<- as.factor(rep("Constant", 34) )#
+temp_tab <- as.numeric(substr(results[1, ], 1, 3))#
+mort_tab <- as.numeric(substr(results[1, ], 7, 10))#
+food_tab <- as.numeric(substr(results[1, ], 16, 19)) #
+ tabdata<- cbind(seasonal, temp_tab, mort_tab, food_tab, round(as.numeric(results[2, ])), round(as.numeric(results[3, ]),2), round(as.numeric(results[4, ])), round(as.numeric(results[5, ]), 3))#
+ colnames(tabdata) <- c("Seasonality", "Temp", "Predator_fullness", "Richness", "Max_length", "Weighted_mean_length", "Linf", "von_Bert_K")#
+ tabdata#
+ ###now repeat this for seasonal results #
+ setwd("~/Documents/tuna_theory_paper/jeremy_machine_run_results/Rlim.2/seasonal/")#
+data_files <- list.files(pattern = "\\.csv$")#
+## read in files#
+#
+repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
+state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
+length_filenames <- data_files[1:(length(data_files)/4)]#
+surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+surv_filenames <- unique(surv_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+surv_data <- lapply(surv_filenames, read.csv)#
+fit_age <- 13:182 #note we are focused only on growth from 1 year to 15 years of age..... #
+ calc_metrics <-  function(sizedata, survdata, filenames) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:169])))#
+	names(data2) <- c("age_m", "len")#
+	data3_ <- survdata$x#
+	data3 <- data3_[2:169]#
+	#names(data3) <- c("survival")#
+	 #SV <- vbStarts(len~age_m, data <- data2)#
+	 SV <- list(Linf=max(data2[,2]), K = 0.2)#
+	 #print(SV)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+	 params <- substr(filenames, 13, 31)#
+ return(c(params, SV[[1]], wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+results <- mapply(calc_metrics, length_data, surv_data, length_filenames)#
+results <- gsub("r", "0",results)#
+#
+seasonal<- as.factor(rep("Seasonal", 34)) #
+temp_tab <- as.numeric(substr(results[1, ], 1, 3))#
+mort_tab <- as.numeric(substr(results[1, ], 7, 10))#
+food_tab <- as.numeric(substr(results[1, ], 16, 19)) #
+ tabdata_s<- cbind(seasonal, temp_tab, mort_tab, food_tab, round(as.numeric(results[2, ])), round(as.numeric(results[3, ]),2), round(as.numeric(results[4, ])), round(as.numeric(results[5, ]), 3))#
+ colnames(tabdata_s) <- c("Seasonality", "Temp", "Predator_fullness", "Richness", "Max_length", "Weighted_mean_length", "Linf", "von_Bert_K")#
+ tabdata_s#
+ total_data <- as.data.frame(rbind(tabdata, tabdata_s)) #
+ library(ggplot2)#
+ ggplot(data = total_data, aes(Richness, Linf, shape = Seasonality, color = factor(Temp))) +#
+ 	geom_point( size = 3) +#
+ 	labs(title = "Asymptotic length", subtitle = "(limited to years 1:15)", y = "Linf", x = "K (Richness of spectra)") + 	scale_shape_manual(values=c( 20,21))+#
+      scale_colour_manual(values=c("blue", "red" ))#
+ #for the seasonal results do I shift the average richness of the ecosystem??
+glimpse(total_data)
+# install.packages("FSA")#
+# install.packages("nlstools")#
+#
+ # install.packages("ggplot2")#
+library(FSA)#
+library(nlstools)#
+#
+setwd("~/Documents/tuna_theory_paper/jeremy_machine_run_results/Rlim.2/constant/")#
+data_files <- list.files(pattern = "\\.csv$")#
+## read in files#
+#
+repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
+state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
+length_filenames <- data_files[1:(length(data_files)/4)]#
+surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+surv_filenames <- unique(surv_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+surv_data <- lapply(surv_filenames, read.csv)#
+fit_age <- 13:182 #note we are focused only on growth from 1 year to 15 years of age..... #
+ calc_metrics <-  function(sizedata, survdata, filenames) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:169])))#
+	names(data2) <- c("age_m", "len")#
+	data3_ <- survdata$x#
+	data3 <- data3_[2:169]#
+	#names(data3) <- c("survival")#
+	 #SV <- vbStarts(len~age_m, data <- data2)#
+	 SV <- list(Linf=max(data2[,2]), K = 0.2)#
+	 #print(SV)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+	 params <- substr(filenames, 13, 31)#
+ return(c(params, SV[[1]], wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+results <- mapply(calc_metrics, length_data, surv_data, length_filenames)#
+results <- gsub("r", "0",results)#
+#
+seasonal<- rep("Constant", 34)#
+temp_tab <- as.numeric(substr(results[1, ], 1, 3))#
+mort_tab <- as.numeric(substr(results[1, ], 7, 10))#
+food_tab <- as.numeric(substr(results[1, ], 16, 19)) #
+ tabdata<- cbind(seasonal, temp_tab, mort_tab, food_tab, round(as.numeric(results[2, ])), round(as.numeric(results[3, ]),2), round(as.numeric(results[4, ])), round(as.numeric(results[5, ]), 3))#
+ colnames(tabdata) <- c("Seasonality", "Temp", "Predator_fullness", "Richness", "Max_length", "Weighted_mean_length", "Linf", "von_Bert_K")#
+ tabdata#
+ ###now repeat this for seasonal results #
+ setwd("~/Documents/tuna_theory_paper/jeremy_machine_run_results/Rlim.2/seasonal/")#
+data_files <- list.files(pattern = "\\.csv$")#
+## read in files#
+#
+repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
+state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
+length_filenames <- data_files[1:(length(data_files)/4)]#
+surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+surv_filenames <- unique(surv_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+surv_data <- lapply(surv_filenames, read.csv)#
+fit_age <- 13:182 #note we are focused only on growth from 1 year to 15 years of age..... #
+ calc_metrics <-  function(sizedata, survdata, filenames) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:169])))#
+	names(data2) <- c("age_m", "len")#
+	data3_ <- survdata$x#
+	data3 <- data3_[2:169]#
+	#names(data3) <- c("survival")#
+	 #SV <- vbStarts(len~age_m, data <- data2)#
+	 SV <- list(Linf=max(data2[,2]), K = 0.2)#
+	 #print(SV)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+	 params <- substr(filenames, 13, 31)#
+ return(c(params, SV[[1]], wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+results <- mapply(calc_metrics, length_data, surv_data, length_filenames)#
+results <- gsub("r", "0",results)#
+#
+seasonal<- rep("Seasonal", 34)  #
+temp_tab <- as.numeric(substr(results[1, ], 1, 3))#
+mort_tab <- as.numeric(substr(results[1, ], 7, 10))#
+food_tab <- as.numeric(substr(results[1, ], 16, 19)) #
+ tabdata_s<- cbind(seasonal, temp_tab, mort_tab, food_tab, round(as.numeric(results[2, ])), round(as.numeric(results[3, ]),2), round(as.numeric(results[4, ])), round(as.numeric(results[5, ]), 3))#
+ colnames(tabdata_s) <- c("Seasonality", "Temp", "Predator_fullness", "Richness", "Max_length", "Weighted_mean_length", "Linf", "von_Bert_K")#
+ tabdata_s#
+ total_data <- as.data.frame(rbind(tabdata, tabdata_s)) #
+ library(ggplot2)#
+ ggplot(data = total_data, aes(Richness, Linf, shape = Seasonality, color = factor(Temp))) +#
+ 	geom_point( size = 3) +#
+ 	labs(title = "Asymptotic length", subtitle = "(limited to years 1:15)", y = "Linf", x = "K (Richness of spectra)") + 	scale_shape_manual(values=c( 20,21))+#
+      scale_colour_manual(values=c("blue", "red" ))#
+ #for the seasonal results do I shift the average richness of the ecosystem??
+# install.packages("FSA")#
+# install.packages("nlstools")#
+#
+ # install.packages("ggplot2")#
+library(FSA)#
+library(nlstools)#
+#
+setwd("~/Documents/tuna_theory_paper/jeremy_machine_run_results/Rlim.2/constant/")#
+data_files <- list.files(pattern = "\\.csv$")#
+## read in files#
+#
+repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
+state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
+length_filenames <- data_files[1:(length(data_files)/4)]#
+surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+surv_filenames <- unique(surv_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+surv_data <- lapply(surv_filenames, read.csv)#
+fit_age <- 13:182 #note we are focused only on growth from 1 year to 15 years of age..... #
+ calc_metrics <-  function(sizedata, survdata, filenames) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:169])))#
+	names(data2) <- c("age_m", "len")#
+	data3_ <- survdata$x#
+	data3 <- data3_[2:169]#
+	#names(data3) <- c("survival")#
+	 #SV <- vbStarts(len~age_m, data <- data2)#
+	 SV <- list(Linf=max(data2[,2]), K = 0.2)#
+	 #print(SV)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+	 params <- substr(filenames, 13, 31)#
+ return(c(params, SV[[1]], wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+results <- mapply(calc_metrics, length_data, surv_data, length_filenames)#
+results <- gsub("r", "0",results)#
+#
+seasonal<- rep("Constant", 34)#
+temp_tab <- as.numeric(substr(results[1, ], 1, 3))#
+mort_tab <- as.numeric(substr(results[1, ], 7, 10))#
+food_tab <- as.numeric(substr(results[1, ], 16, 19)) #
+ tabdata<- cbind(seasonal, temp_tab, mort_tab, food_tab, round(as.numeric(results[2, ])), round(as.numeric(results[3, ]),2), round(as.numeric(results[4, ])), round(as.numeric(results[5, ]), 3))#
+ colnames(tabdata) <- c("Seasonality", "Temp", "Predator_fullness", "Richness", "Max_length", "Weighted_mean_length", "Linf", "von_Bert_K")#
+ tabdata#
+ ###now repeat this for seasonal results #
+ setwd("~/Documents/tuna_theory_paper/jeremy_machine_run_results/Rlim.2/seasonal/")#
+data_files <- list.files(pattern = "\\.csv$")#
+## read in files#
+#
+repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
+state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
+length_filenames <- data_files[1:(length(data_files)/4)]#
+surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+surv_filenames <- unique(surv_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+surv_data <- lapply(surv_filenames, read.csv)#
+fit_age <- 13:182 #note we are focused only on growth from 1 year to 15 years of age..... #
+ calc_metrics <-  function(sizedata, survdata, filenames) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:169])))#
+	names(data2) <- c("age_m", "len")#
+	data3_ <- survdata$x#
+	data3 <- data3_[2:169]#
+	#names(data3) <- c("survival")#
+	 #SV <- vbStarts(len~age_m, data <- data2)#
+	 SV <- list(Linf=max(data2[,2]), K = 0.2)#
+	 #print(SV)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+	 params <- substr(filenames, 13, 31)#
+ return(c(params, SV[[1]], wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+results <- mapply(calc_metrics, length_data, surv_data, length_filenames)#
+results <- gsub("r", "0",results)#
+#
+seasonal<- rep("Seasonal", 34)  #
+temp_tab <- as.numeric(substr(results[1, ], 1, 3))#
+mort_tab <- as.numeric(substr(results[1, ], 7, 10))#
+food_tab <- as.numeric(substr(results[1, ], 16, 19)) #
+ tabdata_s<- cbind(seasonal, temp_tab, mort_tab, food_tab, round(as.numeric(results[2, ])), round(as.numeric(results[3, ]),2), round(as.numeric(results[4, ])), round(as.numeric(results[5, ]), 3))#
+ colnames(tabdata_s) <- c("Seasonality", "Temp", "Predator_fullness", "Richness", "Max_length", "Weighted_mean_length", "Linf", "von_Bert_K")#
+ tabdata_s#
+ total_data <- as.data.frame(rbind(tabdata, tabdata_s)) #
+ library(ggplot2)#
+ ggplot(data = total_data, aes(Richness, Linf, shape = factor(Seasonality), color = factor(Temp))) +#
+ 	geom_point( size = 3) +#
+ 	labs(title = "Asymptotic length", subtitle = "(limited to years 1:15)", y = "Linf", x = "K (Richness of spectra)") + 	scale_shape_manual(values=c( 20,21))+#
+      scale_colour_manual(values=c("blue", "red" ))#
+ #for the seasonal results do I shift the average richness of the ecosystem??
+# install.packages("FSA")#
+# install.packages("nlstools")#
+#
+ # install.packages("ggplot2")#
+library(FSA)#
+library(nlstools)#
+#
+setwd("~/Documents/tuna_theory_paper/jeremy_machine_run_results/Rlim.2/constant/")#
+data_files <- list.files(pattern = "\\.csv$")#
+## read in files#
+#
+repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
+state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
+length_filenames <- data_files[1:(length(data_files)/4)]#
+surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+surv_filenames <- unique(surv_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+surv_data <- lapply(surv_filenames, read.csv)#
+fit_age <- 13:182 #note we are focused only on growth from 1 year to 15 years of age..... #
+ calc_metrics <-  function(sizedata, survdata, filenames) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:169])))#
+	names(data2) <- c("age_m", "len")#
+	data3_ <- survdata$x#
+	data3 <- data3_[2:169]#
+	#names(data3) <- c("survival")#
+	 #SV <- vbStarts(len~age_m, data <- data2)#
+	 SV <- list(Linf=max(data2[,2]), K = 0.2)#
+	 #print(SV)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+	 params <- substr(filenames, 13, 31)#
+ return(c(params, SV[[1]], wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+results <- mapply(calc_metrics, length_data, surv_data, length_filenames)#
+results <- gsub("r", "0",results)#
+#
+seasonal<- rep(0, 34) #
+temp_tab <- as.numeric(substr(results[1, ], 1, 3))#
+mort_tab <- as.numeric(substr(results[1, ], 7, 10))#
+food_tab <- as.numeric(substr(results[1, ], 16, 19)) #
+ tabdata<- cbind(seasonal, temp_tab, mort_tab, food_tab, round(as.numeric(results[2, ])), round(as.numeric(results[3, ]),2), round(as.numeric(results[4, ])), round(as.numeric(results[5, ]), 3))#
+ colnames(tabdata) <- c("Seasonality", "Temp", "Predator_fullness", "Richness", "Max_length", "Weighted_mean_length", "Linf", "von_Bert_K")#
+ tabdata#
+ ###now repeat this for seasonal results #
+ setwd("~/Documents/tuna_theory_paper/jeremy_machine_run_results/Rlim.2/seasonal/")#
+data_files <- list.files(pattern = "\\.csv$")#
+## read in files#
+#
+repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
+state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
+length_filenames <- data_files[1:(length(data_files)/4)]#
+surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+surv_filenames <- unique(surv_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+surv_data <- lapply(surv_filenames, read.csv)#
+fit_age <- 13:182 #note we are focused only on growth from 1 year to 15 years of age..... #
+ calc_metrics <-  function(sizedata, survdata, filenames) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:169])))#
+	names(data2) <- c("age_m", "len")#
+	data3_ <- survdata$x#
+	data3 <- data3_[2:169]#
+	#names(data3) <- c("survival")#
+	 #SV <- vbStarts(len~age_m, data <- data2)#
+	 SV <- list(Linf=max(data2[,2]), K = 0.2)#
+	 #print(SV)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+	 params <- substr(filenames, 13, 31)#
+ return(c(params, SV[[1]], wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+results <- mapply(calc_metrics, length_data, surv_data, length_filenames)#
+results <- gsub("r", "0",results)#
+#
+seasonal<- rep(1, 34) #
+temp_tab <- as.numeric(substr(results[1, ], 1, 3))#
+mort_tab <- as.numeric(substr(results[1, ], 7, 10))#
+food_tab <- as.numeric(substr(results[1, ], 16, 19)) #
+ tabdata_s<- cbind(seasonal, temp_tab, mort_tab, food_tab, round(as.numeric(results[2, ])), round(as.numeric(results[3, ]),2), round(as.numeric(results[4, ])), round(as.numeric(results[5, ]), 3))#
+ colnames(tabdata_s) <- c("Seasonality", "Temp", "Predator_fullness", "Richness", "Max_length", "Weighted_mean_length", "Linf", "von_Bert_K")#
+ tabdata_s#
+ total_data <- as.data.frame(rbind(tabdata, tabdata_s)) #
+ library(ggplot2)#
+ ggplot(data = total_data, aes(Richness, Linf, shape = factor(Seasonality), color = factor(Temp))) +#
+ 	geom_point( size = 3) +#
+ 	labs(title = "Asymptotic length", subtitle = "(limited to years 1:15)", y = "Linf", x = "K (Richness of spectra)") + 	scale_shape_manual(values=c( 20,21))+#
+      scale_colour_manual(values=c("blue", "red" ))#
+ #for the seasonal results do I shift the average richness of the ecosystem??
+as.numeric(substr(results[1, ], 16, 19))
+x<- as.numeric(substr(results[1, ], 16, 19))*12
+x
+# install.packages("FSA")#
+# install.packages("nlstools")#
+#
+ # install.packages("ggplot2")#
+library(FSA)#
+library(nlstools)#
+#
+setwd("~/Documents/tuna_theory_paper/jeremy_machine_run_results/Rlim.2/constant/")#
+data_files <- list.files(pattern = "\\.csv$")#
+## read in files#
+#
+repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
+state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
+length_filenames <- data_files[1:(length(data_files)/4)]#
+surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+surv_filenames <- unique(surv_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+surv_data <- lapply(surv_filenames, read.csv)#
+fit_age <- 13:182 #note we are focused only on growth from 1 year to 15 years of age..... #
+ calc_metrics <-  function(sizedata, survdata, filenames) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:169])))#
+	names(data2) <- c("age_m", "len")#
+	data3_ <- survdata$x#
+	data3 <- data3_[2:169]#
+	#names(data3) <- c("survival")#
+	 #SV <- vbStarts(len~age_m, data <- data2)#
+	 SV <- list(Linf=max(data2[,2]), K = 0.2)#
+	 #print(SV)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+	 params <- substr(filenames, 13, 31)#
+ return(c(params, SV[[1]], wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+results <- mapply(calc_metrics, length_data, surv_data, length_filenames)#
+results <- gsub("r", "0",results)#
+#
+seasonal<- rep(0, 34) #
+temp_tab <- as.numeric(substr(results[1, ], 1, 3))#
+mort_tab <- as.numeric(substr(results[1, ], 7, 10))*12#
+food_tab <- as.numeric(substr(results[1, ], 16, 19))*12 #
+ tabdata<- cbind(seasonal, temp_tab, mort_tab, food_tab, round(as.numeric(results[2, ])), round(as.numeric(results[3, ]),2), round(as.numeric(results[4, ])), round(as.numeric(results[5, ]), 3))#
+ colnames(tabdata) <- c("Seasonality", "Temp", "Predator_fullness", "Richness", "Max_length", "Weighted_mean_length", "Linf", "von_Bert_K")#
+ tabdata#
+ ###now repeat this for seasonal results #
+ setwd("~/Documents/tuna_theory_paper/jeremy_machine_run_results/Rlim.2/seasonal/")#
+data_files <- list.files(pattern = "\\.csv$")#
+## read in files#
+#
+repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   #
+state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]#
+length_filenames <- data_files[1:(length(data_files)/4)]#
+surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]#
+#
+length_filenames <- unique(length_filenames)#
+repro_filenames <- unique(repro_filenames)#
+state_filenames <- unique(state_filenames)#
+surv_filenames <- unique(surv_filenames)#
+#
+length_data <- lapply(length_filenames, read.csv)#
+repro_data <- lapply(repro_filenames, read.csv)#
+state_data <- lapply(state_filenames, read.csv)#
+surv_data <- lapply(surv_filenames, read.csv)#
+fit_age <- 13:182 #note we are focused only on growth from 1 year to 15 years of age..... #
+ calc_metrics <-  function(sizedata, survdata, filenames) {#
+	data2 <- as.data.frame(t(rbind(fit_age, sizedata[1, 2:169])))#
+	names(data2) <- c("age_m", "len")#
+	data3_ <- survdata$x#
+	data3 <- data3_[2:169]#
+	#names(data3) <- c("survival")#
+	 #SV <- vbStarts(len~age_m, data <- data2)#
+	 SV <- list(Linf=max(data2[,2]), K = 0.2)#
+	 #print(SV)#
+	von_bert <- len~Linf*(1-exp(-K*(age_m)))#
+	fitVB <- nls(von_bert, data = data2, start = SV)#
+	wtd_size <- mean(data2[, 2]*data3)#
+	 params <- substr(filenames, 13, 31)#
+ return(c(params, SV[[1]], wtd_size, coef(fitVB)[1], coef(fitVB)[2]) )#
+ 		} #
+results <- mapply(calc_metrics, length_data, surv_data, length_filenames)#
+results <- gsub("r", "0",results)#
+#
+seasonal<- rep(1, 34) #
+temp_tab <- as.numeric(substr(results[1, ], 1, 3))#
+mort_tab <- as.numeric(substr(results[1, ], 7, 10))*12#
+food_tab <- as.numeric(substr(results[1, ], 16, 19))*18 #
+ tabdata_s<- cbind(seasonal, temp_tab, mort_tab, food_tab, round(as.numeric(results[2, ])), round(as.numeric(results[3, ]),2), round(as.numeric(results[4, ])), round(as.numeric(results[5, ]), 3))#
+ colnames(tabdata_s) <- c("Seasonality", "Temp", "Predator_fullness", "Richness", "Max_length", "Weighted_mean_length", "Linf", "von_Bert_K")#
+ tabdata_s#
+ total_data <- as.data.frame(rbind(tabdata, tabdata_s)) #
+ library(ggplot2)#
+ ggplot(data = total_data, aes(Richness, Linf, shape = factor(Seasonality), color = factor(Temp))) +#
+ 	geom_point( size = 3) +#
+ 	labs(title = "Asymptotic length", subtitle = "(limited to years 1:15)", y = "Linf", x = "K (Richness of spectra)") + 	scale_shape_manual(values=c( 20,21))+#
+      scale_colour_manual(values=c("blue", "red" ))#
+ #for the seasonal results do I shift the average richness of the ecosystem??
+ggplot(data = total_data, aes(Richness, Max_length, shape = factor(Seasonality), color = factor(Temp))) +#
+ 	geom_point( size = 3) +#
+ 	labs(title = "Maximum length", subtitle = "(limited to years 1:15)", y = "Linf", x = "K (Average annual richness)") + 	scale_shape_manual(values=c( 20,21))+#
+      scale_colour_manual(values=c("blue", "red" ))
+ggplot(data = total_data, aes(Richness, Max_length, shape = factor(Seasonality), color = factor(Temp))) +#
+ 	geom_point( size = 3) +#
+ 	labs(title = "Maximum length", subtitle = "(limited to years 1:15)", y = "Maximum length", x = "K (Average annual richness)") + 	scale_shape_manual(values=c( 20,21))+#
+      scale_colour_manual(values=c("blue", "red" ))
+ggplot(data = total_data, aes(Richness, von_Bert_K, shape = factor(Seasonality), color = factor(Temp))) +#
+ 	geom_point( size = 3) +#
+ 	labs(title = "Growth coefficient (k)", subtitle = "(limited to years 1:15)", y = "k", x = "Kappa (Average annual richness)") + 	scale_shape_manual(values=c( 20,21))+#
+      scale_colour_manual(values=c("blue", "red" ))
+ggplot(data = total_data, aes(Richness, Weighted_mean_length, shape = factor(Seasonality), color = factor(Temp))) +#
+ 	geom_point( size = 3) +#
+ 	labs(title = "Mean length of population", subtitle = "(limited to years 1:15)", y = "k", x = "Mean length (cm)") + 	scale_shape_manual(values=c( 20,21))+#
+      scale_colour_manual(values=c("blue", "red" ))
+ggplot(data = total_data, aes(Richness, Weighted_mean_length, shape = factor(Seasonality), color = factor(Temp))) +#
+ 	geom_point( size = 3) +#
+ 	labs(title = "Mean length of population", subtitle = "(limited to years 1:15)", y =  "Mean length (cm)",  x = "Kappa (Average annual richness)") + 	scale_shape_manual(values=c( 20,21))+#
+      scale_colour_manual(values=c("blue", "red" ))
+ggplot(data = total_data, aes(Richness, Max_length, shape = factor(Seasonality), color = factor(Temp))) +#
+ 	geom_point( size = 3) +#
+ 	labs(title = "Maximum length (cm)", subtitle = "(limited to years 1:15)", y = "Maximum length", x = "K (Average annual richness)") + 	scale_shape_manual(values=c( 20,21))+#
+      scale_colour_manual(values=c("blue", "red" ))#
+ ggplot(data = total_data, aes(Richness, Linf, shape = factor(Seasonality), color = factor(Temp))) +#
+ 	geom_point( size = 3) +#
+ 	labs(title = "Asymptotic length (cm)", subtitle = "(limited to years 1:15)", y = "Linf", x = "K (Average annual richness)") + 	scale_shape_manual(values=c( 20,21))+#
+      scale_colour_manual(values=c("blue", "red" ))#
+ ggplot(data = total_data, aes(Richness, von_Bert_K, shape = factor(Seasonality), color = factor(Temp))) +#
+ 	geom_point( size = 3) +#
+ 	labs(title = "Von Bertalanffy growth coefficient (k)", subtitle = "(limited to years 1:15)", y = "k", x = "Kappa (Average annual richness)") + 	scale_shape_manual(values=c( 20,21))+#
+      scale_colour_manual(values=c("blue", "red" ))
+ggplot(data = total_data, aes(Richness, Max_length, shape = factor(Seasonality), color = factor(Temp))) +#
+ 	geom_point( size = 3) +#
+ 	labs(title = "Maximum length (cm)", subtitle = "(limited to years 1:15)", y = "Maximum length", x = "K (Average annual richness)") + 	scale_shape_manual(values=c( 20,21))+#
+      scale_colour_manual(values=c("blue", "red" ))

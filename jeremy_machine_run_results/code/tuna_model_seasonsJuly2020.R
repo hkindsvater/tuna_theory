@@ -6,22 +6,22 @@
 
 set.seed(1001)
  timebin=12
-args <-  commandArgs(trailingOnly = TRUE)
-counter <- as.numeric(args[1])
-reprolimit = as.numeric(args[2])
-Kappa = as.numeric(args[3])/12
-f_h = as.numeric(args[4])/12
-Tmax = as.numeric(args[5])*timebin
+# args <-  commandArgs(trailingOnly = TRUE)
+# counter <- as.numeric(args[1])
+# reprolimit = as.numeric(args[2])
+# Kappa = as.numeric(args[3])/12
+# f_h = as.numeric(args[4])/12
+# Tmax = as.numeric(args[5])*timebin
 
 c1=1
-Temp <- 295
+Temp <- 290
  
- # reprolimit=0.2
- # Kappa = 5/12  
- # f_h=20/12
+ reprolimit=0.2
+ Kappa = 5/12  
+ f_h=20/12
  
 
-# Tmax = 18*timebin  #monthly stime steps, maximum lifespan is 18 years
+Tmax = 18*timebin  #monthly stime steps, maximum lifespan is 18 years
  
 #describe temperature dependent costs
 k=1.3e-23
@@ -311,24 +311,24 @@ for (Y in 1:(Estoresmax)) { #for all   values of Energy Stores in loop (unscaled
  
 # close(pb) #close progress bar
 # require(fields)
-# pal=terrain.colors(n=100)# ##set the palette
-# quartz()
-# par(mfrow=c(2,2)) 	
-# image(optU[1:36, 45:100, 1,1], col=pal,   ylab="Size", xlab="Energy Stores", main="Growth, Age is 1" )
-# image(optU[  , 100  , 1,   ], col=pal, ylab="Age", xlab="growth", main="Growth, Length is 100" ) 
+pal=terrain.colors(n=100)# ##set the palette
+quartz()
+par(mfrow=c(1,3)) 	
+#image(optU[1:36, 45:100, 1,1], col=pal,   ylab="Size", xlab="Energy Stores", main="Growth, Age is 1" )
+image(optU[  , 100  , 1,   ], col=pal, ylab="Age", xlab="growth", main="Growth, Length is 100" ) 
 
-# image(optU[ , 200 , 1,  ] , col=pal, ylab="Age", xlab="Energy Stores", main="Growth, Length is 200" ) 
+image(optU[ , 200 , 1,  ] , col=pal, ylab="Age", xlab="Energy Stores", main="Growth, Length is 200" ) 
 
 
- # quartz()
- # par(mfrow=c(2,2)) 	
- # 
- # image( optR[1:36, 45:100 ,1,1], col=pal, ylab="Size", xlab="Energy Stores", main="Repro, Age is 1 " )	   	   
- # 
- # image(optR[ , 100  , 1,  ],col=pal, ylab="Age", xlab="Energy Stores", main="R, Length is 100" ) 
- # 
- # image(optR[, 200 , 1, ], col=pal, ylab="Age", xlab="Energy Stores", main="R, Length is 200" ) 
- # 
+ quartz()
+ par(mfrow=c(2,2)) 	
+ 
+ image( optR[1:36, 45:100 ,1,1], col=pal, ylab="Size", xlab="Energy Stores", main="Repro, Age is 1 " )	   	   
+ 
+ image(optR[ , 100  , 1,  ],col=pal, ylab="Age", xlab="Energy Stores", main="R, Length is 100" ) 
+ 
+ image(optR[, 200 , 1, ], col=pal, ylab="Age", xlab="Energy Stores", main="R, Length is 200" ) 
+ 
 
 # # 	  # # image(optR[,  300  , 1 , ], col=pal  ) 
 set.seed(2001)
@@ -457,8 +457,8 @@ reproduction[, -Tmax]<-ifelse(reproduction[, -Tmax]>0,  reproduction[, -Tmax], N
 
 idist[, -Tmax]<-ifelse(idist[, -Tmax]>0,  idist[, -Tmax], NA)
 
-write.csv(idist, file=paste0("~/Desktop/holly_results/Temp295/constant/03State",  "f_h", round(f_h, 2),  "Kappa", round(Kappa,2), "reprolimit", reprolimit, "Tmax", Tmax, ".csv"))
-write.csv(sizedist, file=paste0("~/Desktop/holly_results/Temp295/constant/01Length",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),  "reprolimit", reprolimit, "Tmax", Tmax, ".csv"))
-write.csv(reproduction, file=paste0("~/Desktop/holly_results/Temp295/constant/02Repro",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),  "reprolimit", reprolimit, "Tmax", Tmax, ".csv")) 
-write.csv(survival, file=paste0("~/Desktop/holly_results/Temp295/constant/04Surv",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),   "reprolimit", reprolimit, "Tmax", Tmax, ".csv")) 
+# # write.csv(idist, file=paste0("~/Desktop/holly_results/Temp295/constant/03State",  "f_h", round(f_h, 2),  "Kappa", round(Kappa,2), "reprolimit", reprolimit, "Tmax", Tmax, ".csv"))
+# write.csv(sizedist, file=paste0("~/Desktop/holly_results/Temp295/constant/01Length",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),  "reprolimit", reprolimit, "Tmax", Tmax, ".csv"))
+# write.csv(reproduction, file=paste0("~/Desktop/holly_results/Temp295/constant/02Repro",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),  "reprolimit", reprolimit, "Tmax", Tmax, ".csv")) 
+# write.csv(survival, file=paste0("~/Desktop/holly_results/Temp295/constant/04Surv",  "f_h", round(f_h, 2),   "Kappa", round(Kappa,2),   "reprolimit", reprolimit, "Tmax", Tmax, ".csv")) 
  

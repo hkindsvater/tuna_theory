@@ -1,0 +1,2925 @@
+natmort
+##Author: Holly K. Kindsvater, 2019#
+#
+##age structured model for Sphyrna lewini populaiton dynamics and demography with varying selectivity.     #
+#Model parameters:#
+#
+Npop=100  #initial pop size (not important)#
+#
+Tmax=500 #max years#
+#
+Tfishing=200 #start fishing#
+#
+Trecovery=400 #stop fishing #
+    #Life history parameters      	#
+#
+   recruitsize=100#
+#
+    Amax=32 #max age#
+#
+ 	Lmat=200 #age at maturation - this varies depending on the matration function chosen#
+#
+	Linf=233 #max size#
+#
+	 fishingsize = 150 #size-selective fishery threshold size #
+       k=.06  # Growth function param	 	 #
+#
+	   v=0.00002  #mass-at-size coef#
+#
+	    wexp = 3  #mass-at-size exp#
+#
+	    h=1 #sperm fertilization effectiveness#
+#
+ 	    N0 = 20000       #
+#
+  	    alpha = .6  	#
+#
+  	    q=.1 #maturation ogive steepness (1 = very steep)#
+   mu_f=0.15 #fishing mortality#
+#
+     natmort=0.15 #
+    #set up vectors and matrices#
+#
+pmat=rep(0, Amax) #
+#
+select=rep(0, Amax)#
+#
+pups=rep(0, Amax)#
+#
+mu=rep(0, Amax)#
+#
+N=matrix(nrow=Amax, ncol=Tmax, data=0)#
+W=matrix(nrow=Amax, ncol=1, data=1)#
+#
+L=matrix(nrow=Amax, ncol=1, data=1)#
+#
+mu=matrix(nrow=Amax, ncol=1, data=0)#
+#
+E=matrix(nrow=Amax, ncol=Tmax, data=0)#
+#
+S=matrix(nrow=1, ncol=Tmax, data=0)#
+#
+P=matrix(nrow=1, ncol=Tmax)#
+#
+B=matrix(nrow=1, ncol=Tmax)#
+ N[, 1]=Npop #initial population size#
+#
+L[1]=recruitsize #larval size at recruitment (birth)#
+#First: Define the age-specific growth, mortality, and maturation function#
+  	for (a in 1:(Amax-1)) {#
+	#GROWTH 		 #
+#
+	L[a+1]= Linf*(1-exp(-k)) + (L[a])*exp(-k) #length at age#
+#
+     W[a]= v*L[a]^wexp #weight at age#
+	# SIZE-DEP MATURATION:#
+#
+       pmat[a]= 1/(1+exp(-q*(L[a]-Lmat))) #
+ 	#FISHING SELECTIVITY # knife edge after 1 meter#
+#
+      select[a] = ifelse(L[a+1] < fishingsize, 0, 1)     #
+ 	#FECUNDITY#
+#
+       pups[a] = 10*pmat[a]  #hamemrhead fecundity is on average 10 female per year (40 total over two years, including males)#
+    #MORTALITY#
+#
+       mu[a] = natmort #could vary with age but assumed constant here#
+   } #end 1st age loop#
+ #With these age specific functions, simulate pop dynamics through time       #
+#
+ for(t in 1:(Tmax-1)) {#
+	E[,t]=N[, t]*pups  #assuming reproduction occurs between 1 t and the next#
+	P[t]= sum(E[,t])  #assuming fertilization is 100%, this is the year class of progeny produced in year t#
+  	beta= (alpha*P[t]-1)/(N0*P[t])  #derive the recruitment function from the slope near the origin#
+ 	N[1,t+1]= alpha*P[t]/(1+beta*P[t]) #this is the recruit class that enters in the next time step.. #
+     for (age in 1:(Amax-1)) { #now calculate age-specific probability of fishing mortality#
+   Fishing= if (Tfishing < t & Trecovery > t) {#
+#
+   				Fishing = select[age]*mu_f } else {#
+#
+   				Fishing = 0#
+#
+                     }#
+ 		N[age+1,t+1] = N[age, t]*exp(-mu[age]-Fishing) #numbers in each age class in the next time step #
+#
+ 		#assuming mortality happens after spawning#
+ 		B[t]=sum(N[,t]*W) #biomass#
+   		 } #end second age loop#
+       } #end t loop#
+ steadystate=N[,Tmax]#
+#
+ fishedsteady=N[ ,Trecovery -2]#
+quartz()#
+#
+par(mfrow=c(2, 2),  las=1)#
+# ######Plot life history functions and population dynamics #
+#
+ # quartz()#
+#
+ # par(mfrow=c(2,2))#
+#
+   # plot(1:Amax, L, type="l", main="von Bert growth", ylab="Disc Width (cm)", xlab="Age", ylim=c(0, 300)) #growth curve#
+#
+    # legend("bottomright", legend=c( paste("Linf = ", Linf), paste("von Bert k = ", k)))#
+# plot(1:(Amax-1), pmat[-Amax], type="l", main="Maturation ogive", ylab = "Probability Mature", xlab="Age")#
+#
+ # legend("bottomright", legend=c(paste("50% mature at age", amat)))#
+#
+ # plot(1:(Amax-1), pups[-Amax]*pmat[-Amax], type="l", main="Age-specific Fecundity", ylab="Number of female progeny", xlab= "Age")#
+#
+    # legend("bottomright", legend=c(paste("50% mature at age", amat)))#
+   plot(1:Amax, L, type="l", xaxt="n",  ylab="Length (cm)", xlab="Age (y)", ylim=c(0, 310)) #growth curve#
+axis(1, labels=c(0,Amax ), at= c(0,Amax))#
+#
+    legend("bottomright", legend=c( paste("Linf =", Linf), paste("von Bert k =", k)), bty="n")#
+ plot(1:(Amax-1), pups[-Amax], xaxt="n",  type="l", main="Age-specific Fecundity", ylab="Annual number of female pups", xlab= "Age")#
+axis(1, labels=c(0,Amax ), at= c(0,Amax))#
+#
+   # legend("topleft", legend=c(paste("Length 50% mature =", Lmat, "cm")), bty="n")#
+barplot(steadystate, names.arg=c(1:Amax ), yaxt="n",  xlab="Age (y)", ylim=c(0, N0), main="Unfished age structure", ylab="Relative Abundance" )#
+ axis(2, labels=c(0,1 ), at= c(0,20000))#
+ # barplot(rbind(fastG, fishedsteady[1:32]), beside=T, names.arg=c(1:32), xlab="Age (y)", col=c("black", "cyan3" ), yaxt="n", ylim=c(0, N0)) #,  main="Age structure") #
+#
+  # axis(2, labels=c(0,1 ), at= c(0,20000))#
+  # legend("topright", pch=c(15, 15, NA, NA), col=c("black", "cyan3" ), cex=1, legend=c("Amax = 32, Lmat = 200", "Amax = 40, Lmat = 225",  paste("Fishing mortality F =", mu_f) , paste("Constant selectivity for L >", fishingsize, "cm")), bty="n")
+##Author: Holly K. Kindsvater, 2019#
+#
+##age structured model for Sphyrna lewini populaiton dynamics and demography with varying selectivity.     #
+#Model parameters:#
+#
+Npop=100  #initial pop size (not important)#
+#
+Tmax=500 #max years#
+#
+Tfishing=200 #start fishing#
+#
+Trecovery=400 #stop fishing #
+    #Life history parameters      	#
+#
+   recruitsize=100#
+#
+    Amax=32 #max age#
+#
+ 	Lmat=200 #age at maturation - this varies depending on the matration function chosen#
+#
+	Linf=233 #max size#
+#
+	 fishingsize = 150 #size-selective fishery threshold size #
+       k=.09  # Growth function param	 	 #
+#
+	   v=0.00002  #mass-at-size coef#
+#
+	    wexp = 3  #mass-at-size exp#
+#
+	    h=1 #sperm fertilization effectiveness#
+#
+ 	    N0 = 20000       #
+#
+  	    alpha = .7  	#
+#
+  	    q=.1 #maturation ogive steepness (1 = very steep)#
+   mu_f=0.15 #fishing mortality#
+#
+     natmort=0.15 #
+    #set up vectors and matrices#
+#
+pmat=rep(0, Amax) #
+#
+select=rep(0, Amax)#
+#
+pups=rep(0, Amax)#
+#
+mu=rep(0, Amax)#
+#
+N=matrix(nrow=Amax, ncol=Tmax, data=0)#
+W=matrix(nrow=Amax, ncol=1, data=1)#
+#
+L=matrix(nrow=Amax, ncol=1, data=1)#
+#
+mu=matrix(nrow=Amax, ncol=1, data=0)#
+#
+E=matrix(nrow=Amax, ncol=Tmax, data=0)#
+#
+S=matrix(nrow=1, ncol=Tmax, data=0)#
+#
+P=matrix(nrow=1, ncol=Tmax)#
+#
+B=matrix(nrow=1, ncol=Tmax)#
+ N[, 1]=Npop #initial population size#
+#
+L[1]=recruitsize #larval size at recruitment (birth)#
+#First: Define the age-specific growth, mortality, and maturation function#
+  	for (a in 1:(Amax-1)) {#
+	#GROWTH 		 #
+#
+	L[a+1]= Linf*(1-exp(-k)) + (L[a])*exp(-k) #length at age#
+#
+     W[a]= v*L[a]^wexp #weight at age#
+	# SIZE-DEP MATURATION:#
+#
+       pmat[a]= 1/(1+exp(-q*(L[a]-Lmat))) #
+ 	#FISHING SELECTIVITY # knife edge after 1 meter#
+#
+      select[a] = ifelse(L[a+1] < fishingsize, 0, 1)     #
+ 	#FECUNDITY#
+#
+       pups[a] = 10*pmat[a]  #hamemrhead fecundity is on average 10 female per year (40 total over two years, including males)#
+    #MORTALITY#
+#
+       mu[a] = natmort #could vary with age but assumed constant here#
+   } #end 1st age loop#
+ #With these age specific functions, simulate pop dynamics through time       #
+#
+ for(t in 1:(Tmax-1)) {#
+	E[,t]=N[, t]*pups  #assuming reproduction occurs between 1 t and the next#
+	P[t]= sum(E[,t])  #assuming fertilization is 100%, this is the year class of progeny produced in year t#
+  	beta= (alpha*P[t]-1)/(N0*P[t])  #derive the recruitment function from the slope near the origin#
+ 	N[1,t+1]= alpha*P[t]/(1+beta*P[t]) #this is the recruit class that enters in the next time step.. #
+     for (age in 1:(Amax-1)) { #now calculate age-specific probability of fishing mortality#
+   Fishing= if (Tfishing < t & Trecovery > t) {#
+#
+   				Fishing = select[age]*mu_f } else {#
+#
+   				Fishing = 0#
+#
+                     }#
+ 		N[age+1,t+1] = N[age, t]*exp(-mu[age]-Fishing) #numbers in each age class in the next time step #
+#
+ 		#assuming mortality happens after spawning#
+ 		B[t]=sum(N[,t]*W) #biomass#
+   		 } #end second age loop#
+       } #end t loop#
+ steadystate=N[,Tmax]#
+#
+ fishedsteady=N[ ,Trecovery -2]#
+quartz()#
+#
+par(mfrow=c(2, 2),  las=1)#
+# ######Plot life history functions and population dynamics #
+#
+ # quartz()#
+#
+ # par(mfrow=c(2,2))#
+#
+   # plot(1:Amax, L, type="l", main="von Bert growth", ylab="Disc Width (cm)", xlab="Age", ylim=c(0, 300)) #growth curve#
+#
+    # legend("bottomright", legend=c( paste("Linf = ", Linf), paste("von Bert k = ", k)))#
+# plot(1:(Amax-1), pmat[-Amax], type="l", main="Maturation ogive", ylab = "Probability Mature", xlab="Age")#
+#
+ # legend("bottomright", legend=c(paste("50% mature at age", amat)))#
+#
+ # plot(1:(Amax-1), pups[-Amax]*pmat[-Amax], type="l", main="Age-specific Fecundity", ylab="Number of female progeny", xlab= "Age")#
+#
+    # legend("bottomright", legend=c(paste("50% mature at age", amat)))#
+   plot(1:Amax, L, type="l", xaxt="n",  ylab="Length (cm)", xlab="Age (y)", ylim=c(0, 310)) #growth curve#
+axis(1, labels=c(0,Amax ), at= c(0,Amax))#
+#
+    legend("bottomright", legend=c( paste("Linf =", Linf), paste("von Bert k =", k)), bty="n")#
+ plot(1:(Amax-1), pups[-Amax], xaxt="n",  type="l", main="Age-specific Fecundity", ylab="Annual number of female pups", xlab= "Age")#
+axis(1, labels=c(0,Amax ), at= c(0,Amax))#
+#
+   # legend("topleft", legend=c(paste("Length 50% mature =", Lmat, "cm")), bty="n")#
+barplot(steadystate, names.arg=c(1:Amax ), yaxt="n",  xlab="Age (y)", ylim=c(0, N0), main="Unfished age structure", ylab="Relative Abundance" )#
+ axis(2, labels=c(0,1 ), at= c(0,20000))#
+ # barplot(rbind(fastG, fishedsteady[1:32]), beside=T, names.arg=c(1:32), xlab="Age (y)", col=c("black", "cyan3" ), yaxt="n", ylim=c(0, N0)) #,  main="Age structure") #
+#
+  # axis(2, labels=c(0,1 ), at= c(0,20000))#
+  # legend("topright", pch=c(15, 15, NA, NA), col=c("black", "cyan3" ), cex=1, legend=c("Amax = 32, Lmat = 200", "Amax = 40, Lmat = 225",  paste("Fishing mortality F =", mu_f) , paste("Constant selectivity for L >", fishingsize, "cm")), bty="n")
+barplot(fishedsteady, names.arg=c(1:Amax ), yaxt="n",  xlab="Age (y)", ylim=c(0, N0), main="Fished age structure", ylab="Relative Abundance" )#
+ axis(2, labels=c(0,1 ), at= c(0,20000))
+##Author: Holly K. Kindsvater, 2019#
+#
+##age structured model for Sphyrna lewini populaiton dynamics and demography with varying selectivity.     #
+#Model parameters:#
+#
+Npop=100  #initial pop size (not important)#
+#
+Tmax=500 #max years#
+#
+Tfishing=200 #start fishing#
+#
+Trecovery=400 #stop fishing #
+    #Life history parameters      	#
+#
+   recruitsize=100#
+#
+    Amax=32 #max age#
+#
+ 	Lmat=200 #age at maturation - this varies depending on the matration function chosen#
+#
+	Linf=233 #max size#
+#
+	 fishingsize = 150 #size-selective fishery threshold size #
+       k=.09  # Growth function param	 	 #
+#
+	   v=0.00002  #mass-at-size coef#
+#
+	    wexp = 3  #mass-at-size exp#
+#
+	    h=1 #sperm fertilization effectiveness#
+#
+ 	    N0 = 20000       #
+#
+  	    alpha = .7  	#
+#
+  	    q=.1 #maturation ogive steepness (1 = very steep)#
+   mu_f=0.1  #fishing mortality#
+#
+     natmort=0.1  #
+    #set up vectors and matrices#
+#
+pmat=rep(0, Amax) #
+#
+select=rep(0, Amax)#
+#
+pups=rep(0, Amax)#
+#
+mu=rep(0, Amax)#
+#
+N=matrix(nrow=Amax, ncol=Tmax, data=0)#
+W=matrix(nrow=Amax, ncol=1, data=1)#
+#
+L=matrix(nrow=Amax, ncol=1, data=1)#
+#
+mu=matrix(nrow=Amax, ncol=1, data=0)#
+#
+E=matrix(nrow=Amax, ncol=Tmax, data=0)#
+#
+S=matrix(nrow=1, ncol=Tmax, data=0)#
+#
+P=matrix(nrow=1, ncol=Tmax)#
+#
+B=matrix(nrow=1, ncol=Tmax)#
+ N[, 1]=Npop #initial population size#
+#
+L[1]=recruitsize #larval size at recruitment (birth)#
+#First: Define the age-specific growth, mortality, and maturation function#
+  	for (a in 1:(Amax-1)) {#
+	#GROWTH 		 #
+#
+	L[a+1]= Linf*(1-exp(-k)) + (L[a])*exp(-k) #length at age#
+#
+     W[a]= v*L[a]^wexp #weight at age#
+	# SIZE-DEP MATURATION:#
+#
+       pmat[a]= 1/(1+exp(-q*(L[a]-Lmat))) #
+ 	#FISHING SELECTIVITY # knife edge after 1 meter#
+#
+      select[a] = ifelse(L[a+1] < fishingsize, 0, 1)     #
+ 	#FECUNDITY#
+#
+       pups[a] = 10*pmat[a]  #hamemrhead fecundity is on average 10 female per year (40 total over two years, including males)#
+    #MORTALITY#
+#
+       mu[a] = natmort #could vary with age but assumed constant here#
+   } #end 1st age loop#
+ #With these age specific functions, simulate pop dynamics through time       #
+#
+ for(t in 1:(Tmax-1)) {#
+	E[,t]=N[, t]*pups  #assuming reproduction occurs between 1 t and the next#
+	P[t]= sum(E[,t])  #assuming fertilization is 100%, this is the year class of progeny produced in year t#
+  	beta= (alpha*P[t]-1)/(N0*P[t])  #derive the recruitment function from the slope near the origin#
+ 	N[1,t+1]= alpha*P[t]/(1+beta*P[t]) #this is the recruit class that enters in the next time step.. #
+     for (age in 1:(Amax-1)) { #now calculate age-specific probability of fishing mortality#
+   Fishing= if (Tfishing < t & Trecovery > t) {#
+#
+   				Fishing = select[age]*mu_f } else {#
+#
+   				Fishing = 0#
+#
+                     }#
+ 		N[age+1,t+1] = N[age, t]*exp(-mu[age]-Fishing) #numbers in each age class in the next time step #
+#
+ 		#assuming mortality happens after spawning#
+ 		B[t]=sum(N[,t]*W) #biomass#
+   		 } #end second age loop#
+       } #end t loop#
+ steadystate=N[,Tmax]#
+#
+ fishedsteady=N[ ,Trecovery -2]#
+quartz()#
+#
+par(mfrow=c(2, 2),  las=1)#
+# ######Plot life history functions and population dynamics #
+#
+ # quartz()#
+#
+ # par(mfrow=c(2,2))#
+#
+   # plot(1:Amax, L, type="l", main="von Bert growth", ylab="Disc Width (cm)", xlab="Age", ylim=c(0, 300)) #growth curve#
+#
+    # legend("bottomright", legend=c( paste("Linf = ", Linf), paste("von Bert k = ", k)))#
+# plot(1:(Amax-1), pmat[-Amax], type="l", main="Maturation ogive", ylab = "Probability Mature", xlab="Age")#
+#
+ # legend("bottomright", legend=c(paste("50% mature at age", amat)))#
+#
+ # plot(1:(Amax-1), pups[-Amax]*pmat[-Amax], type="l", main="Age-specific Fecundity", ylab="Number of female progeny", xlab= "Age")#
+#
+    # legend("bottomright", legend=c(paste("50% mature at age", amat)))#
+   plot(1:Amax, L, type="l", xaxt="n",  ylab="Length (cm)", xlab="Age (y)", ylim=c(0, 310)) #growth curve#
+axis(1, labels=c(0,Amax ), at= c(0,Amax))#
+#
+    legend("bottomright", legend=c( paste("Linf =", Linf), paste("von Bert k =", k)), bty="n")#
+ plot(1:(Amax-1), pups[-Amax], xaxt="n",  type="l", main="Age-specific Fecundity", ylab="Annual number of female pups", xlab= "Age")#
+axis(1, labels=c(0,Amax ), at= c(0,Amax))#
+#
+   # legend("topleft", legend=c(paste("Length 50% mature =", Lmat, "cm")), bty="n")#
+barplot(steadystate, names.arg=c(1:Amax ), yaxt="n",  xlab="Age (y)", ylim=c(0, N0), main="Unfished age structure", ylab="Relative Abundance" )#
+ axis(2, labels=c(0,1 ), at= c(0,20000))#
+ barplot(fishedsteady, names.arg=c(1:Amax ), yaxt="n",  xlab="Age (y)", ylim=c(0, N0), main="Fished age structure", ylab="Relative Abundance" )#
+ axis(2, labels=c(0,1 ), at= c(0,20000))#
+  barplot(rbind(fastG, fishedsteady[1:32]), beside=T, names.arg=c(1:32), xlab="Age (y)", col=c("black", "cyan3" ), yaxt="n", ylim=c(0, N0)) #,  main="Age structure") #
+#
+  axis(2, labels=c(0,1 ), at= c(0,20000))#
+  # legend("topright", pch=c(15, 15, NA, NA), col=c("black", "cyan3" ), cex=1, legend=c("Amax = 32, Lmat = 200", "Amax = 40, Lmat = 225",  paste("Fishing mortality F =", mu_f) , paste("Constant selectivity for L >", fishingsize, "cm")), bty="n")
+quartz()#
+#
+par(mfrow=c(2, 2),  las=1)#
+# ######Plot life history functions and population dynamics #
+#
+ # quartz()#
+#
+ # par(mfrow=c(2,2))#
+#
+   # plot(1:Amax, L, type="l", main="von Bert growth", ylab="Disc Width (cm)", xlab="Age", ylim=c(0, 300)) #growth curve#
+#
+    # legend("bottomright", legend=c( paste("Linf = ", Linf), paste("von Bert k = ", k)))#
+# plot(1:(Amax-1), pmat[-Amax], type="l", main="Maturation ogive", ylab = "Probability Mature", xlab="Age")#
+#
+ # legend("bottomright", legend=c(paste("50% mature at age", amat)))#
+#
+ # plot(1:(Amax-1), pups[-Amax]*pmat[-Amax], type="l", main="Age-specific Fecundity", ylab="Number of female progeny", xlab= "Age")#
+#
+    # legend("bottomright", legend=c(paste("50% mature at age", amat)))#
+   plot(1:Amax, L, type="l", xaxt="n",  ylab="Length (cm)", xlab="Age (y)", ylim=c(0, 310)) #growth curve#
+axis(1, labels=c(0,Amax ), at= c(0,Amax))#
+#
+    legend("bottomright", legend=c( paste("Linf =", Linf), paste("von Bert k =", k)), bty="n")#
+ plot(1:(Amax-1), pups[-Amax], xaxt="n",  type="l", main="Age-specific Fecundity", ylab="Annual number of female pups", xlab= "Age")#
+axis(1, labels=c(0,Amax ), at= c(0,Amax))#
+#
+   # legend("topleft", legend=c(paste("Length 50% mature =", Lmat, "cm")), bty="n")#
+barplot(steadystate, names.arg=c(1:Amax ), yaxt="n",  xlab="Age (y)", ylim=c(0, N0), main="Unfished age structure", ylab="Relative Abundance" )#
+ axis(2, labels=c(0,1 ), at= c(0,20000))#
+ barplot(fishedsteady, names.arg=c(1:Amax ), yaxt="n",  xlab="Age (y)", ylim=c(0, N0), main="Fished age structure", ylab="Relative Abundance" )#
+ axis(2, labels=c(0,1 ), at= c(0,20000))
+##Author: Holly K. Kindsvater, 2019#
+#
+##age structured model for Sphyrna lewini populaiton dynamics and demography with varying selectivity.     #
+#Model parameters:#
+#
+Npop=100  #initial pop size (not important)#
+#
+Tmax=500 #max years#
+#
+Tfishing=200 #start fishing#
+#
+Trecovery=400 #stop fishing #
+    #Life history parameters      	#
+#
+   recruitsize=100#
+#
+    Amax=32 #max age#
+#
+ 	Lmat=200 #age at maturation - this varies depending on the matration function chosen#
+#
+	Linf=233 #max size#
+#
+	 fishingsize = 150 #size-selective fishery threshold size #
+       k=.09  # Growth function param	 	 #
+#
+	   v=0.00002  #mass-at-size coef#
+#
+	    wexp = 3  #mass-at-size exp#
+#
+	    h=1 #sperm fertilization effectiveness#
+#
+ 	    N0 = 20000       #
+#
+  	    alpha = .8  	#
+#
+  	    q=.1 #maturation ogive steepness (1 = very steep)#
+   mu_f=0.1  #fishing mortality#
+#
+     natmort=0.1  #
+    #set up vectors and matrices#
+#
+pmat=rep(0, Amax) #
+#
+select=rep(0, Amax)#
+#
+pups=rep(0, Amax)#
+#
+mu=rep(0, Amax)#
+#
+N=matrix(nrow=Amax, ncol=Tmax, data=0)#
+W=matrix(nrow=Amax, ncol=1, data=1)#
+#
+L=matrix(nrow=Amax, ncol=1, data=1)#
+#
+mu=matrix(nrow=Amax, ncol=1, data=0)#
+#
+E=matrix(nrow=Amax, ncol=Tmax, data=0)#
+#
+S=matrix(nrow=1, ncol=Tmax, data=0)#
+#
+P=matrix(nrow=1, ncol=Tmax)#
+#
+B=matrix(nrow=1, ncol=Tmax)#
+ N[, 1]=Npop #initial population size#
+#
+L[1]=recruitsize #larval size at recruitment (birth)#
+#First: Define the age-specific growth, mortality, and maturation function#
+  	for (a in 1:(Amax-1)) {#
+	#GROWTH 		 #
+#
+	L[a+1]= Linf*(1-exp(-k)) + (L[a])*exp(-k) #length at age#
+#
+     W[a]= v*L[a]^wexp #weight at age#
+	# SIZE-DEP MATURATION:#
+#
+       pmat[a]= 1/(1+exp(-q*(L[a]-Lmat))) #
+ 	#FISHING SELECTIVITY # knife edge after 1 meter#
+#
+      select[a] = ifelse(L[a+1] < fishingsize, 0, 1)     #
+ 	#FECUNDITY#
+#
+       pups[a] = 10*pmat[a]  #hamemrhead fecundity is on average 10 female per year (40 total over two years, including males)#
+    #MORTALITY#
+#
+       mu[a] = natmort #could vary with age but assumed constant here#
+   } #end 1st age loop#
+ #With these age specific functions, simulate pop dynamics through time       #
+#
+ for(t in 1:(Tmax-1)) {#
+	E[,t]=N[, t]*pups  #assuming reproduction occurs between 1 t and the next#
+	P[t]= sum(E[,t])  #assuming fertilization is 100%, this is the year class of progeny produced in year t#
+  	beta= (alpha*P[t]-1)/(N0*P[t])  #derive the recruitment function from the slope near the origin#
+ 	N[1,t+1]= alpha*P[t]/(1+beta*P[t]) #this is the recruit class that enters in the next time step.. #
+     for (age in 1:(Amax-1)) { #now calculate age-specific probability of fishing mortality#
+   Fishing= if (Tfishing < t & Trecovery > t) {#
+#
+   				Fishing = select[age]*mu_f } else {#
+#
+   				Fishing = 0#
+#
+                     }#
+ 		N[age+1,t+1] = N[age, t]*exp(-mu[age]-Fishing) #numbers in each age class in the next time step #
+#
+ 		#assuming mortality happens after spawning#
+ 		B[t]=sum(N[,t]*W) #biomass#
+   		 } #end second age loop#
+       } #end t loop#
+ steadystate=N[,Tmax]#
+#
+ fishedsteady=N[ ,Trecovery -2]#
+quartz()#
+#
+par(mfrow=c(2, 2),  las=1)#
+# ######Plot life history functions and population dynamics #
+#
+ # quartz()#
+#
+ # par(mfrow=c(2,2))#
+#
+   # plot(1:Amax, L, type="l", main="von Bert growth", ylab="Disc Width (cm)", xlab="Age", ylim=c(0, 300)) #growth curve#
+#
+    # legend("bottomright", legend=c( paste("Linf = ", Linf), paste("von Bert k = ", k)))#
+# plot(1:(Amax-1), pmat[-Amax], type="l", main="Maturation ogive", ylab = "Probability Mature", xlab="Age")#
+#
+ # legend("bottomright", legend=c(paste("50% mature at age", amat)))#
+#
+ # plot(1:(Amax-1), pups[-Amax]*pmat[-Amax], type="l", main="Age-specific Fecundity", ylab="Number of female progeny", xlab= "Age")#
+#
+    # legend("bottomright", legend=c(paste("50% mature at age", amat)))#
+   plot(1:Amax, L, type="l", xaxt="n",  ylab="Length (cm)", xlab="Age (y)", ylim=c(0, 310)) #growth curve#
+axis(1, labels=c(0,Amax ), at= seq(0,Amax))#
+#
+    legend("bottomright", legend=c( paste("Linf =", Linf), paste("von Bert k =", k)), bty="n")#
+ plot(1:(Amax-1), pups[-Amax], xaxt="n",  type="l", main="Age-specific Fecundity", ylab="Annual number of female pups", xlab= "Age")#
+axis(1, labels=c(0,Amax ), at= seq(0,Amax))#
+#
+   # legend("topleft", legend=c(paste("Length 50% mature =", Lmat, "cm")), bty="n")#
+barplot(rbind(steadystate, fishedsteady), names.arg=c(1:Amax ), yaxt="n",  xlab="Age (y)", ylim=c(0, N0), main="Unfished age structure", ylab="Relative Abundance" )#
+ axis(2, labels=c(0,1 ), at= c(0,20000))#
+ barplot(fishedsteady, names.arg=c(1:Amax ), yaxt="n",  xlab="Age (y)", ylim=c(0, N0), main="Fished age structure", ylab="Relative Abundance" )#
+ axis(2, labels=c(0,1 ), at= c(0,20000))#
+# #   barplot(rbind(fastG, fishedsteady[1:32]), beside=T, names.arg=c(1:32), xlab="Age (y)", col=c("black", "cyan3" ), yaxt="n", ylim=c(0, N0)) #,  main="Age structure") #
+#
+  # axis(2, labels=c(0,1 ), at= c(0,20000))#
+  # # legend("topright", pch=c(15, 15, NA, NA), col=c("black", "cyan3" ), cex=1, legend=c("Amax = 32, Lmat = 200", "Amax = 40, Lmat = 225",  paste("Fishing mortality F =", mu_f) , paste("Constant selectivity for L >", fishingsize, "cm")), bty="n")
+N0
+fishedsteady
+steadystate
+barplot(rbind(steadystate, fishedsteady), names.arg=c(1:Amax ), yaxt="n",  xlab="Age (y)", ylim=c(0, N0), main="Unfished age structure", ylab="Relative Abundance" )#
+ axis(2, labels=c(0,1 ), at= c(0,20000))
+barplot(steadystate)
+barplot(steadystate, ylim=c(0, 20000))
+barplot(rbind(steadystate, fishedsteady), names.arg=c(1:Amax ), yaxt="n",  xlab="Age (y)", ylim=c(0, 20000), main="Unfished age structure", ylab="Relative Abundance" )#
+ axis(2, labels=c(0,1 ), at= c(0,20000))
+barplot(rbind(steadystate, fishedsteady), names.arg=c(1:Amax ),   xlab="Age (y)", ylim=c(0, 20000), yaxt="n", main="Unfished age structure", ylab="Relative Abundance" )#
+ axis(2, labels=c(0,1 ), at= c(0,20000))
+barplot(rbind(steadystate, fishedsteady)), names.arg=c(1:Amax ),   xlab="Age (y)", ylim=c(0, 20000), yaxt="n", main="Unfished age structure", ylab="Relative Abundance" )#
+ axis(2, labels=c(0,1 ), at= c(0,20000))
+mat1<- rbind(steadystate, fishedsteady)#
+barplot(mat1, names.arg=c(1:Amax ),   xlab="Age (y)", ylim=c(0, 20000), yaxt="n", main="Unfished age structure", ylab="Relative Abundance" )
+dim(steadystate)
+dim(mat1)
+mat2
+mat1
+matplot(t(mat1))
+mat1<- rbind(steadystate, fishedsteady)#
+barplot(mat1, beside=T, names.arg=c(1:Amax ),   xlab="Age (y)", ylim=c(0, 20000), yaxt="n", main="Unfished age structure", ylab="Relative Abundance" )#
+ axis(2, labels=c(0,1 ), at= c(0,20000))
+mat1<- rbind(steadystate, fishedsteady)#
+barplot(mat1, beside=T, names.arg=c(1:Amax ), col=c(1,2),  xlab="Age (y)", ylim=c(0, 20000), yaxt="n", main="Age structure", ylab="Index of abundance" )#
+ axis(2, labels=c(0,1 ), at= c(0,20000))#
+ legend("topright",   legend=c( paste("Fishing mortality F =", mu_f) , paste("Constant selectivity for L >", fishingsize, "cm")), bty="n")
+mat1<- rbind(steadystate, fishedsteady)#
+barplot(mat1, beside=T, names.arg=c(1:Amax ), col=c(4,1),  xlab="Age (y)", ylim=c(0, 20000), yaxt="n", main="Age structure", ylab="Index of abundance" )#
+ axis(2, labels=c(0,1 ), at= c(0,20000))#
+ legend("topright",   legend=c( paste("Fishing mortality F =", mu_f) , paste("Constant selectivity for L >", fishingsize, "cm")), bty="n")
+mat1<- rbind(steadystate, fishedsteady)#
+barplot(mat1, beside=T, names.arg=c(1:Amax ), col=c(gray(50),1),  xlab="Age (y)", ylim=c(0, 20000), yaxt="n", main="Age structure", ylab="Index of abundance" )#
+ axis(2, labels=c(0,1 ), at= c(0,20000))#
+ legend("topright",   legend=c( paste("Fishing mortality F =", mu_f) , paste("Constant selectivity for L >", fishingsize, "cm")), bty="n")
+mat1<- rbind(steadystate, fishedsteady)#
+barplot(mat1, beside=T, names.arg=c(1:Amax ), col=c(gray(.5),1),  xlab="Age (y)", ylim=c(0, 20000), yaxt="n", main="Age structure", ylab="Index of abundance" )#
+ axis(2, labels=c(0,1 ), at= c(0,20000))#
+ legend("topright",   legend=c( paste("Fishing mortality F =", mu_f) , paste("Constant selectivity for L >", fishingsize, "cm")), bty="n")
+mat1<- rbind(steadystate, fishedsteady)#
+barplot(mat1, beside=T, names.arg=c(1:Amax ), col=c(gray(.5),1),  xlab="Age (y)", ylim=c(0, 20000), yaxt="n", main="Age structure", ylab="Index of abundance" )#
+ axis(2, labels=c(0,1 ), at= c(0,20000))#
+ legend("topright", pch=c(15, 15, NA), col=c(gray(.5),1),  legend=c("Unfished",  paste("Fishing mortality F =", mu_f) , paste("Constant selectivity for L >", fishingsize, "cm")), bty="n")
+fastG<- fishedsteady
+quartz()#
+#
+ par(mfrow=c(2,2))
+plot(1:Amax, L, type="l", xaxt="n",  ylab="Length (cm)", xlab="Age (y)", ylim=c(0, 310)) #growth curve#
+axis(1, labels=c(1,Amax ), at= seq(0,Amax))#
+#
+    legend("bottomright", legend=c( paste("Linf =", Linf), paste("von Bert k =", k)), bty="n")
+axis(1, labels=seq(1,Amax ), at= seq(0,Amax-1))
+plot(1:(Amax-1), pups[-Amax], xaxt="n",  type="l", main="Age-specific Fecundity", ylab="Annual number of female pups", xlab= "Age")#
+axis(1, labels=c(1,Amax ), at= seq(0,Amax-1))
+plot(1:Amax, L, type="l", xaxt="n",  ylab="Length (cm)", xlab="Age (y)", ylim=c(0, 310), main=von Bertalanffy Growth) #growth curve#
+axis(1, labels=seq(1,Amax ), at= seq(0,Amax-1))#
+#
+    legend("bottomright", legend=c( paste("Linf =", Linf), paste("von Bert k =", k)), bty="n")#
+ plot(1:(Amax-1), pups[-Amax], xaxt="n",  type="l", main="Age-specific Fecundity", ylab="Annual number of female pups", xlab= "Age")#
+axis(1, labels=c(1,Amax ), at= seq(0,Amax-1))
+quartz()#
+#
+ par(mfrow=c(2,2))
+plot(1:Amax, L, type="l", xaxt="n",  ylab="Length (cm)", xlab="Age (y)", ylim=c(0, 310), main=# von Bertalanffy Growth) #growth curve#
+axis(1, labels=seq(1,Amax ), at= seq(0,Amax-1))#
+#
+    legend("bottomright", legend=c( paste("Linf =", Linf), paste("von Bert k =", k)), bty="n")#
+ plot(1:(Amax-1), pups[-Amax], xaxt="n",  type="l", main="Age-specific Fecundity", ylab="Annual number of female pups", xlab= "Age")#
+axis(1, labels=c(1,Amax ), at= seq(0,Amax-1))
+plot(1:Amax, L, type="l", xaxt="n",  ylab="Length (cm)", xlab="Age (y)", ylim=c(0, 310), main= "von Bertalanffy Growth") #growth curve#
+axis(1, labels=seq(1,Amax ), at= seq(0,Amax-1))#
+#
+    legend("bottomright", legend=c( paste("Linf =", Linf), paste("von Bert k =", k)), bty="n")#
+ plot(1:(Amax-1), pups[-Amax], xaxt="n",  type="l", main="Age-specific Fecundity", ylab="Annual number of female pups", xlab= "Age")#
+axis(1, labels=c(1,Amax ), at= seq(0,Amax-1))
+par(mfrow=c(2,2))#
+#
+   # plot(1:Amax, L, type="l", main="von Bert growth", ylab="Disc Width (cm)", xlab="Age", ylim=c(0, 300)) #growth curve#
+#
+    # legend("bottomright", legend=c( paste("Linf = ", Linf), paste("von Bert k = ", k)))#
+# plot(1:(Amax-1), pmat[-Amax], type="l", main="Maturation ogive", ylab = "Probability Mature", xlab="Age")#
+#
+ # legend("bottomright", legend=c(paste("50% mature at age", amat)))#
+#
+ # plot(1:(Amax-1), pups[-Amax]*pmat[-Amax], type="l", main="Age-specific Fecundity", ylab="Number of female progeny", xlab= "Age")#
+#
+    # legend("bottomright", legend=c(paste("50% mature at age", amat)))#
+   plot(1:Amax, L, type="l", xaxt="n",  ylab="Length (cm)", xlab="Age (y)", ylim=c(0, 310), main= "von Bertalanffy Growth") #growth curve#
+axis(1, labels=seq(1,Amax ), at= seq(0,Amax-1))#
+#
+    legend("bottomright", legend=c( paste("Linf =", Linf), paste("von Bert k =", k)), bty="n")#
+ plot(1:(Amax-1), pups[-Amax], xaxt="n",  type="l", main="Age-specific Fecundity", ylab="Annual number of female pups", xlab= "Age")#
+axis(1, labels=c(1,Amax ), at= seq(0,Amax-1))
+plot(1:(Amax-1), pups[-Amax], xaxt="n",  type="l", main="Age-specific Fecundity", ylab="Annual number of female pups", xlab= "Age")#
+axis(1, labels=seq(1,Amax ), at= seq(0,Amax-1))
+quartz()#
+#
+ par(mfrow=c(2,2))#
+#
+   # plot(1:Amax, L, type="l", main="von Bert growth", ylab="Disc Width (cm)", xlab="Age", ylim=c(0, 300)) #growth curve#
+#
+    # legend("bottomright", legend=c( paste("Linf = ", Linf), paste("von Bert k = ", k)))#
+# plot(1:(Amax-1), pmat[-Amax], type="l", main="Maturation ogive", ylab = "Probability Mature", xlab="Age")#
+#
+ # legend("bottomright", legend=c(paste("50% mature at age", amat)))#
+#
+ # plot(1:(Amax-1), pups[-Amax]*pmat[-Amax], type="l", main="Age-specific Fecundity", ylab="Number of female progeny", xlab= "Age")#
+#
+    # legend("bottomright", legend=c(paste("50% mature at age", amat)))#
+   plot(1:Amax, L, type="l", xaxt="n",  ylab="Length (cm)", xlab="Age (y)", ylim=c(0, 310), main= "von Bertalanffy Growth") #growth curve#
+axis(1, labels=seq(1,Amax ), at= seq(0,Amax-1))#
+#
+    legend("bottomright", legend=c( paste("Linf =", Linf), paste("von Bert k =", k)), bty="n")#
+ plot(1:(Amax-1), pups[-Amax], xaxt="n",  type="l", main="Age-specific Fecundity", ylab="Annual number of female pups", xlab= "Age")#
+axis(1, labels=seq(1,Amax, by=3 ), at= seq(0,Amax-1, by = 3))
+plot(1:Amax, L, type="l", xaxt="n",  ylab="Length (cm)", xlab="Age (y)", ylim=c(0, 310), main= "von Bertalanffy Growth") #growth curve#
+axis(1, labels=seq(1,Amax, by=3 ), at= seq(0,Amax-1, by = 3))#
+#
+    legend("bottomright", legend=c( paste("Linf =", Linf), paste("von Bert k =", k)), bty="n")#
+ plot(1:(Amax-1), pups[-Amax], xaxt="n",  type="l", main="Age-specific Fecundity", ylab="Annual number of female pups", xlab= "Age")#
+axis(1, labels=seq(1,Amax, by=3 ), at= seq(0,Amax-1, by = 3))#
+#
+   # legend("topl
+##Author: Holly K. Kindsvater, 2019#
+#
+##age structured model for Sphyrna lewini populaiton dynamics and demography with varying selectivity.     #
+#Model parameters:#
+#
+Npop=100  #initial pop size (not important)#
+#
+Tmax=500 #max years#
+#
+Tfishing=200 #start fishing#
+#
+Trecovery=400 #stop fishing #
+    #Life history parameters      	#
+#
+   recruitsize=100#
+#
+    Amax=40 #max age#
+#
+ 	Lmat=225 #age at maturation - this varies depending on the matration function chosen#
+#
+	Linf=300 #max size#
+#
+	 fishingsize = 150 #size-selective fishery threshold size #
+       k=.07  # Growth function param	 	 #
+#
+	   v=0.00002  #mass-at-size coef#
+#
+	    wexp = 3  #mass-at-size exp#
+#
+	    h=1 #sperm fertilization effectiveness#
+#
+ 	    N0 = 20000       #
+#
+  	    alpha = .8  	#
+#
+  	    q=.1 #maturation ogive steepness (1 = very steep)#
+   mu_f=0.1  #fishing mortality#
+#
+     natmort=0.1  #
+    #set up vectors and matrices#
+#
+pmat=rep(0, Amax) #
+#
+select=rep(0, Amax)#
+#
+pups=rep(0, Amax)#
+#
+mu=rep(0, Amax)#
+#
+N=matrix(nrow=Amax, ncol=Tmax, data=0)#
+W=matrix(nrow=Amax, ncol=1, data=1)#
+#
+L=matrix(nrow=Amax, ncol=1, data=1)#
+#
+mu=matrix(nrow=Amax, ncol=1, data=0)#
+#
+E=matrix(nrow=Amax, ncol=Tmax, data=0)#
+#
+S=matrix(nrow=1, ncol=Tmax, data=0)#
+#
+P=matrix(nrow=1, ncol=Tmax)#
+#
+B=matrix(nrow=1, ncol=Tmax)#
+ N[, 1]=Npop #initial population size#
+#
+L[1]=recruitsize #larval size at recruitment (birth)#
+#First: Define the age-specific growth, mortality, and maturation function#
+  	for (a in 1:(Amax-1)) {#
+	#GROWTH 		 #
+#
+	L[a+1]= Linf*(1-exp(-k)) + (L[a])*exp(-k) #length at age#
+#
+     W[a]= v*L[a]^wexp #weight at age#
+	# SIZE-DEP MATURATION:#
+#
+       pmat[a]= 1/(1+exp(-q*(L[a]-Lmat))) #
+ 	#FISHING SELECTIVITY # knife edge after 1 meter#
+#
+      select[a] = ifelse(L[a+1] < fishingsize, 0, 1)     #
+ 	#FECUNDITY#
+#
+       pups[a] = 10*pmat[a]  #hamemrhead fecundity is on average 10 female per year (40 total over two years, including males)#
+    #MORTALITY#
+#
+       mu[a] = natmort #could vary with age but assumed constant here#
+   } #end 1st age loop#
+ #With these age specific functions, simulate pop dynamics through time       #
+#
+ for(t in 1:(Tmax-1)) {#
+	E[,t]=N[, t]*pups  #assuming reproduction occurs between 1 t and the next#
+	P[t]= sum(E[,t])  #assuming fertilization is 100%, this is the year class of progeny produced in year t#
+  	beta= (alpha*P[t]-1)/(N0*P[t])  #derive the recruitment function from the slope near the origin#
+ 	N[1,t+1]= alpha*P[t]/(1+beta*P[t]) #this is the recruit class that enters in the next time step.. #
+     for (age in 1:(Amax-1)) { #now calculate age-specific probability of fishing mortality#
+   Fishing= if (Tfishing < t & Trecovery > t) {#
+#
+   				Fishing = select[age]*mu_f } else {#
+#
+   				Fishing = 0#
+#
+                     }#
+ 		N[age+1,t+1] = N[age, t]*exp(-mu[age]-Fishing) #numbers in each age class in the next time step #
+#
+ 		#assuming mortality happens after spawning#
+ 		B[t]=sum(N[,t]*W) #biomass#
+   		 } #end second age loop#
+       } #end t loop#
+ steadystate=N[,Tmax]#
+#
+ fishedsteady=N[ ,Trecovery -2]#
+quartz()#
+#
+par(mfrow=c(2, 2),  las=1)#
+# ######Plot life history functions and population dynamics #
+#
+ quartz()#
+#
+ par(mfrow=c(2,2))#
+   plot(1:Amax, L, type="l", xaxt="n",  ylab="Length (cm)", xlab="Age (y)", ylim=c(0, 310), main= "von Bertalanffy Growth") #growth curve#
+axis(1, labels=seq(1,Amax, by=3 ), at= seq(0,Amax-1, by = 3))#
+#
+    legend("bottomright", legend=c( paste("Linf =", Linf), paste("von Bert k =", k)), bty="n")#
+# #  plot(1:(Amax-1), pups[-Amax], xaxt="n",  type="l", main="Age-specific Fecundity", ylab="Annual number of female pups", xlab= "Age")#
+# axis(1, labels=seq(1,Amax, by=3 ), at= seq(0,Amax-1, by = 3))#
+# # mat1<- rbind(steadystate, fishedsteady)#
+# barplot(mat1, beside=T, names.arg=c(1:Amax ), col=c(gray(.5),1),  xlab="Age (y)", ylim=c(0, 20000), yaxt="n", main="Age structure", ylab="Index of abundance" )#
+ # axis(2, labels=c(0,1 ), at= c(0,20000))#
+ # legend("topright", pch=c(15, 15, NA), col=c(gray(.5),1),  legend=c("Unfished",  paste("Fishing mortality F =", mu_f) , paste("Constant selectivity for L >", fishingsize, "cm")), bty="n")#
+# #  #
+  # barplot(fishedsteady, names.arg=c(1:Amax ), yaxt="n",  xlab="Age (y)", ylim=c(0, N0), main="Fished age structure", ylab="Relative Abundance" )#
+ # axis(2, labels=c(0,1 ), at= c(0,20000))#
+ barplot(rbind(fastG, fishedsteady[1:32]), beside=T, names.arg=c(1:32), xlab="Age (y)", col=c("black", "cyan3" ), yaxt="n",xaxt="n", ylim=c(0, N0)) #,  main="Age structure") #
+axis(1, labels=seq(1,32, by=3 ), at= seq(0,31, by = 3))#
+#
+ axis(2, labels=c(0,1 ), at= c(0,20000))#
+  legend("topright", pch=c(15, 15, NA, NA), col=c("black", "cyan3" ), cex=1, legend=c("Amax = 32, Lmat = 200", "Amax = 40, Lmat = 225",  paste("Fishing mortality F =", mu_f) , paste("Constant selectivity for L >", fishingsize, "cm")), bty="n")
+##Author: Holly K. Kindsvater, 2019#
+#
+##age structured model for Sphyrna lewini populaiton dynamics and demography with varying selectivity.     #
+#Model parameters:#
+#
+Npop=100  #initial pop size (not important)#
+#
+Tmax=500 #max years#
+#
+Tfishing=200 #start fishing#
+#
+Trecovery=400 #stop fishing #
+    #Life history parameters      	#
+#
+   recruitsize=100#
+#
+    Amax=40 #max age#
+#
+ 	Lmat=225 #age at maturation - this varies depending on the matration function chosen#
+#
+	Linf=300 #max size#
+#
+	 fishingsize = 150 #size-selective fishery threshold size #
+       k=.06  # Growth function param	 	 #
+#
+	   v=0.00002  #mass-at-size coef#
+#
+	    wexp = 3  #mass-at-size exp#
+#
+	    h=1 #sperm fertilization effectiveness#
+#
+ 	    N0 = 20000       #
+#
+  	    alpha = .8  	#
+#
+  	    q=.1 #maturation ogive steepness (1 = very steep)#
+   mu_f=0.1  #fishing mortality#
+#
+     natmort=0.1  #
+    #set up vectors and matrices#
+#
+pmat=rep(0, Amax) #
+#
+select=rep(0, Amax)#
+#
+pups=rep(0, Amax)#
+#
+mu=rep(0, Amax)#
+#
+N=matrix(nrow=Amax, ncol=Tmax, data=0)#
+W=matrix(nrow=Amax, ncol=1, data=1)#
+#
+L=matrix(nrow=Amax, ncol=1, data=1)#
+#
+mu=matrix(nrow=Amax, ncol=1, data=0)#
+#
+E=matrix(nrow=Amax, ncol=Tmax, data=0)#
+#
+S=matrix(nrow=1, ncol=Tmax, data=0)#
+#
+P=matrix(nrow=1, ncol=Tmax)#
+#
+B=matrix(nrow=1, ncol=Tmax)#
+ N[, 1]=Npop #initial population size#
+#
+L[1]=recruitsize #larval size at recruitment (birth)#
+#First: Define the age-specific growth, mortality, and maturation function#
+  	for (a in 1:(Amax-1)) {#
+	#GROWTH 		 #
+#
+	L[a+1]= Linf*(1-exp(-k)) + (L[a])*exp(-k) #length at age#
+#
+     W[a]= v*L[a]^wexp #weight at age#
+	# SIZE-DEP MATURATION:#
+#
+       pmat[a]= 1/(1+exp(-q*(L[a]-Lmat))) #
+ 	#FISHING SELECTIVITY # knife edge after 1 meter#
+#
+      select[a] = ifelse(L[a+1] < fishingsize, 0, 1)     #
+ 	#FECUNDITY#
+#
+       pups[a] = 10*pmat[a]  #hamemrhead fecundity is on average 10 female per year (40 total over two years, including males)#
+    #MORTALITY#
+#
+       mu[a] = natmort #could vary with age but assumed constant here#
+   } #end 1st age loop#
+ #With these age specific functions, simulate pop dynamics through time       #
+#
+ for(t in 1:(Tmax-1)) {#
+	E[,t]=N[, t]*pups  #assuming reproduction occurs between 1 t and the next#
+	P[t]= sum(E[,t])  #assuming fertilization is 100%, this is the year class of progeny produced in year t#
+  	beta= (alpha*P[t]-1)/(N0*P[t])  #derive the recruitment function from the slope near the origin#
+ 	N[1,t+1]= alpha*P[t]/(1+beta*P[t]) #this is the recruit class that enters in the next time step.. #
+     for (age in 1:(Amax-1)) { #now calculate age-specific probability of fishing mortality#
+   Fishing= if (Tfishing < t & Trecovery > t) {#
+#
+   				Fishing = select[age]*mu_f } else {#
+#
+   				Fishing = 0#
+#
+                     }#
+ 		N[age+1,t+1] = N[age, t]*exp(-mu[age]-Fishing) #numbers in each age class in the next time step #
+#
+ 		#assuming mortality happens after spawning#
+ 		B[t]=sum(N[,t]*W) #biomass#
+   		 } #end second age loop#
+       } #end t loop#
+ steadystate=N[,Tmax]#
+#
+ fishedsteady=N[ ,Trecovery -2]#
+quartz()#
+#
+par(mfrow=c(2, 2),  las=1)#
+# ######Plot life history functions and population dynamics #
+#
+ quartz()#
+#
+ par(mfrow=c(2,2))#
+   plot(1:Amax, L, type="l", xaxt="n",  ylab="Length (cm)", xlab="Age (y)", ylim=c(0, 310), main= "von Bertalanffy Growth") #growth curve#
+axis(1, labels=seq(1,Amax, by=3 ), at= seq(0,Amax-1, by = 3))#
+#
+    legend("bottomright", legend=c( paste("Linf =", Linf), paste("von Bert k =", k)), bty="n")#
+# #  plot(1:(Amax-1), pups[-Amax], xaxt="n",  type="l", main="Age-specific Fecundity", ylab="Annual number of female pups", xlab= "Age")#
+# axis(1, labels=seq(1,Amax, by=3 ), at= seq(0,Amax-1, by = 3))#
+# # mat1<- rbind(steadystate, fishedsteady)#
+# barplot(mat1, beside=T, names.arg=c(1:Amax ), col=c(gray(.5),1),  xlab="Age (y)", ylim=c(0, 20000), yaxt="n", main="Age structure", ylab="Index of abundance" )#
+ # axis(2, labels=c(0,1 ), at= c(0,20000))#
+ # legend("topright", pch=c(15, 15, NA), col=c(gray(.5),1),  legend=c("Unfished",  paste("Fishing mortality F =", mu_f) , paste("Constant selectivity for L >", fishingsize, "cm")), bty="n")#
+# #  #
+  # barplot(fishedsteady, names.arg=c(1:Amax ), yaxt="n",  xlab="Age (y)", ylim=c(0, N0), main="Fished age structure", ylab="Relative Abundance" )#
+ # axis(2, labels=c(0,1 ), at= c(0,20000))#
+ barplot(rbind(fastG, fishedsteady[1:32]), beside=T, names.arg=c(1:32), xlab="Age (y)", col=c("black", "cyan3" ), yaxt="n",xaxt="n", ylim=c(0, N0)) #,  main="Age structure") #
+axis(1, labels=seq(1,32, by=3 ), at= seq(0,31, by = 3))#
+#
+ axis(2, labels=c(0,1 ), at= c(0,20000))#
+  legend("topright", pch=c(15, 15, NA, NA), col=c("black", "cyan3" ), cex=1, legend=c("Amax = 32, Lmat = 200", "Amax = 40, Lmat = 225",  paste("Fishing mortality F =", mu_f) , paste("Constant selectivity for L >", fishingsize, "cm")), bty="n")
+barplot(rbind(fastG, fishedsteady[1:32]), beside=T, names.arg=c(1:32), xlab="Age (y)", col=c("black", "cyan3" ), yaxt="n",xaxt="n", ylim=c(0, N0)) #,  main="Age structure") #
+#axis(1, labels=seq(1,32, by=3 ), at= seq(0,31, by = 3))#
+#
+ axis(2, labels=c(0,1 ), at= c(0,20000))#
+  legend("topright", pch=c(15, 15, NA, NA), col=c("black", "cyan3" ), cex=1, legend=c("Amax = 32, Lmat = 200", "Amax = 40, Lmat = 225",  paste("Fishing mortality F =", mu_f) , paste("Constant selectivity for L >", fishingsize, "cm")), bty="n")
+barplot(rbind(fastG, fishedsteady[1:32]), beside=T, names.arg=c(1:32), xlab="Age (y)", col=c("black", "cyan3" ), yaxt="n",  ylim=c(0, N0)) #,  main="Age structure") #
+#axis(1, labels=seq(1,32, by=3 ), at= seq(0,31, by = 3))
+axis(2, labels=c(0,1 ), at= c(0,20000))#
+  legend("topright", pch=c(15, 15, NA, NA), col=c("black", "cyan3" ), cex=1, legend=c("Amax = 32, Lmat = 200", "Amax = 40, Lmat = 225",  paste("Fishing mortality F =", mu_f) , paste("Constant selectivity for L >", fishingsize, "cm")), bty="n")
+##Author: Holly K. Kindsvater, 2019#
+#
+##age structured model for Sphyrna lewini populaiton dynamics and demography with varying selectivity.     #
+#Model parameters:#
+#
+Npop=100  #initial pop size (not important)#
+#
+Tmax=500 #max years#
+#
+Tfishing=200 #start fishing#
+#
+Trecovery=400 #stop fishing #
+    #Life history parameters      	#
+#
+   recruitsize=100#
+#
+    Amax=40 #max age#
+#
+ 	Lmat=225 #age at maturation - this varies depending on the matration function chosen#
+#
+	Linf=325 #max size#
+#
+	 fishingsize = 150 #size-selective fishery threshold size #
+       k=.06  # Growth function param	 	 #
+#
+	   v=0.00002  #mass-at-size coef#
+#
+	    wexp = 3  #mass-at-size exp#
+#
+	    h=1 #sperm fertilization effectiveness#
+#
+ 	    N0 = 20000       #
+#
+  	    alpha = .8  	#
+#
+  	    q=.1 #maturation ogive steepness (1 = very steep)#
+   mu_f=0.1  #fishing mortality#
+#
+     natmort=0.1  #
+    #set up vectors and matrices#
+#
+pmat=rep(0, Amax) #
+#
+select=rep(0, Amax)#
+#
+pups=rep(0, Amax)#
+#
+mu=rep(0, Amax)#
+#
+N=matrix(nrow=Amax, ncol=Tmax, data=0)#
+W=matrix(nrow=Amax, ncol=1, data=1)#
+#
+L=matrix(nrow=Amax, ncol=1, data=1)#
+#
+mu=matrix(nrow=Amax, ncol=1, data=0)#
+#
+E=matrix(nrow=Amax, ncol=Tmax, data=0)#
+#
+S=matrix(nrow=1, ncol=Tmax, data=0)#
+#
+P=matrix(nrow=1, ncol=Tmax)#
+#
+B=matrix(nrow=1, ncol=Tmax)#
+ N[, 1]=Npop #initial population size#
+#
+L[1]=recruitsize #larval size at recruitment (birth)#
+#First: Define the age-specific growth, mortality, and maturation function#
+  	for (a in 1:(Amax-1)) {#
+	#GROWTH 		 #
+#
+	L[a+1]= Linf*(1-exp(-k)) + (L[a])*exp(-k) #length at age#
+#
+     W[a]= v*L[a]^wexp #weight at age#
+	# SIZE-DEP MATURATION:#
+#
+       pmat[a]= 1/(1+exp(-q*(L[a]-Lmat))) #
+ 	#FISHING SELECTIVITY # knife edge after 1 meter#
+#
+      select[a] = ifelse(L[a+1] < fishingsize, 0, 1)     #
+ 	#FECUNDITY#
+#
+       pups[a] = 10*pmat[a]  #hamemrhead fecundity is on average 10 female per year (40 total over two years, including males)#
+    #MORTALITY#
+#
+       mu[a] = natmort #could vary with age but assumed constant here#
+   } #end 1st age loop#
+ #With these age specific functions, simulate pop dynamics through time       #
+#
+ for(t in 1:(Tmax-1)) {#
+	E[,t]=N[, t]*pups  #assuming reproduction occurs between 1 t and the next#
+	P[t]= sum(E[,t])  #assuming fertilization is 100%, this is the year class of progeny produced in year t#
+  	beta= (alpha*P[t]-1)/(N0*P[t])  #derive the recruitment function from the slope near the origin#
+ 	N[1,t+1]= alpha*P[t]/(1+beta*P[t]) #this is the recruit class that enters in the next time step.. #
+     for (age in 1:(Amax-1)) { #now calculate age-specific probability of fishing mortality#
+   Fishing= if (Tfishing < t & Trecovery > t) {#
+#
+   				Fishing = select[age]*mu_f } else {#
+#
+   				Fishing = 0#
+#
+                     }#
+ 		N[age+1,t+1] = N[age, t]*exp(-mu[age]-Fishing) #numbers in each age class in the next time step #
+#
+ 		#assuming mortality happens after spawning#
+ 		B[t]=sum(N[,t]*W) #biomass#
+   		 } #end second age loop#
+       } #end t loop#
+ steadystate=N[,Tmax]#
+#
+ fishedsteady=N[ ,Trecovery -2]#
+quartz()#
+#
+par(mfrow=c(2, 2),  las=1)#
+# ######Plot life history functions and population dynamics #
+#
+ quartz()#
+#
+ par(mfrow=c(2,2))#
+   plot(1:Amax, L, type="l", xaxt="n",  ylab="Length (cm)", xlab="Age (y)", ylim=c(0, 310), main= "von Bertalanffy Growth") #growth curve#
+axis(1, labels=seq(1,Amax, by=3 ), at= seq(0,Amax-1, by = 3))#
+#
+    legend("bottomright", legend=c( paste("Linf =", Linf), paste("von Bert k =", k)), bty="n")#
+# #  plot(1:(Amax-1), pups[-Amax], xaxt="n",  type="l", main="Age-specific Fecundity", ylab="Annual number of female pups", xlab= "Age")#
+# axis(1, labels=seq(1,Amax, by=3 ), at= seq(0,Amax-1, by = 3))#
+# # mat1<- rbind(steadystate, fishedsteady)#
+# barplot(mat1, beside=T, names.arg=c(1:Amax ), col=c(gray(.5),1),  xlab="Age (y)", ylim=c(0, 20000), yaxt="n", main="Age structure", ylab="Index of abundance" )#
+ # axis(2, labels=c(0,1 ), at= c(0,20000))#
+ # legend("topright", pch=c(15, 15, NA), col=c(gray(.5),1),  legend=c("Unfished",  paste("Fishing mortality F =", mu_f) , paste("Constant selectivity for L >", fishingsize, "cm")), bty="n")#
+# #  #
+  # barplot(fishedsteady, names.arg=c(1:Amax ), yaxt="n",  xlab="Age (y)", ylim=c(0, N0), main="Fished age structure", ylab="Relative Abundance" )#
+ # axis(2, labels=c(0,1 ), at= c(0,20000))#
+ barplot(rbind(fastG, fishedsteady[1:32]), beside=T, names.arg=c(1:32), xlab="Age (y)", col=c("black", "cyan3" ), yaxt="n",  ylim=c(0, N0)) #,  main="Age structure") #
+#axis(1, labels=seq(1,32, by=3 ), at= seq(0,31, by = 3))#
+#
+ axis(2, labels=c(0,1 ), at= c(0,20000))#
+  legend("topright", pch=c(15, 15, NA, NA), col=c("black", "cyan3" ), cex=1, legend=c("Amax = 32, Lmat = 200", "Amax = 40, Lmat = 225",  paste("Fishing mortality F =", mu_f) , paste("Constant selectivity for L >", fishingsize, "cm")), bty="n")
+plot(1:Amax, L, type="l", xaxt="n",  ylab="Length (cm)", xlab="Age (y)", ylim=c(0, 310), main= "von Bertalanffy Growth") #growth curve#
+axis(1, labels=seq(1,Amax, by=3 ), at= seq(0,Amax-1, by = 3))#
+#
+    legend("bottomright", legend=c( paste("Linf =", Linf), paste("von Bert k =", k)), bty="n")#
+# #  plot(1:(Amax-1), pups[-Amax], xaxt="n",  type="l", main="Age-specific Fecundity", ylab="Annual number of female pups", xlab= "Age")#
+# axis(1, labels=seq(1,Amax, by=3 ), at= seq(0,Amax-1, by = 3))#
+# # mat1<- rbind(steadystate, fishedsteady)#
+# barplot(mat1, beside=T, names.arg=c(1:Amax ), col=c(gray(.5),1),  xlab="Age (y)", ylim=c(0, 20000), yaxt="n", main="Age structure", ylab="Index of abundance" )#
+ # axis(2, labels=c(0,1 ), at= c(0,20000))#
+ # legend("topright", pch=c(15, 15, NA), col=c(gray(.5),1),  legend=c("Unfished",  paste("Fishing mortality F =", mu_f) , paste("Constant selectivity for L >", fishingsize, "cm")), bty="n")#
+# #  #
+  # barplot(fishedsteady, names.arg=c(1:Amax ), yaxt="n",  xlab="Age (y)", ylim=c(0, N0), main="Fished age structure", ylab="Relative Abundance" )#
+ # axis(2, labels=c(0,1 ), at= c(0,20000))#
+ barplot(rbind(fastG, fishedsteady[1:32]), beside=T, names.arg=c(1:32), xlab="Age (y)", col=c("black", "cyan3" ), yaxt="n",  ylim=c(0, N0)) #,  main="Age structure") #
+#axis(1, labels=seq(1,32, by=3 ), at= seq(0,31, by = 3))#
+#
+ axis(2, labels=c(0,1 ), at= c(0,20000))#
+  legend("topright", pch=c(15, 15, NA, NA), col=c("black", "cyan3" ), cex=1, legend=c("Amax = 32, Lmat = 200", "Amax = 40, Lmat = 225",  paste("Fishing mortality F =", mu_f) , paste("Constant selectivity for L >", fishingsize, "cm")), bty="n")
+##Author: Holly K. Kindsvater, 2019#
+#
+##age structured model for Sphyrna lewini populaiton dynamics and demography with varying selectivity.     #
+#Model parameters:#
+#
+Npop=100  #initial pop size (not important)#
+#
+Tmax=500 #max years#
+#
+Tfishing=200 #start fishing#
+#
+Trecovery=400 #stop fishing #
+    #Life history parameters      	#
+#
+   recruitsize=100#
+#
+    Amax=40 #max age#
+#
+ 	Lmat=225 #age at maturation - this varies depending on the matration function chosen#
+#
+	Linf=280 #max size#
+#
+	 fishingsize = 150 #size-selective fishery threshold size #
+       k=.06  # Growth function param	 	 #
+#
+	   v=0.00002  #mass-at-size coef#
+#
+	    wexp = 3  #mass-at-size exp#
+#
+	    h=1 #sperm fertilization effectiveness#
+#
+ 	    N0 = 20000       #
+#
+  	    alpha = .8  	#
+#
+  	    q=.1 #maturation ogive steepness (1 = very steep)#
+   mu_f=0.1  #fishing mortality#
+#
+     natmort=0.1  #
+    #set up vectors and matrices#
+#
+pmat=rep(0, Amax) #
+#
+select=rep(0, Amax)#
+#
+pups=rep(0, Amax)#
+#
+mu=rep(0, Amax)#
+#
+N=matrix(nrow=Amax, ncol=Tmax, data=0)#
+W=matrix(nrow=Amax, ncol=1, data=1)#
+#
+L=matrix(nrow=Amax, ncol=1, data=1)#
+#
+mu=matrix(nrow=Amax, ncol=1, data=0)#
+#
+E=matrix(nrow=Amax, ncol=Tmax, data=0)#
+#
+S=matrix(nrow=1, ncol=Tmax, data=0)#
+#
+P=matrix(nrow=1, ncol=Tmax)#
+#
+B=matrix(nrow=1, ncol=Tmax)#
+ N[, 1]=Npop #initial population size#
+#
+L[1]=recruitsize #larval size at recruitment (birth)#
+#First: Define the age-specific growth, mortality, and maturation function#
+  	for (a in 1:(Amax-1)) {#
+	#GROWTH 		 #
+#
+	L[a+1]= Linf*(1-exp(-k)) + (L[a])*exp(-k) #length at age#
+#
+     W[a]= v*L[a]^wexp #weight at age#
+	# SIZE-DEP MATURATION:#
+#
+       pmat[a]= 1/(1+exp(-q*(L[a]-Lmat))) #
+ 	#FISHING SELECTIVITY # knife edge after 1 meter#
+#
+      select[a] = ifelse(L[a+1] < fishingsize, 0, 1)     #
+ 	#FECUNDITY#
+#
+       pups[a] = 10*pmat[a]  #hamemrhead fecundity is on average 10 female per year (40 total over two years, including males)#
+    #MORTALITY#
+#
+       mu[a] = natmort #could vary with age but assumed constant here#
+   } #end 1st age loop#
+ #With these age specific functions, simulate pop dynamics through time       #
+#
+ for(t in 1:(Tmax-1)) {#
+	E[,t]=N[, t]*pups  #assuming reproduction occurs between 1 t and the next#
+	P[t]= sum(E[,t])  #assuming fertilization is 100%, this is the year class of progeny produced in year t#
+  	beta= (alpha*P[t]-1)/(N0*P[t])  #derive the recruitment function from the slope near the origin#
+ 	N[1,t+1]= alpha*P[t]/(1+beta*P[t]) #this is the recruit class that enters in the next time step.. #
+     for (age in 1:(Amax-1)) { #now calculate age-specific probability of fishing mortality#
+   Fishing= if (Tfishing < t & Trecovery > t) {#
+#
+   				Fishing = select[age]*mu_f } else {#
+#
+   				Fishing = 0#
+#
+                     }#
+ 		N[age+1,t+1] = N[age, t]*exp(-mu[age]-Fishing) #numbers in each age class in the next time step #
+#
+ 		#assuming mortality happens after spawning#
+ 		B[t]=sum(N[,t]*W) #biomass#
+   		 } #end second age loop#
+       } #end t loop#
+ steadystate=N[,Tmax]#
+#
+ fishedsteady=N[ ,Trecovery -2]#
+# ######Plot life history functions and population dynamics #
+#
+ quartz()#
+#
+ par(mfrow=c(2,2))#
+   plot(1:Amax, L, type="l", xaxt="n",  ylab="Length (cm)", xlab="Age (y)", ylim=c(0, 310), main= "von Bertalanffy Growth") #growth curve#
+axis(1, labels=seq(1,Amax, by=3 ), at= seq(0,Amax-1, by = 3))#
+#
+    legend("bottomright", legend=c( paste("Linf =", Linf), paste("von Bert k =", k)), bty="n")#
+# #  plot(1:(Amax-1), pups[-Amax], xaxt="n",  type="l", main="Age-specific Fecundity", ylab="Annual number of female pups", xlab= "Age")#
+# axis(1, labels=seq(1,Amax, by=3 ), at= seq(0,Amax-1, by = 3))#
+# # mat1<- rbind(steadystate, fishedsteady)#
+# barplot(mat1, beside=T, names.arg=c(1:Amax ), col=c(gray(.5),1),  xlab="Age (y)", ylim=c(0, 20000), yaxt="n", main="Age structure", ylab="Index of abundance" )#
+ # axis(2, labels=c(0,1 ), at= c(0,20000))#
+ # legend("topright", pch=c(15, 15, NA), col=c(gray(.5),1),  legend=c("Unfished",  paste("Fishing mortality F =", mu_f) , paste("Constant selectivity for L >", fishingsize, "cm")), bty="n")#
+# #  #
+  # barplot(fishedsteady, names.arg=c(1:Amax ), yaxt="n",  xlab="Age (y)", ylim=c(0, N0), main="Fished age structure", ylab="Relative Abundance" )#
+ # axis(2, labels=c(0,1 ), at= c(0,20000))#
+ barplot(rbind(fastG, fishedsteady[1:32]), beside=T, names.arg=c(1:32), xlab="Age (y)", col=c("black", "cyan3" ), yaxt="n",  ylim=c(0, N0)) #,  main="Age structure") #
+#axis(1, labels=seq(1,32, by=3 ), at= seq(0,31, by = 3))#
+#
+ axis(2, labels=c(0,1 ), at= c(0,20000))#
+  legend("topright", pch=c(15, 15, NA, NA), col=c("black", "cyan3" ), cex=1, legend=c("Amax = 32, Lmat = 200", "Amax = 40, Lmat = 225",  paste("Fishing mortality F =", mu_f) , paste("Constant selectivity for L >", fishingsize, "cm")), bty="n")
+plot(1:Amax, L, type="l", xaxt="n",  ylab="Length (cm)", xlab="Age (y)", ylim=c(0, 310), main= "von Bertalanffy Growth") #growth curve#
+axis(1, labels=seq(1,Amax, by=3 ), at= seq(0,Amax-1, by = 3))#
+#
+    legend("bottomright", legend=c( paste("Linf =", Linf), paste("von Bert k =", k)), bty="n")#
+# #  plot(1:(Amax-1), pups[-Amax], xaxt="n",  type="l", main="Age-specific Fecundity", ylab="Annual number of female pups", xlab= "Age")#
+# axis(1, labels=seq(1,Amax, by=3 ), at= seq(0,Amax-1, by = 3))#
+# # mat1<- rbind(steadystate, fishedsteady)#
+# barplot(mat1, beside=T, names.arg=c(1:Amax ), col=c(gray(.5),1),  xlab="Age (y)", ylim=c(0, 20000), yaxt="n", main="Age structure", ylab="Index of abundance" )#
+ # axis(2, labels=c(0,1 ), at= c(0,20000))#
+ # legend("topright", pch=c(15, 15, NA), col=c(gray(.5),1),  legend=c("Unfished",  paste("Fishing mortality F =", mu_f) , paste("Constant selectivity for L >", fishingsize, "cm")), bty="n")#
+# #  #
+  # barplot(fishedsteady, names.arg=c(1:Amax ), yaxt="n",  xlab="Age (y)", ylim=c(0, N0), main="Fished age structure", ylab="Relative Abundance" )#
+ # axis(2, labels=c(0,1 ), at= c(0,20000))#
+ barplot(rbind(fastG, fishedsteady[1:32]), beside=T, names.arg=c(1:32), xlab="Age (y)", col=c("black", "cyan3" ), yaxt="n",  ylim=c(0, N0)) #,  main="Age structure") #
+#axis(1, labels=seq(1,32, by=3 ), at= seq(0,31, by = 3))#
+#
+ axis(2, labels=c(0,1 ), at= c(0,20000))#
+  legend("topright", pch=c(15, 15, NA, NA), col=c("black", "cyan3" ), cex=1, legend=c("Amax = 32, Lmat = 200", "Amax = 40, Lmat = 225",  paste("Fishing mortality F =", mu_f) , paste("Constant selectivity for L >", fishingsize, "cm")), bty="n")
+plot(1:Amax, L, type="l", xaxt="n",  ylab="Length (cm)", xlab="Age (y)", ylim=c(0, 310), main= "von Bertalanffy Growth") #growth curve#
+axis(1, labels=seq(1,Amax, by=3 ), at= seq(0,Amax-1, by = 3))#
+#
+    legend("bottomright", legend=c( paste("Linf =", Linf), paste("von Bert k =", k)), bty="n")#
+# #  plot(1:(Amax-1), pups[-Amax], xaxt="n",  type="l", main="Age-specific Fecundity", ylab="Annual number of female pups", xlab= "Age")#
+# axis(1, labels=seq(1,Amax, by=3 ), at= seq(0,Amax-1, by = 3))#
+# # mat1<- rbind(steadystate, fishedsteady)#
+# barplot(mat1, beside=T, names.arg=c(1:Amax ), col=c(gray(.5),1),  xlab="Age (y)", ylim=c(0, 20000), yaxt="n", main="Age structure", ylab="Index of abundance" )#
+ # axis(2, labels=c(0,1 ), at= c(0,20000))#
+ # legend("topright", pch=c(15, 15, NA), col=c(gray(.5),1),  legend=c("Unfished",  paste("Fishing mortality F =", mu_f) , paste("Constant selectivity for L >", fishingsize, "cm")), bty="n")#
+# #  #
+  # barplot(fishedsteady, names.arg=c(1:Amax ), yaxt="n",  xlab="Age (y)", ylim=c(0, N0), main="Fished age structure", ylab="Relative Abundance" )#
+ # axis(2, labels=c(0,1 ), at= c(0,20000))#
+ barplot(rbind(fastG, fishedsteady[1:32]), beside=T, names.arg=c(1:32), xlab="Age (y)", col=c("black", "cyan3" ), yaxt="n",  ylim=c(0, N0), ylab="Index of abundance") #,  main="Age structure") #
+#axis(1, labels=seq(1,32, by=3 ), at= seq(0,31, by = 3))#
+#
+ axis(2, labels=c(0,1 ), at= c(0,20000))#
+  legend("topright", pch=c(15, 15, NA, NA), col=c("black", "cyan3" ), cex=1, legend=c("Amax = 32, Lmat = 200", "Amax = 40, Lmat = 225",  paste("Fishing mortality F =", mu_f) , paste("Constant selectivity for L >", fishingsize, "cm")), bty="n")
+##Author: Holly K. Kindsvater, 2019#
+#
+##age structured model for Sphyrna lewini populaiton dynamics and demography with varying selectivity.     #
+#Model parameters:#
+#
+Npop=100  #initial pop size (not important)#
+#
+Tmax=500 #max years#
+#
+Tfishing=200 #start fishing#
+#
+Trecovery=400 #stop fishing #
+    #Life history parameters      	#
+#
+   recruitsize=100#
+#
+    Amax=40 #max age#
+#
+ 	Lmat=200 #age at maturation - this varies depending on the matration function chosen#
+#
+	Linf=280 #max size#
+#
+	 fishingsize = 150 #size-selective fishery threshold size #
+       k=.06  # Growth function param	 	 #
+#
+	   v=0.00002  #mass-at-size coef#
+#
+	    wexp = 3  #mass-at-size exp#
+#
+	    h=1 #sperm fertilization effectiveness#
+#
+ 	    N0 = 20000       #
+#
+  	    alpha = .8  	#
+#
+  	    q=.1 #maturation ogive steepness (1 = very steep)#
+   mu_f=0.1  #fishing mortality#
+#
+     natmort=0.1  #
+    #set up vectors and matrices#
+#
+pmat=rep(0, Amax) #
+#
+select=rep(0, Amax)#
+#
+pups=rep(0, Amax)#
+#
+mu=rep(0, Amax)#
+#
+N=matrix(nrow=Amax, ncol=Tmax, data=0)#
+W=matrix(nrow=Amax, ncol=1, data=1)#
+#
+L=matrix(nrow=Amax, ncol=1, data=1)#
+#
+mu=matrix(nrow=Amax, ncol=1, data=0)#
+#
+E=matrix(nrow=Amax, ncol=Tmax, data=0)#
+#
+S=matrix(nrow=1, ncol=Tmax, data=0)#
+#
+P=matrix(nrow=1, ncol=Tmax)#
+#
+B=matrix(nrow=1, ncol=Tmax)#
+ N[, 1]=Npop #initial population size#
+#
+L[1]=recruitsize #larval size at recruitment (birth)#
+#First: Define the age-specific growth, mortality, and maturation function#
+  	for (a in 1:(Amax-1)) {#
+	#GROWTH 		 #
+#
+	L[a+1]= Linf*(1-exp(-k)) + (L[a])*exp(-k) #length at age#
+#
+     W[a]= v*L[a]^wexp #weight at age#
+	# SIZE-DEP MATURATION:#
+#
+       pmat[a]= 1/(1+exp(-q*(L[a]-Lmat))) #
+ 	#FISHING SELECTIVITY # knife edge after 1 meter#
+#
+      select[a] = ifelse(L[a+1] < fishingsize, 0, 1)     #
+ 	#FECUNDITY#
+#
+       pups[a] = 10*pmat[a]  #hamemrhead fecundity is on average 10 female per year (40 total over two years, including males)#
+    #MORTALITY#
+#
+       mu[a] = natmort #could vary with age but assumed constant here#
+   } #end 1st age loop#
+ #With these age specific functions, simulate pop dynamics through time       #
+#
+ for(t in 1:(Tmax-1)) {#
+	E[,t]=N[, t]*pups  #assuming reproduction occurs between 1 t and the next#
+	P[t]= sum(E[,t])  #assuming fertilization is 100%, this is the year class of progeny produced in year t#
+  	beta= (alpha*P[t]-1)/(N0*P[t])  #derive the recruitment function from the slope near the origin#
+ 	N[1,t+1]= alpha*P[t]/(1+beta*P[t]) #this is the recruit class that enters in the next time step.. #
+     for (age in 1:(Amax-1)) { #now calculate age-specific probability of fishing mortality#
+   Fishing= if (Tfishing < t & Trecovery > t) {#
+#
+   				Fishing = select[age]*mu_f } else {#
+#
+   				Fishing = 0#
+#
+                     }#
+ 		N[age+1,t+1] = N[age, t]*exp(-mu[age]-Fishing) #numbers in each age class in the next time step #
+#
+ 		#assuming mortality happens after spawning#
+ 		B[t]=sum(N[,t]*W) #biomass#
+   		 } #end second age loop#
+       } #end t loop#
+ steadystate=N[,Tmax]#
+#
+ fishedsteady=N[ ,Trecovery -2]#
+# ######Plot life history functions and population dynamics #
+#
+ quartz()#
+#
+ par(mfrow=c(2,2))#
+   plot(1:Amax, L, type="l", xaxt="n",  ylab="Length (cm)", xlab="Age (y)", ylim=c(0, 310), main= "von Bertalanffy Growth") #growth curve#
+axis(1, labels=seq(1,Amax, by=3 ), at= seq(0,Amax-1, by = 3))#
+#
+    legend("bottomright", legend=c( paste("Linf =", Linf), paste("von Bert k =", k)), bty="n")#
+# #  plot(1:(Amax-1), pups[-Amax], xaxt="n",  type="l", main="Age-specific Fecundity", ylab="Annual number of female pups", xlab= "Age")#
+# axis(1, labels=seq(1,Amax, by=3 ), at= seq(0,Amax-1, by = 3))#
+# # mat1<- rbind(steadystate, fishedsteady)#
+# barplot(mat1, beside=T, names.arg=c(1:Amax ), col=c(gray(.5),1),  xlab="Age (y)", ylim=c(0, 20000), yaxt="n", main="Age structure", ylab="Index of abundance" )#
+ # axis(2, labels=c(0,1 ), at= c(0,20000))#
+ # legend("topright", pch=c(15, 15, NA), col=c(gray(.5),1),  legend=c("Unfished",  paste("Fishing mortality F =", mu_f) , paste("Constant selectivity for L >", fishingsize, "cm")), bty="n")#
+# #  #
+  # barplot(fishedsteady, names.arg=c(1:Amax ), yaxt="n",  xlab="Age (y)", ylim=c(0, N0), main="Fished age structure", ylab="Relative Abundance" )#
+ # axis(2, labels=c(0,1 ), at= c(0,20000))#
+ barplot(rbind(fastG, fishedsteady[1:32]), beside=T, names.arg=c(1:32), xlab="Age (y)", col=c("black", "cyan3" ), yaxt="n",  ylim=c(0, N0), ylab="Index of abundance") #,  main="Age structure") #
+#axis(1, labels=seq(1,32, by=3 ), at= seq(0,31, by = 3))#
+#
+ axis(2, labels=c(0,1 ), at= c(0,20000))#
+  legend("topright", pch=c(15, 15, NA, NA), col=c("black", "cyan3" ), cex=1, legend=c("Amax = 32, Lmat = 200", "Amax = 40, Lmat = 225",  paste("Fishing mortality F =", mu_f) , paste("Constant selectivity for L >", fishingsize, "cm")), bty="n")
+##Author: Holly K. Kindsvater, 2019#
+#
+##age structured model for Sphyrna lewini populaiton dynamics and demography with varying selectivity.     #
+#Model parameters:#
+#
+Npop=100  #initial pop size (not important)#
+#
+Tmax=500 #max years#
+#
+Tfishing=200 #start fishing#
+#
+Trecovery=400 #stop fishing #
+    #Life history parameters      	#
+#
+   recruitsize=100#
+#
+    Amax=32 #max age#
+#
+ 	Lmat=200 #225 #age at maturation - this varies depending on the matration function chosen#
+#
+	Linf= 233 #280 # #max size#
+	 fishingsize = 150 #size-selective fishery threshold size #
+       k=.0.09 # Growth function param	 	 #
+#
+	   v=0.00002  #mass-at-size coef#
+#
+	    wexp = 3  #mass-at-size exp#
+#
+	    h=1 #sperm fertilization effectiveness#
+#
+ 	    N0 = 20000       #
+#
+  	    alpha = .8  	#
+#
+  	    q=0.1 #maturation ogive steepness (1 = very steep)#
+#
+		female_offspring = 10#
+   mu_f=0.1  #fishing mortality#
+#
+     natmort=0.1  #
+#
+     #set up vectors and matrices#
+#
+pmat=rep(0, Amax) #
+#
+select=rep(0, Amax)#
+#
+pups=rep(0, Amax)#
+#
+mu=rep(0, Amax)#
+#
+N=matrix(nrow=Amax, ncol=Tmax, data=0)#
+W=matrix(nrow=Amax, ncol=1, data=1)#
+#
+L=matrix(nrow=Amax, ncol=1, data=1)#
+#
+mu=matrix(nrow=Amax, ncol=1, data=0)#
+#
+E=matrix(nrow=Amax, ncol=Tmax, data=0)#
+#
+S=matrix(nrow=1, ncol=Tmax, data=0)#
+#
+P=matrix(nrow=1, ncol=Tmax)#
+#
+B=matrix(nrow=1, ncol=Tmax)#
+ N[, 1]=Npop #initial population size#
+#
+L[1]=recruitsize #larval size at recruitment (birth)#
+#First: Define the age-specific growth, mortality, and maturation function#
+  	for (a in 1:(Amax-1)) {#
+	#GROWTH 		 #
+#
+	L[a+1]= Linf*(1-exp(-k)) + (L[a])*exp(-k) #length at age#
+#
+     W[a]= v*L[a]^wexp #weight at age#
+	# SIZE-DEP MATURATION:#
+#
+       pmat[a]= 1/(1+exp(-q*(L[a]-Lmat))) #
+ 	#FISHING SELECTIVITY # knife edge after 1 meter#
+#
+      select[a] = ifelse(L[a+1] < fishingsize, 0, 1)     #
+ 	#FECUNDITY#
+#
+       pups[a] = female_offspring*pmat[a]  #hamemrhead fecundity is max 10 females per year (40 total over two years, including males)#
+    #MORTALITY#
+#
+       mu[a] = natmort #could vary with age but assumed constant here#
+   } #end 1st age loop#
+ #With these age specific functions, simulate pop dynamics through time       #
+#
+ for(t in 1:(Tmax-1)) {#
+	E[,t]=N[, t]*pups  #assuming reproduction occurs between 1 t and the next#
+	P[t]= sum(E[,t])  #assuming fertilization is 100%, this is the year class of progeny produced in year t#
+  	beta= (alpha*P[t]-1)/(N0*P[t])  #derive the recruitment function from the slope near the origin#
+ 	N[1,t+1]= alpha*P[t]/(1+beta*P[t]) #this is the recruit class that enters in the next time step.. #
+     for (age in 1:(Amax-1)) { #now calculate age-specific probability of fishing mortality#
+   Fishing= if (Tfishing < t & Trecovery > t) {#
+#
+   				Fishing = select[age]*mu_f } else {#
+#
+   				Fishing = 0#
+#
+                     }#
+ 		N[age+1,t+1] = N[age, t]*exp(-mu[age]-Fishing) #numbers in each age class in the next time step #
+#
+ 		#assuming mortality happens after spawning#
+ 		B[t]=sum(N[,t]*W) #biomass#
+   		 } #end second age loop#
+       } #end t loop#
+ steadystate=N[,Tmax]#
+#
+ fishedsteady=N[ ,Trecovery -2]
+quartz()#
+#
+ par(mfrow=c(2,2))#
+   plot(1:Amax, L, type="l", xaxt="n",  ylab="Length (cm)", xlab="Age (y)", ylim=c(0, 310), main= "von Bertalanffy Growth") #growth curve#
+axis(1, labels=seq(1,Amax, by=3 ), at= seq(0,Amax-1, by = 3))#
+#
+    legend("bottomright", legend=c( paste("Linf =", Linf), paste("von Bert k =", k)), bty="n")#
+   plot(1:(Amax-1), pups[-Amax], xaxt="n",  type="l", main="Age-specific Fecundity", ylab="Annual number of female pups", xlab= "Age")#
+ axis(1, labels=seq(1,Amax, by=3 ), at= seq(0,Amax-1, by = 3))
+#Model parameters:#
+#
+Npop=100  #initial pop size (not important)#
+#
+Tmax=500 #max years#
+#
+Tfishing=200 #start fishing#
+#
+Trecovery=400 #stop fishing #
+    #Life history parameters      	#
+#
+   recruitsize=100#
+#
+    Amax=32 #max age#
+#
+ 	Lmat=200 #225 #age at maturation - this varies depending on the matration function chosen#
+#
+	Linf= 233 #280 # #max size#
+	 fishingsize = 150 #size-selective fishery threshold size #
+       k= 0.09 # Growth function param	 	 #
+#
+	   v=0.00002  #mass-at-size coef#
+#
+	    wexp = 3  #mass-at-size exp#
+#
+	    h=1 #sperm fertilization effectiveness#
+#
+ 	    N0 = 20000       #
+#
+  	    alpha = .8  	#
+#
+  	    q=0.1 #maturation ogive steepness (1 = very steep)#
+#
+		female_offspring = 10#
+   mu_f=0.1  #fishing mortality#
+#
+     natmort=0.1  #
+#
+     #set up vectors and matrices#
+#
+pmat=rep(0, Amax) #
+#
+select=rep(0, Amax)#
+#
+pups=rep(0, Amax)#
+#
+mu=rep(0, Amax)#
+#
+N=matrix(nrow=Amax, ncol=Tmax, data=0)#
+W=matrix(nrow=Amax, ncol=1, data=1)#
+#
+L=matrix(nrow=Amax, ncol=1, data=1)#
+#
+mu=matrix(nrow=Amax, ncol=1, data=0)#
+#
+E=matrix(nrow=Amax, ncol=Tmax, data=0)#
+#
+S=matrix(nrow=1, ncol=Tmax, data=0)#
+#
+P=matrix(nrow=1, ncol=Tmax)#
+#
+B=matrix(nrow=1, ncol=Tmax)#
+ N[, 1]=Npop #initial population size#
+#
+L[1]=recruitsize #larval size at recruitment (birth)#
+#First: Define the age-specific growth, mortality, and maturation function#
+  	for (a in 1:(Amax-1)) {#
+	#GROWTH 		 #
+#
+	L[a+1]= Linf*(1-exp(-k)) + (L[a])*exp(-k) #length at age#
+#
+     W[a]= v*L[a]^wexp #weight at age#
+	# SIZE-DEP MATURATION:#
+#
+       pmat[a]= 1/(1+exp(-q*(L[a]-Lmat))) #
+ 	#FISHING SELECTIVITY # knife edge after 1 meter#
+#
+      select[a] = ifelse(L[a+1] < fishingsize, 0, 1)     #
+ 	#FECUNDITY#
+#
+       pups[a] = female_offspring*pmat[a]  #hamemrhead fecundity is max 10 females per year (40 total over two years, including males)#
+    #MORTALITY#
+#
+       mu[a] = natmort #could vary with age but assumed constant here#
+   } #end 1st age loop#
+ #With these age specific functions, simulate pop dynamics through time       #
+#
+ for(t in 1:(Tmax-1)) {#
+	E[,t]=N[, t]*pups  #assuming reproduction occurs between 1 t and the next#
+	P[t]= sum(E[,t])  #assuming fertilization is 100%, this is the year class of progeny produced in year t#
+  	beta= (alpha*P[t]-1)/(N0*P[t])  #derive the recruitment function from the slope near the origin#
+ 	N[1,t+1]= alpha*P[t]/(1+beta*P[t]) #this is the recruit class that enters in the next time step.. #
+     for (age in 1:(Amax-1)) { #now calculate age-specific probability of fishing mortality#
+   Fishing= if (Tfishing < t & Trecovery > t) {#
+#
+   				Fishing = select[age]*mu_f } else {#
+#
+   				Fishing = 0#
+#
+                     }#
+ 		N[age+1,t+1] = N[age, t]*exp(-mu[age]-Fishing) #numbers in each age class in the next time step #
+#
+ 		#assuming mortality happens after spawning#
+ 		B[t]=sum(N[,t]*W) #biomass#
+   		 } #end second age loop#
+       } #end t loop#
+ steadystate=N[,Tmax]#
+#
+ fishedsteady=N[ ,Trecovery -2]#
+# ######Plot life history functions and population dynamics #
+#
+ quartz()#
+#
+ par(mfrow=c(2,2))#
+   plot(1:Amax, L, type="l", xaxt="n",  ylab="Length (cm)", xlab="Age (y)", ylim=c(0, 310), main= "von Bertalanffy Growth") #growth curve#
+axis(1, labels=seq(1,Amax, by=3 ), at= seq(0,Amax-1, by = 3))#
+#
+    legend("bottomright", legend=c( paste("Linf =", Linf), paste("von Bert k =", k)), bty="n")#
+   plot(1:(Amax-1), pups[-Amax], xaxt="n",  type="l", main="Age-specific Fecundity", ylab="Annual number of female pups", xlab= "Age")#
+ axis(1, labels=seq(1,Amax, by=3 ), at= seq(0,Amax-1, by = 3))
+fastG<-fishedsteady
+##Author: Holly K. Kindsvater, 2019#
+#
+##age structured model for Sphyrna lewini populaiton dynamics and demography with varying selectivity.     #
+#Model parameters:#
+#
+Npop=100  #initial pop size (not important)#
+#
+Tmax=500 #max years#
+#
+Tfishing=200 #start fishing#
+#
+Trecovery=400 #stop fishing #
+    #Life history parameters      	#
+#
+   recruitsize=100#
+#
+    Amax=40 #32 #max age#
+#
+ 	Lmat=225 #200  #age at maturation - this varies depending on the matration function chosen#
+#
+	Linf= 280 #233  #max size#
+	 fishingsize = 150 #size-selective fishery threshold size #
+       k= 0.06 #0.09 # Growth function param	 	 #
+#
+	   v=0.00002  #mass-at-size coef#
+#
+	    wexp = 3  #mass-at-size exp#
+#
+	    h=1 #sperm fertilization effectiveness#
+#
+ 	    N0 = 20000       #
+#
+  	    alpha = .8  	#
+#
+  	    q=0.1 #maturation ogive steepness (1 = very steep)#
+#
+		female_offspring = 10#
+   mu_f=0.1  #fishing mortality#
+#
+     natmort=0.1  #
+#
+     #set up vectors and matrices#
+#
+pmat=rep(0, Amax) #
+#
+select=rep(0, Amax)#
+#
+pups=rep(0, Amax)#
+#
+mu=rep(0, Amax)#
+#
+N=matrix(nrow=Amax, ncol=Tmax, data=0)#
+W=matrix(nrow=Amax, ncol=1, data=1)#
+#
+L=matrix(nrow=Amax, ncol=1, data=1)#
+#
+mu=matrix(nrow=Amax, ncol=1, data=0)#
+#
+E=matrix(nrow=Amax, ncol=Tmax, data=0)#
+#
+S=matrix(nrow=1, ncol=Tmax, data=0)#
+#
+P=matrix(nrow=1, ncol=Tmax)#
+#
+B=matrix(nrow=1, ncol=Tmax)#
+ N[, 1]=Npop #initial population size#
+#
+L[1]=recruitsize #larval size at recruitment (birth)#
+#First: Define the age-specific growth, mortality, and maturation function#
+  	for (a in 1:(Amax-1)) {#
+	#GROWTH 		 #
+#
+	L[a+1]= Linf*(1-exp(-k)) + (L[a])*exp(-k) #length at age#
+#
+     W[a]= v*L[a]^wexp #weight at age#
+	# SIZE-DEP MATURATION:#
+#
+       pmat[a]= 1/(1+exp(-q*(L[a]-Lmat))) #
+ 	#FISHING SELECTIVITY # knife edge after 1 meter#
+#
+      select[a] = ifelse(L[a+1] < fishingsize, 0, 1)     #
+ 	#FECUNDITY#
+#
+       pups[a] = female_offspring*pmat[a]  #hamemrhead fecundity is max 10 females per year (40 total over two years, including males)#
+    #MORTALITY#
+#
+       mu[a] = natmort #could vary with age but assumed constant here#
+   } #end 1st age loop#
+ #With these age specific functions, simulate pop dynamics through time       #
+#
+ for(t in 1:(Tmax-1)) {#
+	E[,t]=N[, t]*pups  #assuming reproduction occurs between 1 t and the next#
+	P[t]= sum(E[,t])  #assuming fertilization is 100%, this is the year class of progeny produced in year t#
+  	beta= (alpha*P[t]-1)/(N0*P[t])  #derive the recruitment function from the slope near the origin#
+ 	N[1,t+1]= alpha*P[t]/(1+beta*P[t]) #this is the recruit class that enters in the next time step.. #
+     for (age in 1:(Amax-1)) { #now calculate age-specific probability of fishing mortality#
+   Fishing= if (Tfishing < t & Trecovery > t) {#
+#
+   				Fishing = select[age]*mu_f } else {#
+#
+   				Fishing = 0#
+#
+                     }#
+ 		N[age+1,t+1] = N[age, t]*exp(-mu[age]-Fishing) #numbers in each age class in the next time step #
+#
+ 		#assuming mortality happens after spawning#
+ 		B[t]=sum(N[,t]*W) #biomass#
+   		 } #end second age loop#
+       } #end t loop#
+ steadystate=N[,Tmax]#
+#
+ fishedsteady=N[ ,Trecovery -2]
+points(pups[1:31], pch=19, col="cyan3")
+pups
+points(pups[1:31], pch=19,cex=1.5, col="cyan3")
+barplot(rbind(steadystate[1:32], fastG, fishedsteady[1:32]), beside=T, names.arg=c(1:32), xlab="Age (y)", col=c("gray(0.5)", "black", "cyan3" ), yaxt="n",  ylim=c(0, N0), ylab="Index of abundance") #,  main="Age structure") #
+#axis(1, labels=seq(1,32, by=3 ), at= seq(0,31, by = 3))#
+#
+ axis(2, labels=c(0,1 ), at= c(0,20000))#
+  legend("topright", pch=c(15, 15, 15, NA, NA), col=c("gray(0.5)","black", "cyan3" ), cex=1, legend=c("Unfished", "Faster growth", "Slower growth",  paste("Fishing mortality F =", mu_f) , paste("Constant selectivity for L >", fishingsize, "cm")), bty="n")
+quartz()#
+#
+ par(mfrow=c(2,2))#
+   plot(1:Amax, L, type="l", xaxt="n",  ylab="Length (cm)", xlab="Age (y)", ylim=c(0, 310), main= "von Bertalanffy Growth") #growth curve#
+axis(1, labels=seq(1,Amax, by=3 ), at= seq(0,Amax-1, by = 3))#
+#
+    legend("bottomright", legend=c( paste("Linf =", Linf), paste("von Bert k =", k)), bty="n")#
+# #    plot(1:(Amax-1), pups[-Amax], xaxt="n",  type="l", main="Age-specific Fecundity", ylab="Annual number of female pups", xlab= "Age")#
+ # axis(1, labels=seq(1,Amax, by=3 ), at= seq(0,Amax-1, by = 3))#
+# points(pups[1:31], pch=19,cex=1.5, col="cyan3")#
+# # mat1<- rbind(steadystate, fishedsteady)#
+# barplot(mat1, beside=T, names.arg=c(1:Amax ), col=c(gray(.5),1),  xlab="Age (y)", ylim=c(0, 20000), yaxt="n", main="Age structure", ylab="Index of abundance" )#
+ # axis(2, labels=c(0,1 ), at= c(0,20000))#
+ # legend("topright", pch=c(15, 15, NA), col=c(gray(.5),1),  legend=c("Unfished",  paste("Fishing mortality F =", mu_f) , paste("Constant selectivity for L >", fishingsize, "cm")), bty="n")#
+# #  #
+  # barplot(fishedsteady, names.arg=c(1:Amax ), yaxt="n",  xlab="Age (y)", ylim=c(0, N0), main="Fished age structure", ylab="Relative Abundance" )#
+ # axis(2, labels=c(0,1 ), at= c(0,20000))#
+ #fastG<-fishedsteady#
+ barplot(rbind(steadystate[1:32], fastG, fishedsteady[1:32]), beside=T, names.arg=c(1:32), xlab="Age (y)", col=c("gray(0.5)", "black", "cyan3" ), yaxt="n",  ylim=c(0, N0), ylab="Index of abundance") #,  main="Age structure") #
+#axis(1, labels=seq(1,32, by=3 ), at= seq(0,31, by = 3))#
+#
+ axis(2, labels=c(0,1 ), at= c(0,20000))#
+  legend("topright", pch=c(15, 15, 15, NA, NA), col=c(gray(0.5),"black", "cyan3" ), cex=1, legend=c("Unfished", "Faster growth", "Slower growth",  paste("Fishing mortality F =", mu_f) , paste("Constant selectivity for L >", fishingsize, "cm")), bty="n")
+plot(1:Amax, L, type="l", xaxt="n",  ylab="Length (cm)", xlab="Age (y)", ylim=c(0, 310), main= "von Bertalanffy Growth") #growth curve#
+axis(1, labels=seq(1,Amax, by=3 ), at= seq(0,Amax-1, by = 3))#
+#
+    legend("bottomright", legend=c( paste("Linf =", Linf), paste("von Bert k =", k)), bty="n")
+plot(1:Amax, L, type="l", xaxt="n",  ylab="Length (cm)", xlab="Age (y)", ylim=c(0, 310), col="cyan3", lwd=2 main= "von Bertalanffy Growth") #growth curve#
+axis(1, labels=seq(1,Amax, by=3 ), at= seq(0,Amax-1, by = 3))#
+#
+    legend("bottomright", legend=c( paste("Linf =", Linf), paste("von Bert k =", k)), bty="n")#
+# #    plot(1:(Amax-1), pups[-Amax], xaxt="n",  type="l", main="Age-specific Fecundity", ylab="Annual number of female pups", xlab= "Age")#
+ # axis(1, labels=seq(1,Amax, by=3 ), at= seq(0,Amax-1, by = 3))#
+# points(pups[1:31], pch=19,cex=1.5, col="cyan3")#
+# # mat1<- rbind(steadystate, fishedsteady)#
+# barplot(mat1, beside=T, names.arg=c(1:Amax ), col=c(gray(.5),1),  xlab="Age (y)", ylim=c(0, 20000), yaxt="n", main="Age structure", ylab="Index of abundance" )#
+ # axis(2, labels=c(0,1 ), at= c(0,20000))#
+ # legend("topright", pch=c(15, 15, NA), col=c(gray(.5),1),  legend=c("Unfished",  paste("Fishing mortality F =", mu_f) , paste("Constant selectivity for L >", fishingsize, "cm")), bty="n")#
+# #  #
+  # barplot(fishedsteady, names.arg=c(1:Amax ), yaxt="n",  xlab="Age (y)", ylim=c(0, N0), main="Fished age structure", ylab="Relative Abundance" )#
+ # axis(2, labels=c(0,1 ), at= c(0,20000))#
+ #fastG<-fishedsteady#
+ barplot(rbind(steadystate[1:32], fastG, fishedsteady[1:32]), beside=T, names.arg=c(1:32), xlab="Age (y)", col=c(gray(0.5), "black", "cyan3" ), yaxt="n",  ylim=c(0, N0), ylab="Index of abundance") #,  main="Age structure") #
+#axis(1, labels=seq(1,32, by=3 ), at= seq(0,31, by = 3)3)#
+#
+ axis(2, labels=c(0,1 ), at= c(0,20000))#
+  legend("topright", pch=c(15, 15, 15, NA, NA), col=c(gray(0.5),"black", "cyan3" ), cex=1, legend=c("Unfished", "Faster growth", "Slower growth",  paste("Fishing mortality F =", mu_f) , paste("Constant selectivity for L >", fishingsize, "cm")), bty="n")
+plot(1:Amax, L, type="l", xaxt="n",  ylab="Length (cm)", xlab="Age (y)", ylim=c(0, 310), col="cyan3", lwd=2 main= "von Bertalanffy Growth") #growth curve#
+axis(1, labels=seq(1,Amax, by=3 ), at= seq(0,Amax-1, by = 3))#
+#
+    legend("bottomright", legend=c( paste("Linf =", Linf), paste("von Bert k =", k)), bty="n")
+plot(1:Amax, L, type="l", xaxt="n",  ylab="Length (cm)", xlab="Age (y)", ylim=c(0, 310), col="cyan3", lwd=2, main= "von Bertalanffy Growth") #growth curve#
+axis(1, labels=seq(1,Amax, by=3 ), at= seq(0,Amax-1, by = 3))#
+#
+    legend("bottomright", legend=c( paste("Linf =", Linf), paste("von Bert k =", k)), bty="n")#
+# #    plot(1:(Amax-1),
+plot(1:Amax, L, type="l", xaxt="n",  ylab="Length (cm)", xlab="Age (y)", ylim=c(0, 310), col="cyan3", lwd=2, main= "von Bertalanffy Growth") #growth curve#
+axis(1, labels=seq(1,Amax, by=3 ), at= seq(0,Amax-1, by = 3))#
+#
+    legend("bottomright", legend=c( paste("Linf =", Linf), paste("von Bert k =", k)), bty="n")#
+# #    plot(1:(Amax-1), pups[-Amax], xaxt="n",  type="l", main="Age-specific Fecundity", ylab="Annual number of female pups", xlab= "Age")#
+ # axis(1, labels=seq(1,Amax, by=3 ), at= seq(0,Amax-1, by = 3))#
+# points(pups[1:31], pch=19,cex=1.5, col="cyan3")#
+# # mat1<- rbind(steadystate, fishedsteady)#
+# barplot(mat1, beside=T, names.arg=c(1:Amax ), col=c(gray(.5),1),  xlab="Age (y)", ylim=c(0, 20000), yaxt="n", main="Age structure", ylab="Index of abundance" )#
+ # axis(2, labels=c(0,1 ), at= c(0,20000))#
+ # legend("topright", pch=c(15, 15, NA), col=c(gray(.5),1),  legend=c("Unfished",  paste("Fishing mortality F =", mu_f) , paste("Constant selectivity for L >", fishingsize, "cm")), bty="n")#
+# #  #
+  # barplot(fishedsteady, names.arg=c(1:Amax ), yaxt="n",  xlab="Age (y)", ylim=c(0, N0), main="Fished age structure", ylab="Relative Abundance" )#
+ # axis(2, labels=c(0,1 ), at= c(0,20000))#
+ #fastG<-fishedsteady#
+ barplot(rbind(steadystate[1:32], fastG, fishedsteady[1:32]), beside=T, names.arg=c(1:32), xlab="Age (y)", col=c(gray(0.5), "black", "cyan3" ), yaxt="n",  ylim=c(0, N0), ylab="Index of abundance") #,  main="Age structure") #
+#axis(1, labels=seq(1,32, by=3 ), at= seq(0,31, by = 3)3)#
+#
+ axis(2, labels=c(0,1 ), at= c(0,20000))#
+  legend("topright", pch=c(15, 15, 15, NA, NA), col=c(gray(0.5),"black", "cyan3" ), cex=1, legend=c("Unfished", "Faster growth", "Slower growth",  paste("Fishing mortality F =", mu_f) , paste("Constant selectivity for L >", fishingsize, "cm")), bty="n")
+#Model parameters:#
+#
+Npop=100  #initial pop size (not important)#
+#
+Tmax=500 #max years#
+#
+Tfishing=200 #start fishing#
+#
+Trecovery=400 #stop fishing #
+    #Life history parameters      	#
+#
+   recruitsize=100#
+	Amax=32 #max age#
+    #Amax=40  #
+	Lmat=200#
+ 	#Lmat=225    #age at maturation - this varies depending on the matration function chosen#
+	 Linf=233#
+	#Linf= 280    #max size#
+	 fishingsize = 150 #size-selective fishery threshold size #
+		k=0.09#
+       # k= 0.06   # Growth function param	 	 #
+#
+	   v=0.00002  #mass-at-size coef#
+#
+	    wexp = 3  #mass-at-size exp#
+#
+	    h=1 #sperm fertilization effectiveness#
+#
+ 	    N0 = 20000       #
+#
+  	    alpha = .8  	#
+#
+  	    q=0.1 #maturation ogive steepness (1 = very steep)#
+#
+		female_offspring = 10#
+   mu_f=0.1  #fishing mortality#
+#
+     natmort=0.1  #
+#
+     #set up vectors and matrices#
+#
+pmat=rep(0, Amax) #
+#
+select=rep(0, Amax)#
+#
+pups=rep(0, Amax)#
+#
+mu=rep(0, Amax)#
+#
+N=matrix(nrow=Amax, ncol=Tmax, data=0)#
+W=matrix(nrow=Amax, ncol=1, data=1)#
+#
+L=matrix(nrow=Amax, ncol=1, data=1)#
+#
+mu=matrix(nrow=Amax, ncol=1, data=0)#
+#
+E=matrix(nrow=Amax, ncol=Tmax, data=0)#
+#
+S=matrix(nrow=1, ncol=Tmax, data=0)#
+#
+P=matrix(nrow=1, ncol=Tmax)#
+#
+B=matrix(nrow=1, ncol=Tmax)#
+ N[, 1]=Npop #initial population size#
+#
+L[1]=recruitsize #larval size at recruitment (birth)#
+#First: Define the age-specific growth, mortality, and maturation function#
+  	for (a in 1:(Amax-1)) {#
+	#GROWTH 		 #
+#
+	L[a+1]= Linf*(1-exp(-k)) + (L[a])*exp(-k) #length at age#
+#
+     W[a]= v*L[a]^wexp #weight at age#
+	# SIZE-DEP MATURATION:#
+#
+       pmat[a]= 1/(1+exp(-q*(L[a]-Lmat))) #
+ 	#FISHING SELECTIVITY # knife edge after 1 meter#
+#
+      select[a] = ifelse(L[a+1] < fishingsize, 0, 1)     #
+ 	#FECUNDITY#
+#
+       pups[a] = female_offspring*pmat[a]  #hamemrhead fecundity is max 10 females per year (40 total over two years, including males)#
+    #MORTALITY#
+#
+       mu[a] = natmort #could vary with age but assumed constant here#
+   } #end 1st age loop#
+ #With these age specific functions, simulate pop dynamics through time       #
+#
+ for(t in 1:(Tmax-1)) {#
+	E[,t]=N[, t]*pups  #assuming reproduction occurs between 1 t and the next#
+	P[t]= sum(E[,t])  #assuming fertilization is 100%, this is the year class of progeny produced in year t#
+  	beta= (alpha*P[t]-1)/(N0*P[t])  #derive the recruitment function from the slope near the origin#
+ 	N[1,t+1]= alpha*P[t]/(1+beta*P[t]) #this is the recruit class that enters in the next time step.. #
+     for (age in 1:(Amax-1)) { #now calculate age-specific probability of fishing mortality#
+   Fishing= if (Tfishing < t & Trecovery > t) {#
+#
+   				Fishing = select[age]*mu_f } else {#
+#
+   				Fishing = 0#
+#
+                     }#
+ 		N[age+1,t+1] = N[age, t]*exp(-mu[age]-Fishing) #numbers in each age class in the next time step #
+#
+ 		#assuming mortality happens after spawning#
+ 		B[t]=sum(N[,t]*W) #biomass#
+   		 } #end second age loop#
+       } #end t loop#
+ steadystate=N[,Tmax]#
+#
+ fishedsteady=N[ ,Trecovery -2]#
+# ######Plot life history functions and population dynamics
+plot(1:Amax, L, type="l", xaxt="n",  ylab="Length (cm)", xlab="Age (y)", ylim=c(0, 310),  lwd=2, main= "von Bertalanffy Growth") #growth curve#
+axis(1, labels=seq(1,Amax, by=3 ), at= seq(0,Amax-1, by = 3))#
+#
+    legend("bottomright", legend=c( paste("Linf =", Linf), paste("von Bert k =", k)), bty="n")
+unfished=steadystate
+fastG=fishedsteady
+fastpup = pups
+fastput
+fastpup
+##Author: Holly K. Kindsvater, 2019#
+#
+##age structured model for Sphyrna lewini populaiton dynamics and demography with varying selectivity.     #
+#Model parameters:#
+#
+Npop=100  #initial pop size (not important)#
+#
+Tmax=500 #max years#
+#
+Tfishing=200 #start fishing#
+#
+Trecovery=400 #stop fishing #
+    #Life history parameters      	#
+#
+   recruitsize=100#
+	# Amax=32 #max age#
+     Amax=40  #
+	# Lmat=200#
+ 	Lmat=225    #age at maturation - this varies depending on the matration function chosen#
+	 # Linf=233#
+	 Linf= 280    #max size#
+	 fishingsize = 150 #size-selective fishery threshold size #
+		# k=0.09#
+        k= 0.06   # Growth function param	 	 #
+#
+	   v=0.00002  #mass-at-size coef#
+#
+	    wexp = 3  #mass-at-size exp#
+#
+	    h=1 #sperm fertilization effectiveness#
+#
+ 	    N0 = 20000       #
+#
+  	    alpha = .8  	#
+#
+  	    q=0.1 #maturation ogive steepness (1 = very steep)#
+#
+		female_offspring = 10#
+   mu_f=0.1  #fishing mortality#
+#
+     natmort=0.1  #
+#
+     #set up vectors and matrices#
+#
+pmat=rep(0, Amax) #
+#
+select=rep(0, Amax)#
+#
+pups=rep(0, Amax)#
+#
+mu=rep(0, Amax)#
+#
+N=matrix(nrow=Amax, ncol=Tmax, data=0)#
+W=matrix(nrow=Amax, ncol=1, data=1)#
+#
+L=matrix(nrow=Amax, ncol=1, data=1)#
+#
+mu=matrix(nrow=Amax, ncol=1, data=0)#
+#
+E=matrix(nrow=Amax, ncol=Tmax, data=0)#
+#
+S=matrix(nrow=1, ncol=Tmax, data=0)#
+#
+P=matrix(nrow=1, ncol=Tmax)#
+#
+B=matrix(nrow=1, ncol=Tmax)#
+ N[, 1]=Npop #initial population size#
+#
+L[1]=recruitsize #larval size at recruitment (birth)#
+#First: Define the age-specific growth, mortality, and maturation function#
+  	for (a in 1:(Amax-1)) {#
+	#GROWTH 		 #
+#
+	L[a+1]= Linf*(1-exp(-k)) + (L[a])*exp(-k) #length at age#
+#
+     W[a]= v*L[a]^wexp #weight at age#
+	# SIZE-DEP MATURATION:#
+#
+       pmat[a]= 1/(1+exp(-q*(L[a]-Lmat))) #
+ 	#FISHING SELECTIVITY # knife edge after 1 meter#
+#
+      select[a] = ifelse(L[a+1] < fishingsize, 0, 1)     #
+ 	#FECUNDITY#
+#
+       pups[a] = female_offspring*pmat[a]  #hamemrhead fecundity is max 10 females per year (40 total over two years, including males)#
+    #MORTALITY#
+#
+       mu[a] = natmort #could vary with age but assumed constant here#
+   } #end 1st age loop#
+ #With these age specific functions, simulate pop dynamics through time       #
+#
+ for(t in 1:(Tmax-1)) {#
+	E[,t]=N[, t]*pups  #assuming reproduction occurs between 1 t and the next#
+	P[t]= sum(E[,t])  #assuming fertilization is 100%, this is the year class of progeny produced in year t#
+  	beta= (alpha*P[t]-1)/(N0*P[t])  #derive the recruitment function from the slope near the origin#
+ 	N[1,t+1]= alpha*P[t]/(1+beta*P[t]) #this is the recruit class that enters in the next time step.. #
+     for (age in 1:(Amax-1)) { #now calculate age-specific probability of fishing mortality#
+   Fishing= if (Tfishing < t & Trecovery > t) {#
+#
+   				Fishing = select[age]*mu_f } else {#
+#
+   				Fishing = 0#
+#
+                     }#
+ 		N[age+1,t+1] = N[age, t]*exp(-mu[age]-Fishing) #numbers in each age class in the next time step #
+#
+ 		#assuming mortality happens after spawning#
+ 		B[t]=sum(N[,t]*W) #biomass#
+   		 } #end second age loop#
+       } #end t loop#
+ steadystate=N[,Tmax]#
+#
+ fishedsteady=N[ ,Trecovery -2]
+plot(1:Amax, L, type="l", xaxt="n",  ylab="Length (cm)", xlab="Age (y)", ylim=c(0, 310), col="cyan3", lwd=2, main= "von Bertalanffy Growth") #growth curve#
+axis(1, labels=seq(1,Amax, by=3 ), at= seq(0,Amax-1, by = 3))#
+#
+    legend("bottomright", legend=c( paste("Linf =", Linf), paste("von Bert k =", k)), bty="n")
+fastput
+fastpup
+plot(1:(Amax-1), fastpup[-Amax], xaxt="n",  type="p", cex=1.25, main="Age-specific Fecundity", ylab="Annual number of female pups", xlab= "Age")#
+  axis(1, labels=seq(1,Amax, by=3 ), at= seq(0,Amax-1, by = 3))#
+ points(pups[1:31], pch=19,cex=1.25, col="cyan3")
+plot(1:Amax, L, type="l", xaxt="n",  ylab="Length (cm)", xlab="Age (y)", ylim=c(0, 310), col="cyan3", lwd=2, main= "von Bertalanffy Growth") #growth curve#
+axis(1, labels=seq(1,Amax, by=3 ), at= seq(0,Amax-1, by = 3))#
+#
+    legend("bottomright", legend=c( paste("Linf =", Linf), paste("von Bert k =", k)), bty="n")
+slowpup=pups
+slowG=fishedsteady
+##Author: Holly K. Kindsvater, 2019#
+#
+##age structured model for Sphyrna lewini populaiton dynamics and demography with varying selectivity.     #
+#Model parameters:#
+#
+Npop=100  #initial pop size (not important)#
+#
+Tmax=500 #max years#
+#
+Tfishing=200 #start fishing#
+#
+Trecovery=400 #stop fishing #
+    #Life history parameters      	#
+#
+   recruitsize=100#
+	 Amax=32 #max age#
+     # Amax=40  #
+	 Lmat=200#
+ 	# Lmat=225    #age at maturation - this varies depending on the matration function chosen#
+	 Linf=233#
+	 # Linf= 280    #max size#
+	 fishingsize = 150 #size-selective fishery threshold size #
+		 k=0.09#
+        # k= 0.06   # Growth function param	 	 #
+#
+	   v=0.00002  #mass-at-size coef#
+#
+	    wexp = 3  #mass-at-size exp#
+#
+	    h=1 #sperm fertilization effectiveness#
+#
+ 	    N0 = 20000       #
+#
+  	    alpha = .8  	#
+#
+  	    q=0.1 #maturation ogive steepness (1 = very steep)#
+#
+		female_offspring = 10#
+   mu_f=0.1  #fishing mortality#
+#
+     natmort=0.1  #
+#
+     #set up vectors and matrices#
+#
+pmat=rep(0, Amax) #
+#
+select=rep(0, Amax)#
+#
+pups=rep(0, Amax)#
+#
+mu=rep(0, Amax)#
+#
+N=matrix(nrow=Amax, ncol=Tmax, data=0)#
+W=matrix(nrow=Amax, ncol=1, data=1)#
+#
+L=matrix(nrow=Amax, ncol=1, data=1)#
+#
+mu=matrix(nrow=Amax, ncol=1, data=0)#
+#
+E=matrix(nrow=Amax, ncol=Tmax, data=0)#
+#
+S=matrix(nrow=1, ncol=Tmax, data=0)#
+#
+P=matrix(nrow=1, ncol=Tmax)#
+#
+B=matrix(nrow=1, ncol=Tmax)#
+ N[, 1]=Npop #initial population size#
+#
+L[1]=recruitsize #larval size at recruitment (birth)#
+#First: Define the age-specific growth, mortality, and maturation function#
+  	for (a in 1:(Amax-1)) {#
+	#GROWTH 		 #
+#
+	L[a+1]= Linf*(1-exp(-k)) + (L[a])*exp(-k) #length at age#
+#
+     W[a]= v*L[a]^wexp #weight at age#
+	# SIZE-DEP MATURATION:#
+#
+       pmat[a]= 1/(1+exp(-q*(L[a]-Lmat))) #
+ 	#FISHING SELECTIVITY # knife edge after 1 meter#
+#
+      select[a] = ifelse(L[a+1] < fishingsize, 0, 1)     #
+ 	#FECUNDITY#
+#
+       pups[a] = female_offspring*pmat[a]  #hamemrhead fecundity is max 10 females per year (40 total over two years, including males)#
+    #MORTALITY#
+#
+       mu[a] = natmort #could vary with age but assumed constant here#
+   } #end 1st age loop#
+ #With these age specific functions, simulate pop dynamics through time       #
+#
+ for(t in 1:(Tmax-1)) {#
+	E[,t]=N[, t]*pups  #assuming reproduction occurs between 1 t and the next#
+	P[t]= sum(E[,t])  #assuming fertilization is 100%, this is the year class of progeny produced in year t#
+  	beta= (alpha*P[t]-1)/(N0*P[t])  #derive the recruitment function from the slope near the origin#
+ 	N[1,t+1]= alpha*P[t]/(1+beta*P[t]) #this is the recruit class that enters in the next time step.. #
+     for (age in 1:(Amax-1)) { #now calculate age-specific probability of fishing mortality#
+   Fishing= if (Tfishing < t & Trecovery > t) {#
+#
+   				Fishing = select[age]*mu_f } else {#
+#
+   				Fishing = 0#
+#
+                     }#
+ 		N[age+1,t+1] = N[age, t]*exp(-mu[age]-Fishing) #numbers in each age class in the next time step #
+#
+ 		#assuming mortality happens after spawning#
+ 		B[t]=sum(N[,t]*W) #biomass#
+   		 } #end second age loop#
+       } #end t loop#
+ steadystate=N[,Tmax]#
+#
+ fishedsteady=N[ ,Trecovery -2]#
+# ######Plot life history functions and population dynamics #
+#
+ # quartz()#
+#
+ # par(mfrow=c(2,2))#
+   plot(1:Amax, L, type="l", xaxt="n",  ylab="Length (cm)", xlab="Age (y)", ylim=c(0, 310),  lwd=2, main= "von Bertalanffy Growth") #growth curve#
+axis(1, labels=seq(1,Amax, by=3 ), at= seq(0,Amax-1, by = 3))#
+#
+    legend("bottomright", legend=c( paste("Linf =", Linf), paste("von Bert k =", k)), bty="n")
+##Author: Holly K. Kindsvater, 2019#
+#
+##age structured model for Sphyrna lewini populaiton dynamics and demography with varying selectivity.     #
+#Model parameters:#
+#
+Npop=100  #initial pop size (not important)#
+#
+Tmax=500 #max years#
+#
+Tfishing=200 #start fishing#
+#
+Trecovery=400 #stop fishing #
+    #Life history parameters      	#
+#
+   recruitsize=100#
+	 #Amax=32 #max age#
+     Amax=40  #
+	 #Lmat=200#
+   Lmat=225    #age at maturation - this varies depending on the matration function chosen#
+	 #Linf=233#
+	 Linf= 280    #max size#
+	 fishingsize = 150 #size-selective fishery threshold size #
+		 #k=0.09#
+         k= 0.06   # Growth function param	 	 #
+#
+	   v=0.00002  #mass-at-size coef#
+#
+	    wexp = 3  #mass-at-size exp#
+#
+	    h=1 #sperm fertilization effectiveness#
+#
+ 	    N0 = 20000       #
+#
+  	    alpha = .8  	#
+#
+  	    q=0.1 #maturation ogive steepness (1 = very steep)#
+#
+		female_offspring = 10#
+   mu_f=0.1  #fishing mortality#
+#
+     natmort=0.1  #
+#
+     #set up vectors and matrices#
+#
+pmat=rep(0, Amax) #
+#
+select=rep(0, Amax)#
+#
+pups=rep(0, Amax)#
+#
+mu=rep(0, Amax)#
+#
+N=matrix(nrow=Amax, ncol=Tmax, data=0)#
+W=matrix(nrow=Amax, ncol=1, data=1)#
+#
+L=matrix(nrow=Amax, ncol=1, data=1)#
+#
+mu=matrix(nrow=Amax, ncol=1, data=0)#
+#
+E=matrix(nrow=Amax, ncol=Tmax, data=0)#
+#
+S=matrix(nrow=1, ncol=Tmax, data=0)#
+#
+P=matrix(nrow=1, ncol=Tmax)#
+#
+B=matrix(nrow=1, ncol=Tmax)#
+ N[, 1]=Npop #initial population size#
+#
+L[1]=recruitsize #larval size at recruitment (birth)#
+#First: Define the age-specific growth, mortality, and maturation function#
+  	for (a in 1:(Amax-1)) {#
+	#GROWTH 		 #
+#
+	L[a+1]= Linf*(1-exp(-k)) + (L[a])*exp(-k) #length at age#
+#
+     W[a]= v*L[a]^wexp #weight at age#
+	# SIZE-DEP MATURATION:#
+#
+       pmat[a]= 1/(1+exp(-q*(L[a]-Lmat))) #
+ 	#FISHING SELECTIVITY # knife edge after 1 meter#
+#
+      select[a] = ifelse(L[a+1] < fishingsize, 0, 1)     #
+ 	#FECUNDITY#
+#
+       pups[a] = female_offspring*pmat[a]  #hamemrhead fecundity is max 10 females per year (40 total over two years, including males)#
+    #MORTALITY#
+#
+       mu[a] = natmort #could vary with age but assumed constant here#
+   } #end 1st age loop#
+ #With these age specific functions, simulate pop dynamics through time       #
+#
+ for(t in 1:(Tmax-1)) {#
+	E[,t]=N[, t]*pups  #assuming reproduction occurs between 1 t and the next#
+	P[t]= sum(E[,t])  #assuming fertilization is 100%, this is the year class of progeny produced in year t#
+  	beta= (alpha*P[t]-1)/(N0*P[t])  #derive the recruitment function from the slope near the origin#
+ 	N[1,t+1]= alpha*P[t]/(1+beta*P[t]) #this is the recruit class that enters in the next time step.. #
+     for (age in 1:(Amax-1)) { #now calculate age-specific probability of fishing mortality#
+   Fishing= if (Tfishing < t & Trecovery > t) {#
+#
+   				Fishing = select[age]*mu_f } else {#
+#
+   				Fishing = 0#
+#
+                     }#
+ 		N[age+1,t+1] = N[age, t]*exp(-mu[age]-Fishing) #numbers in each age class in the next time step #
+#
+ 		#assuming mortality happens after spawning#
+ 		B[t]=sum(N[,t]*W) #biomass#
+   		 } #end second age loop#
+       } #end t loop#
+ steadystate=N[,Tmax]#
+#
+ fishedsteady=N[ ,Trecovery -2]#
+# ######Plot life history functions and population dynamics #
+#
+ # quartz()#
+#
+ # par(mfrow=c(2,2))#
+   plot(1:Amax, L, type="l", xaxt="n",  ylab="Length (cm)", xlab="Age (y)", ylim=c(0, 310), col="cyan3", lwd=2, main= "von Bertalanffy Growth") #growth curve#
+axis(1, labels=seq(1,Amax, by=3 ), at= seq(0,Amax-1, by = 3))#
+#
+    legend("bottomright", legend=c( paste("Linf =", Linf), paste("von Bert k =", k)), bty="n")
+pups
+fastpup
+slowpup
+plot(1:(Amax-1), fastpup[-Amax], xaxt="n",  type="p", cex=1.25, main="Age-specific Fecundity", ylab="Annual number of female pups", xlab= "Age")#
+  axis(1, labels=seq(1,Amax, by=3 ), at= seq(0,Amax-1, by = 3))#
+ points(slowpup[1:31], pch=19,cex=1.25, col="cyan3")
+plot(1:(Amax-1), fastpup[1:31], xaxt="n",  type="p", cex=1.25, main="Age-specific Fecundity", ylab="Annual number of female pups", xlab= "Age")#
+  axis(1, labels=seq(1,Amax, by=3 ), at= seq(0,Amax-1, by = 3))#
+ points(slowpup[1:31], pch=19,cex=1.25, col="cyan3")
+length(fastpup)
+fastput
+Amaz
+Amax
+L
+slowL=L
+#Model parameters:#
+#
+Npop=100  #initial pop size (not important)#
+#
+Tmax=500 #max years#
+#
+Tfishing=200 #start fishing#
+#
+Trecovery=400 #stop fishing #
+    #Life history parameters      	#
+#
+   recruitsize=100#
+	 Amax=32 #max age#
+     #Amax=40  #
+	 Lmat=200#
+   #Lmat=225    #age at maturation - this varies depending on the matration function chosen#
+	 Linf=233#
+	 #Linf= 280    #max size#
+	 fishingsize = 150 #size-selective fishery threshold size #
+		  k=0.09#
+         #k= 0.06   # Growth function param	 	 #
+#
+	   v=0.00002  #mass-at-size coef#
+#
+	    wexp = 3  #mass-at-size exp#
+#
+	    h=1 #sperm fertilization effectiveness#
+#
+ 	    N0 = 20000       #
+#
+  	    alpha = .8  	#
+#
+  	    q=0.1 #maturation ogive steepness (1 = very steep)#
+#
+		female_offspring = 10#
+   mu_f=0.1  #fishing mortality#
+#
+     natmort=0.1  #
+#
+     #set up vectors and matrices#
+#
+pmat=rep(0, Amax) #
+#
+select=rep(0, Amax)#
+#
+pups=rep(0, Amax)#
+#
+mu=rep(0, Amax)#
+#
+N=matrix(nrow=Amax, ncol=Tmax, data=0)#
+W=matrix(nrow=Amax, ncol=1, data=1)#
+#
+L=matrix(nrow=Amax, ncol=1, data=1)#
+#
+mu=matrix(nrow=Amax, ncol=1, data=0)#
+#
+E=matrix(nrow=Amax, ncol=Tmax, data=0)#
+#
+S=matrix(nrow=1, ncol=Tmax, data=0)#
+#
+P=matrix(nrow=1, ncol=Tmax)#
+#
+B=matrix(nrow=1, ncol=Tmax)#
+ N[, 1]=Npop #initial population size#
+#
+L[1]=recruitsize #larval size at recruitment (birth)#
+#First: Define the age-specific growth, mortality, and maturation function#
+  	for (a in 1:(Amax-1)) {#
+	#GROWTH 		 #
+#
+	L[a+1]= Linf*(1-exp(-k)) + (L[a])*exp(-k) #length at age#
+#
+     W[a]= v*L[a]^wexp #weight at age#
+	# SIZE-DEP MATURATION:#
+#
+       pmat[a]= 1/(1+exp(-q*(L[a]-Lmat))) #
+ 	#FISHING SELECTIVITY # knife edge after 1 meter#
+#
+      select[a] = ifelse(L[a+1] < fishingsize, 0, 1)     #
+ 	#FECUNDITY#
+#
+       pups[a] = female_offspring*pmat[a]  #hamemrhead fecundity is max 10 females per year (40 total over two years, including males)#
+    #MORTALITY#
+#
+       mu[a] = natmort #could vary with age but assumed constant here#
+   } #end 1st age loop#
+ #With these age specific functions, simulate pop dynamics through time       #
+#
+ for(t in 1:(Tmax-1)) {#
+	E[,t]=N[, t]*pups  #assuming reproduction occurs between 1 t and the next#
+	P[t]= sum(E[,t])  #assuming fertilization is 100%, this is the year class of progeny produced in year t#
+  	beta= (alpha*P[t]-1)/(N0*P[t])  #derive the recruitment function from the slope near the origin#
+ 	N[1,t+1]= alpha*P[t]/(1+beta*P[t]) #this is the recruit class that enters in the next time step.. #
+     for (age in 1:(Amax-1)) { #now calculate age-specific probability of fishing mortality#
+   Fishing= if (Tfishing < t & Trecovery > t) {#
+#
+   				Fishing = select[age]*mu_f } else {#
+#
+   				Fishing = 0#
+#
+                     }#
+ 		N[age+1,t+1] = N[age, t]*exp(-mu[age]-Fishing) #numbers in each age class in the next time step #
+#
+ 		#assuming mortality happens after spawning#
+ 		B[t]=sum(N[,t]*W) #biomass#
+   		 } #end second age loop#
+       } #end t loop#
+ steadystate=N[,Tmax]#
+#
+ fishedsteady=N[ ,Trecovery -2]#
+# ######Plot life history functions and population dynamics #
+#
+ # quartz()#
+#
+ # par(mfrow=c(2,2))#
+  plot(1:Amax, L, type="l", xaxt="n",  ylab="Length (cm)", xlab="Age (y)", ylim=c(0, 310), col="cyan3", lwd=2, main= "von Bertalanffy Growth") #growth curve#
+# axis(1, labels=seq(1,Amax, by=3 ), at= seq(0,Amax-1, by = 3))#
+#
+    # legend("bottomright", legend=c( paste("Linf =", Linf), paste("von Bert k =", k)), bty="n")
+plot(1:Amax, L, type="l", xaxt="n",  ylab="Length (cm)", xlab="Age (y)", ylim=c(0, 310),  lwd=2, main= "von Bertalanffy Growth") #growth curve#
+  axis(1, labels=seq(1,Amax, by=3 ), at= seq(0,Amax-1, by = 3))#
+#
+     legend("bottomright", legend=c( paste("Linf =", Linf), paste("von Bert k =", k)), bty="n")
+plot(1:40, slowL, type="l", xaxt="n",  ylab="Length (cm)", xlab="Age (y)", ylim=c(0, 310), col="cyan3", lwd=2, main= "von Bertalanffy Growth") #growth curve#
+  axis(1, labels=seq(1,40, by=3 ), at= seq(0,39, by = 3))#
+#
+     legend("bottomright", legend=c( paste("Linf =", 280), paste("von Bert k =",0.06)), bty="n")
+plot(1:(31), fastpup[1:31], xaxt="n",  type="p", cex=1.25, main="Age-specific Fecundity", ylab="Annual number of female pups", xlab= "Age")#
+  axis(1, labels=seq(1,Amax, by=3 ), at= seq(0,31, by = 3))#
+ points(slowpup[1:31], pch=19,cex=1.25, col="cyan3")
+points(fastpup[1:31], pch=19,cex=1.25, col=1)
+barplot(rbind(steadystate[1:32], fastG, fishedsteady[1:32]), beside=T, names.arg=c(1:32), xlab="Age (y)", col=c(gray(0.5), "black", "cyan3" ), yaxt="n",  ylim=c(0, N0), ylab="Index of abundance") #,  main="Age structure") #
+#axis(1, labels=seq(1,32, by=3 ), at= seq(0,31, by = 3)3)#
+#
+ axis(2, labels=c(0,1 ), at= c(0,20000))#
+  legend("topright", pch=c(15, 15, 15, NA, NA), col=c(gray(0.5),"black", "cyan3" ), cex=1, legend=c("Unfished", "Faster growth", "Slower growth",  paste("Fishing mortality F =", mu_f) , paste("Constant selectivity for L >", fishingsize, "cm")), bty="n")
+slowG
+barplot(rbind(steadystate[1:32], fastG, slowG[1:32]), beside=T, names.arg=c(1:32), xlab="Age (y)", col=c(gray(0.5), "black", "cyan3" ), yaxt="n",  ylim=c(0, N0), ylab="Index of abundance") #,  main="Age structure") #
+#axis(1, labels=seq(1,32, by=3 ), at= seq(0,31, by = 3)3)#
+#
+ axis(2, labels=c(0,1 ), at= c(0,20000))#
+  legend("topright", pch=c(15, 15, 15, NA, NA), col=c(gray(0.5),"black", "cyan3" ), cex=1, legend=c("Unfished", "Faster growth", "Slower growth",  paste("Fishing mortality F =", mu_f) , paste("Constant selectivity for L >", fishingsize, "cm")), bty="n")
+citation
+citation()
+0.0005*100^3
+seq(1, 180, by = 14)
+seq(0, 180, by = 14)
+devtools::install_github("ropensci/rfishbase@sac-null")#
+ library(rfishbase)#
+  library(calibrate)#
+ library(reshape)#
+library(wesanderson)#
+#
+elasmos <- species_list(Class = "Elasmobranchii")#
+herrings <- species_list(Order = "Clupeiformes")#
+scorps <- species_list(Order = "Scorpaeniformes")#
+flounder <- species_list(Order = "Pleuronectiformes")#
+lophius <- species_list(Order = "Lophiiformes")#
+ salmon <- species_list(Order = "Salmoniformes")#
+mackerel <- species_list(Family = "Carangidae")   #
+snapper <- species_list(Family = "Lutjanidae")#
+striper <- species_list(Family = "Percichthyidae")#
+walleye <- species_list(Family = "Percidae")#
+croaker <- species_list(Family = "Scianidae")#
+tunas <- species_list(Family = "Scombridae") #
+sparids <- species_list(Family = "Sparidae")#
+ swordfish <- species_list(Family = "Xiphiidae")#
+seahorses<-species_list(Family = "Syngnathidae")
+install.packages("rfishbase")
+library(rfishbase)
+elasmos <- species_list(Class = "Elasmobranchii")
+install.packages("rfishbase-package")
+elasmos <- species_list(Class = "Elasmobranchii")
+juvsurv <- fecundity(masterlist)#
+ adultsurv <- maturity(masterlist)
+runif(0, 10, 40)
+?runif
+runif(40, 0, 10)
+write.csv(round(runif(40, 0, 10)), "salamander_counts.csv")
+rnorm(40, mean=8, sd=1)
+rnorm(40, mean=8, sd=2)
+round(rnorm(40, mean=8, sd=2))
+round(rnorm(40, mean=2, sd=2))
+round(rnorm(40, mean=4, sd=2))
+read.csv("~/Desktop/exam.csv")
+x <- read.csv("~/Desktop/exam.csv")
+hist(x[, 1])
+hist(x[-66, 1])
+hist(x[-66, 1], main="Assignment 2")
+hist(x[, 2], main="Exam 1")
+hist(x[, 2], main="Exam 1", xlab="Points")
+hist(x[-66, 1], main="Assignment 2", xlab="Points")
+0.9^4
+1-0.1^4
+0.1^4
+(size[index]^3 + g_allo[index,i]*(state[index]/(a*scale)))^(1/3)
+data<-read.csv("~/Dropbox/Current Files/Teaching/FIW 4414/Pop Dy 2020/attendance.csv")
+data
+head(data)
+na.omit(data)
+head(na.omit(data))
+colSums(as.numeric(data))
+class(data)
+apply(data, 2, as.numeric)
+data<-read.csv("~/Dropbox/Current Files/Teaching/FIW 4414/Pop Dy 2020/attendance.csv", string.as.factors =T)
+data<-read.csv("~/Dropbox/Current Files/Teaching/FIW 4414/Pop Dy 2020/attendance.csv", strings.as.factors =T)
+?strings
+??strings
+data<-read.csv("~/Dropbox/Current Files/Teaching/FIW 4414/Pop Dy 2020/attendance.csv", stringsAsFactors =T)
+data
+colSums(data)
+colSums(as.numeric(data)
+)
+colSums(as.matrix(as.numeric(data))
+)
+data
+head(data)
+class(data)
+dmat <- matrix(data[, c(1, 2:16)])
+dmat
+dmat <- matrix(data[, c(1, 3:16)])
+mat
+dmat
+colSums(as.matrix(as.numeric(as.character(data)))
+)
+as.matrix(as.numeric(as.character(data)))
+dmat <-(as.numeric(as.character(data)))
+dmat
+data
+read_csv(data)
+datamat <- data==1
+datamat
+data <- as.character(data)#
+data[data==""] <- NA
+data
+head(dat)
+data<-read.csv("~/Dropbox/Current Files/Teaching/FIW 4414/Pop Dy 2020/attendance.csv", stringsAsFactors =T)
+class(data)
+data <- as.character(data)#
+data[data==""] <- NA
+data
+matrix(data, ncol=16)
+data<-read.csv("~/Dropbox/Current Files/Teaching/FIW 4414/Pop Dy 2020/attendance.csv", stringsAsFactors =T)
+data[data==""]<- "NA"
+warnings
+data[data==""]<- NA
+data
+dim(data)
+data<- data[, -2]
+data
+dim(data)
+rowSums(data)
+rowSums(as.numeric(data)
+)
+rowSums(as.numeric(as.character(data)))
+which(data!="NA")
+data[data!=NA] <- 1
+data
+data[data!="NA"] <- 1
+warnings
+warnings()
+dim(data)
+x<- ifelse(data!="NA", 1, 0)
+matrix(x, nrow=79, ncol=15)
+x<- ifelse(data!=NA, 1, 0)
+x<- ifelse(data!="NA", 1, 0)
+x<- ifelse(data!=NA, 1, 0)
+matrix(x, nrow=79, ncol=15)
+x<- which(data!="NA")
+matrix(x, nrow=79, ncol=15)
+x<- which(data!=NA)
+matrix(x, nrow=79, ncol=15)
+is.na(dat)
+is.na(data)
+data
+data<-read.csv("~/Dropbox/Current Files/Teaching/FIW 4414/Pop Dy 2020/attendance.csv", stringsAsFactors =T)
+is.na(data)
+dat
+data
+numdata <- ifelse(data=="", 0, 1)
+numdata
+numdata<- numdata[, -2]
+pts <- rowSums(numdata)
+pts
+names(pts)<- data[, 1]
+pts
+data<-read.csv("~/Dropbox/Current Files/Teaching/FIW 4414/Pop Dy 2020/attendance.csv", stringsAsFactors =T)w
+write.csv(pts, file="mid_semester_attendance.csv")
+names_pts<-cbind(data[, 1], pts)
+write.csv(names_pts, file="mid_semester_attendance.csv")
+pts
+.9^10
+data<-read.csv("~/Dropbox/Current Files/Teaching/FIW 4414/Pop Dy 2020/attendance.csv", stringsAsFactors =T)#
+numdata <- ifelse(data[, -2]=="", 0, 1)#
+  pts <- rowSums(numdata)#
+  write.csv(cbind(data[, 2], pts), file="dec_7_attendance.csv")
+data<-read.csv("~/Dropbox/Current Files/Teaching/FIW 4414/Pop Dy 2020/attendance.csv", stringsAsFactors =T)#
+numdata <- ifelse(data[, -2]=="", 0, 1)#
+  pts <- rowSums(numdata)#
+  write.csv(cbind(data[, 2], pts), file="~/Dropbox/Current Files/Teaching/FIW 4414/Pop Dy 2020/dec_7_attendance.csv")
+head(data)
+data[,2]
+data<-read.csv("~/Dropbox/Current Files/Teaching/FIW 4414/Pop Dy 2020/attendance.csv", stringsAsFactors =T)#
+numdata <- ifelse(data[, -2]=="", 0, 1)#
+  pts <- rowSums(numdata)#
+  write.csv(cbind(data[, 2], pts), file="~/Dropbox/Current Files/Teaching/FIW 4414/Pop Dy 2020/dec_7_attendance.csv")
+cbind(data[, 2], pts)
+data[, 2]
+cbind[data,2], pts
+cbind(data[,2], pts)
+windowframe=c(3,1)#
+# #    quartz()#
+    # par(mfrow=windowframe)#
+#
+setwd("~/Documents/tuna_theory_paper/october_run_results/Rlim.1/hi_kappa/")#
+data_files <- list.files(pattern = "\\.csv$")#
+length_filenames <- data_files[1:(length(data_files))]#
+length_data <- lapply(length_filenames, read.csv)#
+  Tmax=18#
+ time=1:(Tmax*12)#
+# 	   #
+     matplot(cbind(as.numeric(length_data[[1]][1,]), as.numeric(length_data[[2]][1,]), as.numeric(length_data[[3]][1,]), as.numeric(length_data[[4]][1,])), type="l", col=c(4, 2, 4, 2), lwd=3, lty=c(1, 1, 3, 3),  ylab="Length (cm)", ylim=c(0, 300), xlim=c(0.5, 11*12), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, (Tmax)*12, by=12), labels = (seq(1, Tmax+1, by=1)))#
+  # plot_hist <- function(data, filenames) {#
+    # hist(data[, 12], breaks=50, xlim=c(50, 350), main=substr(filenames, 13, 49))#
+  # }#
+  # mapply(plot_hist, length_data, length_filenames)#
+# #  #
+#
+# # 	   #
+     # matplot(cbind(as.numeric(length_data[[1]][1,]), as.numeric(length_data[[2]][1,])), type="l", col=c(4,   2), lwd=3, lty=c(3, 3),  ylab="Length (cm)", ylim=c(0, 300), xlim=c(0.5, 11*12), xlab= "Age (years)", xaxt="n")#
+     # axis(1, at = seq(0, (Tmax)*12, by=12), labels = (seq(1, Tmax+1, by=1)))
+data_files
+length_data
+windowframe=c(3,1)#
+# #    quartz()#
+    # par(mfrow=windowframe)#
+#
+setwd("~/Documents/tuna_theory_paper/october_run_results/Rlim.1/low_kappa/")#
+data_files <- list.files(pattern = "\\.csv$")#
+length_filenames <- data_files[1:(length(data_files))]#
+length_data <- lapply(length_filenames, read.csv)#
+  Tmax=18#
+ time=1:(Tmax*12)#
+# 	   #
+     matplot(cbind(as.numeric(length_data[[1]][1,]), as.numeric(length_data[[2]][1,]), as.numeric(length_data[[3]][1,]), as.numeric(length_data[[4]][1,])), type="l", col=c(4, 2, 4, 2), lwd=3, lty=c(1, 1, 3, 3),  ylab="Length (cm)", ylim=c(0, 300), xlim=c(0.5, 11*12), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, (Tmax)*12, by=12), labels = (seq(1, Tmax+1, by=1)))#
+  # plot_hist <- function(data, filenames) {#
+    # hist(data[, 12], breaks=50, xlim=c(50, 350), main=substr(filenames, 13, 49))#
+  # }#
+  # mapply(plot_hist, length_data, length_filenames)#
+# #  #
+#
+# # 	   #
+     # matplot(cbind(as.numeric(length_data[[1]][1,]), as.numeric(length_data[[2]][1,])), type="l", col=c(4,   2), lwd=3, lty=c(3, 3),  ylab="Length (cm)", ylim=c(0, 300), xlim=c(0.5, 11*12), xlab= "Age (years)", xaxt="n")#
+     # axis(1, at = seq(0, (Tmax)*12, by=12), labels = (seq(1, Tmax+1, by=1)))
+windowframe=c(3,1)#
+   quartz()#
+    par(mfrow=windowframe)#
+#
+setwd("~/Documents/tuna_theory_paper/october_run_results/Rlim.1/lo_kappa/")#
+data_files <- list.files(pattern = "\\.csv$")#
+length_filenames <- data_files[1:(length(data_files))]#
+length_data <- lapply(length_filenames, read.csv)#
+  Tmax=18#
+ time=1:(Tmax*12)#
+# 	   #
+     matplot(cbind(as.numeric(length_data[[1]][1,]), as.numeric(length_data[[2]][1,]), as.numeric(length_data[[3]][1,]), as.numeric(length_data[[4]][1,])), type="l", col=c(4, 2, 4, 2), lwd=3, lty=c(1, 1, 3, 3),  ylab="Length (cm)", ylim=c(0, 300), xlim=c(0.5, 11*12), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, (Tmax)*12, by=12), labels = (seq(1, Tmax+1, by=1)))#
+  # plot_hist <- function(data, filenames) {#
+    # hist(data[, 12], breaks=50, xlim=c(50, 350), main=substr(filenames, 13, 49))#
+  # }#
+  # mapply(plot_hist, length_data, length_filenames)#
+# #  #
+#
+# # 	   #
+     # matplot(cbind(as.numeric(length_data[[1]][1,]), as.numeric(length_data[[2]][1,])), type="l", col=c(4,   2), lwd=3, lty=c(3, 3),  ylab="Length (cm)", ylim=c(0, 300), xlim=c(0.5, 11*12), xlab= "Age (years)", xaxt="n")#
+     # axis(1, at = seq(0, (Tmax)*12, by=12), labels = (seq(1, Tmax+1, by=1)))
+windowframe=c(3,1)#
+   # quartz()#
+    # par(mfrow=windowframe)#
+#
+setwd("~/Documents/tuna_theory_paper/october_run_results/Rlim.1/med_kappa/")#
+data_files <- list.files(pattern = "\\.csv$")#
+length_filenames <- data_files[1:(length(data_files))]#
+length_data <- lapply(length_filenames, read.csv)#
+  Tmax=18#
+ time=1:(Tmax*12)#
+# 	   #
+     matplot(cbind(as.numeric(length_data[[1]][1,]), as.numeric(length_data[[2]][1,]), as.numeric(length_data[[3]][1,]), as.numeric(length_data[[4]][1,])), type="l", col=c(4, 2, 4, 2), lwd=3, lty=c(1, 1, 3, 3),  ylab="Length (cm)", ylim=c(0, 300), xlim=c(0.5, 11*12), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, (Tmax)*12, by=12), labels = (seq(1, Tmax+1, by=1)))#
+  # plot_hist <- function(data, filenames) {#
+    # hist(data[, 12], breaks=50, xlim=c(50, 350), main=substr(filenames, 13, 49))#
+  # }#
+  # mapply(plot_hist, length_data, length_filenames)#
+# #  #
+#
+# # 	   #
+     # matplot(cbind(as.numeric(length_data[[1]][1,]), as.numeric(length_data[[2]][1,])), type="l", col=c(4,   2), lwd=3, lty=c(3, 3),  ylab="Length (cm)", ylim=c(0, 300), xlim=c(0.5, 11*12), xlab= "Age (years)", xaxt="n")#
+     # axis(1, at = seq(0, (Tmax)*12, by=12), labels = (seq(1, Tmax+1, by=1)))
+windowframe=c(3,1)#
+   # quartz()#
+    # par(mfrow=windowframe)#
+#
+setwd("~/Documents/tuna_theory_paper/october_run_results/Rlim.1/hi_kappa/")#
+data_files <- list.files(pattern = "\\.csv$")#
+length_filenames <- data_files[1:(length(data_files))]#
+length_data <- lapply(length_filenames, read.csv)#
+  Tmax=18#
+ time=1:(Tmax*12)#
+# 	   #
+     matplot(cbind(as.numeric(length_data[[1]][1,]), as.numeric(length_data[[2]][1,]), as.numeric(length_data[[3]][1,]), as.numeric(length_data[[4]][1,])), type="l", col=c(4, 2, 4, 2), lwd=3, lty=c(1, 1, 3, 3),  ylab="Length (cm)", ylim=c(0, 300), xlim=c(0.5, 11*12), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, (Tmax)*12, by=12), labels = (seq(1, Tmax+1, by=1)))#
+  # plot_hist <- function(data, filenames) {#
+    # hist(data[, 12], breaks=50, xlim=c(50, 350), main=substr(filenames, 13, 49))#
+  # }#
+  # mapply(plot_hist, length_data, length_filenames)#
+# #  #
+#
+# # 	   #
+     # matplot(cbind(as.numeric(length_data[[1]][1,]), as.numeric(length_data[[2]][1,])), type="l", col=c(4,   2), lwd=3, lty=c(3, 3),  ylab="Length (cm)", ylim=c(0, 300), xlim=c(0.5, 11*12), xlab= "Age (years)", xaxt="n")#
+     # axis(1, at = seq(0, (Tmax)*12, by=12), labels = (seq(1, Tmax+1, by=1)))
+windowframe=c(3,1)#
+   # quartz()#
+    # par(mfrow=windowframe)#
+#
+setwd("~/Documents/tuna_theory_paper/october_run_results/Rlim.3/lo_kappa/")#
+data_files <- list.files(pattern = "\\.csv$")#
+length_filenames <- data_files[1:(length(data_files))]#
+length_data <- lapply(length_filenames, read.csv)#
+  Tmax=18#
+ time=1:(Tmax*12)#
+# 	   #
+     matplot(cbind(as.numeric(length_data[[1]][1,]), as.numeric(length_data[[2]][1,]), as.numeric(length_data[[3]][1,]), as.numeric(length_data[[4]][1,])), type="l", col=c(4, 2, 4, 2), lwd=3, lty=c(1, 1, 3, 3),  ylab="Length (cm)", ylim=c(0, 300), xlim=c(0.5, 11*12), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, (Tmax)*12, by=12), labels = (seq(1, Tmax+1, by=1)))#
+  # plot_hist <- function(data, filenames) {#
+    # hist(data[, 12], breaks=50, xlim=c(50, 350), main=substr(filenames, 13, 49))#
+  # }#
+  # mapply(plot_hist, length_data, length_filenames)#
+# #  #
+#
+# # 	   #
+     # matplot(cbind(as.numeric(length_data[[1]][1,]), as.numeric(length_data[[2]][1,])), type="l", col=c(4,   2), lwd=3, lty=c(3, 3),  ylab="Length (cm)", ylim=c(0, 300), xlim=c(0.5, 11*12), xlab= "Age (years)", xaxt="n")#
+     # axis(1, at = seq(0, (Tmax)*12, by=12), labels = (seq(1, Tmax+1, by=1)))
+windowframe=c(3,1)#
+   # quartz()#
+    # par(mfrow=windowframe)#
+#
+setwd("~/Documents/tuna_theory_paper/october_run_results/Rlim.3/low_kappa/")#
+data_files <- list.files(pattern = "\\.csv$")#
+length_filenames <- data_files[1:(length(data_files))]#
+length_data <- lapply(length_filenames, read.csv)#
+  Tmax=18#
+ time=1:(Tmax*12)#
+# 	   #
+     matplot(cbind(as.numeric(length_data[[1]][1,]), as.numeric(length_data[[2]][1,]), as.numeric(length_data[[3]][1,]), as.numeric(length_data[[4]][1,])), type="l", col=c(4, 2, 4, 2), lwd=3, lty=c(1, 1, 3, 3),  ylab="Length (cm)", ylim=c(0, 300), xlim=c(0.5, 11*12), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, (Tmax)*12, by=12), labels = (seq(1, Tmax+1, by=1)))#
+  # plot_hist <- function(data, filenames) {#
+    # hist(data[, 12], breaks=50, xlim=c(50, 350), main=substr(filenames, 13, 49))#
+  # }#
+  # mapply(plot_hist, length_data, length_filenames)#
+# #  #
+#
+# # 	   #
+     # matplot(cbind(as.numeric(length_data[[1]][1,]), as.numeric(length_data[[2]][1,])), type="l", col=c(4,   2), lwd=3, lty=c(3, 3),  ylab="Length (cm)", ylim=c(0, 300), xlim=c(0.5, 11*12), xlab= "Age (years)", xaxt="n")#
+     # axis(1, at = seq(0, (Tmax)*12, by=12), labels = (seq(1, Tmax+1, by=1)))
+windowframe=c(3,1)#
+   # quartz()#
+    # par(mfrow=windowframe)#
+#
+setwd("~/Documents/tuna_theory_paper/october_run_results/Rlim.3/med_kappa/")#
+data_files <- list.files(pattern = "\\.csv$")#
+length_filenames <- data_files[1:(length(data_files))]#
+length_data <- lapply(length_filenames, read.csv)#
+  Tmax=18#
+ time=1:(Tmax*12)#
+# 	   #
+     matplot(cbind(as.numeric(length_data[[1]][1,]), as.numeric(length_data[[2]][1,]), as.numeric(length_data[[3]][1,]), as.numeric(length_data[[4]][1,])), type="l", col=c(4, 2, 4, 2), lwd=3, lty=c(1, 1, 3, 3),  ylab="Length (cm)", ylim=c(0, 300), xlim=c(0.5, 11*12), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, (Tmax)*12, by=12), labels = (seq(1, Tmax+1, by=1)))#
+  # plot_hist <- function(data, filenames) {#
+    # hist(data[, 12], breaks=50, xlim=c(50, 350), main=substr(filenames, 13, 49))#
+  # }#
+  # mapply(plot_hist, length_data, length_filenames)#
+# #  #
+#
+# # 	   #
+     # matplot(cbind(as.numeric(length_data[[1]][1,]), as.numeric(length_data[[2]][1,])), type="l", col=c(4,   2), lwd=3, lty=c(3, 3),  ylab="Length (cm)", ylim=c(0, 300), xlim=c(0.5, 11*12), xlab= "Age (years)", xaxt="n")#
+     # axis(1, at = seq(0, (Tmax)*12, by=12), labels = (seq(1, Tmax+1, by=1)))
+windowframe=c(3,1)#
+   # quartz()#
+    # par(mfrow=windowframe)#
+#
+setwd("~/Documents/tuna_theory_paper/october_run_results/Rlim.3/hi_kappa/")#
+data_files <- list.files(pattern = "\\.csv$")#
+length_filenames <- data_files[1:(length(data_files))]#
+length_data <- lapply(length_filenames, read.csv)#
+  Tmax=18#
+ time=1:(Tmax*12)#
+# 	   #
+     matplot(cbind(as.numeric(length_data[[1]][1,]), as.numeric(length_data[[2]][1,]), as.numeric(length_data[[3]][1,]), as.numeric(length_data[[4]][1,])), type="l", col=c(4, 2, 4, 2), lwd=3, lty=c(1, 1, 3, 3),  ylab="Length (cm)", ylim=c(0, 300), xlim=c(0.5, 11*12), xlab= "Age (years)", xaxt="n")#
+     axis(1, at = seq(0, (Tmax)*12, by=12), labels = (seq(1, Tmax+1, by=1)))#
+  # plot_hist <- function(data, filenames) {#
+    # hist(data[, 12], breaks=50, xlim=c(50, 350), main=substr(filenames, 13, 49))#
+  # }#
+  # mapply(plot_hist, length_data, length_filenames)#
+# #  #
+#
+# # 	   #
+     # matplot(cbind(as.numeric(length_data[[1]][1,]), as.numeric(length_data[[2]][1,])), type="l", col=c(4,   2), lwd=3, lty=c(3, 3),  ylab="Length (cm)", ylim=c(0, 300), xlim=c(0.5, 11*12), xlab= "Age (years)", xaxt="n")#
+     # axis(1, at = seq(0, (Tmax)*12, by=12), labels = (seq(1, Tmax+1, by=1)))

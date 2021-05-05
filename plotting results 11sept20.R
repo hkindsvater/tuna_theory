@@ -1,12 +1,12 @@
  
  
-setwd("~/Documents/tuna_theory_paper/Jeremy_machine_run_results/Temp295/seasonal/size_costs_threshold7")
+setwd("~/Documents/tuna_theory_paper/October_run_results/constant")
  
 data_files <- list.files(pattern = "\\.csv$")
 
 repro_filenames <- data_files[((length(data_files)/4)+1):(2*(length(data_files)/4))]   
 state_filenames <- data_files[(2*(length(data_files)/4)+1):(3*(length(data_files)/4))]
-length_filenames <- data_files[1:(length(data_files)/4)]
+length_filenames <- data_files[1:(length(data_files))/4]
 surv_filenames <- data_files[(3*(length(data_files)/4)+1):(4*(length(data_files)/4))]
 
 length_filenames <- unique(length_filenames)
@@ -21,7 +21,7 @@ surv_data <- lapply(surv_filenames, read.csv)
  Tmax=18
  time=1:(Tmax*12)
  
- windowframe=c(2,4)
+ windowframe=c(4,2)
   
   quartz()
    par(mfrow=windowframe)
@@ -29,7 +29,7 @@ surv_data <- lapply(surv_filenames, read.csv)
 plot_length <- function(data, filenames) {
 	   
 	   
-     matplot(t(data[,-1]), type="l", main=substr(filenames, 9, 38), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, Tmax*12), xlab= "Age (years)", xaxt="n")
+     matplot(t(data[,-1]), type="l", main=substr(filenames, 2, 38), col="darkgray", lwd=1.75, lty=1,  ylab="Length (cm)", ylim=c(0, 400), xlim=c(0.5, Tmax*12), xlab= "Age (years)", xaxt="n")
      axis(1, at = seq(0, (Tmax)*12, by=12), labels = (seq(1, Tmax+1, by=1)))
      
      maxsize <- (min(which(as.numeric(data[1, -1]) == max(as.numeric(data[1, -1]))))) + 1 
@@ -52,7 +52,7 @@ plot_length <- function(data, filenames) {
  quartz()
    par(mfrow=windowframe)
   plot_repro <- function(repro_data, length_data, repro_filenames) {
-	       matplot(t(repro_data[,-1]), type="l", main= substr(repro_filenames, 8, 23), col="red", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n", ylim=c(0, 5.5e+08), xlim=c(0.5, Tmax*12))
+	       matplot(t(repro_data[,-1]), type="l", main= substr(repro_filenames, 8, 23), col="red", lwd=1.75, lty=1,   ylab="Reproduction (J)",   xlab= "Age (years)", xaxt="n",  xlim=c(0.5, Tmax*12))
      axis(1, at = seq(0, 220, by=12), labels = (seq(1, 19, by=1)))
      
      maxsize <- (min(which(as.numeric(repro_data[1, -1]) == max(as.numeric(repro_data[1, -1]), na.rm=TRUE)))) + 1 
