@@ -226,19 +226,19 @@ env=rep("seasonal", length(length_filenames))
  #   labs(title = "Maximum length (cm)", subtitle = "(limited to years 1:15)", y = "Maximum length", x = "K (Average annual richness)") + 	scale_shape_manual(values=c( 20,21))+
  #   scale_colour_manual(values=c("blue", "red" )) 
  
- ggplot(data = total_data, aes(Richness, Weighted_mean_length,  color = factor(Temp))) +
+ ggplot(data = total_data, aes(Richness, Weighted_mean_length,  color = factor(env))) +
    geom_point( size = 3) +
    labs(title = "Mean length of population", subtitle = "(limited to years 1:15)", y =  "Mean length (cm)",  x = "Kappa (Average annual richness)") + 	scale_shape_manual(values=c( 20,21))+
-   scale_colour_manual(values=c("blue", "red" )) +
+   scale_colour_manual(values=c("blue", "red" ))  
    
-   facet_grid(env ~ Temp) 
+   #facet_grid(env) 
  
- ggplot(data = total_data, aes(Richness, Mean_RE,  color = factor(Temp))) +
+ ggplot(data = total_data, aes(Richness, Mean_RE,  color = factor(env))) +
    geom_point( size = 3) +
    labs(title = "Mean Reproductive Investment", subtitle = "(limited to years 2:15)", y =  "Energy devoted to reproduction (J)",  x = "Kappa (Average annual richness)") + 	scale_shape_manual(values=c( 20,21))+
-   scale_colour_manual(values=c("blue", "red" )) +
+   scale_colour_manual(values=c("blue", "red" )) 
    
-   facet_grid(env ~ Temp) 
+   #facet_grid(env) 
  
 
     
