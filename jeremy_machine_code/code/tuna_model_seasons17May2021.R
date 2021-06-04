@@ -6,7 +6,7 @@
 
 f_h=4/12 #predation (low = 4)
 #filepath <- "~/Desktop/holly_results/2021/may/constant/"
-filepath <- "~/may/constant/"
+filepath <- "~/Desktop/"
 seasons = "NO"
 
 timebin=12
@@ -20,7 +20,7 @@ timebin=12
 Temp <- 290
  
   reprolimit=0.2
-  Kappa = 2/12  
+  Kappa = 3/12  
    
   Tmax = 18*timebin  #monthly stime steps, maximum lifespan is 18 years
  
@@ -139,7 +139,7 @@ Y <- 1
     for (p in 1:phi) { #for every temp environment
       i <- Tmax-1	
       for (i in (Tmax-1):1) { #where i is time (age) in months
-    		month = i %% 12 #for the seasonality convert time in months to specific season-month (1-12)
+    		month = ((i-1) %% 12) + 1 #for the seasonality convert time in months to specific season-month (1-12)
 
         ############################
                             #calculate the critical stored energy needed for this length to be viable 
@@ -239,27 +239,27 @@ Y <- 1
 } #end Y loop
  
 # close(pb) #close progress bar
-#  require(fields)
+#    require(fields)
 #   pal=terrain.colors(n=100)# ##set the palette
-# # quartz()
-#   par(mfrow=c(2,2)) 	
-#  # image(optU[1:36, 45:100, 1,1], col=pal,   ylab="Size", xlab="Energy Stores", main="Growth, Age is 1" )
-# # image(optU[  , 100  , 1,   ], col=pal, ylab="Age", xlab="growth", main="Growth, Length is 100" ) 
+#  quartz()
+#   par(mfrow=c(2,2))
+#  image(optU[,, 1,1],    ylab="Size", xlab="Energy Stores", main="Growth, Age is 1" )
+# image(optU[  , 50  , 1,   ],   ylab="Age", xlab="growth", main="Growth, Length is 50" )
+# #
+#  image(optU[ , 200 , 1,  ] ,  ylab="Age", xlab="Energy Stores", main="Growth, Length is 200" )
 # 
-# # image(optU[ , 200 , 1,  ] , col=pal, ylab="Age", xlab="Energy Stores", main="Growth, Length is 200" ) 
-
 
  # quartz()
- # par(mfrow=c(2,2)) 	
- # 
-# image( optR[1:36, 45:100 ,1,1], col=pal, ylab="Size", xlab="Energy Stores", main="Repro, Age is 1 " )	   	   
- # 
-  #image(optR[ , 100  , 1,  ],col=pal, ylab="Age", xlab="Energy Stores", main="R, Length is 100" ) 
- # 
- # image(optR[, 200 , 1, ], col=pal, ylab="Age", xlab="Energy Stores", main="R, Length is 200" ) 
- # 
+ # par(mfrow=c(2,2))
+ #
+# image( optR[1:36, 45:100 ,1,1], col=pal, ylab="Size", xlab="Energy Stores", main="Repro, Age is 1 " )
+ #
+  #image(optR[ , 100  , 1,  ],col=pal, ylab="Age", xlab="Energy Stores", main="R, Length is 100" )
+ #
+ # image(optR[, 200 , 1, ], col=pal, ylab="Age", xlab="Energy Stores", main="R, Length is 200" )
+ #
 
-# # 	  # # image(optR[,  300  , 1 , ], col=pal  ) 
+# # 	  # # image(optR[,  300  , 1 , ], col=pal  )
 set.seed(2001)
  
 nindiv=2  
@@ -278,7 +278,7 @@ income=array(dim=c(nindiv, Tmax), data = 0 )
 #these will give storage fraction and reproduction for each individual, given its two states at each time
 
 #z=rnorm(nindiv, mean=scale*a*initialsize^3*(storemax - 0.05), sd=0) ## Generate a population (z) of indivdiuals, condition based on weight  (95% of max for size, with some variation)
-z<- scale*a*initialsize^3*(storemax - 0.05) #fixed initial state
+z<- scale*a*initialsize^3*(storemax + 0.05) #fixed initial state
 
 idist[,1]=ceiling(z) #this rounds every z up to the nearest integer for the first time step  
  sizedist[,1]<- initialsize   
@@ -295,12 +295,26 @@ survival=rep(0, Tmax)
 survival[1]<-1
 
 	for (i in 1:(Tmax-1)) { 
-	   month = i %% 12 
+	   month = ((i-1) %% 12) + 1 
 	   state  <- idist[,i] 
 	   size <- round(sizedist[,i])  
 	   EcritL <-  scale*a*size^3*storemin   
 	   index <- which(state > EcritL) #which individuals are still alive (didn't starve)
-	       
+	  
+	   
+	    #now calculate Wtotal, Costs, and Net energy intake
+	   Wstructure<- a*size[index]^3 #structural mass in kilograms 
+	   Estructure <- Wstructure*scale
+	   Replim <- Estructure*reprolimit       
+	   EstoresmaxL <-Wstructure*storemax*scale #modified from Chapman et al.  
+	   #Energy stores are capped to be a fraction if TOTAL body mass
+	   
+	   state[index] <- ifelse(state[index] > EstoresmaxL, EstoresmaxL, state[index]) #stored energy capped at a certain body size
+	   
+	   Wstores<-state[index]/scale
+	   
+	   Wtotal <-  Wstores+Wstructure   #body mass
+	   
 	       if(length(index) > 1) {
 	    
 		    ##find interpolated behaviors
@@ -319,23 +333,12 @@ survival[1]<-1
 		    g_allo[index[condind==TRUE], i] <- round((dx[condind==TRUE])*diag(optU[Ilo[condind==TRUE]+1, size[index[condind==TRUE]], p, i]),1)  
 		    repro[index[condind==TRUE], i] <- round((dx[condind==TRUE])*diag(optR[Ilo[condind==TRUE]+1, size[index[condind==TRUE]], p, i]),1) 
 		    
-		    g_allo[index[condind==FALSE], i] <- round(1-dx[condind==FALSE]*diag(optU[Ilo[condind==FALSE], size[index[condind==FALSE]], p, i]) + (dx[condind==FALSE])*diag(optU[Ilo[condind==FALSE]+1, size[index[condind==FALSE]], p, i]),1)  
-		    repro[index[condind==FALSE], i] <-round(1-dx[condind==FALSE]*diag(optR[Ilo[condind==FALSE], size[index[condind==FALSE]], p, i]) +  (dx[condind==FALSE])*diag(optR[Ilo[condind==FALSE]+1, size[index[condind==FALSE]], p, i]),1	)	  					  
+		    g_allo[index[condind==FALSE], i] <- round((1-dx[condind==FALSE])*diag(optU[Ilo[condind==FALSE], size[index[condind==FALSE]], p, i]) + 
+		                                                (dx[condind==FALSE])*diag(optU[Ilo[condind==FALSE]+1, size[index[condind==FALSE]], p, i]),1)  
+		    repro[index[condind==FALSE], i] <-round((1-dx[condind==FALSE])*diag(optR[Ilo[condind==FALSE], size[index[condind==FALSE]], p, i]) +  
+		                                              (dx[condind==FALSE])*diag(optR[Ilo[condind==FALSE]+1, size[index[condind==FALSE]], p, i]),1	)	  					  
 	    
-		    #now calculate Wtotal, Costs, and Net energy intake
-		    
-		    Wstructure<- a*size[index]^3 #structural mass in kilograms 
-		    Estructure <- Wstructure*scale
-		    Replim <- Estructure*reprolimit       
-		    EstoresmaxL <-Wstructure*storemax*scale #modified from Chapman et al.  
-		    #Energy stores are capped to be a fraction if TOTAL body mass
-		     
-		    state[index] <- ifelse(state[index] > EstoresmaxL, EstoresmaxL, state[index]) #stored energy capped at a certain body size
-		    
-		    Wstores<-state[index]/scale
-		    
-		    Wtotal <-  Wstores+Wstructure   #body mass
-		    
+		
 		    
 		    # REPRODUCE AND GROW BEFORE SURVIAL IS DETERMINED    
 		    

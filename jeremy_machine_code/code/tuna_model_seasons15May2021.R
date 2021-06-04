@@ -139,7 +139,7 @@ Y <- 1
     for (p in 1:phi) { #for every temp environment
       i <- Tmax-1	
       for (i in (Tmax-1):1) { #where i is time (age) in months
-    		month = i %% 12 #for the seasonality convert time in months to specific season-month (1-12)
+    		month = ((i-1) %% 12) + 1 #for the seasonality convert time in months to specific season-month (1-12)
 
         ############################
                             #calculate the critical stored energy needed for this length to be viable 
@@ -295,7 +295,7 @@ survival=rep(0, Tmax)
 survival[1]<-1
 
 	for (i in 1:(Tmax-1)) { 
-	   month = i %% 12 
+	   month = ((i-1) %% 12) + 1 
 	   state  <- idist[,i] 
 	   size <- round(sizedist[,i])  
 	   EcritL <-  scale*a*size^3*storemin   
@@ -319,8 +319,10 @@ survival[1]<-1
 		    g_allo[index[condind==TRUE], i] <- round((dx[condind==TRUE])*diag(optU[Ilo[condind==TRUE]+1, size[index[condind==TRUE]], p, i]),1)  
 		    repro[index[condind==TRUE], i] <- round((dx[condind==TRUE])*diag(optR[Ilo[condind==TRUE]+1, size[index[condind==TRUE]], p, i]),1) 
 		    
-		    g_allo[index[condind==FALSE], i] <- round(1-dx[condind==FALSE]*diag(optU[Ilo[condind==FALSE], size[index[condind==FALSE]], p, i]) + (dx[condind==FALSE])*diag(optU[Ilo[condind==FALSE]+1, size[index[condind==FALSE]], p, i]),1)  
-		    repro[index[condind==FALSE], i] <-round(1-dx[condind==FALSE]*diag(optR[Ilo[condind==FALSE], size[index[condind==FALSE]], p, i]) +  (dx[condind==FALSE])*diag(optR[Ilo[condind==FALSE]+1, size[index[condind==FALSE]], p, i]),1	)	  					  
+		    g_allo[index[condind==FALSE], i] <- round((1-dx[condind==FALSE])*diag(optU[Ilo[condind==FALSE], size[index[condind==FALSE]], p, i]) + 
+		                                                (dx[condind==FALSE])*diag(optU[Ilo[condind==FALSE]+1, size[index[condind==FALSE]], p, i]),1)  
+		    repro[index[condind==FALSE], i] <-round((1-dx[condind==FALSE])*diag(optR[Ilo[condind==FALSE], size[index[condind==FALSE]], p, i]) +  
+		                                              (dx[condind==FALSE])*diag(optR[Ilo[condind==FALSE]+1, size[index[condind==FALSE]], p, i]),1	)	  					  
 	    
 		    #now calculate Wtotal, Costs, and Net energy intake
 		    
