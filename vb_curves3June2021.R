@@ -84,7 +84,7 @@ calc_metrics <-  function(sizedata, survdata, filenames) {
 #point to the files you want to compare
 
 
-setwd("~/Documents/tuna_theory_paper/constant/290K/rlim0.2/")
+setwd("~/Documents/tuna_theory_paper/constant/295K/rlim0.2/")
 
 data_files <- list.files(pattern = "\\.csv$")
 
@@ -115,7 +115,7 @@ mapply(plot_repro, repro_data, length_data, repro_filenames)
 results <- mapply(calc_metrics, length_data, surv_data, length_filenames)
 #results <- gsub("r", "0",results)
 ###define the environmental context for these results
-  env=rep("Constant", length(length_filenames))
+  env=rep("warm_constant", length(length_filenames))
   kappa_index <- regexpr("Kappa", length_filenames) 
   food_tab1 <-  substr(length_filenames, kappa_index+6[1],   kappa_index+8[1])
   food_tab  <- as.numeric(gsub("r", 0, food_tab1))*12
@@ -145,7 +145,7 @@ results <- mapply(calc_metrics, length_data, surv_data, length_filenames)
   #####NOW DO IT AGAIN FOR SEASONAL ENVIRONMENT
  
 
- setwd("~/Documents/tuna_theory_paper/seasonal/295K/")
+ setwd("~/Documents/tuna_theory_paper/seasonal/290K/")
 
  data_files <- list.files(pattern = "\\.csv$")
 
@@ -182,10 +182,10 @@ results <- mapply(calc_metrics, length_data, surv_data, length_filenames)
  kappa_index <- regexpr("Kappa", length_filenames)
  mort_index <- regexpr("f_h", length_filenames)
 
-env=rep("5 degrees hotter", length(length_filenames))
+env=rep("cool_seasonal", length(length_filenames))
 kaptotpa_index <- regexpr("Kappa", length_filenames) 
  food_tab1 <-  substr(length_filenames, kappa_index+6[1],   kappa_index+8[1])
- food_tab  <- as.numeric(gsub("r", 0, food_tab1))*12
+ food_tab  <- as.numeric(gsub("r", 0, food_tab1))*18
 
  tabdata2<- cbind(env,  food_tab, round(as.numeric(results[2, ])), round(as.numeric(results[3, ]),2),
                  round(as.numeric(results[4, ])), round(as.numeric(results[5, ]), 3), round(as.numeric(results[6, ]), 3))
@@ -196,10 +196,10 @@ kaptotpa_index <- regexpr("Kappa", length_filenames)
  total_data <- transform(total_data, Spectrum_coeff = as.numeric(Richness))
     filter_data <- (total_data[total_data$Spectrum_coeff < 11, ])                        
 total_data
-  #   quartz()
-  #   plot(filter_data$Spectrum_coeff[filter_data$env=="Constant"], filter_data$Max_length[filter_data$env=="Constant"], ylab="Max length (cm)", xlab="Spectrum richness K", ylim=c(90, 310), col =  "light blue", pch=20, cex=3 ) 
-  #   points(filter_data$Spectrum_coeff[filter_data$env=="Seasonal"], filter_data$Max_length[filter_data$env=="Seasonal"],  col =  "dark blue", pch=20, cex=3 )
-  #   
+    quartz()
+    plot(filter_data$Spectrum_coeff[filter_data$env=="warm_constant"], filter_data$Max_length[filter_data$env=="warm_constant"], ylab="Max length (cm)", xlab="Spectrum richness K", ylim=c(90, 310), col =  "red", pch=20, cex=3 )
+    points(filter_data$Spectrum_coeff[filter_data$env=="cool_seasonal"], filter_data$Max_length[filter_data$env=="cool_seasonal"],  col =  "dark blue", pch=20, cex=3 )
+
   #   
   #   quartz() 
   # 
