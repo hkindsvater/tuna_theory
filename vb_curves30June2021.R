@@ -84,8 +84,8 @@ calc_metrics <-  function(sizedata, survdata, filenames) {
 #point to the files you want to compare
 
 
-setwd("~/Documents/tuna_theory_paper/hi_mortality/constant/295K/")
-
+# setwd("~/Documents/tuna_theory_paper/hi_mortality/seasonal/290K/")
+ setwd("~/Documents/tuna_theory_paper/low_mortality/seasonal/290K/")
 data_files <- list.files(pattern = "\\.csv$")
 
 # 
@@ -106,7 +106,7 @@ repro_data <- lapply(repro_filenames, read.csv)
 state_data <- lapply(state_filenames, read.csv)
 surv_data <- lapply(surv_filenames, read.csv)
 quartz()
-windowframe=c(4,1)
+windowframe=c(5,1)
 
 par(mfrow=windowframe)
 mapply(plot_length, length_data, length_filenames)    
@@ -115,10 +115,10 @@ mapply(plot_repro, repro_data, length_data, repro_filenames)
 results <- mapply(calc_metrics, length_data, surv_data, length_filenames)
 #results <- gsub("r", "0",results)
 ###define the environmental context for these results
-  env=rep("warm_constant", length(length_filenames))
+  env=rep("cool_seasonal", length(length_filenames))
   kappa_index <- regexpr("Kappa", length_filenames) 
   food_tab1 <-  substr(length_filenames, kappa_index+6[1],   kappa_index+8[1])
-  food_tab  <- as.numeric(gsub("r", 0, food_tab1))*12
+  food_tab  <- as.numeric(gsub("r", 0, food_tab1))*18
   
 ####create the dataframe summarizing the results of all metrics
   tabdata<- cbind(env,  food_tab, round(as.numeric(results[2, ])), round(as.numeric(results[3, ]),2),
@@ -126,27 +126,27 @@ results <- mapply(calc_metrics, length_data, surv_data, length_filenames)
   colnames(tabdata) <- c("env",  "Richness", "Max_length", "Weighted_mean_length", "Linf", "von_Bert_K", "Lifespan")
   tabdata
   
-  tabdata_filt <- transform(tabdata, Spectrum_coeff = as.numeric(Richness))
-  # filter_data <- (tabdata_filt[tabdata_filt$Spectrum_coeff < 11, ])                        
-  # 
-  # 
-  # 
-  # library(ggplot2)
-  # quartz()
-  # ggplot(data = filter_data, aes(Spectrum_coeff, Max_length)) +
-  #   geom_point( size = 4) +
-  #   labs(y = "Maximum length (cm)", x = "K (Average annual richness)") + 	scale_shape_manual(values=c( 20,21))+
-  #   scale_colour_manual(values=c("light blue")) +
-  #   theme_bw() +
-  #   theme_light()
-  # 
+  #tabdata_filt <- transform(tabdata, Spectrum_coeff = as.numeric(Richness))
+  #filter_data <- (tabdata_filt[tabdata_filt$Spectrum_coeff < 11, ])
+
+
+# 
+#   library(ggplot2)
+#   quartz()
+#   ggplot(data = filter_data, aes(Spectrum_coeff, Max_length)) +
+#     geom_point( size = 4) +
+#     labs(y = "Maximum length (cm)", x = "K (Average annual richness)") + 	scale_shape_manual(values=c( 20,21))+
+#     scale_colour_manual(values=c("light blue")) +
+#     theme_bw() +
+#     theme_light()
+
 ####
   
   #####NOW DO IT AGAIN FOR SEASONAL ENVIRONMENT
  
 
- setwd("~/Documents/tuna_theory_paper/hi_mortality/seasonal/295K/")
-
+# setwd("~/Documents/tuna_theory_paper/hi_mortality/seasonal/295K/")
+  setwd("~/Documents/tuna_theory_paper/low_mortality/seasonal/295K/")
  data_files <- list.files(pattern = "\\.csv$")
 
  # 
@@ -182,7 +182,7 @@ results <- mapply(calc_metrics, length_data, surv_data, length_filenames)
  kappa_index <- regexpr("Kappa", length_filenames)
  mort_index <- regexpr("f_h", length_filenames)
 
-env=rep("cool_seasonal", length(length_filenames))
+env=rep("warm_seasonal", length(length_filenames))
 kaptotpa_index <- regexpr("Kappa", length_filenames) 
  food_tab1 <-  substr(length_filenames, kappa_index+6[1],   kappa_index+8[1])
  food_tab  <- as.numeric(gsub("r", 0, food_tab1))*18
@@ -197,8 +197,8 @@ kaptotpa_index <- regexpr("Kappa", length_filenames)
     filter_data <- (total_data[total_data$Spectrum_coeff < 11, ])                        
 total_data
     quartz()
-    plot(filter_data$Spectrum_coeff[filter_data$env=="warm_constant"], filter_data$Max_length[filter_data$env=="warm_constant"], ylab="Max length (cm)", xlab="Spectrum richness K", ylim=c(90, 310), col =  "red", pch=20, cex=3 )
-    points(filter_data$Spectrum_coeff[filter_data$env=="warm_seasonal"], filter_data$Max_length[filter_data$env=="cool_seasonal"],  col =  "dark blue", pch=20, cex=3 )
+    plot(filter_data$Spectrum_coeff[filter_data$env=="cool_seasonal"], filter_data$Max_length[filter_data$env=="cool_seasonal"], ylab="Max length (cm)", xlab="Spectrum richness K", ylim=c(90, 310), col =  "light blue", pch=19, cex=2 )
+    points(filter_data$Spectrum_coeff[filter_data$env=="warm_seasonal"], filter_data$Max_length[filter_data$env=="warm_seasonal"],  col =  "red", pch=19, cex=2 )
 
   #   
   #   quartz() 
