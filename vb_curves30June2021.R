@@ -84,8 +84,9 @@ calc_metrics <-  function(sizedata, survdata, filenames) {
 #point to the files you want to compare
 
 
-# setwd("~/Documents/tuna_theory_paper/hi_mortality/seasonal/290K/")
- setwd("~/Documents/tuna_theory_paper/low_mortality/seasonal/290K/")
+#setwd("~/Documents/tuna_theory_paper/hi_mortality/short_season/290K/")
+   setwd("~/Documents/tuna_theory_paper/hi_mortality/seasonal/290K/")
+ # setwd("~/Documents/tuna_theory_paper/low_mortality/seasonal/290K/")
 data_files <- list.files(pattern = "\\.csv$")
 
 # 
@@ -144,9 +145,9 @@ results <- mapply(calc_metrics, length_data, surv_data, length_filenames)
   
   #####NOW DO IT AGAIN FOR SEASONAL ENVIRONMENT
  
-
-# setwd("~/Documents/tuna_theory_paper/hi_mortality/seasonal/295K/")
-  setwd("~/Documents/tuna_theory_paper/low_mortality/seasonal/295K/")
+  #setwd("~/Documents/tuna_theory_paper/hi_mortality/short_season/295K/")
+   setwd("~/Documents/tuna_theory_paper/hi_mortality/seasonal/295K/")
+#  setwd("~/Documents/tuna_theory_paper/low_mortality/seasonal/295K/")
  data_files <- list.files(pattern = "\\.csv$")
 
  # 
@@ -194,10 +195,10 @@ kaptotpa_index <- regexpr("Kappa", length_filenames)
 
  total_data <- as.data.frame(rbind(tabdata, tabdata2))
  total_data <- transform(total_data, Spectrum_coeff = as.numeric(Richness))
-    filter_data <- (total_data[total_data$Spectrum_coeff < 11, ])                        
+    filter_data <- (total_data[total_data$Spectrum_coeff < 13, ])                        
 total_data
     quartz()
-    plot(filter_data$Spectrum_coeff[filter_data$env=="cool_seasonal"], filter_data$Max_length[filter_data$env=="cool_seasonal"], ylab="Max length (cm)", xlab="Spectrum richness K", ylim=c(90, 310), col =  "light blue", pch=19, cex=2 )
+    plot(filter_data$Spectrum_coeff[filter_data$env=="cool_seasonal"], filter_data$Max_length[filter_data$env=="cool_seasonal"], ylab="Max length (cm)", xlab="Spectrum richness K", ylim=c(0, 310), xlim=c(0, 10),  col =  "dark blue", pch=19, cex=2 )
     points(filter_data$Spectrum_coeff[filter_data$env=="warm_seasonal"], filter_data$Max_length[filter_data$env=="warm_seasonal"],  col =  "red", pch=19, cex=2 )
 
   #   
