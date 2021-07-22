@@ -116,15 +116,15 @@ mapply(plot_repro, repro_data, length_data, repro_filenames)
 results <- mapply(calc_metrics, length_data, surv_data, length_filenames)
 #results <- gsub("r", "0",results)
 ###define the environmental context for these results
-  env=rep("cool_seasonal", length(length_filenames))
-  kappa_index <- regexpr("Kappa", length_filenames) 
-  food_tab1 <-  substr(length_filenames, kappa_index+6[1],   kappa_index+8[1])
-  food_tab  <- as.numeric(gsub("r", 0, food_tab1))*18
+  env=rep("Kappa = 2", length(length_filenames))
+  mort_index <- regexpr("f_h", length_filenames) 
+  mort_tab  <-  substr(length_filenames, mort_index+4[1],   mort_index+6[1])
+  mort_tab  <- as.numeric(gsub("K", 0 , mort_tab1))*12
   
 ####create the dataframe summarizing the results of all metrics
-  tabdata<- cbind(env,  food_tab, round(as.numeric(results[2, ])), round(as.numeric(results[3, ]),2),
+  tabdata<- cbind(env,  mort_tab, round(as.numeric(results[2, ])), round(as.numeric(results[3, ]),2),
                    round(as.numeric(results[4, ])), round(as.numeric(results[5, ]), 3), round(as.numeric(results[6, ]), 3))
-  colnames(tabdata) <- c("env",  "Richness", "Max_length", "Weighted_mean_length", "Linf", "von_Bert_K", "Lifespan")
+  colnames(tabdata) <- c("env",  "mortality", "Max_length", "Weighted_mean_length", "Linf", "von_Bert_K", "Lifespan")
   tabdata
   
   #tabdata_filt <- transform(tabdata, Spectrum_coeff = as.numeric(Richness))
@@ -143,7 +143,7 @@ results <- mapply(calc_metrics, length_data, surv_data, length_filenames)
 
 ####
   
-  #####NOW DO IT AGAIN FOR SEASONAL ENVIRONMENT
+  #####NOW DO IT AGAIN FOR alternative scenarios
  
   #setwd("~/Documents/tuna_theory_paper/hi_mortality/short_season/295K/")
   setwd("~/Documents/tuna_theory_paper/constant_env_varyFH/Kappa8")
@@ -180,26 +180,24 @@ results <- mapply(calc_metrics, length_data, surv_data, length_filenames)
  mapply(plot_length, length_data, length_filenames)    
  mapply(plot_repro, repro_data, length_data, repro_filenames)
 
- kappa_index <- regexpr("Kappa", length_filenames)
- mort_index <- regexpr("f_h", length_filenames)
+ 
+env=rep("Kappa = 8", length(length_filenames))
+mort_index <- regexpr("f_h", length_filenames) 
+mort_tab  <-  substr(length_filenames, mort_index+4[1],   mort_index+6[1])
+mort_tab  <- as.numeric(gsub("K", 0 , mort_tab1))*12
 
-env=rep("warm_seasonal", length(length_filenames))
-kaptotpa_index <- regexpr("Kappa", length_filenames) 
- food_tab1 <-  substr(length_filenames, kappa_index+6[1],   kappa_index+8[1])
- food_tab  <- as.numeric(gsub("r", 0, food_tab1))*18
-
- tabdata2<- cbind(env,  food_tab, round(as.numeric(results[2, ])), round(as.numeric(results[3, ]),2),
+ tabdata2<- cbind(env,  mort_tab, round(as.numeric(results[2, ])), round(as.numeric(results[3, ]),2),
                  round(as.numeric(results[4, ])), round(as.numeric(results[5, ]), 3), round(as.numeric(results[6, ]), 3))
- colnames(tabdata) <- c("env",  "Richness", "Max_length", "Weighted_mean_length", "Linf", "von_Bert_K", "Lifespan")
+ colnames(tabdata) <- c("env",  "mortality", "Max_length", "Weighted_mean_length", "Linf", "von_Bert_K", "Lifespan")
  tabdata2
 
  total_data <- as.data.frame(rbind(tabdata, tabdata2))
- total_data <- transform(total_data, Spectrum_coeff = as.numeric(Richness))
-    filter_data <- (total_data[total_data$Spectrum_coeff < 13, ])                        
+ total_data <- transform(total_data, mortality_coeff = as.numeric(mortality))
+    filter_data <- (total_data)                        
 total_data
     quartz()
-    plot(filter_data$Spectrum_coeff[filter_data$env=="cool_seasonal"], filter_data$Max_length[filter_data$env=="cool_seasonal"], ylab="Max length (cm)", xlab="Spectrum richness K", ylim=c(0, 310), xlim=c(0, 10),  col =  "dark blue", pch=19, cex=2 )
-    points(filter_data$Spectrum_coeff[filter_data$env=="warm_seasonal"], filter_data$Max_length[filter_data$env=="warm_seasonal"],  col =  "red", pch=19, cex=2 )
+    plot(filter_data$mortality[filter_data$env=="Kappa = 2"], filter_data$Max_length[filter_data$env=="Kappa = 2"], ylab="Max length (cm)", xlab="Predator fullness f_h", ylim=c(0, 310), xlim=c(0, 10),  col =  "light green", pch=19, cex=2 )
+    points(filter_data$mortality[filter_data$env=="Kappa = 8"], filter_data$Max_length[filter_data$env=="Kappa = 8"],  col =  "dark green", pch=19, cex=2 )
 
   #   
   #   quartz() 
